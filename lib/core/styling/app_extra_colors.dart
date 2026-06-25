@@ -33,6 +33,14 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
   // Shadow color
   final Color? shadowColor;
 
+  // Settings icon colors (profile settings section)
+  final Color? settingsModeIconColor;
+  final Color? settingsModeIconBg;
+  final Color? settingsAboutIconColor;
+  final Color? settingsAboutIconBg;
+  final Color? settingsPrivacyIconColor;
+  final Color? settingsPrivacyIconBg;
+
   AppExtraColors({
     required this.primaryColor,
     required this.primaryLightColor,
@@ -52,6 +60,12 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
     required this.borderColor,
     required this.dividerColor,
     required this.shadowColor,
+    required this.settingsModeIconColor,
+    required this.settingsModeIconBg,
+    required this.settingsAboutIconColor,
+    required this.settingsAboutIconBg,
+    required this.settingsPrivacyIconColor,
+    required this.settingsPrivacyIconBg,
   });
 
   @override
@@ -74,6 +88,12 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
     Color? borderColor,
     Color? dividerColor,
     Color? shadowColor,
+    Color? settingsModeIconColor,
+    Color? settingsModeIconBg,
+    Color? settingsAboutIconColor,
+    Color? settingsAboutIconBg,
+    Color? settingsPrivacyIconColor,
+    Color? settingsPrivacyIconBg,
   }) {
     return AppExtraColors(
       primaryColor: primaryColor ?? this.primaryColor,
@@ -94,6 +114,12 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
       borderColor: borderColor ?? this.borderColor,
       dividerColor: dividerColor ?? this.dividerColor,
       shadowColor: shadowColor ?? this.shadowColor,
+      settingsModeIconColor: settingsModeIconColor ?? this.settingsModeIconColor,
+      settingsModeIconBg: settingsModeIconBg ?? this.settingsModeIconBg,
+      settingsAboutIconColor: settingsAboutIconColor ?? this.settingsAboutIconColor,
+      settingsAboutIconBg: settingsAboutIconBg ?? this.settingsAboutIconBg,
+      settingsPrivacyIconColor: settingsPrivacyIconColor ?? this.settingsPrivacyIconColor,
+      settingsPrivacyIconBg: settingsPrivacyIconBg ?? this.settingsPrivacyIconBg,
     );
   }
 
@@ -120,6 +146,12 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
       borderColor: Color.lerp(borderColor, other.borderColor, t),
       dividerColor: Color.lerp(dividerColor, other.dividerColor, t),
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t),
+      settingsModeIconColor: Color.lerp(settingsModeIconColor, other.settingsModeIconColor, t),
+      settingsModeIconBg: Color.lerp(settingsModeIconBg, other.settingsModeIconBg, t),
+      settingsAboutIconColor: Color.lerp(settingsAboutIconColor, other.settingsAboutIconColor, t),
+      settingsAboutIconBg: Color.lerp(settingsAboutIconBg, other.settingsAboutIconBg, t),
+      settingsPrivacyIconColor: Color.lerp(settingsPrivacyIconColor, other.settingsPrivacyIconColor, t),
+      settingsPrivacyIconBg: Color.lerp(settingsPrivacyIconBg, other.settingsPrivacyIconBg, t),
     );
   }
 }

@@ -3,8 +3,6 @@ import 'package:ai_therapist_app/core/networking/dio_helper.dart';
 import 'package:ai_therapist_app/features/plant/data/repositories/streak_repository.dart';
 import 'package:ai_therapist_app/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:get_it/get_it.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../features/auth/data/datasources/supabase_auth_datasource.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/login_usecase.dart';
@@ -38,15 +36,9 @@ void setupInjection() {
   // ── Dio ──
   sl.registerLazySingleton(() => DioHelper());
 
-  // ── Supabase ──
-  sl.registerLazySingleton(() => Supabase.instance.client);
-
-  // ── Auth DataSource ──
-  sl.registerLazySingleton(() => SupabaseAuthDatasource(sl()));
-
   // ── Auth Repository ──
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(sl()),
+    () => AuthRepositoryImpl(),
   );
 
   // ── Auth UseCases ──
@@ -76,12 +68,12 @@ void setupInjection() {
 
   // ── Mood Repository ──
   sl.registerLazySingleton<MoodRepository>(
-    () => MoodRepositoryImpl(sl(), sl(), sl()),
+    () => MoodRepositoryImpl(sl(), sl()),
   );
 
   // ── Saved Quotes Repository ──
   sl.registerLazySingleton<SavedQuotesRepository>(
-    () => SavedQuotesRepositoryImpl(sl(), sl()),
+    () => SavedQuotesRepositoryImpl(sl()),
   );
 
   // ── Mood Cubit — singleton so all screens share state ──
@@ -103,7 +95,7 @@ void setupInjection() {
   );
 
   sl.registerLazySingleton<StreakRepository>(
-    () => StreakRepository(sl<DioHelper>().dio!, sl()),
+    () => StreakRepository(sl<DioHelper>().dio!),
   );
 
   sl.registerFactory<PlantCubit>(

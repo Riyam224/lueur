@@ -516,10 +516,10 @@ class _JournalBodyState extends State<_JournalBody> {
 
                 final height = _isRefreshing
                     ? _triggerExtent.toDouble()
-                    : extent.clamp(0.0, _triggerExtent.toDouble()) as double;
+                    : extent.clamp(0.0, _triggerExtent.toDouble()).toDouble();
                 final opacity = _isRefreshing
                     ? 1.0
-                    : (extent / _triggerExtent).clamp(0.0, 1.0);
+                    : (extent / _triggerExtent).clamp(0.0, 1.0).toDouble();
 
                 return IgnorePointer(
                   child: SafeArea(

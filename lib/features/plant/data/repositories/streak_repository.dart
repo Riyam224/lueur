@@ -1,16 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/networking/api_endpoints.dart';
 
 class StreakRepository {
   final Dio dio;
-  final SupabaseClient supabase;
 
-  StreakRepository(this.dio, this.supabase);
+  StreakRepository(this.dio);
 
+  // TODO: Supabase backend was removed. Replace with a real user id source.
   Future<int> calculateStreak() async {
     try {
-      final userId = supabase.auth.currentUser?.id ?? '';
+      const userId = '';
       final response = await dio.get(
         ApiEndpoints.history,
         queryParameters: {'user_id': userId},

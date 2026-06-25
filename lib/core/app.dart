@@ -6,8 +6,8 @@ import 'injection/injection.dart';
 import 'routing/router_generation_config.dart';
 import 'styling/app_theme.dart';
 
-class App extends StatelessWidget {
-  const App({super.key});
+class Lueur extends StatelessWidget {
+  const Lueur({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class App extends StatelessWidget {
             builder: (context, themeMode) {
               return MaterialApp.router(
                 debugShowCheckedModeBanner: false,
-                title: 'LunaTree',
+                title: 'Lueur',
                 theme: AppTheme.light,
                 darkTheme: AppTheme.dark,
                 themeMode: themeMode,

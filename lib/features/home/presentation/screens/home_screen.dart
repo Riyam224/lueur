@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/injection/injection.dart';
 import '../../../../core/models/mood_entry.dart';
@@ -24,14 +23,8 @@ import 'package:lottie/lottie.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  String get _userName {
-    final user = Supabase.instance.client.auth.currentUser;
-    final fullName = user?.userMetadata?['full_name'] as String?;
-    if (fullName != null && fullName.isNotEmpty) {
-      return fullName.split(' ').first;
-    }
-    return user?.email?.split('@').first ?? 'Friend';
-  }
+  // TODO: Supabase backend was removed. Replace with a real user name source.
+  String get _userName => 'Friend';
 
   @override
   Widget build(BuildContext context) {

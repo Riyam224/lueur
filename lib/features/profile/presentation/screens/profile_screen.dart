@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/styling/app_colors.dart';
@@ -22,22 +20,10 @@ import '../widgets/profile_settings_section_widget.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  String get _name {
-    final user = Supabase.instance.client.auth.currentUser;
-    final fullName = user?.userMetadata?['full_name'] as String?;
-    if (fullName != null && fullName.isNotEmpty) return fullName;
-    return user?.email?.split('@').first ?? 'Friend';
-  }
+  // TODO: Supabase backend was removed. Replace with a real user profile source.
+  String get _name => 'Friend';
 
-  String get _subtitle {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user?.createdAt != null) {
-      final joined = DateTime.parse(user!.createdAt);
-      final month = DateFormat('MMMM yyyy').format(joined);
-      return 'Joined $month · MindEase member';
-    }
-    return 'MindEase member';
-  }
+  String get _subtitle => 'MindEase member';
 
   static int _thisWeekCount(List<MoodEntryEntity> entries) {
     final now = DateTime.now();

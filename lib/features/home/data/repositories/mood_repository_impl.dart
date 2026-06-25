@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/mood_entry_entity.dart';
 import '../../domain/repositories/mood_repository.dart';
@@ -12,13 +11,12 @@ import '../models/mood_entry_model.dart';
 class MoodRepositoryImpl implements MoodRepository {
   final MoodRemoteDatasource _remote;
   final MoodLocalDatasource _local;
-  final SupabaseClient _supabase;
   final Logger _logger = Logger();
 
-  MoodRepositoryImpl(this._remote, this._local, this._supabase);
+  MoodRepositoryImpl(this._remote, this._local);
 
-  String get _currentUserId =>
-      _supabase.auth.currentUser?.id ?? '';
+  // TODO: Supabase backend was removed. Replace with a real user id source.
+  String get _currentUserId => '';
 
   @override
   Future<Either<Failure, MoodEntryEntity>> generateResponse({

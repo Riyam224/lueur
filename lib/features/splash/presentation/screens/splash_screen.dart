@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import '../../../../core/routing/app_routes.dart';
+import '../../../../core/styling/app_assets.dart';
+import '../../../../core/styling/app_colors.dart';
+import '../../../../core/styling/app_text_styles.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../constants/splash_constants.dart';
+import '../widgets/splash_blob.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigate();
+  }
+
+  Future<void> _navigate() async {
+    await Future.delayed(SplashConstants.navigationDelay);
+    if (!mounted) return;
+    context.go(AppRoutes.loginScreen);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
+    return Scaffold(
+      backgroundColor: AppColors.lightBackground,
+      body: Stack(
+        children: [
+          // ── Blobs ──────────────────────────────────────────────────────
+          SplashBlob.aligned(
+            size: size.width * SplashConstants.blobTopLeftSizeFraction,
+            alignment: Alignment.topLeft,
+            color: AppColors.lavender,
+            opacity: SplashConstants.blobTopLeftOpacity,
+          ),
+
+          SplashBlob.aligned(
+            size: size.width * SplashConstants.blobTopRightSizeFraction,
+            alignment: Alignment.topRight,
+            color: AppColors.accent,
+            opacity: SplashConstants.blobTopRightOpacity,
+          ),
+
+          SplashBlob.aligned(
+            size: size.width * SplashConstants.blobBottomLeftSizeFraction,
+            alignment: Alignment.bottomLeft,
+            color: AppColors.primaryContainer,
+            opacity: SplashConstants.blobBottomLeftOpacity,
+          ),
+
+          SplashBlob.aligned(
+            size: size.width * SplashConstants.blobBottomRightSizeFraction,
+            alignment: Alignment.bottomRight,
+            color: AppColors.softLavender,
+            opacity: SplashConstants.blobBottomRightOpacity,
+          ),
+
+          // small accent blobs
+          SplashBlob.positioned(
+            size: size.width * SplashConstants.blobAccentTopSizeFraction,
+            dx: size.width * SplashConstants.blobAccentTopDxFraction,
+            dy: size.height * SplashConstants.blobAccentTopDyFraction,
+            color: AppColors.accent,
+            opacity: SplashConstants.blobAccentTopOpacity,
+          ),
+
+          SplashBlob.positioned(
+            size: size.width * SplashConstants.blobAccentBottomSizeFraction,
+            dx: size.width * SplashConstants.blobAccentBottomDxFraction,
+            dy: size.height * SplashConstants.blobAccentBottomDyFraction,
+            color: AppColors.primaryContainer,
+            opacity: SplashConstants.blobAccentBottomOpacity,
+          ),
+
+          // ── Content ────────────────────────────────────────────────────
+          SafeArea(
+            child: Column(
+              children: [
+                SizedBox(
+                    height: size.height * SplashConstants.topSpacerFraction),
+                Text(
+                  AppStrings.appName,
+                  style: AppTextStyles.displayLarge(context),
+                ),
+                SizedBox(
+                  height: size.height *
+                      SplashConstants.titleToTaglineSpacingFraction,
+                ),
+                Text(
+                  AppStrings.appTagline,
+                  style: AppTextStyles.labelSmall(context).copyWith(
+                    color: AppColors.lightSecondaryText,
+                  ),
+                ),
+                SizedBox(
+                  height: size.height *
+                      SplashConstants.taglineToLottieSpacingFraction,
+                ),
+                Lottie.asset(
+                  AppAssets.lottiePlant,
+                  width: size.width * SplashConstants.lottieWidthFraction,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

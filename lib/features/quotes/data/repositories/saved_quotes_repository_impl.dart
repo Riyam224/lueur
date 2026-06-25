@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:logger/logger.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/saved_quote_entity.dart';
 import '../../domain/repositories/saved_quotes_repository.dart';
@@ -9,12 +8,12 @@ import '../models/saved_quote_model.dart';
 
 class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
   final SavedQuotesLocalDatasource _local;
-  final SupabaseClient _supabase;
   final Logger _logger = Logger();
 
-  SavedQuotesRepositoryImpl(this._local, this._supabase);
+  SavedQuotesRepositoryImpl(this._local);
 
-  String get _currentUserId => _supabase.auth.currentUser?.id ?? '';
+  // TODO: Supabase backend was removed. Replace with a real user id source.
+  String get _currentUserId => '';
 
   @override
   Future<Either<Failure, List<SavedQuoteEntity>>> getQuotes() async {

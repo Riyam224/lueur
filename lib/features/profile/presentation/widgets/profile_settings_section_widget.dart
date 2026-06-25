@@ -31,8 +31,8 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
         // Appearance (dark mode toggle)
         _SettingsItem(
           icon: Icons.dark_mode_rounded,
-          iconColor: AppColors.settingsModeIconColor,
-          iconBgColor: AppColors.settingsModeIconBg,
+          iconColor: context.extra.settingsModeIconColor!,
+          iconBgColor: context.extra.settingsModeIconBg!,
           label: 'Appearance',
           trailing: Switch(
             value: isDark,
@@ -46,8 +46,8 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
 
         _SettingsItem(
           icon: Icons.auto_awesome_rounded,
-          iconColor: AppColors.settingsAboutIconColor,
-          iconBgColor: AppColors.settingsAboutIconBg,
+          iconColor: context.extra.settingsAboutIconColor!,
+          iconBgColor: context.extra.settingsAboutIconBg!,
           label: 'About Luna',
           trailing: _chevron(context),
           onTap: () {},
@@ -57,8 +57,8 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
 
         _SettingsItem(
           icon: Icons.privacy_tip_rounded,
-          iconColor: AppColors.settingsPrivacyIconColor,
-          iconBgColor: AppColors.settingsPrivacyIconBg,
+          iconColor: context.extra.settingsPrivacyIconColor!,
+          iconBgColor: context.extra.settingsPrivacyIconBg!,
           label: 'Privacy Policy',
           trailing: _chevron(context),
           onTap: () {},

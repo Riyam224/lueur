@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/styling/app_colors.dart';
 import '../../../../core/styling/theme_extensions.dart';
 import '../../../../core/styling/theme_text_styles.dart';
 

@@ -8,7 +8,7 @@ import '../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../features/auth/presentation/cubit/auth_state.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
-import '../../features/auth/presentation/screens/splash_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../features/breathing/presentation/screens/breathing_screen.dart';
 import '../../features/affirmation/presentation/screens/affirmation_screen.dart';
 import '../../features/chat/domain/entities/chat_message.dart';
@@ -54,9 +54,6 @@ class RouterGenerationConfig {
   static GoRouter goRouter = GoRouter(
     initialLocation: AppRoutes.splash,
     onException: (context, state, router) {
-      // Supabase OAuth callback deep links (io.supabase.aitherapist://login-callback/...)
-      // are handled by supabase_flutter internally. Redirect to splash so the
-      // auth state listener can navigate once the session is established.
       router.go(AppRoutes.splash);
     },
     routes: [

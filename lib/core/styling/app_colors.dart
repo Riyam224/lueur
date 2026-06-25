@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // ── MindEase Breathing/Affirmation Palette ───────────────────────────────
-  static const Color scaffoldBg = Color(0xFFFFF8F2);
-  static const Color cardBg = Color(0xFFFFF0E8);
   static const Color cardBorder = Color(0xFFFFD4B0);
-  static const Color mintBg = Color(0xFFC8EDD8);
-  static const Color textPrimary = Color(0xFF1A1A1A);
-  static const Color textSecondary = Color(0xFFA0785A);
   static const Color breathInColor = Color(0xFFE8621A);
   static const Color breathHoldColor = Color(0xFF2D6A4F);
   static const Color breathOutColor = Color(0xFF85B7EB);
-  static const Color secondary = breathHoldColor;
 
   // ── Light Theme ──────────────────────────────────────────────────────────
   static const Color lightBackground = Color(0xFFFFF8F5);    // Scaffold
@@ -33,22 +27,17 @@ class AppColors {
   static const Color darkBorder = Color(0xFF2D2850);         // Card borders
 
   // ── Aliases (keep existing usages compiling) ─────────────────────────────
-  static const Color primaryLight = Color(0xFFFFB89A);       // lighter peach tint
   static const Color cardBackground = lightSurface;
-  static const Color whiteBackground = lightSurface;
 
   // Text
   static const Color primaryTextColor = lightOnBackground;
   static const Color secondaryTextColor = lightSecondaryText;
   static const Color whiteTextColor = Color(0xFFFFFFFF);
-  static const Color blackTextColor = Color(0xFF000000);
   static const Color greyTextColor = Color(0xFF9E9E9E);
-  static const Color darkTextColor = lightOnBackground;
 
   // Accent
   static const Color blushPink = accent;
   static const Color lavender = Color(0xFFC8B4F8);
-  static const Color lilac = Color(0xFFE8D8FF);
 
   // Mood Colors
   static const Color moodHappy = Color(0xFF4CAF50);
@@ -60,18 +49,7 @@ class AppColors {
 
   // Utility
   static const Color shadowColor = Color(0x0D000000);
-  static const Color dividerColor = Color(0xFFE0E0E0);
   static const Color errorColor = Color(0xFFF44336);
-  static const Color successColor = Color(0xFF4CAF50);
-  static const Color warningColor = Color(0xFFFF9800);
-  static const Color infoColor = Color(0xFF2196F3);
-
-  // Legacy
-  static const Color secondaryColor = secondaryTextColor;
-  static const Color blackColor = blackTextColor;
-  static const Color greyColor = greyTextColor;
-  static const Color deepIris = darkSurface;
-  static const Color midnight = darkBackground;
 
   // ── Mood Selector (home screen emoji buttons) ────────────────────────────
   static const Color moodSelectorAwful = Color(0xFF2563EB);   // Awful  — bold blue
@@ -88,12 +66,21 @@ class AppColors {
   static const Color moodGreatSvg  = Color(0xFFE84393);       // pink
 
   // ── Settings icon colors (profile settings section) ─────────────────────
-  static const Color settingsModeIconColor   = Color(0xFF7C6FCD);
-  static const Color settingsModeIconBg      = Color(0xFFEEEBFF);
-  static const Color settingsAboutIconColor  = Color(0xFFD45CA0);
-  static const Color settingsAboutIconBg     = Color(0xFFFFEBF5);
-  static const Color settingsPrivacyIconColor = Color(0xFF4CAF50);
-  static const Color settingsPrivacyIconBg   = Color(0xFFE8F5E9);
+  // Light mode
+  static const Color settingsModeIconColorLight    = Color(0xFF7C6FCD);
+  static const Color settingsModeIconBgLight       = Color(0xFFEEEBFF);
+  static const Color settingsAboutIconColorLight   = Color(0xFFD45CA0);
+  static const Color settingsAboutIconBgLight      = Color(0xFFFFEBF5);
+  static const Color settingsPrivacyIconColorLight = Color(0xFF4CAF50);
+  static const Color settingsPrivacyIconBgLight    = Color(0xFFE8F5E9);
+
+  // Dark mode
+  static const Color settingsModeIconColorDark    = Color(0xFFA89CFF);
+  static const Color settingsModeIconBgDark        = Color(0xFF2D2750);
+  static const Color settingsAboutIconColorDark   = Color(0xFFE87FC0);
+  static const Color settingsAboutIconBgDark       = Color(0xFF3D2438);
+  static const Color settingsPrivacyIconColorDark = Color(0xFF66BB6A);
+  static const Color settingsPrivacyIconBgDark     = Color(0xFF1E3B23);
 
   // ── Gradient background colors ───────────────────────────────────────────
   static const Color bannerGradientDarkStart  = Color(0xFF2A2250); // dark weekly banner
@@ -102,6 +89,5 @@ class AppColors {
   static const Color softLavender             = Color(0xFFF0ECFF); // after-feeling selector chip
 
   // ── Brand / functional colors ────────────────────────────────────────────
-  static const Color googleBrandBlue = Color(0xFF4285F4);
-  static const Color warningAmber    = Color(0xFFEF9F27); // password medium strength
+  static const Color warningAmber = Color(0xFFEF9F27); // password medium strength
 }

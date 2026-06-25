@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/styling/theme_text_styles.dart';
 import '../../../../core/styling/app_colors.dart';
@@ -231,11 +230,8 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                               },
                               onTalkAgain: aiResponse.isNotEmpty
                                   ? () {
-                                      final userId = Supabase.instance.client
-                                              .auth.currentUser?.id ??
-                                          '';
                                       context.push(AppRoutes.chat, extra: {
-                                        'userId': userId,
+                                        'userId': '',
                                         'emoji': widget.emojiUnicode ?? '😊',
                                         'thoughts': displayThoughts,
                                         'aiResponse': aiResponse,
