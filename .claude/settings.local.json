@@ -3,7 +3,27 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "Bash(curl -sL \"https://api.github.com/repos/googlefonts/nunito/git/trees/main?recursive=1\")",
-      "Bash(python3 -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(i[''''path'''']\\) for i in data.get\\(''''tree'''',[]\\)]\")"
+      "Bash(python3 -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(i[''''path'''']\\) for i in data.get\\(''''tree'''',[]\\)]\")",
+      "Bash(specify *)",
+      "Bash(bash .specify/scripts/bash/check-prerequisites.sh --json --paths-only 2>&1)",
+      "Bash(bash .specify/scripts/bash/setup-plan.sh --json 2>&1)",
+      "Bash(bash .specify/scripts/bash/setup-tasks.sh --json 2>&1)",
+      "Bash(bash /Users/r/StudioProjects/ai_therapist_app/.specify/scripts/bash/setup-plan.sh --json 2>&1)",
+      "Bash(bash /Users/r/StudioProjects/ai_therapist_app/.specify/scripts/bash/setup-tasks.sh --json 2>&1)",
+      "Bash(bash /Users/r/StudioProjects/ai_therapist_app/.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks)",
+      "Bash(flutter devices *)",
+      "Bash(flutter build *)",
+      "Bash(adb -s emulator-5554 uninstall com.example.ai_therapist_app)",
+      "Bash(adb -s emulator-5554 install /Users/r/StudioProjects/ai_therapist_app/build/app/outputs/flutter-apk/app-debug.apk)",
+      "Bash(adb -s emulator-5554 shell monkey -p com.example.ai_therapist_app -c android.intent.category.LAUNCHER 1)",
+      "Bash(adb -s emulator-5554 exec-out screencap -p)",
+      "Bash(adb -s emulator-5554 shell input swipe 200 1000 800 1000 400)",
+      "Bash(adb -s emulator-5554 shell am force-stop com.example.ai_therapist_app)",
+      "Bash(adb -s emulator-5554 shell pm clear com.example.ai_therapist_app)",
+      "Bash(adb -s emulator-5554 install -r build/app/outputs/flutter-apk/app-debug.apk)",
+      "Bash(adb -s emulator-5554 shell am start -n com.example.ai_therapist_app/.MainActivity)",
+      "Bash(adb -s emulator-5554 shell input tap 540 2172)",
+      "Bash(adb -s emulator-5554 shell input swipe 900 1000 100 1000 400)"
     ]
   }
 }

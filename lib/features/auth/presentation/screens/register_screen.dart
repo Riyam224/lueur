@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/constants/app_sizes.dart';
+import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/styling/app_assets.dart';
 import '../../../../core/styling/app_colors.dart';
+import '../../../../core/styling/app_text_styles.dart';
 import '../../../../core/styling/theme_extensions.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../constants/auth_constants.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
+import '../widgets/auth_avatar.dart';
+import '../widgets/auth_footer_link.dart';
+import '../widgets/auth_or_divider.dart';
+import '../widgets/auth_primary_button.dart';
+import '../widgets/auth_text_field.dart';
+import '../widgets/google_sign_in_button.dart';
+import '../widgets/password_strength_indicator.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -22,8 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
-  double _passwordStrength = 0;
-  String _passwordStrengthLabel = '';
+  PasswordStrength _passwordStrength = PasswordStrength.none;
 
   @override
   void dispose() {
@@ -34,74 +42,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _onPasswordChanged(String value) {
-    double strength = 0;
-    String label = '';
-    if (value.isEmpty) {
-      strength = 0;
-      label = '';
-    } else if (value.length < 6) {
-      strength = 0.33;
-      label = 'Too short';
-    } else if (value.length < 10) {
-      strength = 0.66;
-      label = 'Getting there';
-    } else {
-      strength = 1.0;
-      label = 'Strong';
-    }
     setState(() {
-      _passwordStrength = strength;
-      _passwordStrengthLabel = label;
+      _passwordStrength = PasswordStrengthX.fromPassword(value);
     });
   }
 
-  Color _strengthColor(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    if (_passwordStrength <= 0.33) return cs.error;
-    if (_passwordStrength <= 0.66) return AppColors.warningAmber;
-    return cs.primary;
-  }
-
-  InputDecoration _fieldDecoration({
-    required BuildContext context,
-    required String label,
-    required String hint,
-    Widget? suffixIcon,
-  }) {
-    final cs = Theme.of(context).colorScheme;
-    final extra = context.extra;
-    return InputDecoration(
-      label: Text(
-        label,
-        style: TextStyle(
-          color: extra.primaryColor,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
+  void _onAuthStateChanged(BuildContext context, AuthState state) {
+    if (state is AuthAuthenticated) {
+      context.go(AppRoutes.home);
+    } else if (state is AuthError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.message),
+          backgroundColor: AppColors.onboardingAccent,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
+          ),
         ),
-      ),
-      hintText: hint,
-      hintStyle: TextStyle(color: extra.secondaryTextColor),
-      filled: true,
-      fillColor: cs.surface,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: cs.outline, width: 1.5),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: cs.primary, width: 2),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: cs.error, width: 2),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: cs.error, width: 2),
-      ),
-      suffixIcon: suffixIcon,
-    );
+      );
+    }
   }
 
   @override
@@ -110,258 +70,121 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final extra = context.extra;
     final textPrimary = extra.primaryTextColor!;
     final secondaryText = extra.secondaryTextColor!;
-    final primaryColor = extra.primaryColor!;
     final borderColor = cs.outline;
 
     return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthAuthenticated) {
-          context.go(AppRoutes.home);
-        } else if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: primaryColor,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          );
-        }
-      },
+      listener: _onAuthStateChanged,
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalPaddingXl,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 52),
-                // Plant avatar
-                Center(
-                  child: Container(
-                    width: 88,
-                    height: 88,
-                    decoration: BoxDecoration(
-                      color: cs.primaryContainer,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Lottie.asset(
-                      'assets/lottie/plant.json',
-                      width: 52,
-                      fit: BoxFit.contain,
-                    ),
+                SizedBox(height: AuthConstants.topSpacing),
+                const AuthAvatar(
+                  backgroundColor: AppColors.onboardingBlobMint,
+                ),
+                SizedBox(height: AuthConstants.avatarToTitleSpacing),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    AppStrings.registerTitle,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.headlineItalic(context),
                   ),
                 ),
-                const SizedBox(height: 28),
-                Text(
-                  'Start your journey',
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w600,
-                    color: textPrimary,
+                SizedBox(height: AuthConstants.titleToSubtitleSpacing),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    AppStrings.registerSubtitle,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.bodyMedium(context)
+                        .copyWith(color: AppColors.onboardingSubtitle),
                   ),
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  'Luna is ready to listen 🌱',
-                  style: TextStyle(fontSize: 14, color: secondaryText),
-                ),
-                const SizedBox(height: 32),
-                // Full name field
-                TextField(
+                SizedBox(height: AppSpacing.sectionSpacingLg),
+                AuthTextField(
                   controller: _nameController,
+                  label: AppStrings.authFullNameLabel,
+                  hint: AppStrings.authFullNameHint,
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-                  style: TextStyle(color: textPrimary),
-                  decoration: _fieldDecoration(
-                    context: context,
-                    label: 'Full name',
-                    hint: 'Your name',
-                  ),
                 ),
-                const SizedBox(height: 16),
-                // Email field
-                TextField(
+                SizedBox(height: AppSpacing.sectionSpacingSm),
+                AuthTextField(
                   controller: _emailController,
+                  label: AppStrings.authEmailLabel,
+                  hint: AppStrings.authEmailHint,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  style: TextStyle(color: textPrimary),
-                  decoration: _fieldDecoration(
-                    context: context,
-                    label: 'Email',
-                    hint: 'your@email.com',
-                  ),
                 ),
-                const SizedBox(height: 16),
-                // Password field
-                TextField(
+                SizedBox(height: AppSpacing.sectionSpacingSm),
+                AuthTextField(
                   controller: _passwordController,
+                  label: AppStrings.authPasswordLabel,
+                  hint: AppStrings.authPasswordHint,
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   onChanged: _onPasswordChanged,
-                  style: TextStyle(color: textPrimary),
-                  decoration: _fieldDecoration(
-                    context: context,
-                    label: 'Password',
-                    hint: '••••••••',
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: secondaryText,
-                      ),
-                      onPressed: () =>
-                          setState(() => _obscurePassword = !_obscurePassword),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: secondaryText,
                     ),
-                  ),
-                ),
-                // Password strength indicator
-                if (_passwordStrength > 0) ...[
-                  const SizedBox(height: 8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(2),
-                    child: LinearProgressIndicator(
-                      value: _passwordStrength,
-                      minHeight: 3,
-                      backgroundColor: borderColor,
-                      valueColor:
-                          AlwaysStoppedAnimation(_strengthColor(context)),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _passwordStrengthLabel,
-                    style: TextStyle(
-                        fontSize: 11, color: _strengthColor(context)),
-                  ),
-                ],
-                const SizedBox(height: 24),
-                // CTA button
-                BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) {
-                    final isLoading = state is AuthLoading;
-                    return SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: isLoading
-                            ? null
-                            : () => context.read<AuthCubit>().register(
-                                  email: _emailController.text.trim(),
-                                  password: _passwordController.text,
-                                  name: _nameController.text.trim(),
-                                ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          foregroundColor: AppColors.whiteTextColor,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: isLoading
-                            ? Lottie.asset(
-                                'assets/lottie/plant_sprout.json',
-                                width: 24,
-                                height: 24,
-                                repeat: true,
-                              )
-                            : const Text(
-                                'Begin growing',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                // Divider
-                Row(
-                  children: [
-                    Expanded(child: Divider(color: borderColor, thickness: 1)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        'or',
-                        style: TextStyle(color: secondaryText, fontSize: 12),
-                      ),
-                    ),
-                    Expanded(child: Divider(color: borderColor, thickness: 1)),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                // Google button
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: OutlinedButton.icon(
                     onPressed: () =>
-                        context.read<AuthCubit>().signInWithGoogle(),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: borderColor, width: 1.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      foregroundColor: textPrimary,
-                    ),
-                    icon: const _GoogleIcon(),
-                    label: const Text(
-                      'Sign up with Google',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
+                        setState(() => _obscurePassword = !_obscurePassword),
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Sign in link
-                Center(
-                  child: GestureDetector(
-                    onTap: () => context.go(AppRoutes.loginScreen),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Already have an account? ',
-                            style: TextStyle(color: secondaryText, fontSize: 13),
-                          ),
-                          TextSpan(
-                            text: 'Sign in',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                SizedBox(height: AppSpacing.verticalPaddingXs),
+                PasswordStrengthIndicator(
+                  strength: _passwordStrength,
+                  backgroundColor: borderColor,
+                ),
+                SizedBox(height: AppSpacing.verticalPaddingXl),
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) => AuthPrimaryButton(
+                    label: AppStrings.registerCta,
+                    isLoading: state is AuthLoading,
+                    onPressed: () => context.read<AuthCubit>().register(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text,
+                          name: _nameController.text.trim(),
+                        ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: AppSpacing.sectionSpacingSm),
+                AuthOrDivider(
+                  lineColor: borderColor,
+                  textColor: secondaryText,
+                ),
+                SizedBox(height: AppSpacing.sectionSpacingSm),
+                GoogleSignInButton(
+                  label: AppStrings.authSignUpWithGoogle,
+                  borderColor: borderColor,
+                  foregroundColor: textPrimary,
+                  onPressed: () => context.read<AuthCubit>().signInWithGoogle(),
+                ),
+                SizedBox(height: AuthConstants.googleToFooterSpacing),
+                AuthFooterLink(
+                  prompt: AppStrings.registerSignInPrompt,
+                  action: AppStrings.registerSignInAction,
+                  promptColor: secondaryText,
+                  actionColor: AppColors.onboardingAccent,
+                  onTap: () => context.go(AppRoutes.loginScreen),
+                ),
+                SizedBox(height: AppSpacing.verticalPaddingXl),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _GoogleIcon extends StatelessWidget {
-  const _GoogleIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      AppAssets.googleLogo,
-      width: 20,
-      height: 20,
     );
   }
 }

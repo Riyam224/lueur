@@ -49,3 +49,12 @@ app.*.map.json
 
 # Supabase keys
 lib/core/constants/supabase_constants.dart
+
+# AI Tools
+.claude/
+.skills/
+.specs/
+.checklists/
+.contracts/
+.speckit/
+*.claude-session

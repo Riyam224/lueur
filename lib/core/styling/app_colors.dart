@@ -90,4 +90,17 @@ class AppColors {
 
   // ── Brand / functional colors ────────────────────────────────────────────
   static const Color warningAmber = Color(0xFFEF9F27); // password medium strength
+
+  // ── Onboarding wave blob backgrounds ─────────────────────────────────────
+  static const Color onboardingBlobLavender = Color(0xFFEDE8FF);
+  static const Color onboardingBlobMint = Color(0xFFC8EDD8);
+  static const Color onboardingBlobPeach = bannerGradientLightEnd; // 0xFFFFE4D0
+
+  // ── Onboarding UI colors ──────────────────────────────────────────────────
+  static const Color onboardingAccent      = Color(0xFFE8825A); // CTA, active dot, skip text
+  static const Color onboardingDotInactive = Color(0xFFD4C5BC); // inactive indicator dot
+  static const Color onboardingHeadline    = Color(0xFF3B2A1A); // page headline text
+  static const Color onboardingSubtitle    = Color(0xFF6B5B4E); // page subtitle text
+  static const Color onboardingLunaDetail  = Color(0xFFC9C3F0); // Luna eyes + smile (screen 1)
+  static const Color onboardingChatDetail  = Color(0xFFA8D5C2); // chat bubble dots + line (screen 2)
 }

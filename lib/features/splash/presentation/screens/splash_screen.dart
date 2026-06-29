@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import '../../../../core/preferences/onboarding_prefs.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/styling/app_assets.dart';
 import '../../../../core/styling/app_colors.dart';
@@ -27,7 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigate() async {
     await Future.delayed(SplashConstants.navigationDelay);
     if (!mounted) return;
-    context.go(AppRoutes.onBoarding);
+    final seen = await OnboardingPrefs.hasSeen();
+    if (!mounted) return;
+    context.go(seen ? AppRoutes.loginScreen : AppRoutes.onBoarding);
   }
 
   @override

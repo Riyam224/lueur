@@ -1,3 +1,4 @@
 class AppFonts {
-  static String mainFontName = "Nunito";
+  static const String mainFontName = "Nunito";
+  static const String displayFontName = "DMSerifDisplay";
 }
