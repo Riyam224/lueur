@@ -1,14 +1,28 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(flutter pub:*)",
-      "Bash(flutter analyze:*)",
-      "Bash(grep -v \"^$\")",
-      "Bash(git add:*)",
-      "Bash(git commit -m ':*)",
-      "Bash(git -C /Users/r/StudioProjects/ai_therapist_app diff 46fcf8a3c5f4fae2a87a4736a22b9c99b9f24519..3d6cce51b9e6aef67d2e0bcce7ea99d07583efad -- lib/features/breathing/presentation/screens/breathing_screen.dart)",
-      "Bash(git -C /Users/r/StudioProjects/ai_therapist_app log --oneline -10)",
-      "Bash(git -C /Users/r/StudioProjects/ai_therapist_app show 3d6cce51b9e6aef67d2e0bcce7ea99d07583efad --stat)"
+  "hooks": {
+    "PostToolUse": [
+      {
+        "description": "Build runner reminder: warns when a code-generated file (datasource, response, request) is modified, reminding to run build_runner",
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=\"${CLAUDE_FILE_PATHS:-}\"; if [ -n \"$f\" ]; then for file in $f; do if [[ \"$file\" == *.dart ]] && [[ \"$file\" == *datasource* || \"$file\" == *data_source* || \"$file\" == *_response.dart || \"$file\" == *_request.dart ]]; then echo \"⚠️  Code-generated file modified. Run: dart run build_runner build --delete-conflicting-outputs\"; break; fi; done; fi; exit 0'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "description": "Test-writer enforcement: routes any *_test.dart Write through a permission prompt so tests are created via the @test-writer agent, not hand-written (CLAUDE.md A.9)",
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // \"\"' | grep -qE '_test\\.dart$' && printf '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"ask\",\"permissionDecisionReason\":\"Test files must be created via the @test-writer agent (project rule, CLAUDE.md A.9). Cancel this Write and delegate to @test-writer (stack: mocktail + bloc_test). Approve only if @test-writer is already the author.\"}}' || true"
+          }
+        ]
+      }
     ]
   }
 }
