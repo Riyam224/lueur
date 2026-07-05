@@ -53,7 +53,7 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.home,
     onException: (context, state, router) {
       router.go(AppRoutes.splash);
     },

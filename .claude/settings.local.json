@@ -25,7 +25,8 @@
       "Bash(adb -s emulator-5554 shell input tap 540 2172)",
       "Bash(adb -s emulator-5554 shell input swipe 900 1000 100 1000 400)",
       "Bash(:)",
-      "Bash(pkill -f \"flutter_tools.snapshot run -d emulator\")"
+      "Bash(pkill -f \"flutter_tools.snapshot run -d emulator\")",
+      "Bash(git status *)"
     ]
   }
 }

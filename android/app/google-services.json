@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "921194076041",
+    "project_id": "lueur-app-d6c35",
+    "storage_bucket": "lueur-app-d6c35.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921194076041:android:6966d24fa919db01423358",
+        "android_client_info": {
+          "package_name": "com.example.ai_therapist_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921194076041-alvuad1fn2dj90raedabkmbg6qt6vams.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt-HxsiXXy36wXHPD4EBsRr8eWZEJmha8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921194076041-alvuad1fn2dj90raedabkmbg6qt6vams.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
