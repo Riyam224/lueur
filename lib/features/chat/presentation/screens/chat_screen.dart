@@ -1,12 +1,12 @@
 // lib/features/chat/presentation/screens/chat_screen.dart
 
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_cubit.dart';
+import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../cubit/chat_cubit.dart';
-import '../cubit/chat_state.dart';
 
 class ChatScreen extends StatefulWidget {
   final String emoji;
@@ -102,7 +102,7 @@ class _ChatScreenState extends State<ChatScreen> {
       centerTitle: true,
       leading: IconButton(
         icon: Icon(Icons.arrow_back_ios_rounded,
-            color: cs.primary, size: 20),
+            color: cs.primary, size: 20,),
         onPressed: () => Navigator.pop(context),
       ),
       title: Row(

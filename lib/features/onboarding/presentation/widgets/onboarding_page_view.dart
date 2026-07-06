@@ -1,10 +1,10 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/constants/onboarding_constants.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/models/onboarding_page_data.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_illustration.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_wave_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../constants/onboarding_constants.dart';
-import '../models/onboarding_page_data.dart';
-import 'onboarding_illustration.dart';
-import 'onboarding_wave_painter.dart';
 
 /// Wave-blob backdrop + illustration + title + subtitle for a single
 /// onboarding page.
@@ -65,7 +65,6 @@ class _OnboardingText extends StatelessWidget {
         0,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             data.title,

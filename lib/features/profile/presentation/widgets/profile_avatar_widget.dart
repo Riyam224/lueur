@@ -1,9 +1,9 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/styling/app_fonts.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/styling/app_fonts.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
 
 /// Purple avatar circle with initial, name and joined subtitle
 class ProfileAvatarWidget extends StatelessWidget {
@@ -28,7 +28,7 @@ class ProfileAvatarWidget extends StatelessWidget {
           height: 88.h,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: extra.primaryColor!,
+            color: extra.primaryColor,
           ),
           child: Center(
             child: Text(
@@ -37,7 +37,7 @@ class ProfileAvatarWidget extends StatelessWidget {
                 fontFamily: AppFonts.mainFontName,
                 fontSize: 36.sp,
                 fontWeight: FontWeight.bold,
-                color: extra.onPrimaryTextColor!,
+                color: extra.onPrimaryTextColor,
               ),
             ),
           ),

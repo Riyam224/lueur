@@ -1,15 +1,16 @@
+import 'package:ai_therapist_app/core/networking/api_endpoints.dart';
 import 'package:dio/dio.dart';
-import '../../../../core/networking/api_endpoints.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class StreakRepository {
   final Dio dio;
+  final FirebaseAuth _firebaseAuth;
 
-  StreakRepository(this.dio);
+  StreakRepository(this.dio, this._firebaseAuth);
 
-  // TODO: Supabase backend was removed. Replace with a real user id source.
   Future<int> calculateStreak() async {
     try {
-      const userId = '';
+      final userId = _firebaseAuth.currentUser?.uid ?? '';
       final response = await dio.get(
         ApiEndpoints.history,
         queryParameters: {'user_id': userId},

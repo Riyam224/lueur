@@ -1,5 +1,5 @@
+import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/mood_entry_entity.dart';
 
 abstract class MoodState extends Equatable {
   const MoodState();

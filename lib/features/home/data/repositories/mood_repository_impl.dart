@@ -1,22 +1,23 @@
+import 'package:ai_therapist_app/core/errors/failures.dart';
+import 'package:ai_therapist_app/features/home/data/datasources/mood_local_datasource.dart';
+import 'package:ai_therapist_app/features/home/data/datasources/mood_remote_datasource.dart';
+import 'package:ai_therapist_app/features/home/data/models/mood_entry_model.dart';
+import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:ai_therapist_app/features/home/domain/repositories/mood_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
-import '../../../../core/errors/failures.dart';
-import '../../domain/entities/mood_entry_entity.dart';
-import '../../domain/repositories/mood_repository.dart';
-import '../datasources/mood_local_datasource.dart';
-import '../datasources/mood_remote_datasource.dart';
-import '../models/mood_entry_model.dart';
 
 class MoodRepositoryImpl implements MoodRepository {
   final MoodRemoteDatasource _remote;
   final MoodLocalDatasource _local;
+  final FirebaseAuth _firebaseAuth;
   final Logger _logger = Logger();
 
-  MoodRepositoryImpl(this._remote, this._local);
+  MoodRepositoryImpl(this._remote, this._local, this._firebaseAuth);
 
-  // TODO: Supabase backend was removed. Replace with a real user id source.
-  String get _currentUserId => '';
+  String get _currentUserId => _firebaseAuth.currentUser?.uid ?? '';
 
   @override
   Future<Either<Failure, MoodEntryEntity>> generateResponse({
@@ -65,7 +66,7 @@ class MoodRepositoryImpl implements MoodRepository {
       return Right(localEntry.toEntity());
     } catch (e) {
       _logger.e('Failed to cache local entry: $e');
-      return Left(NetworkFailure('Failed to save entry locally'));
+      return const Left(NetworkFailure('Failed to save entry locally'));
     }
   }
 
@@ -78,9 +79,8 @@ class MoodRepositoryImpl implements MoodRepository {
           await _remote.getHistory(userId: _currentUserId);
 
       // Guard: only keep entries that belong to the current user
-      final userModels = models
-          .where((m) => m.userId == _currentUserId)
-          .toList();
+      final userModels =
+          models.where((m) => m.userId == _currentUserId).toList();
 
       await _local.cacheHistory(userModels, userId: _currentUserId);
 
@@ -89,7 +89,8 @@ class MoodRepositoryImpl implements MoodRepository {
     } on DioException catch (e) {
       _logger.w('API failed, falling back to cache: ${e.message}');
       return _fallbackToCache(
-          ServerFailure(e.message ?? 'Server error occurred'));
+        ServerFailure(e.message ?? 'Server error occurred'),
+      );
     } catch (e) {
       _logger.w('Unexpected error, falling back to cache: $e');
       return _fallbackToCache(NetworkFailure('Unexpected error: $e'));
@@ -104,7 +105,7 @@ class MoodRepositoryImpl implements MoodRepository {
       return const Right(null);
     } catch (e) {
       _logger.e('Failed to delete entry: $e');
-      return Left(NetworkFailure('Failed to delete entry'));
+      return const Left(NetworkFailure('Failed to delete entry'));
     }
   }
 
@@ -116,7 +117,7 @@ class MoodRepositoryImpl implements MoodRepository {
       return const Right(null);
     } catch (e) {
       _logger.e('Failed to delete all entries: $e');
-      return Left(NetworkFailure('Failed to delete all entries'));
+      return const Left(NetworkFailure('Failed to delete all entries'));
     }
   }
 

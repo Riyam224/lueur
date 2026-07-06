@@ -1,8 +1,8 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../home/domain/entities/mood_entry_entity.dart';
 
 /// Collapsible bar chart showing how many journal entries per day this week.
 class JournalMoodGraphWidget extends StatefulWidget {
@@ -93,7 +93,7 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
               padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.bar_chart_rounded,
                     size: 20,
                     color: AppColors.primary,
@@ -132,7 +132,6 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                     maxY: maxY,
                     minY: 0,
                     gridData: FlGridData(
-                      show: true,
                       drawVerticalLine: false,
                       horizontalInterval: 1,
                       getDrawingHorizontalLine: (_) => FlLine(
@@ -143,18 +142,17 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                     borderData: FlBorderData(show: false),
                     titlesData: FlTitlesData(
                       leftTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
+                        
                       ),
                       rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
+                        
                       ),
                       topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
+                        
                       ),
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
-                          reservedSize: 22,
                           getTitlesWidget: (value, meta) {
                             final i = value.toInt();
                             if (i < 0 || i >= _days.length) {

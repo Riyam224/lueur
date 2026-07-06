@@ -1,7 +1,7 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_extra_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_fonts.dart';
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
-import 'app_extra_colors.dart';
-import 'app_fonts.dart';
 
 class AppTheme {
   static ThemeData light = ThemeData(
@@ -15,8 +15,6 @@ class AppTheme {
       primaryContainer: AppColors.primaryContainer,
       secondary: AppColors.primaryContainer,   // mint — AI bubble
       tertiary: AppColors.accent,              // pink — "Great" mood
-      surface: AppColors.lightSurface,
-      onPrimary: AppColors.whiteTextColor,
       onSecondary: AppColors.whiteTextColor,
       onSurface: AppColors.lightOnBackground,
       outline: AppColors.lightBorder,
@@ -61,7 +59,7 @@ class AppTheme {
         moodExcited: AppColors.moodExcited,
         moodAnxious: AppColors.moodAnxious,
         moodNeutral: AppColors.moodNeutral,
-        borderColor: const Color(0xFFE8621A),
+        borderColor: AppColors.lightBorder,
         dividerColor: AppColors.lightBorder,
         shadowColor: AppColors.shadowColor,
         settingsModeIconColor: AppColors.settingsModeIconColorLight,

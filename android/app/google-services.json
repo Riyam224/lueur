@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "921194076041-ifsba2gbqml2dvdcg806ceok0p308330.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ai_therapist_app",
+            "certificate_hash": "790d0b0ffc4ee115d4a88353089e395e7bffc6c6"
+          }
+        },
+        {
           "client_id": "921194076041-alvuad1fn2dj90raedabkmbg6qt6vams.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "921194076041-alvuad1fn2dj90raedabkmbg6qt6vams.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "921194076041-7bmcshushphutf0cqpqojso0dc08pcsn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.aiTherapistApp"
+              }
             }
           ]
         }

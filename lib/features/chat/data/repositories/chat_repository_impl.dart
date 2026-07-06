@@ -1,8 +1,8 @@
 // lib/features/chat/data/repositories/chat_repository_impl.dart
 
-import '../../domain/entities/chat_message.dart';
-import '../../domain/repositories/chat_repository.dart';
-import '../datasources/chat_remote_datasource.dart';
+import 'package:ai_therapist_app/features/chat/data/datasources/chat_remote_datasource.dart';
+import 'package:ai_therapist_app/features/chat/domain/entities/chat_message.dart';
+import 'package:ai_therapist_app/features/chat/domain/repositories/chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
   final ChatRemoteDataSource remoteDataSource;

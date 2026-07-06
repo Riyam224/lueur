@@ -1,5 +1,5 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
 
 class AppTextStyles {
   // ── Display (عناوين كبيرة — DM Serif Display italic) ─────────────────

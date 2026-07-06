@@ -1,7 +1,7 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/utils/app_strings.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/models/onboarding_page_data.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../models/onboarding_page_data.dart';
 
 /// Layout, timing and content constants for the onboarding flow.
 class OnboardingConstants {

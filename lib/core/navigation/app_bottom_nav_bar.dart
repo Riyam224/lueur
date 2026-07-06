@@ -1,7 +1,8 @@
 import 'dart:ui';
+
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../styling/theme_extensions.dart';
 
 /// Glass-skin bottom navigation bar
 class AppBottomNavBar extends StatelessWidget {

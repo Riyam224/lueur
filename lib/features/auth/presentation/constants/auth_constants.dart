@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// match in the shared [AppSizes] / [AppSpacing] scales.
 class AuthConstants {
   // ── Avatar ────────────────────────────────────────────────────────────
-  static double avatarSize = 88.sp;
-  static double avatarPadding = 14.r;
+  static double avatarSize = 132.sp;
 
   // ── Vertical rhythm (logical pixels, screen-scaled) ──────────────────
-  static double topSpacing = 52.h;
-  static double avatarToTitleSpacing = 100.h;
+  static double topSpacing = 20.h;
+  static double avatarToTitleSpacing = 16.h;
   static double titleToSubtitleSpacing = 6.h;
   static double googleToFooterSpacing = 20.h;
 

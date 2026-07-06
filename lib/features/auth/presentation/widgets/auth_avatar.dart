@@ -1,29 +1,19 @@
+import 'package:ai_therapist_app/core/styling/app_assets.dart';
+import 'package:ai_therapist_app/features/auth/presentation/constants/auth_constants.dart';
 import 'package:flutter/material.dart';
-import '../../../onboarding/presentation/widgets/onboarding_luna_painter.dart';
-import '../constants/auth_constants.dart';
 
-/// Circular Luna avatar shown at the top of the login/register screens.
+/// Luna avatar shown at the top of the login/register screens.
 class AuthAvatar extends StatelessWidget {
-  final Color backgroundColor;
-
-  const AuthAvatar({super.key, required this.backgroundColor});
+  const AuthAvatar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: Image.asset(
+        AppAssets.lunaImage,
         width: AuthConstants.avatarSize,
         height: AuthConstants.avatarSize,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          shape: BoxShape.circle,
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(AuthConstants.avatarPadding),
-          child: const CustomPaint(
-            painter: OnboardingLunaPainter(),
-          ),
-        ),
+        fit: BoxFit.contain,
       ),
     );
   }

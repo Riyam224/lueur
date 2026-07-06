@@ -1,8 +1,8 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
+import 'package:ai_therapist_app/core/utils/app_strings.dart';
+import 'package:ai_therapist_app/features/auth/presentation/constants/auth_constants.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/app_text_styles.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../constants/auth_constants.dart';
 
 /// Password strength bucket derived from raw password length.
 enum PasswordStrength { none, weak, medium, strong }

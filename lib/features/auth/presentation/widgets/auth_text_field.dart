@@ -1,9 +1,9 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/features/auth/presentation/constants/auth_constants.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/app_text_styles.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../constants/auth_constants.dart';
 
 /// Labeled text field with the shared auth-screen styling (rounded border,
 /// filled background, themed focus/error states).

@@ -7,6 +7,15 @@ class UserEntity extends Equatable {
 
   const UserEntity({required this.id, required this.email, this.name});
 
+  /// Falls back to the email's local part when no name was provided.
+  String get displayName {
+    final trimmedName = name?.trim();
+    if (trimmedName != null && trimmedName.isNotEmpty) return trimmedName;
+
+    final localPart = email.split('@').first.trim();
+    return localPart.isNotEmpty ? localPart : email;
+  }
+
   @override
   List<Object?> get props => [id, email, name];
 }

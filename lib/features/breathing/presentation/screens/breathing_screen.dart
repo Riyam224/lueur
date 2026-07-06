@@ -1,14 +1,17 @@
 // lib/features/breathing/presentation/screens/breathing_screen.dart
 
+import 'package:ai_therapist_app/core/constants/app_sizes.dart';
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_assets.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/breathing/presentation/widgets/breathing_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../widgets/breathing_circle.dart';
 // 
 
 class BreathingScreen extends StatefulWidget {
@@ -66,6 +69,21 @@ class _BreathingScreenState extends State<BreathingScreen>
     _scaleAnimation = Tween<double>(begin: 0.7, end: 1.1).animate(
       CurvedAnimation(parent: _controller!, curve: Curves.easeInOut),
     );
+  }
+
+  String get _lunaMessage {
+    if (_isFinished.value) return 'You did so well. Take a moment to feel the calm 🌸';
+    if (_isRunning.value) {
+      switch (_phase.value) {
+        case 'Breathe in':
+          return 'Slowly breathe in through your nose…';
+        case 'Hold':
+          return 'Hold gently… you\'re doing great 🌿';
+        default:
+          return 'Let it all out, slowly and completely…';
+      }
+    }
+    return 'I\'ll guide you through every breath. Ready when you are 🌿';
   }
 
   Future<void> _startExercise() async {
@@ -146,14 +164,66 @@ class _BreathingScreenState extends State<BreathingScreen>
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
-                height: AppSpacing.space3Xl +
-                    AppSpacing.space2Xl +
-                    AppSpacing.spaceXs,
+              SizedBox(height: AppSpacing.spaceLg),
+              // ── Luna AI helper ────────────────────────────────────────
+              AnimatedBuilder(
+                animation: Listenable.merge([_isRunning, _isFinished, _phase]),
+                builder: (context, _) {
+                  return Row(
+                    children: [
+                      Container(
+                        width: AppSizes.avatarLg,
+                        height: AppSizes.avatarLg,
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryContainer
+                              .withValues(alpha: 0.25),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: SvgPicture.asset(
+                            AppAssets.lunaIllustration,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: AppSpacing.spaceMd),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppSpacing.spaceMd,
+                            vertical: AppSpacing.spaceSm,
+                          ),
+                          decoration: BoxDecoration(
+                            color: context.extra.cardBackgroundColor,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
+                              bottomRight: Radius.circular(16),
+                              bottomLeft: Radius.circular(4),
+                            ),
+                            border: Border.all(
+                              color: context.extra.borderColor ??
+                                  AppColors.lightBorder,
+                            ),
+                          ),
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 350),
+                            child: Text(
+                              _lunaMessage,
+                              key: ValueKey(_lunaMessage),
+                              style: ThemeTextStyles.bodySmall(context),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
+              SizedBox(height: AppSpacing.spaceLg),
               AnimatedBuilder(
                 animation: Listenable.merge([
-                  _scaleAnimation!,
+                  _scaleAnimation,
                   _phase,
                   _circleColor,
                 ]),

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/models/mood_entry.dart';
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/models/mood_entry.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:ai_therapist_app/core/widgets/mood_entry_card.dart';
+import 'package:flutter/material.dart';
 
 /// List of recent mood entries
 class RecentEntriesList extends StatelessWidget {

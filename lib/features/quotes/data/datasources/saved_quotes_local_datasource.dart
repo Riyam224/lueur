@@ -1,6 +1,7 @@
 import 'dart:convert';
+
+import 'package:ai_therapist_app/features/quotes/data/models/saved_quote_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../models/saved_quote_model.dart';
 
 class SavedQuotesLocalDatasource {
   static const String boxName = 'saved_quotes';

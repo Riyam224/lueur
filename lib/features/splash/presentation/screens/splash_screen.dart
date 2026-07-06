@@ -1,15 +1,17 @@
+import 'package:ai_therapist_app/core/injection/injection.dart';
+import 'package:ai_therapist_app/core/preferences/onboarding_prefs.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_assets.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
+import 'package:ai_therapist_app/core/utils/app_strings.dart';
+import 'package:ai_therapist_app/features/splash/presentation/constants/splash_constants.dart';
+import 'package:ai_therapist_app/features/splash/presentation/widgets/splash_blob.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import '../../../../core/preferences/onboarding_prefs.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/styling/app_assets.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/app_text_styles.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../constants/splash_constants.dart';
-import '../widgets/splash_blob.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,7 +32,14 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
     final seen = await OnboardingPrefs.hasSeen();
     if (!mounted) return;
-    context.go(seen ? AppRoutes.loginScreen : AppRoutes.onBoarding);
+
+    if (!seen) {
+      context.go(AppRoutes.onBoarding);
+      return;
+    }
+
+    final isSignedIn = sl<FirebaseAuth>().currentUser != null;
+    context.go(isSignedIn ? AppRoutes.home : AppRoutes.loginScreen);
   }
 
   @override
@@ -93,7 +102,8 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                    height: size.height * SplashConstants.topSpacerFraction),
+                  height: size.height * SplashConstants.topSpacerFraction,
+                ),
                 Text(
                   AppStrings.appName,
                   style: AppTextStyles.displayLarge(context)

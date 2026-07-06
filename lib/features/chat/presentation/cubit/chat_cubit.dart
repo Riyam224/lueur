@@ -1,9 +1,9 @@
 // lib/features/chat/presentation/cubit/chat_cubit.dart
 
+import 'package:ai_therapist_app/features/chat/domain/entities/chat_message.dart';
+import 'package:ai_therapist_app/features/chat/domain/repositories/chat_repository.dart';
+import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/chat_message.dart';
-import '../../domain/repositories/chat_repository.dart';
-import 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository repository;
@@ -28,7 +28,7 @@ class ChatCubit extends Cubit<ChatState> {
     emit(state.copyWith(
       status: ChatStatus.loading,
       messages: updatedMessages,
-    ));
+    ),);
 
     try {
       // 2 — history = everything except the last user message
@@ -56,14 +56,14 @@ class ChatCubit extends Cubit<ChatState> {
         status: ChatStatus.success,
         messages: [...updatedMessages, lunaMessage],
         sessionEnded: sessionEnded,
-      ));
+      ),);
     } catch (e) {
       emit(state.copyWith(
         status: ChatStatus.error,
         error: 'Luna is taking a little break 🌿',
-      ));
+      ),);
     }
   }
 
-  void resetSession() => emit(ChatState(messages: const []));
+  void resetSession() => emit(const ChatState());
 }

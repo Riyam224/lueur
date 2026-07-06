@@ -1,7 +1,7 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_text_styles.dart';
 
 /// "My Journal" title + entry count badge
 class JournalHeaderWidget extends StatelessWidget {

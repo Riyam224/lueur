@@ -1,29 +1,29 @@
 import 'package:ai_therapist_app/core/injection/injection.dart';
-import 'package:ai_therapist_app/core/routing/app_routes.dart';
 import 'package:ai_therapist_app/core/navigation/main_shell_screen.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/features/affirmation/presentation/screens/affirmation_screen.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:ai_therapist_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:ai_therapist_app/features/auth/presentation/screens/register_screen.dart';
+import 'package:ai_therapist_app/features/breathing/presentation/screens/breathing_screen.dart';
+import 'package:ai_therapist_app/features/chat/domain/entities/chat_message.dart';
+import 'package:ai_therapist_app/features/chat/domain/repositories/chat_repository.dart';
+import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_cubit.dart';
+import 'package:ai_therapist_app/features/chat/presentation/screens/chat_screen.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_state.dart';
+import 'package:ai_therapist_app/features/home/presentation/screens/home_screen.dart';
+import 'package:ai_therapist_app/features/journal/presentation/screens/journal_history_screen.dart';
 import 'package:ai_therapist_app/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:ai_therapist_app/features/profile/presentation/screens/profile_screen.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/screens/saved_quotes_screen.dart';
+import 'package:ai_therapist_app/features/response/presentation/screens/response_ai_screen.dart';
+import 'package:ai_therapist_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/auth/presentation/cubit/auth_cubit.dart';
-import '../../features/auth/presentation/cubit/auth_state.dart';
-import '../../features/auth/presentation/screens/login_screen.dart';
-import '../../features/auth/presentation/screens/register_screen.dart';
-import '../../features/splash/presentation/screens/splash_screen.dart';
-import '../../features/breathing/presentation/screens/breathing_screen.dart';
-import '../../features/affirmation/presentation/screens/affirmation_screen.dart';
-import '../../features/chat/domain/entities/chat_message.dart';
-import '../../features/chat/domain/repositories/chat_repository.dart';
-import '../../features/chat/presentation/cubit/chat_cubit.dart';
-import '../../features/chat/presentation/screens/chat_screen.dart';
-import '../../features/home/presentation/cubit/mood_cubit.dart';
-import '../../features/home/presentation/cubit/mood_state.dart';
-import '../../features/home/presentation/screens/home_screen.dart';
-import '../../features/journal/presentation/screens/journal_history_screen.dart';
-import '../../features/profile/presentation/screens/profile_screen.dart';
-import '../../features/response/presentation/screens/response_ai_screen.dart';
-import '../../features/quotes/presentation/cubit/saved_quotes_cubit.dart';
-import '../../features/quotes/presentation/screens/saved_quotes_screen.dart';
 
 class RouterGenerationConfig {
   static CustomTransitionPage _buildTransitionPage({
@@ -53,7 +53,7 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.splash,
     onException: (context, state, router) {
       router.go(AppRoutes.splash);
     },
@@ -114,7 +114,6 @@ class RouterGenerationConfig {
             ],
             child: BlocListener<AuthCubit, AuthState>(
               listenWhen: (previous, current) =>
-                  previous is AuthAuthenticated &&
                   current is AuthUnauthenticated,
               listener: (ctx, authState) {
                 if (authState is AuthUnauthenticated) {

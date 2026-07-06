@@ -1,6 +1,6 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../constants/onboarding_constants.dart';
 
 /// Circular CTA button that advances pages or completes the onboarding flow.
 /// Scales to 0.95 on press for tactile feedback.

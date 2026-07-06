@@ -1,6 +1,7 @@
 import 'dart:math';
+
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/styling/app_colors.dart';
 
 /// Paints the Luna blob character for onboarding screen 1.
 /// Natural canvas size: [naturalSize]. Wrap in a SizedBox at the call site.

@@ -1,6 +1,6 @@
 import 'package:ai_therapist_app/core/constants/app_sizes.dart';
 import 'package:ai_therapist_app/core/constants/app_spacing.dart';
-import 'package:ai_therapist_app/core/styling/app_assets.dart';
+import 'package:ai_therapist_app/core/models/mood_type.dart';
 import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -29,33 +29,20 @@ class MoodEntryCard extends StatelessWidget {
   });
 
   Widget _buildEmojiWidget() {
-    // 1. Unicode emoji → look up mapped asset (SVG or PNG)
-    final assetPath = AppAssets.emojiAssetMap[emoji];
-    if (assetPath != null) {
-      if (assetPath.endsWith('.svg')) {
-        return SvgPicture.asset(
-          assetPath,
-          width: AppSizes.iconLg,
-          height: AppSizes.iconLg,
-          fit: BoxFit.contain,
-          colorFilter: ColorFilter.mode(sideColor, BlendMode.srcIn),
-        );
-      }
-      return Image.asset(assetPath, width: AppSizes.iconLg, height: AppSizes.iconLg, fit: BoxFit.contain);
+    // 1. Unicode emoji → look up the matching mood illustration (same set
+    //    used by the home mood picker), full color, no tint.
+    final moodType = moodTypeFromEmoji(emoji);
+    if (moodType != null) {
+      final assetPath = moodType.assetPath;
+      return assetPath.endsWith('.svg')
+          ? SvgPicture.asset(assetPath, width: AppSizes.iconLg, height: AppSizes.iconLg)
+          : Image.asset(assetPath, width: AppSizes.iconLg, height: AppSizes.iconLg, fit: BoxFit.contain);
     }
     // 2. Already an asset path (isEmojiImage = true)
     if (isEmojiImage) {
-      if (emoji.endsWith('.svg')) {
-        final svgColor = AppAssets.moodSvgColors[emoji];
-        return SvgPicture.asset(
-          emoji,
-          width: AppSizes.iconLg,
-          height: AppSizes.iconLg,
-          fit: BoxFit.contain,
-          colorFilter: svgColor != null ? ColorFilter.mode(svgColor, BlendMode.srcIn) : null,
-        );
-      }
-      return Image.asset(emoji, width: AppSizes.iconLg, height: AppSizes.iconLg, fit: BoxFit.contain);
+      return emoji.endsWith('.svg')
+          ? SvgPicture.asset(emoji, width: AppSizes.iconLg, height: AppSizes.iconLg)
+          : Image.asset(emoji, width: AppSizes.iconLg, height: AppSizes.iconLg, fit: BoxFit.contain);
     }
     // 3. Fallback: raw unicode text
     return RichText(text: TextSpan(text: emoji, style: TextStyle(fontSize: 24.sp)));
@@ -65,8 +52,8 @@ class MoodEntryCard extends StatelessWidget {
     final now = DateTime.now();
     final yesterday = now.subtract(const Duration(days: 1));
 
-    if (DateUtils.isSameDay(date, now)) return "Today";
-    if (DateUtils.isSameDay(date, yesterday)) return "Yesterday";
+    if (DateUtils.isSameDay(date, now)) return 'Today';
+    if (DateUtils.isSameDay(date, yesterday)) return 'Yesterday';
     return DateFormat('MMM d').format(date);
   }
 

@@ -1,4 +1,4 @@
-import '../../domain/entities/saved_quote_entity.dart';
+import 'package:ai_therapist_app/features/quotes/domain/entities/saved_quote_entity.dart';
 
 class SavedQuoteModel {
   final String id;

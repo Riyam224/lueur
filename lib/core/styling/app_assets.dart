@@ -1,15 +1,5 @@
-import 'package:flutter/material.dart';
-import 'app_colors.dart';
-
 class AppAssets {
   static const emojisPath = 'assets/emojis/';
-
-  // ── Illustrated mood SVGs (mood selector on home screen) ──────────────────
-  static const String moodAwful = '${emojisPath}mood_awful.svg';
-  static const String moodMeh = '${emojisPath}mood_meh.svg';
-  static const String moodOkay = '${emojisPath}mood_okay.svg';
-  static const String moodGood = '${emojisPath}mood_good.svg';
-  static const String moodGreat = '${emojisPath}mood_great.svg';
 
   // ── Mood type illustrations (assets/illustrations/) ────────────────────
   // All ship as PNG with a transparent background (the original SVGs/PNGs
@@ -54,6 +44,12 @@ class AppAssets {
   static const String actionChat = '${emojisPath}chat.png';
   static const String actionHistory = '${emojisPath}book.png';
 
+  // Luna character SVG
+  static const String lunaIllustration = '${illustrationsPath}luna.svg';
+
+  // Luna character PNG
+  static const String lunaImage = '${illustrationsPath}luna.png';
+
   // Brand icons
   static const String googleLogo = 'assets/icons/google_logo.svg';
 
@@ -61,23 +57,4 @@ class AppAssets {
   static const String lottiePlant        = 'assets/lottie/plant.json';
   static const String lottiePlantSprout  = 'assets/lottie/plant_sprout.json';
   static const String lottieBlooming     = 'assets/lottie/blooming.json';
-
-  /// Color tint applied to each mood SVG (colorFilter BlendMode.srcIn).
-  static const Map<String, Color> moodSvgColors = {
-    moodAwful: AppColors.moodAwfulSvg,
-    moodMeh:   AppColors.moodMehSvg,
-    moodOkay:  AppColors.moodOkaySvg,
-    moodGood:  AppColors.moodGoodSvg,
-    moodGreat: AppColors.moodGreatSvg,
-  };
-
-  /// Maps unicode emoji characters (as received from the API) to local SVG asset paths.
-  /// Only the 5 core mood SVGs are mapped; other emojis fall back to unicode rendering.
-  static const Map<String, String> emojiAssetMap = {
-    '😢': moodAwful,
-    '😔': moodMeh,
-    '😊': moodOkay,
-    '😃': moodGood,
-    '🤩': moodGreat,
-  };
 }

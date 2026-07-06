@@ -1,6 +1,6 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/features/response/presentation/widgets/mood_tag_chip_widget.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_spacing.dart';
-import 'mood_tag_chip_widget.dart';
 
 /// Row of mood tags displayed as chips
 class MoodTagsRowWidget extends StatelessWidget {

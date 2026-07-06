@@ -1,29 +1,30 @@
+import 'package:ai_therapist_app/core/constants/app_sizes.dart';
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_state.dart';
+import 'package:ai_therapist_app/features/profile/presentation/widgets/profile_avatar_widget.dart';
+import 'package:ai_therapist_app/features/profile/presentation/widgets/profile_settings_section_widget.dart';
+import 'package:ai_therapist_app/features/profile/presentation/widgets/profile_stats_widget.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_sizes.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../../home/domain/entities/mood_entry_entity.dart';
-import '../../../home/presentation/cubit/mood_cubit.dart';
-import '../../../home/presentation/cubit/mood_state.dart';
-import '../../../quotes/presentation/cubit/saved_quotes_cubit.dart';
-import '../../../quotes/presentation/cubit/saved_quotes_state.dart';
-import '../../../../core/routing/app_routes.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/profile_avatar_widget.dart';
-import '../widgets/profile_stats_widget.dart';
-import '../widgets/profile_settings_section_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  // TODO: Supabase backend was removed. Replace with a real user profile source.
-  String get _name => 'Friend';
+  static const _subtitle = 'MindEase member';
 
-  String get _subtitle => 'MindEase member';
+  static String _displayName(AuthState state) =>
+      state is AuthAuthenticated ? state.user.displayName : 'Friend';
 
   static int _thisWeekCount(List<MoodEntryEntity> entries) {
     final now = DateTime.now();
@@ -35,7 +36,8 @@ class ProfileScreen extends StatelessWidget {
   static int _calculateStreak(List<MoodEntryEntity> entries) {
     if (entries.isEmpty) return 0;
     final dates = entries
-        .map((e) => DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day))
+        .map((e) =>
+            DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day))
         .toSet()
         .toList()
       ..sort((a, b) => b.compareTo(a));
@@ -71,7 +73,8 @@ class ProfileScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('My Profile', style: ThemeTextStyles.headlineMedium(context)),
+                Text('My Profile',
+                    style: ThemeTextStyles.headlineMedium(context)),
 
                 // Settings gear icon
                 Container(
@@ -98,9 +101,11 @@ class ProfileScreen extends StatelessWidget {
             horizontal: AppSpacing.horizontalPaddingLg,
           ),
           sliver: SliverToBoxAdapter(
-            child: ProfileAvatarWidget(
-              name: _name,
-              subtitle: _subtitle,
+            child: BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) => ProfileAvatarWidget(
+                name: _displayName(state),
+                subtitle: _subtitle,
+              ),
             ),
           ),
         ),
@@ -149,7 +154,8 @@ class ProfileScreen extends StatelessWidget {
                         color: context.extra.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: context.extra.borderColor ?? AppColors.lightBorder,
+                          color: context.extra.borderColor ??
+                              AppColors.lightBorder,
                           width: 1.2,
                         ),
                       ),
@@ -193,25 +199,26 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceSm),
                       ...state.quotes.take(2).map(
-                        (quote) => Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(bottom: AppSpacing.spaceMd),
-                          padding: EdgeInsets.all(AppSpacing.spaceLg),
-                          decoration: BoxDecoration(
-                            color: context.extra.cardBackgroundColor,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color:
-                                  context.extra.borderColor ?? AppColors.lightBorder,
-                              width: 1.2,
+                            (quote) => Container(
+                              width: double.infinity,
+                              margin:
+                                  EdgeInsets.only(bottom: AppSpacing.spaceMd),
+                              padding: EdgeInsets.all(AppSpacing.spaceLg),
+                              decoration: BoxDecoration(
+                                color: context.extra.cardBackgroundColor,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: context.extra.borderColor ??
+                                      AppColors.lightBorder,
+                                  width: 1.2,
+                                ),
+                              ),
+                              child: Text(
+                                '"${quote.text}"',
+                                style: ThemeTextStyles.bodyMedium(context),
+                              ),
                             ),
                           ),
-                          child: Text(
-                            '"${quote.text}"',
-                            style: ThemeTextStyles.bodyMedium(context),
-                          ),
-                        ),
-                      ),
                     ],
                   );
                 }
@@ -246,7 +253,8 @@ class ProfileScreen extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: TextButton.icon(
               onPressed: () => context.read<AuthCubit>().logout(),
-              icon: const Icon(Icons.logout_rounded, color: AppColors.errorColor),
+              icon:
+                  const Icon(Icons.logout_rounded, color: AppColors.errorColor),
               label: Text(
                 'Log out',
                 style: ThemeTextStyles.bodyMedium(context).copyWith(
@@ -258,7 +266,8 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
-                  side: BorderSide(color: AppColors.errorColor.withValues(alpha: 0.3)),
+                  side: BorderSide(
+                      color: AppColors.errorColor.withValues(alpha: 0.3)),
                 ),
               ),
             ),

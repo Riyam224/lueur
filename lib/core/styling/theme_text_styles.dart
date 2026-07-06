@@ -1,7 +1,7 @@
+import 'package:ai_therapist_app/core/styling/app_fonts.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'app_fonts.dart';
-import 'theme_extensions.dart';
 
 /// Theme-aware text styles that adapt to light and dark modes
 /// Use these styles to ensure text is readable in both themes

@@ -1,9 +1,9 @@
+import 'package:ai_therapist_app/core/constants/app_sizes.dart';
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/constants/app_sizes.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
 
 /// Thoughts input field with submit button
 class ThoughtsInputWidget extends StatelessWidget {

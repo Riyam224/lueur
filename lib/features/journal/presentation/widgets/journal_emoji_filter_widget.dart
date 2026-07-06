@@ -1,12 +1,13 @@
+import 'package:ai_therapist_app/core/constants/app_sizes.dart';
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/models/mood_type.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/constants/app_sizes.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/styling/app_assets.dart';
-import '../../../../core/styling/theme_extensions.dart';
 
-/// Horizontal scrollable emoji filter row using unicode emojis (matching API data)
+/// Horizontal scrollable mood filter row — uses the same illustration set
+/// (and full 13-mood coverage) as the home mood picker.
 class JournalEmojiFilterWidget extends StatelessWidget {
   final String? selectedEmoji;
   final ValueChanged<String?> onEmojiSelected;
@@ -17,31 +18,13 @@ class JournalEmojiFilterWidget extends StatelessWidget {
     required this.onEmojiSelected,
   });
 
-  /// The 5 core moods backed by SVG assets (matching the API emoji set)
-  static const List<String> _filterEmojis = [
-    '😢', // Awful
-    '😔', // Meh
-    '😊', // Okay
-    '😃', // Good
-    '🤩', // Great
-  ];
+  static const List<MoodType> _filterMoods = MoodType.values;
 
-  Widget _buildEmojiImage(String emoji) {
-    final assetPath = AppAssets.emojiAssetMap[emoji];
-    if (assetPath == null) {
-      return RichText(text: TextSpan(text: emoji, style: TextStyle(fontSize: 24.sp)));
-    }
-    if (assetPath.endsWith('.svg')) {
-      final moodColor = AppAssets.moodSvgColors[assetPath];
-      return SvgPicture.asset(
-        assetPath,
-        width: AppSizes.iconMd,
-        height: AppSizes.iconMd,
-        fit: BoxFit.contain,
-        colorFilter: moodColor != null ? ColorFilter.mode(moodColor, BlendMode.srcIn) : null,
-      );
-    }
-    return Image.asset(assetPath, width: AppSizes.iconMd, height: AppSizes.iconMd, fit: BoxFit.contain);
+  Widget _buildEmojiImage(MoodType moodType) {
+    final assetPath = moodType.assetPath;
+    return assetPath.endsWith('.svg')
+        ? SvgPicture.asset(assetPath, width: AppSizes.iconMd, height: AppSizes.iconMd)
+        : Image.asset(assetPath, width: AppSizes.iconMd, height: AppSizes.iconMd, fit: BoxFit.contain);
   }
 
   @override
@@ -52,9 +35,10 @@ class JournalEmojiFilterWidget extends StatelessWidget {
       height: AppSizes.emojiButtonSize,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: _filterEmojis.length,
+        itemCount: _filterMoods.length,
         itemBuilder: (context, index) {
-          final emoji = _filterEmojis[index];
+          final moodType = _filterMoods[index];
+          final emoji = moodType.emoji;
           final isSelected = selectedEmoji == emoji;
 
           return Padding(
@@ -78,7 +62,7 @@ class JournalEmojiFilterWidget extends StatelessWidget {
                       : null,
                 ),
                 child: Center(
-                  child: _buildEmojiImage(emoji),
+                  child: _buildEmojiImage(moodType),
                 ),
               ),
             ),

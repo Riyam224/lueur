@@ -1,7 +1,7 @@
+import 'package:ai_therapist_app/features/plant/data/repositories/streak_repository.dart';
+import 'package:ai_therapist_app/features/plant/domain/entities/plant_stage.dart';
+import 'package:ai_therapist_app/features/plant/presentation/cubit/plant_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/repositories/streak_repository.dart';
-import '../../domain/entities/plant_stage.dart';
-import 'plant_state.dart';
 
 class PlantCubit extends Cubit<PlantState> {
   final StreakRepository repo;
@@ -15,12 +15,12 @@ class PlantCubit extends Cubit<PlantState> {
       emit(PlantLoaded(
         stage: PlantStage.fromStreak(streak),
         streakDays: streak,
-      ));
+      ),);
     } catch (_) {
       emit(PlantLoaded(
         stage: PlantStage.seed,
         streakDays: 0,
-      ));
+      ),);
     }
   }
 }

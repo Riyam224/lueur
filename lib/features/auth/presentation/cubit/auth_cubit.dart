@@ -1,33 +1,36 @@
+import 'package:ai_therapist_app/core/errors/failures.dart';
+import 'package:ai_therapist_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:ai_therapist_app/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:ai_therapist_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:ai_therapist_app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../../domain/usecases/login_usecase.dart';
-import '../../domain/usecases/logout_usecase.dart';
-import '../../domain/usecases/register_usecase.dart';
-import '../../../home/presentation/cubit/mood_cubit.dart';
-import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
   final LogoutUseCase _logoutUseCase;
-  final AuthRepository _authRepository;
-  final MoodCubit _moodCubit;
+  final SignInWithGoogleUseCase _signInWithGoogleUseCase;
+  /// Called before the logout use case runs — clears cross-feature state
+  /// without coupling auth to any specific feature.
+  final VoidCallback _onLogout;
 
   AuthCubit({
     required LoginUseCase loginUseCase,
     required RegisterUseCase registerUseCase,
     required LogoutUseCase logoutUseCase,
-    required AuthRepository authRepository,
-    required MoodCubit moodCubit,
+    required SignInWithGoogleUseCase signInWithGoogleUseCase,
+    required VoidCallback onLogout,
   })  : _loginUseCase = loginUseCase,
         _registerUseCase = registerUseCase,
         _logoutUseCase = logoutUseCase,
-        _authRepository = authRepository,
-        _moodCubit = moodCubit,
-        super(AuthInitial());
+        _signInWithGoogleUseCase = signInWithGoogleUseCase,
+        _onLogout = onLogout,
+        super(const AuthInitial());
 
   Future<void> login({required String email, required String password}) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await _loginUseCase(email: email, password: password);
     if (isClosed) return;
     result.fold(
@@ -41,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
     required String name,
   }) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await _registerUseCase(
       email: email,
       password: password,
@@ -55,21 +58,24 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signInWithGoogle() async {
-    emit(AuthLoading());
-    final result = await _authRepository.signInWithGoogle();
+    emit(const AuthLoading());
+    final result = await _signInWithGoogleUseCase();
+    if (isClosed) return;
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) {},
+      (failure) => failure is CancellationFailure
+          ? emit(const AuthInitial())
+          : emit(AuthError(failure.message)),
+      (user) => emit(AuthAuthenticated(user)),
     );
   }
 
   Future<void> logout() async {
-    _moodCubit.clearEntries();
+    _onLogout();
     final result = await _logoutUseCase();
     if (isClosed) return;
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthUnauthenticated()),
+      (_) => emit(const AuthUnauthenticated()),
     );
   }
 }

@@ -1,12 +1,12 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/models/mood_type.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_fonts.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/styling/app_assets.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/app_fonts.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../../core/constants/app_spacing.dart';
 import 'package:go_router/go_router.dart';
 
 /// After-feeling selector — tapping any emoji shows a floating modal.
@@ -24,25 +24,25 @@ class _AfterFeelingSelectorWidgetState
 
   static const int _negativeIndex = 3;
 
-  static const List<({String asset, String label, String message})> _feelings =
+  static final List<({String asset, String label, String message})> _feelings =
       [
     (
-      asset: AppAssets.moodOkay,
+      asset: MoodType.calm.assetPath,
       label: 'Calm',
       message: 'Feeling calm is a beautiful shift. You did great.',
     ),
     (
-      asset: AppAssets.moodGreat,
+      asset: MoodType.grateful.assetPath,
       label: 'Loved',
       message: 'You deserve every bit of that love. Hold onto it.',
     ),
     (
-      asset: AppAssets.moodGood,
+      asset: MoodType.hopeful.assetPath,
       label: 'Better',
       message: 'Every small step forward counts. You are making progress.',
     ),
     (
-      asset: AppAssets.moodAwful,
+      asset: MoodType.sad.assetPath,
       label: 'Still sad',
       message:
           'It\'s okay to still feel this way. Luna is always here whenever you need to talk again.',
@@ -186,7 +186,7 @@ class _MoodModal extends StatelessWidget {
                   alignment: Alignment.center,
                   child: img,
                 );
-              }),
+              },),
               SizedBox(height: 16.h),
 
               // Feeling label
@@ -293,10 +293,9 @@ class _EmojiOption extends StatelessWidget {
                     asset,
                     width: 36.w,
                     height: 36.h,
-                    fit: BoxFit.contain,
                   )
                 : Image.asset(asset, width: 36.w, height: 36.h,
-                    fit: BoxFit.contain),
+                    fit: BoxFit.contain,),
             SizedBox(height: 4.h),
             Text(
               label,

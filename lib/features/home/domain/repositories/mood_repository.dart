@@ -1,6 +1,6 @@
+import 'package:ai_therapist_app/core/errors/failures.dart';
+import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:dartz/dartz.dart';
-import '../../../../core/errors/failures.dart';
-import '../entities/mood_entry_entity.dart';
 
 abstract class MoodRepository {
   Future<Either<Failure, MoodEntryEntity>> generateResponse({

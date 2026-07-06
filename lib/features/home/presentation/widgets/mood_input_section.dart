@@ -1,15 +1,15 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/models/mood_type.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/mood_selector_widget.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/thoughts_input_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/models/mood_type.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../cubit/mood_cubit.dart';
-import 'mood_selector_widget.dart';
-import 'thoughts_input_widget.dart';
 
 /// Combined section for mood selection and thoughts input
 class MoodInputSection extends StatefulWidget {

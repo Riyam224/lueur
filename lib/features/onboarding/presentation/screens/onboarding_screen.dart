@@ -1,13 +1,13 @@
+import 'package:ai_therapist_app/core/preferences/onboarding_prefs.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/constants/onboarding_constants.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_next_button.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_page_indicator.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_page_view.dart';
+import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_skip_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/preferences/onboarding_prefs.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../constants/onboarding_constants.dart';
-import '../widgets/onboarding_next_button.dart';
-import '../widgets/onboarding_page_indicator.dart';
-import '../widgets/onboarding_page_view.dart';
-import '../widgets/onboarding_skip_button.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

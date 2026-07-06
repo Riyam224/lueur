@@ -1,11 +1,11 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/models/mood_type.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_fonts.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../core/styling/app_assets.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/app_fonts.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../../core/constants/app_spacing.dart';
 
 /// User mood card with pink background showing emoji and thoughts
 class UserMoodCardWidget extends StatelessWidget {
@@ -20,16 +20,47 @@ class UserMoodCardWidget extends StatelessWidget {
     this.isEmojiImage = false,
   });
 
+  Widget _buildMoodIcon() {
+    // 1. Unicode emoji → the matching mood illustration (same set used on
+    //    the home mood picker), full color, no tint.
+    final moodType = moodTypeFromEmoji(emoji);
+    if (moodType != null) {
+      final assetPath = moodType.assetPath;
+      return assetPath.endsWith('.svg')
+          ? SvgPicture.asset(assetPath, width: 32.w, height: 32.h)
+          : Image.asset(assetPath, width: 32.w, height: 32.h);
+    }
+    // 2. Already an asset path (isEmojiImage = true)
+    if (isEmojiImage) {
+      return emoji.endsWith('.svg')
+          ? SvgPicture.asset(emoji, width: 32.w, height: 32.h)
+          : Image.asset(emoji, width: 32.w, height: 32.h);
+    }
+    // 3. Fallback: raw unicode text
+    return Text(
+      emoji,
+      style: TextStyle(
+        fontFamily: AppFonts.mainFontName,
+        fontFamilyFallback: const [
+          'Apple Color Emoji',
+          'Noto Color Emoji',
+          'Segoe UI Emoji',
+        ],
+        fontSize: 32.sp,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.space2Xl),
       decoration: BoxDecoration(
-        color: AppColors.blushPink.withValues(alpha: 0.12),
+        color: AppColors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: AppColors.blushPink.withValues(alpha: 0.25),
+          color: AppColors.primary.withValues(alpha: 0.20),
           width: 1.5,
         ),
       ),
@@ -40,7 +71,7 @@ class UserMoodCardWidget extends StatelessWidget {
           Text(
             'YOUR MOOD',
             style: ThemeTextStyles.labelSmall(context).copyWith(
-              color: AppColors.blushPink,
+              color: AppColors.primary,
               fontWeight: FontWeight.bold,
               letterSpacing: 0.5,
             ),
@@ -52,30 +83,7 @@ class UserMoodCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Emoji
-              if (isEmojiImage)
-                (emoji.endsWith('.svg')
-                    ? SvgPicture.asset(
-                        emoji,
-                        width: 32.w,
-                        height: 32.h,
-                        colorFilter: AppAssets.moodSvgColors[emoji] != null
-                            ? ColorFilter.mode(AppAssets.moodSvgColors[emoji]!, BlendMode.srcIn)
-                            : null,
-                      )
-                    : Image.asset(emoji, width: 32.w, height: 32.h))
-              else
-                Text(
-                  emoji,
-                  style: TextStyle(
-                    fontFamily: AppFonts.mainFontName,
-                    fontFamilyFallback: const [
-                      'Apple Color Emoji',
-                      'Noto Color Emoji',
-                      'Segoe UI Emoji',
-                    ],
-                    fontSize: 32.sp,
-                  ),
-                ),
+              _buildMoodIcon(),
               SizedBox(width: AppSpacing.spaceMd),
 
               // Thoughts

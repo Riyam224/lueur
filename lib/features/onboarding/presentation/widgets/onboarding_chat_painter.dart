@@ -1,5 +1,5 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/styling/app_colors.dart';
 
 /// Paints two stacked speech bubbles for onboarding screen 2.
 /// Natural canvas size: [naturalSize]. Wrap in a SizedBox at the call site.
@@ -51,7 +51,7 @@ class OnboardingChatPainter extends CustomPainter {
     );
 
     // Typing indicator: 3 dots, 8 px each, 10 px gap between edges
-    final dotY = startY + topH / 2;
+    const dotY = startY + topH / 2;
     for (int i = 0; i < 3; i++) {
       canvas.drawCircle(Offset(cx - 18 + i * 18.0, dotY), 4, detailPaint);
     }

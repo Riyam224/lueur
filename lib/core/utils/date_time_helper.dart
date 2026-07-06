@@ -58,8 +58,8 @@ class DateTimeHelper {
 
   /// Get relative date string (Today, Yesterday, or formatted date)
   static String getRelativeDate(DateTime date) {
-    if (isToday(date)) return "Today";
-    if (isYesterday(date)) return "Yesterday";
+    if (isToday(date)) return 'Today';
+    if (isYesterday(date)) return 'Yesterday';
     return DateFormat('MMM d').format(date);
   }
 }

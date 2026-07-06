@@ -1,18 +1,34 @@
+import 'package:ai_therapist_app/core/errors/failures.dart';
+import 'package:ai_therapist_app/features/auth/data/datasources/auth_django_datasource.dart';
+import 'package:ai_therapist_app/features/auth/data/datasources/auth_firebase_datasource.dart';
+import 'package:ai_therapist_app/features/auth/domain/entities/user_entity.dart';
+import 'package:ai_therapist_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
-import '../../../../core/errors/failures.dart';
-import '../../domain/entities/user_entity.dart';
-import '../../domain/repositories/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-// TODO: Supabase backend was removed. Wire up a new auth provider here.
 class AuthRepositoryImpl implements AuthRepository {
-  const AuthRepositoryImpl();
+  final AuthFirebaseDataSource _firebaseDataSource;
+  final AuthDjangoDatasource _djangoDataSource;
+
+  const AuthRepositoryImpl(this._firebaseDataSource, this._djangoDataSource);
 
   @override
   Future<Either<Failure, UserEntity>> login({
     required String email,
     required String password,
   }) async {
-    return const Left(ServerFailure('Authentication is not configured'));
+    try {
+      final (:user, :idToken) = await _firebaseDataSource.login(
+        email: email,
+        password: password,
+      );
+      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      return Right(djangoUser);
+    } on FirebaseAuthException catch (e) {
+      return Left(ServerFailure(_mapFirebaseError(e)));
+    } catch (_) {
+      return const Left(ServerFailure('Login failed. Please try again.'));
+    }
   }
 
   @override
@@ -21,16 +37,57 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     required String name,
   }) async {
-    return const Left(ServerFailure('Authentication is not configured'));
+    try {
+      final (:user, :idToken) = await _firebaseDataSource.register(
+        email: email,
+        password: password,
+        name: name,
+      );
+      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      return Right(djangoUser);
+    } on FirebaseAuthException catch (e) {
+      return Left(ServerFailure(_mapFirebaseError(e)));
+    } catch (_) {
+      return const Left(ServerFailure('Registration failed. Please try again.'));
+    }
   }
 
   @override
   Future<Either<Failure, void>> logout() async {
-    return const Right(null);
+    try {
+      await _firebaseDataSource.logout();
+      return const Right(null);
+    } catch (_) {
+      return const Left(ServerFailure('Logout failed. Please try again.'));
+    }
   }
 
   @override
-  Future<Either<Failure, void>> signInWithGoogle() async {
-    return const Left(ServerFailure('Authentication is not configured'));
+  Future<Either<Failure, UserEntity>> signInWithGoogle() async {
+    try {
+      final (:user, :idToken) = await _firebaseDataSource.signInWithGoogle();
+      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      return Right(djangoUser);
+    } on GoogleSignInCancelledException {
+      return const Left(CancellationFailure());
+    } on FirebaseAuthException catch (e) {
+      return Left(ServerFailure(_mapFirebaseError(e)));
+    } catch (_) {
+      return const Left(ServerFailure('Google sign-in failed. Please try again.'));
+    }
+  }
+
+  String _mapFirebaseError(FirebaseAuthException e) {
+    return switch (e.code) {
+      'user-not-found' => 'No account found with this email.',
+      'wrong-password' || 'invalid-credential' => 'Incorrect email or password.',
+      'email-already-in-use' => 'An account already exists with this email.',
+      'invalid-email' => 'Please enter a valid email address.',
+      'weak-password' => 'Password is too weak. Use at least 6 characters.',
+      'user-disabled' => 'This account has been disabled.',
+      'too-many-requests' => 'Too many attempts. Please try again later.',
+      'network-request-failed' => 'No internet connection. Please check your network.',
+      _ => e.message ?? 'Authentication failed. Please try again.',
+    };
   }
 }

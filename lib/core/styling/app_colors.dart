@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // ── MindEase Breathing/Affirmation Palette ───────────────────────────────
-  static const Color cardBorder = Color(0xFFFFD4B0);
+  static const Color cardBorder = lightBorder;
   static const Color breathInColor = Color(0xFFE8621A);
   static const Color breathHoldColor = Color(0xFF2D6A4F);
   static const Color breathOutColor = Color(0xFF85B7EB);
 
   // ── Light Theme ──────────────────────────────────────────────────────────
-  static const Color lightBackground = Color(0xFFFFF8F5);    // Scaffold
-  static const Color lightSurface = Color(0xFFFFF0E8);       // Cards
-  static const Color primary = Color(0xFFE8621A);            // CTA buttons
+  static const Color lightBackground = Color(0xFFF8F6FB);    // Scaffold
+  static const Color lightSurface = Color(0xFFFFFFFF);       // Cards
+  static const Color primary = Color(0xFF8C7FD6);            // CTA buttons
   static const Color primaryContainer = Color(0xFF5BBFA0);   // AI bubble, mint
-  static const Color lightOnBackground = Color(0xFF2D2016);  // Headings
-  static const Color lightSecondaryText = Color(0xFF7A5038); // Labels, hints
-  static const Color lightBorder = Color(0xFFFFD4B8);        // Card borders
-  static const Color accent = Color(0xFFFF7096);             // "Great" mood
+  static const Color lightOnBackground = Color(0xFF2E2A47);  // Headings
+  static const Color lightSecondaryText = Color(0xFF6B6480); // Labels, hints
+  static const Color lightBorder = Color(0xFFE4DFF5);        // Card borders
+  static const Color accent = Color(0xFFF2A66E);             // "Great" mood
 
   // ── Dark Theme ───────────────────────────────────────────────────────────
   static const Color darkBackground = Color(0xFF16132A);     // Scaffold
@@ -58,13 +58,6 @@ class AppColors {
   static const Color moodSelectorGood  = Color(0xFFD97706);   // Good   — bold amber
   static const Color moodSelectorGreat = Color(0xFF6D28D9);   // Great  — bold purple
 
-  // ── Mood SVG tint colors (colorFilter for mood SVG icons) ────────────────
-  static const Color moodAwfulSvg  = breathOutColor;          // soft blue
-  static const Color moodMehSvg    = Color(0xFF6C5CE7);       // purple
-  static const Color moodOkaySvg   = Color(0xFF18A887);       // mint teal
-  static const Color moodGoodSvg   = Color(0xFF9180E8);       // lavender
-  static const Color moodGreatSvg  = Color(0xFFE84393);       // pink
-
   // ── Settings icon colors (profile settings section) ─────────────────────
   // Light mode
   static const Color settingsModeIconColorLight    = Color(0xFF7C6FCD);
@@ -84,7 +77,7 @@ class AppColors {
 
   // ── Gradient background colors ───────────────────────────────────────────
   static const Color bannerGradientDarkStart  = Color(0xFF2A2250); // dark weekly banner
-  static const Color bannerGradientLightEnd   = Color(0xFFFFE4D0); // light weekly banner
+  static const Color bannerGradientLightEnd   = Color(0xFFEDE8FF); // light weekly banner
   static const Color primaryDarkDeep          = Color(0xFF3D2B8E); // greeting card dark gradient end
   static const Color softLavender             = Color(0xFFF0ECFF); // after-feeling selector chip
 
@@ -97,10 +90,10 @@ class AppColors {
   static const Color onboardingBlobPeach = bannerGradientLightEnd; // 0xFFFFE4D0
 
   // ── Onboarding UI colors ──────────────────────────────────────────────────
-  static const Color onboardingAccent      = Color(0xFFE8825A); // CTA, active dot, skip text
-  static const Color onboardingDotInactive = Color(0xFFD4C5BC); // inactive indicator dot
-  static const Color onboardingHeadline    = Color(0xFF3B2A1A); // page headline text
-  static const Color onboardingSubtitle    = Color(0xFF6B5B4E); // page subtitle text
+  static const Color onboardingAccent      = Color(0xFF8C7FD6); // CTA, active dot, skip text
+  static const Color onboardingDotInactive = Color(0xFFD8D3E8); // inactive indicator dot
+  static const Color onboardingHeadline    = Color(0xFF2E2A47); // page headline text
+  static const Color onboardingSubtitle    = Color(0xFF6B6480); // page subtitle text
   static const Color onboardingLunaDetail  = Color(0xFFC9C3F0); // Luna eyes + smile (screen 1)
   static const Color onboardingChatDetail  = Color(0xFFA8D5C2); // chat bubble dots + line (screen 2)
 }

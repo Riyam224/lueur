@@ -1,19 +1,20 @@
+import 'package:ai_therapist_app/core/errors/failures.dart';
+import 'package:ai_therapist_app/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
+import 'package:ai_therapist_app/features/quotes/data/models/saved_quote_model.dart';
+import 'package:ai_therapist_app/features/quotes/domain/entities/saved_quote_entity.dart';
+import 'package:ai_therapist_app/features/quotes/domain/repositories/saved_quotes_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
-import '../../../../core/errors/failures.dart';
-import '../../domain/entities/saved_quote_entity.dart';
-import '../../domain/repositories/saved_quotes_repository.dart';
-import '../datasources/saved_quotes_local_datasource.dart';
-import '../models/saved_quote_model.dart';
 
 class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
   final SavedQuotesLocalDatasource _local;
+  final FirebaseAuth _firebaseAuth;
   final Logger _logger = Logger();
 
-  SavedQuotesRepositoryImpl(this._local);
+  SavedQuotesRepositoryImpl(this._local, this._firebaseAuth);
 
-  // TODO: Supabase backend was removed. Replace with a real user id source.
-  String get _currentUserId => '';
+  String get _currentUserId => _firebaseAuth.currentUser?.uid ?? '';
 
   @override
   Future<Either<Failure, List<SavedQuoteEntity>>> getQuotes() async {
@@ -22,7 +23,7 @@ class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
       return Right(quotes.map((q) => q.toEntity()).toList());
     } catch (e) {
       _logger.e('Failed to load quotes: $e');
-      return Left(NetworkFailure('Failed to load saved quotes'));
+      return const Left(NetworkFailure('Failed to load saved quotes'));
     }
   }
 
@@ -38,7 +39,7 @@ class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
       return Right(quote.toEntity());
     } catch (e) {
       _logger.e('Failed to save quote: $e');
-      return Left(NetworkFailure('Failed to save quote'));
+      return const Left(NetworkFailure('Failed to save quote'));
     }
   }
 
@@ -49,7 +50,7 @@ class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
       return const Right(null);
     } catch (e) {
       _logger.e('Failed to delete quote: $e');
-      return Left(NetworkFailure('Failed to delete quote'));
+      return const Left(NetworkFailure('Failed to delete quote'));
     }
   }
 }

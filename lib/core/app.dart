@@ -1,10 +1,10 @@
+import 'package:ai_therapist_app/core/cubits/theme_cubit.dart';
+import 'package:ai_therapist_app/core/injection/injection.dart';
+import 'package:ai_therapist_app/core/routing/router_generation_config.dart';
+import 'package:ai_therapist_app/core/styling/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'cubits/theme_cubit.dart';
-import 'injection/injection.dart';
-import 'routing/router_generation_config.dart';
-import 'styling/app_theme.dart';
 
 class Lueur extends StatelessWidget {
   const Lueur({super.key});

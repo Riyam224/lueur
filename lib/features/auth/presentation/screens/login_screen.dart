@@ -1,22 +1,22 @@
+import 'package:ai_therapist_app/core/constants/app_sizes.dart';
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/utils/app_strings.dart';
+import 'package:ai_therapist_app/features/auth/presentation/constants/auth_constants.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:ai_therapist_app/features/auth/presentation/widgets/auth_avatar.dart';
+import 'package:ai_therapist_app/features/auth/presentation/widgets/auth_footer_link.dart';
+import 'package:ai_therapist_app/features/auth/presentation/widgets/auth_or_divider.dart';
+import 'package:ai_therapist_app/features/auth/presentation/widgets/auth_primary_button.dart';
+import 'package:ai_therapist_app/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:ai_therapist_app/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_sizes.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/app_text_styles.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../constants/auth_constants.dart';
-import '../cubit/auth_cubit.dart';
-import '../cubit/auth_state.dart';
-import '../widgets/auth_avatar.dart';
-import '../widgets/auth_footer_link.dart';
-import '../widgets/auth_or_divider.dart';
-import '../widgets/auth_primary_button.dart';
-import '../widgets/auth_text_field.dart';
-import '../widgets/google_sign_in_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -73,10 +73,31 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: AuthConstants.topSpacing),
-                const AuthAvatar(
-                  backgroundColor: AppColors.onboardingBlobLavender,
+                // ── Logout button ────────────────────────────────────────
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: () => context.read<AuthCubit>().logout(),
+                    icon: Icon(
+                      Icons.logout_rounded,
+                      size: AppSizes.iconSm,
+                      color: secondaryText,
+                    ),
+                    label: Text(
+                      AppStrings.authLogOut,
+                      style: AppTextStyles.captionSmall(context)
+                          .copyWith(color: secondaryText),
+                    ),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSpacing.spaceSm,
+                      ),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
                 ),
+                SizedBox(height: AuthConstants.topSpacing),
+                const AuthAvatar(),
                 SizedBox(height: AuthConstants.avatarToTitleSpacing),
                 SizedBox(
                   width: double.infinity,
@@ -169,6 +190,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   promptColor: secondaryText,
                   actionColor: AppColors.onboardingAccent,
                   onTap: () => context.go(AppRoutes.registerScreen),
+                ),
+                SizedBox(height: AppSpacing.sectionSpacingSm),
+                // ── Guest entry ──────────────────────────────────────────
+                Center(
+                  child: TextButton(
+                    onPressed: () => context.go(AppRoutes.home),
+                    style: TextButton.styleFrom(
+                      foregroundColor: secondaryText,
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSpacing.spaceSm,
+                        horizontal: AppSpacing.spaceMd,
+                      ),
+                    ),
+                    child: Text(
+                      AppStrings.authContinueAsGuest,
+                      style: AppTextStyles.caption(context).copyWith(
+                        color: secondaryText,
+                        decoration: TextDecoration.underline,
+                        decorationColor: secondaryText,
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(height: AppSpacing.verticalPaddingXl),
               ],

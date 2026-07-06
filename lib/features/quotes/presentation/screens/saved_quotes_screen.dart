@@ -1,12 +1,12 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/routing/app_routes.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../cubit/saved_quotes_cubit.dart';
-import '../cubit/saved_quotes_state.dart';
 import 'package:go_router/go_router.dart';
 
 class SavedQuotesScreen extends StatelessWidget {

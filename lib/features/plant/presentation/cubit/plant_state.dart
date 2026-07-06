@@ -1,5 +1,5 @@
+import 'package:ai_therapist_app/features/plant/domain/entities/plant_stage.dart';
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/plant_stage.dart';
 
 abstract class PlantState extends Equatable {
   @override

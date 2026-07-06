@@ -1,8 +1,8 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../../core/constants/app_spacing.dart';
 
 /// Action buttons for saving or following up on the conversation
 class ActionButtonsWidget extends StatelessWidget {
@@ -53,7 +53,7 @@ class ActionButtonsWidget extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.primary,
               padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceLg),
-              side: BorderSide(
+              side: const BorderSide(
                 color: AppColors.primary,
                 width: 1.5,
               ),

@@ -27,7 +27,7 @@ android {
         applicationId = "com.example.ai_therapist_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = flutter.minSdkVersion  // required for google_sign_in / Firebase Auth reliability
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -40,6 +40,10 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+
+dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
 }
 
 flutter {

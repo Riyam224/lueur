@@ -1,28 +1,36 @@
+import 'package:ai_therapist_app/features/auth/domain/entities/user_entity.dart';
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/user_entity.dart';
 
-abstract class AuthState extends Equatable {
+sealed class AuthState extends Equatable {
+  const AuthState();
+
   @override
   List<Object?> get props => [];
 }
 
-class AuthInitial extends AuthState {}
+final class AuthInitial extends AuthState {
+  const AuthInitial();
+}
 
-class AuthLoading extends AuthState {}
+final class AuthLoading extends AuthState {
+  const AuthLoading();
+}
 
-class AuthAuthenticated extends AuthState {
+final class AuthAuthenticated extends AuthState {
   final UserEntity user;
-  AuthAuthenticated(this.user);
+  const AuthAuthenticated(this.user);
 
   @override
   List<Object?> get props => [user];
 }
 
-class AuthUnauthenticated extends AuthState {}
+final class AuthUnauthenticated extends AuthState {
+  const AuthUnauthenticated();
+}
 
-class AuthError extends AuthState {
+final class AuthError extends AuthState {
   final String message;
-  AuthError(this.message);
+  const AuthError(this.message);
 
   @override
   List<Object?> get props => [message];

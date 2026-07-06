@@ -1,10 +1,10 @@
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/home/data/models/weekly_letter_model.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../data/models/weekly_letter_model.dart';
-import '../cubit/weekly_letter_cubit.dart';
 
 /// Floating dismissible weekly-letter card shown at the top of the home screen.
 /// The user swipes it away (or taps ×) to hide it for this session.
@@ -87,7 +87,6 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
       opacity: _fadeAnim,
       child: Dismissible(
         key: const ValueKey('weekly_letter_banner'),
-        direction: DismissDirection.horizontal,
         onDismissed: (_) => setState(() => _dismissed = true),
         child: Container(
           margin: const EdgeInsets.only(bottom: 16),
@@ -102,7 +101,6 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-              width: 1,
             ),
             boxShadow: [
               BoxShadow(
@@ -146,9 +144,9 @@ class _LetterContentState extends State<_LetterContent> {
           // ── Top row: title + dismiss ──────────────────────────
           Row(
             children: [
-              Text(
+              const Text(
                 '✉️',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontFamilyFallback: ['Apple Color Emoji', 'Noto Color Emoji'],
                 ),

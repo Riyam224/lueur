@@ -1,22 +1,23 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/models/mood_entry.dart';
+import 'package:ai_therapist_app/core/models/mood_type.dart';
+import 'package:ai_therapist_app/core/routing/app_routes.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/core/widgets/mood_entry_card.dart';
+import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_state.dart';
+import 'package:ai_therapist_app/features/journal/presentation/widgets/journal_emoji_filter_widget.dart';
+import 'package:ai_therapist_app/features/journal/presentation/widgets/journal_header_widget.dart';
+import 'package:ai_therapist_app/features/journal/presentation/widgets/journal_mood_graph_widget.dart';
+import 'package:ai_therapist_app/features/journal/presentation/widgets/journal_search_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/models/mood_entry.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/widgets/mood_entry_card.dart';
-import '../../../home/domain/entities/mood_entry_entity.dart';
-import '../../../home/presentation/cubit/mood_cubit.dart';
-import '../../../home/presentation/cubit/mood_state.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../../core/routing/app_routes.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:intl/intl.dart';
-import '../widgets/journal_emoji_filter_widget.dart';
-import '../widgets/journal_header_widget.dart';
-import '../widgets/journal_mood_graph_widget.dart';
-import '../widgets/journal_search_bar_widget.dart';
+import 'package:lottie/lottie.dart';
 
 class JournalHistoryScreen extends StatelessWidget {
   const JournalHistoryScreen({super.key});
@@ -59,7 +60,6 @@ class _JournalBodyState extends State<_JournalBody> {
       preview: e.aiResponse,
       sideColor: _colorForEmoji(e.emoji),
       date: e.createdAt,
-      isEmojiImage: false,
     );
   }
 
@@ -70,12 +70,7 @@ class _JournalBodyState extends State<_JournalBody> {
   }
 
   Color _colorForEmoji(String emoji) {
-    const map = {
-      '😔': AppColors.moodCalm,   // blue bar
-      '😊': AppColors.primary,    // peach bar
-      '🤩': AppColors.moodHappy,  // green bar
-    };
-    return map[emoji] ?? AppColors.moodNeutral;
+    return moodTypeFromEmoji(emoji)?.color ?? AppColors.moodNeutral;
   }
 
   void _confirmDeleteAll(BuildContext context) {
@@ -146,18 +141,7 @@ class _JournalBodyState extends State<_JournalBody> {
   }
 
   String _moodLabel(String emoji) {
-    const map = {
-      '😔': 'Sad',
-      '😊': 'Good',
-      '🤩': 'Great',
-      '😢': 'Tearful',
-      '😩': 'Tired',
-      '😰': 'Anxious',
-      '😭': 'Overwhelmed',
-      '😑': 'Meh',
-      '🙁': 'Low',
-    };
-    return map[emoji] ?? 'Okay';
+    return moodTypeFromEmoji(emoji)?.label ?? 'Okay';
   }
 
   String _todayMoodSummary(List<MoodEntryEntity> entries) {
@@ -349,7 +333,7 @@ class _JournalBodyState extends State<_JournalBody> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.cloud_off_outlined,
-                          size: 48, color: Theme.of(context).colorScheme.outline),
+                          size: 48, color: Theme.of(context).colorScheme.outline,),
                       const SizedBox(height: 12),
                       Text(
                         state.message,
@@ -373,7 +357,6 @@ class _JournalBodyState extends State<_JournalBody> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
                           '🌱',

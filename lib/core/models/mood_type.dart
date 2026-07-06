@@ -1,7 +1,7 @@
+import 'package:ai_therapist_app/core/styling/app_assets.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
-import '../styling/app_assets.dart';
-import '../styling/app_colors.dart';
-import '../utils/app_strings.dart';
 
 /// The set of mood illustrations available in assets/illustrations/.
 enum MoodType {
@@ -18,6 +18,16 @@ enum MoodType {
   scared,
   burnout,
   contentPeaceful,
+}
+
+/// Reverse lookup from a persisted [MoodEntry.emoji] unicode value back to
+/// its [MoodType], so any screen displaying a saved mood entry can render
+/// the same illustration used on the home mood picker.
+MoodType? moodTypeFromEmoji(String emoji) {
+  for (final moodType in MoodType.values) {
+    if (moodType.emoji == emoji) return moodType;
+  }
+  return null;
 }
 
 extension MoodTypeDetails on MoodType {

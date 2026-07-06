@@ -33,6 +33,10 @@ class AppStrings {
   static const String registerSignInPrompt = 'Already have an account? ';
   static const String registerSignInAction = 'Sign in';
 
+  // auth — guest & session actions
+  static const String authContinueAsGuest = 'Continue as guest';
+  static const String authLogOut = 'Log out';
+
   // auth — shared fields
   static const String authEmailLabel = 'Email';
   static const String authEmailHint = 'your@email.com';

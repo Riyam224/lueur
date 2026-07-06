@@ -1,9 +1,9 @@
+import 'package:ai_therapist_app/core/constants/app_sizes.dart';
+import 'package:ai_therapist_app/core/cubits/theme_cubit.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_sizes.dart';
-import '../../../../core/cubits/theme_cubit.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
 
 /// Header with user avatar, app title, and theme toggle button
 class HomeHeader extends StatelessWidget {

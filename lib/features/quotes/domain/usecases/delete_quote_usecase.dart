@@ -1,6 +1,6 @@
+import 'package:ai_therapist_app/core/errors/failures.dart';
+import 'package:ai_therapist_app/features/quotes/domain/repositories/saved_quotes_repository.dart';
 import 'package:dartz/dartz.dart';
-import '../../../../core/errors/failures.dart';
-import '../repositories/saved_quotes_repository.dart';
 
 class DeleteQuoteUseCase {
   final SavedQuotesRepository _repository;

@@ -1,8 +1,8 @@
+import 'package:ai_therapist_app/features/quotes/domain/usecases/delete_quote_usecase.dart';
+import 'package:ai_therapist_app/features/quotes/domain/usecases/get_saved_quotes_usecase.dart';
+import 'package:ai_therapist_app/features/quotes/domain/usecases/save_quote_usecase.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/delete_quote_usecase.dart';
-import '../../domain/usecases/get_saved_quotes_usecase.dart';
-import '../../domain/usecases/save_quote_usecase.dart';
-import 'saved_quotes_state.dart';
 
 class SavedQuotesCubit extends Cubit<SavedQuotesState> {
   final GetSavedQuotesUseCase _getQuotes;

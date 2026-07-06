@@ -1,30 +1,32 @@
+import 'package:ai_therapist_app/core/constants/app_spacing.dart';
+import 'package:ai_therapist_app/core/injection/injection.dart';
+import 'package:ai_therapist_app/core/models/mood_entry.dart';
+import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
+import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/mood_state.dart';
+import 'package:ai_therapist_app/features/home/presentation/cubit/weekly_letter_cubit.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/greeting_card.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/home_header.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/mood_input_section.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/recent_entries_header.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/recent_entries_list.dart';
+import 'package:ai_therapist_app/features/home/presentation/widgets/weekly_letter_banner.dart';
+import 'package:ai_therapist_app/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/injection/injection.dart';
-import '../../../../core/models/mood_entry.dart';
-import '../../../../core/styling/app_colors.dart';
-import '../../../../core/styling/theme_extensions.dart';
-import '../../../../core/styling/theme_text_styles.dart';
-import '../../../plant/presentation/cubit/plant_cubit.dart';
-import '../../domain/entities/mood_entry_entity.dart';
-import '../cubit/mood_cubit.dart';
-import '../cubit/mood_state.dart';
-import '../cubit/weekly_letter_cubit.dart';
-import '../widgets/greeting_card.dart';
-import '../widgets/home_header.dart';
-import '../widgets/mood_input_section.dart';
-import '../widgets/recent_entries_header.dart';
-import '../widgets/recent_entries_list.dart';
-import '../widgets/weekly_letter_banner.dart';
 import 'package:lottie/lottie.dart';
 
 /// Home screen — main entry point of the app
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  // TODO: Supabase backend was removed. Replace with a real user name source.
-  String get _userName => 'Friend';
+  static String _displayName(AuthState state) =>
+      state is AuthAuthenticated ? state.user.displayName : 'Friend';
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +41,14 @@ class HomeScreen extends StatelessWidget {
         BlocProvider(
           create: (_) => sl<WeeklyLetterCubit>()..load(),
         ),
+        BlocProvider.value(
+          value: sl<AuthCubit>(),
+        ),
       ],
-      child: _HomeScreenBody(userName: _userName),
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) =>
+            _HomeScreenBody(userName: _displayName(state)),
+      ),
     );
   }
 }
@@ -74,7 +82,6 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
       preview: e.thoughts,
       sideColor: _emojiColor(e.emoji),
       date: e.createdAt,
-      isEmojiImage: false,
     );
   }
 
@@ -110,7 +117,8 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
       builder: (dialogContext) => AlertDialog(
         title: const Text('Delete all entries?'),
         content: const Text(
-            'This will permanently remove all journal entries from your device.'),
+          'This will permanently remove all journal entries from your device.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
@@ -121,8 +129,10 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
               Navigator.of(dialogContext).pop();
               context.read<MoodCubit>().deleteAllEntries();
             },
-            child: Text('Delete all',
-                style: TextStyle(color: AppColors.errorColor)),
+            child: const Text(
+              'Delete all',
+              style: TextStyle(color: AppColors.errorColor),
+            ),
           ),
         ],
       ),
@@ -170,7 +180,9 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
               ),
               sliver: SliverToBoxAdapter(
                 child: GreetingCard(
-                    userName: widget.userName, hasEntries: hasEntries),
+                  userName: widget.userName,
+                  hasEntries: hasEntries,
+                ),
               ),
             ),
 

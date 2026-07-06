@@ -1,6 +1,6 @@
+import 'package:ai_therapist_app/core/errors/failures.dart';
+import 'package:ai_therapist_app/features/auth/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
-import '../../../../core/errors/failures.dart';
-import '../entities/user_entity.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> login({
@@ -15,5 +15,5 @@ abstract class AuthRepository {
   });
 
   Future<Either<Failure, void>> logout();
-  Future<Either<Failure, void>> signInWithGoogle();
+  Future<Either<Failure, UserEntity>> signInWithGoogle();
 }

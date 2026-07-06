@@ -1,6 +1,7 @@
 import 'dart:convert';
+
+import 'package:ai_therapist_app/features/home/data/models/mood_entry_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../models/mood_entry_model.dart';
 
 class MoodLocalDatasource {
   static const String boxName = 'mood_cache';
@@ -22,7 +23,7 @@ class MoodLocalDatasource {
 
   /// Cache the entire list of entries for [userId]
   Future<void> cacheHistory(
-      List<MoodEntryModel> entries, {required String userId}) async {
+      List<MoodEntryModel> entries, {required String userId,}) async {
     final encoded = jsonEncode(entries.map((e) => e.toJson()).toList());
     await _box.put(_key(userId), encoded);
   }
