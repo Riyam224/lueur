@@ -37,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
     if (entries.isEmpty) return 0;
     final dates = entries
         .map((e) =>
-            DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day))
+            DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day),)
         .toSet()
         .toList()
       ..sort((a, b) => b.compareTo(a));
@@ -74,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('My Profile',
-                    style: ThemeTextStyles.headlineMedium(context)),
+                    style: ThemeTextStyles.headlineMedium(context),),
 
                 // Settings gear icon
                 Container(
@@ -267,7 +267,7 @@ class ProfileScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(
-                      color: AppColors.errorColor.withValues(alpha: 0.3)),
+                      color: AppColors.errorColor.withValues(alpha: 0.3),),
                 ),
               ),
             ),

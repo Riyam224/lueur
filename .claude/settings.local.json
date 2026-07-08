@@ -30,7 +30,8 @@
       "Bash(flutter analyze *)",
       "Skill(flutter-code-review)",
       "Skill(flutter-feature)",
-      "Bash(flutter pub *)"
+      "Bash(flutter pub *)",
+      "Bash(./gradlew :app:tasks --offline)"
     ]
   }
 }

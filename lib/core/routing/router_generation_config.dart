@@ -84,8 +84,8 @@ class RouterGenerationConfig {
         path: AppRoutes.loginScreen,
         pageBuilder: (context, state) => _buildTransitionPage(
           state: state,
-          child: BlocProvider(
-            create: (_) => sl<AuthCubit>(),
+          child: BlocProvider.value(
+            value: sl<AuthCubit>(),
             child: const LoginScreen(),
           ),
         ),
@@ -95,8 +95,8 @@ class RouterGenerationConfig {
         path: AppRoutes.registerScreen,
         pageBuilder: (context, state) => _buildTransitionPage(
           state: state,
-          child: BlocProvider(
-            create: (_) => sl<AuthCubit>(),
+          child: BlocProvider.value(
+            value: sl<AuthCubit>(),
             child: const RegisterScreen(),
           ),
         ),
@@ -110,7 +110,7 @@ class RouterGenerationConfig {
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(value: moodCubit),
-              BlocProvider(create: (_) => sl<AuthCubit>()),
+              BlocProvider.value(value: sl<AuthCubit>()),
             ],
             child: BlocListener<AuthCubit, AuthState>(
               listenWhen: (previous, current) =>
