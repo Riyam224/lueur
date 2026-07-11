@@ -4,6 +4,10 @@ import 'package:dartz/dartz.dart';
 
 abstract class SavedQuotesRepository {
   Future<Either<Failure, List<SavedQuoteEntity>>> getQuotes();
-  Future<Either<Failure, SavedQuoteEntity>> saveQuote(String text);
+  Future<Either<Failure, SavedQuoteEntity>> saveQuote(
+    String text, {
+    String? emoji,
+    String? thoughts,
+  });
   Future<Either<Failure, void>> deleteQuote(String id);
 }

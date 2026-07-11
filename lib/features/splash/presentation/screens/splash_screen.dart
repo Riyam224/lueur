@@ -1,13 +1,12 @@
-import 'package:ai_therapist_app/core/injection/injection.dart';
 import 'package:ai_therapist_app/core/preferences/onboarding_prefs.dart';
 import 'package:ai_therapist_app/core/routing/app_routes.dart';
 import 'package:ai_therapist_app/core/styling/app_assets.dart';
 import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:ai_therapist_app/core/utils/app_strings.dart';
 import 'package:ai_therapist_app/features/splash/presentation/constants/splash_constants.dart';
 import 'package:ai_therapist_app/features/splash/presentation/widgets/splash_blob.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -38,8 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
 
-    final isSignedIn = sl<FirebaseAuth>().currentUser != null;
-    context.go(isSignedIn ? AppRoutes.home : AppRoutes.loginScreen);
+    context.go(AppRoutes.loginScreen);
   }
 
   @override
@@ -47,7 +45,6 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.sizeOf(context);
 
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
       body: Stack(
         children: [
           // ── Blobs ──────────────────────────────────────────────────────
@@ -116,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Text(
                   AppStrings.appTagline,
                   style: AppTextStyles.labelSmall(context).copyWith(
-                    color: AppColors.lightSecondaryText,
+                    color: context.extra.secondaryTextColor,
                   ),
                 ),
                 SizedBox(

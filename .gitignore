@@ -59,4 +59,5 @@ lib/core/constants/supabase_constants.dart
 .contracts/
 .agents/
 .speckit/
-*.claude-session
+*.claude-sessionandroid/key.properties
+android/lueur-release.jks

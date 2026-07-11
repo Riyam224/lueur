@@ -1,4 +1,5 @@
 import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:ai_therapist_app/core/utils/app_strings.dart';
 import 'package:ai_therapist_app/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class OnboardingSkipButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: AppColors.lightBackground,
+        backgroundColor: context.extra.cardBackgroundColor,
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(
           horizontal: OnboardingConstants.skipButtonHorizontalPadding,

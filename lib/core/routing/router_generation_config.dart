@@ -205,17 +205,22 @@ class RouterGenerationConfig {
           final aiResponse = extra?['aiResponse'] as String? ?? '';
           return _buildTransitionPage(
             state: state,
-            child: BlocProvider(
-              create: (_) => ChatCubit(
-                repository: sl<ChatRepository>(),
-                userId: userId,
-                initialMessages: [
-                  if (thoughts.isNotEmpty)
-                    ChatMessage(role: 'user', content: thoughts),
-                  if (aiResponse.isNotEmpty)
-                    ChatMessage(role: 'assistant', content: aiResponse),
-                ],
-              ),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => ChatCubit(
+                    repository: sl<ChatRepository>(),
+                    userId: userId,
+                    initialMessages: [
+                      if (thoughts.isNotEmpty)
+                        ChatMessage(role: 'user', content: thoughts),
+                      if (aiResponse.isNotEmpty)
+                        ChatMessage(role: 'assistant', content: aiResponse),
+                    ],
+                  ),
+                ),
+                BlocProvider(create: (_) => sl<SavedQuotesCubit>()),
+              ],
               child: ChatScreen(emoji: emoji),
             ),
           );

@@ -1,6 +1,5 @@
 import 'package:ai_therapist_app/core/preferences/onboarding_prefs.dart';
 import 'package:ai_therapist_app/core/routing/app_routes.dart';
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:ai_therapist_app/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_next_button.dart';
 import 'package:ai_therapist_app/features/onboarding/presentation/widgets/onboarding_page_indicator.dart';
@@ -49,7 +48,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
       body: Column(
         children: [
           Expanded(

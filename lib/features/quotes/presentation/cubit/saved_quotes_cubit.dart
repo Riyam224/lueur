@@ -24,8 +24,8 @@ class SavedQuotesCubit extends Cubit<SavedQuotesState> {
     );
   }
 
-  Future<void> saveQuote(String text) async {
-    final result = await _saveQuote(text);
+  Future<void> saveQuote(String text, {String? emoji, String? thoughts}) async {
+    final result = await _saveQuote(text, emoji: emoji, thoughts: thoughts);
     result.fold(
       (failure) => emit(SavedQuotesError(failure.message)),
       (_) => loadQuotes(),

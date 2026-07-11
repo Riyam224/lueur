@@ -3,6 +3,7 @@ import 'package:ai_therapist_app/core/models/mood_type.dart';
 import 'package:ai_therapist_app/core/routing/app_routes.dart';
 import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:ai_therapist_app/core/styling/app_fonts.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,7 +99,7 @@ class _AfterFeelingSelectorWidgetState
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.space2Xl),
       decoration: BoxDecoration(
-        color: AppColors.cardBackground,
+        color: context.extra.cardBackgroundColor,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
@@ -304,7 +305,7 @@ class _EmojiOption extends StatelessWidget {
                 fontSize: 10.sp,
                 color: isSelected
                     ? AppColors.primary
-                    : AppColors.secondaryTextColor,
+                    : context.extra.secondaryTextColor!,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
               ),
             ),

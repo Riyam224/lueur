@@ -8,7 +8,11 @@ class SaveQuoteUseCase {
 
   SaveQuoteUseCase(this._repository);
 
-  Future<Either<Failure, SavedQuoteEntity>> call(String text) {
-    return _repository.saveQuote(text);
+  Future<Either<Failure, SavedQuoteEntity>> call(
+    String text, {
+    String? emoji,
+    String? thoughts,
+  }) {
+    return _repository.saveQuote(text, emoji: emoji, thoughts: thoughts);
   }
 }

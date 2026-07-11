@@ -28,12 +28,18 @@ class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
   }
 
   @override
-  Future<Either<Failure, SavedQuoteEntity>> saveQuote(String text) async {
+  Future<Either<Failure, SavedQuoteEntity>> saveQuote(
+    String text, {
+    String? emoji,
+    String? thoughts,
+  }) async {
     try {
       final quote = SavedQuoteModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         text: text,
         savedAt: DateTime.now(),
+        emoji: emoji,
+        thoughts: thoughts,
       );
       await _local.saveQuote(quote, userId: _currentUserId);
       return Right(quote.toEntity());

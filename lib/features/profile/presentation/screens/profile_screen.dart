@@ -155,7 +155,7 @@ class ProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: context.extra.borderColor ??
-                              AppColors.lightBorder,
+                              Theme.of(context).colorScheme.outline,
                           width: 1.2,
                         ),
                       ),
@@ -209,13 +209,55 @@ class ProfileScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
                                   color: context.extra.borderColor ??
-                                      AppColors.lightBorder,
+                                      Theme.of(context).colorScheme.outline,
                                   width: 1.2,
                                 ),
                               ),
-                              child: Text(
-                                '"${quote.text}"',
-                                style: ThemeTextStyles.bodyMedium(context),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (quote.emoji != null) ...[
+                                        Text(
+                                          quote.emoji!,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontFamilyFallback: [
+                                              'Apple Color Emoji',
+                                              'Noto Color Emoji',
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                      ],
+                                      Expanded(
+                                        child: Text(
+                                          '"${quote.text}"',
+                                          style: ThemeTextStyles.bodyMedium(
+                                            context,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (quote.thoughts != null &&
+                                      quote.thoughts!.isNotEmpty) ...[
+                                    SizedBox(height: AppSpacing.spaceXs),
+                                    Text(
+                                      quote.thoughts!,
+                                      style: ThemeTextStyles.bodySmall(context)
+                                          .copyWith(
+                                        color:
+                                            context.extra.secondaryTextColor,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ],
                               ),
                             ),
                           ),

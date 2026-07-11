@@ -31,7 +31,13 @@
       "Skill(flutter-code-review)",
       "Skill(flutter-feature)",
       "Bash(flutter pub *)",
-      "Bash(./gradlew :app:tasks --offline)"
+      "Bash(./gradlew :app:tasks --offline)",
+      "Bash(xcrun simctl *)",
+      "Bash(osascript *)",
+      "Bash(set -e)",
+      "Bash(git -C /Users/r/StudioProjects/ai_therapist_app checkout -- android/app/src/main/AndroidManifest.xml ios/Runner/AppDelegate.swift macos/Flutter/GeneratedPluginRegistrant.swift pubspec.lock .specify/feature.json)",
+      "Bash(java -version)",
+      "Bash(./gradlew :app:help --stacktrace)"
     ]
   }
 }

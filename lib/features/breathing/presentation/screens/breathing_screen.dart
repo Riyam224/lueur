@@ -203,7 +203,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                             ),
                             border: Border.all(
                               color: context.extra.borderColor ??
-                                  AppColors.lightBorder,
+                                  Theme.of(context).colorScheme.outline,
                             ),
                           ),
                           child: AnimatedSwitcher(

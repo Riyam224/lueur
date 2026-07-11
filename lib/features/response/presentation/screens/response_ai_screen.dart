@@ -5,6 +5,7 @@ import 'package:ai_therapist_app/core/injection/injection.dart';
 import 'package:ai_therapist_app/core/navigation/app_bottom_nav_bar.dart';
 import 'package:ai_therapist_app/core/routing/app_routes.dart';
 import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:ai_therapist_app/core/widgets/app_blob_background.dart';
 import 'package:ai_therapist_app/features/home/presentation/cubit/mood_cubit.dart';
@@ -97,14 +98,14 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                       child: Container(
                         width: 40.w,
                         height: 40.h,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.cardBackground,
+                          color: context.extra.cardBackgroundColor,
                         ),
                         child: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 16.sp,
-                          color: AppColors.primaryTextColor,
+                          color: context.extra.primaryTextColor,
                         ),
                       ),
                     ),
@@ -210,9 +211,12 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                               AiResponseCardWidget(
                                 response: aiResponse,
                                 onBookmark: () {
-                                  context
-                                      .read<SavedQuotesCubit>()
-                                      .saveQuote(aiResponse);
+                                  context.read<SavedQuotesCubit>().saveQuote(
+                                        aiResponse,
+                                        emoji: widget.emojiImagePath ??
+                                            widget.emojiUnicode,
+                                        thoughts: displayThoughts,
+                                      );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text('Saved to quotes 🌿'),

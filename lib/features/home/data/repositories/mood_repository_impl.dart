@@ -75,17 +75,17 @@ class MoodRepositoryImpl implements MoodRepository {
     try {
       _logger.i('Fetching mood history from API...');
 
+      // The backend scopes this response to the authenticated user via the
+      // Bearer token, so no client-side re-filter is needed here. (A prior
+      // filter compared the Firebase UID against the backend's own numeric
+      // user id, which never match — it silently dropped every entry.)
       final List<MoodEntryModel> models =
           await _remote.getHistory(userId: _currentUserId);
 
-      // Guard: only keep entries that belong to the current user
-      final userModels =
-          models.where((m) => m.userId == _currentUserId).toList();
+      await _local.cacheHistory(models, userId: _currentUserId);
 
-      await _local.cacheHistory(userModels, userId: _currentUserId);
-
-      _logger.i('Fetched ${userModels.length} entries for current user');
-      return Right(userModels.map((m) => m.toEntity()).toList());
+      _logger.i('Fetched ${models.length} entries for current user');
+      return Right(models.map((m) => m.toEntity()).toList());
     } on DioException catch (e) {
       _logger.w('API failed, falling back to cache: ${e.message}');
       return _fallbackToCache(

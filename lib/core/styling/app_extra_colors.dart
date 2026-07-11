@@ -41,6 +41,11 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
   final Color? settingsPrivacyIconColor;
   final Color? settingsPrivacyIconBg;
 
+  // Decorative blob background colors (splash / onboarding / shell)
+  final Color? blobColorOne;
+  final Color? blobColorTwo;
+  final Color? blobColorThree;
+
   AppExtraColors({
     required this.primaryColor,
     required this.primaryLightColor,
@@ -66,6 +71,9 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
     required this.settingsAboutIconBg,
     required this.settingsPrivacyIconColor,
     required this.settingsPrivacyIconBg,
+    required this.blobColorOne,
+    required this.blobColorTwo,
+    required this.blobColorThree,
   });
 
   @override
@@ -94,6 +102,9 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
     Color? settingsAboutIconBg,
     Color? settingsPrivacyIconColor,
     Color? settingsPrivacyIconBg,
+    Color? blobColorOne,
+    Color? blobColorTwo,
+    Color? blobColorThree,
   }) {
     return AppExtraColors(
       primaryColor: primaryColor ?? this.primaryColor,
@@ -120,6 +131,9 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
       settingsAboutIconBg: settingsAboutIconBg ?? this.settingsAboutIconBg,
       settingsPrivacyIconColor: settingsPrivacyIconColor ?? this.settingsPrivacyIconColor,
       settingsPrivacyIconBg: settingsPrivacyIconBg ?? this.settingsPrivacyIconBg,
+      blobColorOne: blobColorOne ?? this.blobColorOne,
+      blobColorTwo: blobColorTwo ?? this.blobColorTwo,
+      blobColorThree: blobColorThree ?? this.blobColorThree,
     );
   }
 
@@ -152,6 +166,9 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
       settingsAboutIconBg: Color.lerp(settingsAboutIconBg, other.settingsAboutIconBg, t),
       settingsPrivacyIconColor: Color.lerp(settingsPrivacyIconColor, other.settingsPrivacyIconColor, t),
       settingsPrivacyIconBg: Color.lerp(settingsPrivacyIconBg, other.settingsPrivacyIconBg, t),
+      blobColorOne: Color.lerp(blobColorOne, other.blobColorOne, t),
+      blobColorTwo: Color.lerp(blobColorTwo, other.blobColorTwo, t),
+      blobColorThree: Color.lerp(blobColorThree, other.blobColorThree, t),
     );
   }
 }

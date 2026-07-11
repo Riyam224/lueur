@@ -1,5 +1,4 @@
 import 'package:ai_therapist_app/core/navigation/app_bottom_nav_bar.dart';
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:ai_therapist_app/core/widgets/app_blob_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,7 +26,6 @@ class MainShellScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: AppColors.lightBackground,
       body: AppBlobBackground(child: navigationShell),
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: navigationShell.currentIndex,

@@ -17,14 +17,22 @@ class AppColors {
   static const Color lightBorder = Color(0xFFE4DFF5);        // Card borders
   static const Color accent = Color(0xFFF2A66E);             // "Great" mood
 
-  // ── Dark Theme ───────────────────────────────────────────────────────────
-  static const Color darkBackground = Color(0xFF16132A);     // Scaffold
-  static const Color darkSurface = Color(0xFF1E1A35);        // Cards
-  static const Color primaryDark = Color(0xFF7C5CDB);        // Buttons, accents
-  static const Color darkPrimaryContainer = Color(0xFF221D3E); // AI bubble bg
-  static const Color darkOnBackground = Color(0xFFEDE9FE);   // Primary text
-  static const Color darkSecondaryText = Color(0xFF6B6490);  // Labels, hints
-  static const Color darkBorder = Color(0xFF2D2850);         // Card borders
+  // ── Dark Theme (Celestials night-sky palette) ─────────────────────────────
+  static const Color darkBackground = Color(0xFF12142B);     // Scaffold — deep night navy
+  static const Color darkSurface = Color(0xFF1C2044);        // Cards — indigo navy
+  static const Color primaryDark = Color(0xFF8C93E8);        // Buttons, accents — periwinkle
+  static const Color darkPrimaryContainer = Color(0xFF262B52); // AI bubble bg — indigo container
+  static const Color darkOnBackground = Color(0xFFEDEAFF);   // Primary text — pale lavender
+  static const Color darkSecondaryText = Color(0xFFA7A9D6);  // Labels, hints — muted periwinkle
+  static const Color darkBorder = Color(0xFF2E3268);         // Card borders
+  static const Color darkTertiaryText = Color(0xFF9497C7);   // Captions, tertiary labels
+
+  // Dark-mode accent hues lifted from the Celestials artwork's creatures/sunset
+  static const Color darkMintTeal = Color(0xFF6FCFB0);
+  static const Color darkSunsetPeach = Color(0xFFF2A66E);
+  static const Color darkSkyBlue = Color(0xFF7FB8E8);
+  static const Color darkGoldenYellow = Color(0xFFF5C86F);
+  static const Color darkCoralPink = Color(0xFFE8829C);
 
   // ── Aliases (keep existing usages compiling) ─────────────────────────────
   static const Color cardBackground = lightSurface;
@@ -37,7 +45,7 @@ class AppColors {
 
   // Accent
   static const Color blushPink = accent;
-  static const Color lavender = Color(0xFFC8B4F8);
+  static const Color lavender = Color(0xFFB4B8F0);
 
   // Mood Colors
   static const Color moodHappy = Color(0xFF4CAF50);
@@ -67,18 +75,18 @@ class AppColors {
   static const Color settingsPrivacyIconColorLight = Color(0xFF4CAF50);
   static const Color settingsPrivacyIconBgLight    = Color(0xFFE8F5E9);
 
-  // Dark mode
-  static const Color settingsModeIconColorDark    = Color(0xFFA89CFF);
-  static const Color settingsModeIconBgDark        = Color(0xFF2D2750);
-  static const Color settingsAboutIconColorDark   = Color(0xFFE87FC0);
-  static const Color settingsAboutIconBgDark       = Color(0xFF3D2438);
-  static const Color settingsPrivacyIconColorDark = Color(0xFF66BB6A);
-  static const Color settingsPrivacyIconBgDark     = Color(0xFF1E3B23);
+  // Dark mode (Celestials palette)
+  static const Color settingsModeIconColorDark    = Color(0xFFA896F0); // lavender
+  static const Color settingsModeIconBgDark        = darkPrimaryContainer;
+  static const Color settingsAboutIconColorDark   = darkCoralPink;
+  static const Color settingsAboutIconBgDark       = Color(0xFF3A2438); // deep plum
+  static const Color settingsPrivacyIconColorDark = darkMintTeal;
+  static const Color settingsPrivacyIconBgDark     = Color(0xFF1B3B33); // deep teal
 
   // ── Gradient background colors ───────────────────────────────────────────
-  static const Color bannerGradientDarkStart  = Color(0xFF2A2250); // dark weekly banner
+  static const Color bannerGradientDarkStart  = Color(0xFF232760); // dark weekly banner — night indigo
   static const Color bannerGradientLightEnd   = Color(0xFFEDE8FF); // light weekly banner
-  static const Color primaryDarkDeep          = Color(0xFF3D2B8E); // greeting card dark gradient end
+  static const Color primaryDarkDeep          = Color(0xFF3A3D82); // greeting card dark gradient end
   static const Color softLavender             = Color(0xFFF0ECFF); // after-feeling selector chip
 
   // ── Brand / functional colors ────────────────────────────────────────────

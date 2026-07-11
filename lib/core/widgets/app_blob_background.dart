@@ -1,8 +1,10 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:flutter/material.dart';
 
 /// Decorative blob background matching the splash / onboarding visual palette.
 /// Wrap any screen body with this widget to apply the soft blob decoration.
+/// Colors are theme-aware — sourced from [AppExtraColors] so light and dark
+/// mode each get their own blob palette without any hardcoded colors here.
 class AppBlobBackground extends StatelessWidget {
   const AppBlobBackground({super.key, required this.child});
 
@@ -13,45 +15,53 @@ class AppBlobBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final extra = context.extra;
+    final colorOne = extra.blobColorOne!;
+    final colorTwo = extra.blobColorTwo!;
+    final colorThree = extra.blobColorThree!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // Dark mode reads as a starry night sky, so blobs glow softer than in light mode.
+    final opacityScale = isDark ? 0.6 : 1.0;
+
     return Stack(
       children: [
         _Blob.aligned(
           size: size.width * 0.55,
           alignment: Alignment.topLeft,
-          color: AppColors.lavender,
-          opacity: 0.40,
+          color: colorOne,
+          opacity: 0.40 * opacityScale,
         ),
         _Blob.aligned(
           size: size.width * 0.22,
           alignment: Alignment.topRight,
-          color: AppColors.lavender,
-          opacity: 0.22,
+          color: colorOne,
+          opacity: 0.22 * opacityScale,
         ),
         _Blob.aligned(
           size: size.width * 0.30,
           alignment: Alignment.bottomLeft,
-          color: AppColors.primaryContainer,
-          opacity: 0.28,
+          color: colorTwo,
+          opacity: 0.28 * opacityScale,
         ),
         _Blob.aligned(
           size: size.width * 0.50,
           alignment: Alignment.bottomRight,
-          color: AppColors.softLavender,
-          opacity: 0.55,
+          color: colorThree,
+          opacity: 0.55 * opacityScale,
         ),
         _Blob.positioned(
           size: size.width * 0.18,
           dx: size.width * 0.60,
           dy: size.height * 0.08,
-          color: AppColors.lavender,
-          opacity: 0.18,
+          color: colorOne,
+          opacity: 0.18 * opacityScale,
         ),
         _Blob.positioned(
           size: size.width * 0.14,
           dx: size.width * 0.10,
           dy: size.height * 0.55,
-          color: AppColors.primaryContainer,
-          opacity: 0.20,
+          color: colorTwo,
+          opacity: 0.20 * opacityScale,
         ),
         child,
       ],

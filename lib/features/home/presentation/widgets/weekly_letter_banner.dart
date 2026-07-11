@@ -1,4 +1,5 @@
 import 'package:ai_therapist_app/core/styling/app_colors.dart';
+import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:ai_therapist_app/features/home/data/models/weekly_letter_model.dart';
 import 'package:ai_therapist_app/features/home/presentation/cubit/weekly_letter_cubit.dart';
@@ -166,7 +167,7 @@ class _LetterContentState extends State<_LetterContent> {
                 visualDensity: VisualDensity.compact,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
-                color: AppColors.lightSecondaryText,
+                color: context.extra.secondaryTextColor,
               ),
             ],
           ),
@@ -228,7 +229,7 @@ class _LetterContentState extends State<_LetterContent> {
             Text(
               'Keep journaling — your letter will be ready at the end of the week.',
               style: ThemeTextStyles.bodySmall(context).copyWith(
-                color: AppColors.lightSecondaryText,
+                color: context.extra.secondaryTextColor,
               ),
             ),
           ],

@@ -3,8 +3,10 @@
 import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
 import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
+import 'package:ai_therapist_app/features/chat/domain/entities/chat_message.dart';
 import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_state.dart';
+import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -170,6 +172,9 @@ class _ChatScreenState extends State<ChatScreen> {
           isUser: isUser,
           isFirst: index == 0,
           isPreviousSameRole: isPreviousSameRole,
+          onBookmark: isUser
+              ? null
+              : () => _saveMessage(context, state.messages, index),
         );
       },
     );
@@ -203,12 +208,32 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  void _saveMessage(BuildContext context, List<ChatMessage> messages, int index) {
+    String? precedingThoughts;
+    for (var i = index - 1; i >= 0; i--) {
+      if (messages[i].role == 'user') {
+        precedingThoughts = messages[i].content;
+        break;
+      }
+    }
+
+    context.read<SavedQuotesCubit>().saveQuote(
+          messages[index].content,
+          emoji: widget.emoji,
+          thoughts: precedingThoughts,
+        );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Saved to quotes 🌿')),
+    );
+  }
+
   Widget _buildMessageBubble({
     required BuildContext context,
     required String content,
     required bool isUser,
     required bool isFirst,
     required bool isPreviousSameRole,
+    VoidCallback? onBookmark,
   }) {
     final cs = Theme.of(context).colorScheme;
     final extra = context.extra;
@@ -285,6 +310,18 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
+          if (onBookmark != null)
+            IconButton(
+              onPressed: onBookmark,
+              icon: Icon(
+                Icons.bookmark_border_rounded,
+                size: 18,
+                color: cs.primary.withValues(alpha: 0.6),
+              ),
+              padding: const EdgeInsets.only(left: 4),
+              constraints: const BoxConstraints(),
+              visualDensity: VisualDensity.compact,
+            ),
         ],
       ),
     );
