@@ -2,9 +2,7 @@ name: Android — Firebase App Distribution
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
 
 jobs:
   build-and-distribute:
@@ -24,21 +22,15 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.44.0"
+          flutter-version: 3.44.0
           channel: stable
           cache: true
 
       - name: Decode google-services.json
-        run: |
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" \
-            | base64 --decode \
-            > android/app/google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode > android/app/google-services.json
 
-      - name: Decode Android keystore
-        run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" \
-            | base64 --decode \
-            > android/lueur-release.jks
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/lueur-release.jks
 
       - name: Create key.properties
         run: |
@@ -47,45 +39,23 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=../lueur-release.jks" >> android/key.properties
 
-      - name: Verify generated Android files
-        run: |
-          test -s android/app/google-services.json
-          test -s android/lueur-release.jks
-          test -s android/key.properties
-          echo "Required Android files were created successfully."
-
       - name: Install dependencies
         run: flutter pub get
 
       - name: Analyze
         run: flutter analyze --no-fatal-infos
 
-      - name: Inspect Android Gradle configuration
-        run: |
-          echo "Current commit: $GITHUB_SHA"
-          echo "Current branch: $GITHUB_REF_NAME"
-          echo "===== Git status ====="
-          git status --short
-          echo "===== android/app/build.gradle.kts ====="
-          sed -n '1,90p' android/app/build.gradle.kts
-          echo "===== Keystore location ====="
-          ls -lh android/lueur-release.jks
-          echo "===== Configured storeFile ====="
-          grep "^storeFile=" android/key.properties
-
       - name: Build APK (release)
         run: flutter build apk --release
 
-      - name: Verify APK
-        run: |
-          test -s build/app/outputs/flutter-apk/app-release.apk
-          ls -lh build/app/outputs/flutter-apk/app-release.apk
+      - name: Create service account file
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > /tmp/service-account.json
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: "1:921194076041:android:6966d24fa919db01423358"
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          appId: 1:921194076041:android:6966d24fa919db01423358
+          serviceCredentialsFile: /tmp/service-account.json
           groups: testers
           file: build/app/outputs/flutter-apk/app-release.apk
           releaseNotes: |
