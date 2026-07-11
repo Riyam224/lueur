@@ -61,3 +61,5 @@ lib/core/constants/supabase_constants.dart
 .speckit/
 *.claude-sessionandroid/key.properties
 android/lueur-release.jks
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
