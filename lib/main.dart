@@ -14,6 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // local storage
   await Hive.initFlutter();
   await Hive.openBox<String>(MoodLocalDatasource.boxName);
   await Hive.openBox<String>(SavedQuotesLocalDatasource.boxName);
@@ -25,6 +26,6 @@ void main() async {
     GoogleFonts.dmSans(),
     GoogleFonts.dmSerifDisplay(),
   ]);
-// this is App.dart file the rest of the code 
+// this is App.dart file the rest of the code
   runApp(const Lueur());
 }
