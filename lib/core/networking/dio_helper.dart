@@ -1,6 +1,6 @@
-import 'package:ai_therapist_app/core/networking/api_endpoints.dart';
-import 'package:ai_therapist_app/core/networking/auth_token_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:lueur_app/core/networking/api_endpoints.dart';
+import 'package:lueur_app/core/networking/auth_token_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioHelper {

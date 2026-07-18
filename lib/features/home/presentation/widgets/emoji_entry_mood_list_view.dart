@@ -1,9 +1,9 @@
-import 'package:ai_therapist_app/core/constants/app_sizes.dart';
-import 'package:ai_therapist_app/core/constants/app_spacing.dart';
-import 'package:ai_therapist_app/core/models/mood_type.dart';
-import 'package:ai_therapist_app/core/widgets/emoji_entry_mood.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lueur_app/core/constants/app_sizes.dart';
+import 'package:lueur_app/core/constants/app_spacing.dart';
+import 'package:lueur_app/core/models/mood_type.dart';
+import 'package:lueur_app/core/widgets/emoji_entry_mood.dart';
 
 /// Horizontal gallery of mood illustrations. Tapping a mood pops it and
 /// floats its name above it.

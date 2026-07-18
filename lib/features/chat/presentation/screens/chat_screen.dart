@@ -1,14 +1,14 @@
 // lib/features/chat/presentation/screens/chat_screen.dart
 
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
-import 'package:ai_therapist_app/features/chat/domain/entities/chat_message.dart';
-import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_cubit.dart';
-import 'package:ai_therapist_app/features/chat/presentation/cubit/chat_state.dart';
-import 'package:ai_therapist_app/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur_app/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur_app/features/chat/presentation/cubit/chat_cubit.dart';
+import 'package:lueur_app/features/chat/presentation/cubit/chat_state.dart';
+import 'package:lueur_app/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 
 class ChatScreen extends StatefulWidget {
   final String emoji;

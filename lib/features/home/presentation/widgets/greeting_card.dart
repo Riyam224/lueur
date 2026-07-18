@@ -1,13 +1,13 @@
-import 'package:ai_therapist_app/core/constants/app_sizes.dart';
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/features/plant/domain/entities/plant_stage.dart';
-import 'package:ai_therapist_app/features/plant/presentation/cubit/plant_cubit.dart';
-import 'package:ai_therapist_app/features/plant/presentation/cubit/plant_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur_app/core/constants/app_sizes.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/features/plant/domain/entities/plant_stage.dart';
+import 'package:lueur_app/features/plant/presentation/cubit/plant_cubit.dart';
+import 'package:lueur_app/features/plant/presentation/cubit/plant_state.dart';
 
 /// Greeting card displaying Luna's contextual message with dynamic plant animation.
 class GreetingCard extends StatefulWidget {

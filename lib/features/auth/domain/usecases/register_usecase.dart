@@ -1,7 +1,7 @@
-import 'package:ai_therapist_app/core/errors/failures.dart';
-import 'package:ai_therapist_app/features/auth/domain/entities/user_entity.dart';
-import 'package:ai_therapist_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:lueur_app/core/errors/failures.dart';
+import 'package:lueur_app/features/auth/domain/entities/user_entity.dart';
+import 'package:lueur_app/features/auth/domain/repositories/auth_repository.dart';
 
 class RegisterUseCase {
   final AuthRepository repository;

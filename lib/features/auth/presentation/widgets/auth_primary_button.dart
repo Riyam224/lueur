@@ -1,8 +1,8 @@
-import 'package:ai_therapist_app/core/constants/app_sizes.dart';
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
-import 'package:ai_therapist_app/features/auth/presentation/constants/auth_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/core/constants/app_sizes.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/app_text_styles.dart';
+import 'package:lueur_app/features/auth/presentation/constants/auth_constants.dart';
 
 /// Full-width pill CTA button used for login/register submit actions.
 /// Shows a spinner instead of [label] while [isLoading] is true.

@@ -1,13 +1,13 @@
-import 'package:ai_therapist_app/core/errors/failures.dart';
-import 'package:ai_therapist_app/features/home/data/datasources/mood_local_datasource.dart';
-import 'package:ai_therapist_app/features/home/data/datasources/mood_remote_datasource.dart';
-import 'package:ai_therapist_app/features/home/data/models/mood_entry_model.dart';
-import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
-import 'package:ai_therapist_app/features/home/domain/repositories/mood_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur_app/core/errors/failures.dart';
+import 'package:lueur_app/features/home/data/datasources/mood_local_datasource.dart';
+import 'package:lueur_app/features/home/data/datasources/mood_remote_datasource.dart';
+import 'package:lueur_app/features/home/data/models/mood_entry_model.dart';
+import 'package:lueur_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur_app/features/home/domain/repositories/mood_repository.dart';
 
 class MoodRepositoryImpl implements MoodRepository {
   final MoodRemoteDatasource _remote;

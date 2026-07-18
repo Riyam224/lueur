@@ -1,5 +1,5 @@
-import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/core/styling/app_text_styles.dart';
 
 /// "`prompt` `action`" tappable line shown under the social sign-in button
 /// (e.g. "Don't have an account? Start growing").

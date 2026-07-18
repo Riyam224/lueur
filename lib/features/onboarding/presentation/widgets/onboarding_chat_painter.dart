@@ -1,5 +1,5 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
 
 /// Paints two stacked speech bubbles for onboarding screen 2.
 /// Natural canvas size: [naturalSize]. Wrap in a SizedBox at the call site.

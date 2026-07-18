@@ -1,16 +1,16 @@
-import 'package:ai_therapist_app/core/preferences/onboarding_prefs.dart';
-import 'package:ai_therapist_app/core/routing/app_routes.dart';
-import 'package:ai_therapist_app/core/styling/app_assets.dart';
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/utils/app_strings.dart';
-import 'package:ai_therapist_app/features/splash/presentation/constants/splash_constants.dart';
-import 'package:ai_therapist_app/features/splash/presentation/widgets/splash_blob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur_app/core/preferences/onboarding_prefs.dart';
+import 'package:lueur_app/core/routing/app_routes.dart';
+import 'package:lueur_app/core/styling/app_assets.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/app_text_styles.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/utils/app_strings.dart';
+import 'package:lueur_app/features/splash/presentation/constants/splash_constants.dart';
+import 'package:lueur_app/features/splash/presentation/widgets/splash_blob.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

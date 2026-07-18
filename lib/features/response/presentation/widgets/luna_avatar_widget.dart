@@ -1,7 +1,7 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
 
 /// Luna avatar with lavender border and growing plant animation
 class LunaAvatarWidget extends StatelessWidget {

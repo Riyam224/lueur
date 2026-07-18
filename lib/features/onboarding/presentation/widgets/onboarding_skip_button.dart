@@ -1,9 +1,9 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/utils/app_strings.dart';
-import 'package:ai_therapist_app/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/utils/app_strings.dart';
+import 'package:lueur_app/features/onboarding/presentation/constants/onboarding_constants.dart';
 
 /// Pill-shaped "Skip intro" button shown top-right on pages 1 and 2.
 class OnboardingSkipButton extends StatelessWidget {

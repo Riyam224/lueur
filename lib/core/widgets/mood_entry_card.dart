@@ -1,12 +1,12 @@
-import 'package:ai_therapist_app/core/constants/app_sizes.dart';
-import 'package:ai_therapist_app/core/constants/app_spacing.dart';
-import 'package:ai_therapist_app/core/models/mood_type.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:lueur_app/core/constants/app_sizes.dart';
+import 'package:lueur_app/core/constants/app_spacing.dart';
+import 'package:lueur_app/core/models/mood_type.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/styling/theme_text_styles.dart';
 
 class MoodEntryCard extends StatelessWidget {
   final String emoji;

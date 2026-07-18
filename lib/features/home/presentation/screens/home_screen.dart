@@ -1,25 +1,25 @@
-import 'package:ai_therapist_app/core/constants/app_spacing.dart';
-import 'package:ai_therapist_app/core/injection/injection.dart';
-import 'package:ai_therapist_app/core/models/mood_entry.dart';
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
-import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:ai_therapist_app/features/auth/presentation/cubit/auth_state.dart';
-import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
-import 'package:ai_therapist_app/features/home/presentation/cubit/mood_cubit.dart';
-import 'package:ai_therapist_app/features/home/presentation/cubit/mood_state.dart';
-import 'package:ai_therapist_app/features/home/presentation/cubit/weekly_letter_cubit.dart';
-import 'package:ai_therapist_app/features/home/presentation/widgets/greeting_card.dart';
-import 'package:ai_therapist_app/features/home/presentation/widgets/home_header.dart';
-import 'package:ai_therapist_app/features/home/presentation/widgets/mood_input_section.dart';
-import 'package:ai_therapist_app/features/home/presentation/widgets/recent_entries_header.dart';
-import 'package:ai_therapist_app/features/home/presentation/widgets/recent_entries_list.dart';
-import 'package:ai_therapist_app/features/home/presentation/widgets/weekly_letter_banner.dart';
-import 'package:ai_therapist_app/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur_app/core/constants/app_spacing.dart';
+import 'package:lueur_app/core/injection/injection.dart';
+import 'package:lueur_app/core/models/mood_entry.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur_app/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:lueur_app/features/home/presentation/cubit/mood_state.dart';
+import 'package:lueur_app/features/home/presentation/cubit/weekly_letter_cubit.dart';
+import 'package:lueur_app/features/home/presentation/widgets/greeting_card.dart';
+import 'package:lueur_app/features/home/presentation/widgets/home_header.dart';
+import 'package:lueur_app/features/home/presentation/widgets/mood_input_section.dart';
+import 'package:lueur_app/features/home/presentation/widgets/recent_entries_header.dart';
+import 'package:lueur_app/features/home/presentation/widgets/recent_entries_list.dart';
+import 'package:lueur_app/features/home/presentation/widgets/weekly_letter_banner.dart';
+import 'package:lueur_app/features/plant/presentation/cubit/plant_cubit.dart';
 
 /// Home screen — main entry point of the app
 class HomeScreen extends StatelessWidget {

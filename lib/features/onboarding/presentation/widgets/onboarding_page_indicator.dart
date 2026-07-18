@@ -1,6 +1,6 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/features/onboarding/presentation/constants/onboarding_constants.dart';
 
 /// Animated pill-dot row showing the current onboarding page.
 class OnboardingPageIndicator extends StatelessWidget {

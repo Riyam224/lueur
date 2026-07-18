@@ -1,8 +1,8 @@
-import 'package:ai_therapist_app/core/constants/app_spacing.dart';
-import 'package:ai_therapist_app/core/styling/app_text_styles.dart';
-import 'package:ai_therapist_app/core/utils/app_strings.dart';
-import 'package:ai_therapist_app/features/auth/presentation/constants/auth_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/core/constants/app_spacing.dart';
+import 'package:lueur_app/core/styling/app_text_styles.dart';
+import 'package:lueur_app/core/utils/app_strings.dart';
+import 'package:lueur_app/features/auth/presentation/constants/auth_constants.dart';
 
 /// "── or ──" divider between the primary CTA and social sign-in.
 class AuthOrDivider extends StatelessWidget {

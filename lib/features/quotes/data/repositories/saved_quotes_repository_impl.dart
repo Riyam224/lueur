@@ -1,11 +1,11 @@
-import 'package:ai_therapist_app/core/errors/failures.dart';
-import 'package:ai_therapist_app/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
-import 'package:ai_therapist_app/features/quotes/data/models/saved_quote_model.dart';
-import 'package:ai_therapist_app/features/quotes/domain/entities/saved_quote_entity.dart';
-import 'package:ai_therapist_app/features/quotes/domain/repositories/saved_quotes_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur_app/core/errors/failures.dart';
+import 'package:lueur_app/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
+import 'package:lueur_app/features/quotes/data/models/saved_quote_model.dart';
+import 'package:lueur_app/features/quotes/domain/entities/saved_quote_entity.dart';
+import 'package:lueur_app/features/quotes/domain/repositories/saved_quotes_repository.dart';
 
 class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
   final SavedQuotesLocalDatasource _local;

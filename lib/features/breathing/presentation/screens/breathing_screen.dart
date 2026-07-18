@@ -1,18 +1,18 @@
 // lib/features/breathing/presentation/screens/breathing_screen.dart
 
-import 'package:ai_therapist_app/core/constants/app_sizes.dart';
-import 'package:ai_therapist_app/core/constants/app_spacing.dart';
-import 'package:ai_therapist_app/core/routing/app_routes.dart';
-import 'package:ai_therapist_app/core/styling/app_assets.dart';
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
-import 'package:ai_therapist_app/features/breathing/presentation/widgets/breathing_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-// 
+import 'package:lueur_app/core/constants/app_sizes.dart';
+import 'package:lueur_app/core/constants/app_spacing.dart';
+import 'package:lueur_app/core/routing/app_routes.dart';
+import 'package:lueur_app/core/styling/app_assets.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur_app/features/breathing/presentation/widgets/breathing_circle.dart';
+//
 
 class BreathingScreen extends StatefulWidget {
   final String emoji;

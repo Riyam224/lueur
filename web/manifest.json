@@ -1,6 +1,6 @@
 {
-    "name": "ai_therapist_app",
-    "short_name": "ai_therapist_app",
+    "name": "lueur_app",
+    "short_name": "lueur_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

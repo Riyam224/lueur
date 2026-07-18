@@ -1,8 +1,8 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
-import 'package:ai_therapist_app/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur_app/features/home/domain/entities/mood_entry_entity.dart';
 
 /// Collapsible bar chart showing how many journal entries per day this week.
 class JournalMoodGraphWidget extends StatefulWidget {
@@ -142,13 +142,13 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                     borderData: FlBorderData(show: false),
                     titlesData: FlTitlesData(
                       leftTitles: const AxisTitles(
-                        
+
                       ),
                       rightTitles: const AxisTitles(
-                        
+
                       ),
                       topTitles: const AxisTitles(
-                        
+
                       ),
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(

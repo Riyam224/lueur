@@ -37,7 +37,8 @@
       "Bash(set -e)",
       "Bash(git -C /Users/r/StudioProjects/ai_therapist_app checkout -- android/app/src/main/AndroidManifest.xml ios/Runner/AppDelegate.swift macos/Flutter/GeneratedPluginRegistrant.swift pubspec.lock .specify/feature.json)",
       "Bash(java -version)",
-      "Bash(./gradlew :app:help --stacktrace)"
+      "Bash(./gradlew :app:help --stacktrace)",
+      "Bash(magick luna_raw.png -crop 350x350+1696+1696 +repage artifact_region.png)"
     ]
   }
 }

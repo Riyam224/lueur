@@ -1,6 +1,6 @@
 // lib/features/chat/presentation/cubit/chat_state.dart
 
-import 'package:ai_therapist_app/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur_app/features/chat/domain/entities/chat_message.dart';
 
 enum ChatStatus { initial, loading, success, error, sessionEnded }
 

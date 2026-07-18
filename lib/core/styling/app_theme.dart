@@ -1,7 +1,7 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/app_extra_colors.dart';
-import 'package:ai_therapist_app/core/styling/app_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/app_extra_colors.dart';
+import 'package:lueur_app/core/styling/app_fonts.dart';
 
 class AppTheme {
   static ThemeData light = ThemeData(

@@ -1,7 +1,7 @@
-import 'package:ai_therapist_app/core/networking/api_endpoints.dart';
-import 'package:ai_therapist_app/features/home/data/models/mood_entry_model.dart';
-import 'package:ai_therapist_app/features/home/data/models/weekly_letter_model.dart';
 import 'package:dio/dio.dart';
+import 'package:lueur_app/core/networking/api_endpoints.dart';
+import 'package:lueur_app/features/home/data/models/mood_entry_model.dart';
+import 'package:lueur_app/features/home/data/models/weekly_letter_model.dart';
 
 class MoodRemoteDatasource {
   final Dio _dio;

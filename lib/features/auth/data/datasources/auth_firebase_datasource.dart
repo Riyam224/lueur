@@ -1,6 +1,6 @@
-import 'package:ai_therapist_app/features/auth/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lueur_app/features/auth/data/models/user_model.dart';
 
 typedef FirebaseAuthResult = ({UserModel user, String idToken});
 

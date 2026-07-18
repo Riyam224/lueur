@@ -1,8 +1,8 @@
-import 'package:ai_therapist_app/core/styling/app_fonts.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur_app/core/styling/app_fonts.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/styling/theme_text_styles.dart';
 
 /// Row of 3 stat cards: total entries, this week, day streak
 class ProfileStatsWidget extends StatelessWidget {

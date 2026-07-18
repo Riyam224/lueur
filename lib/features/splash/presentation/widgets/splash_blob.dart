@@ -1,5 +1,5 @@
-import 'package:ai_therapist_app/features/splash/presentation/constants/splash_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:lueur_app/features/splash/presentation/constants/splash_constants.dart';
 
 /// A soft, translucent circle used to decorate the splash screen background.
 class SplashBlob extends StatelessWidget {

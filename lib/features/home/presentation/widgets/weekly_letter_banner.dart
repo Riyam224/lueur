@@ -1,11 +1,11 @@
-import 'package:ai_therapist_app/core/styling/app_colors.dart';
-import 'package:ai_therapist_app/core/styling/theme_extensions.dart';
-import 'package:ai_therapist_app/core/styling/theme_text_styles.dart';
-import 'package:ai_therapist_app/features/home/data/models/weekly_letter_model.dart';
-import 'package:ai_therapist_app/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur_app/core/styling/app_colors.dart';
+import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur_app/features/home/data/models/weekly_letter_model.dart';
+import 'package:lueur_app/features/home/presentation/cubit/weekly_letter_cubit.dart';
 
 /// Floating dismissible weekly-letter card shown at the top of the home screen.
 /// The user swipes it away (or taps ×) to hide it for this session.
