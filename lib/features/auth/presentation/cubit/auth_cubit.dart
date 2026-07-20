@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/features/auth/domain/usecases/check_session_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/register_usecase.dart';
@@ -12,6 +13,7 @@ class AuthCubit extends Cubit<AuthState> {
   final RegisterUseCase _registerUseCase;
   final LogoutUseCase _logoutUseCase;
   final SignInWithGoogleUseCase _signInWithGoogleUseCase;
+  final CheckSessionUseCase _checkSessionUseCase;
   /// Called before the logout use case runs — clears cross-feature state
   /// without coupling auth to any specific feature.
   final VoidCallback _onLogout;
@@ -21,13 +23,30 @@ class AuthCubit extends Cubit<AuthState> {
     required RegisterUseCase registerUseCase,
     required LogoutUseCase logoutUseCase,
     required SignInWithGoogleUseCase signInWithGoogleUseCase,
+    required CheckSessionUseCase checkSessionUseCase,
     required VoidCallback onLogout,
   })  : _loginUseCase = loginUseCase,
         _registerUseCase = registerUseCase,
         _logoutUseCase = logoutUseCase,
         _signInWithGoogleUseCase = signInWithGoogleUseCase,
+        _checkSessionUseCase = checkSessionUseCase,
         _onLogout = onLogout,
         super(const AuthInitial());
+
+  /// Restores a persisted session on app start (called from splash). Forces
+  /// a Firebase ID token refresh so an expired-but-cached session doesn't
+  /// silently break the first authenticated API call once on Home.
+  Future<void> checkSession() async {
+    emit(const AuthLoading());
+    final result = await _checkSessionUseCase();
+    if (isClosed) return;
+    result.fold(
+      (_) => emit(const AuthUnauthenticated()),
+      (user) => user != null
+          ? emit(AuthAuthenticated(user))
+          : emit(const AuthUnauthenticated()),
+    );
+  }
 
   Future<void> login({required String email, required String password}) async {
     emit(const AuthLoading());

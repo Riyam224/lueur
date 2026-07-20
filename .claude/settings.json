@@ -2,7 +2,6 @@
   "hooks": {
     "PostToolUse": [
       {
-        "description": "Build runner reminder: warns when a code-generated file (datasource, response, request) is modified, reminding to run build_runner",
         "matcher": "Write|Edit",
         "hooks": [
           {
@@ -14,7 +13,6 @@
     ],
     "PreToolUse": [
       {
-        "description": "Test-writer enforcement: routes any *_test.dart Write through a permission prompt so tests are created via the @test-writer agent, not hand-written (CLAUDE.md A.9)",
         "matcher": "Write",
         "hooks": [
           {
@@ -23,6 +21,11 @@
           }
         ]
       }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(dart run *)"
     ]
   }
 }

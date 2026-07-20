@@ -8,6 +8,7 @@ import 'package:lueur/features/auth/data/datasources/auth_django_datasource.dart
 import 'package:lueur/features/auth/data/datasources/auth_firebase_datasource.dart';
 import 'package:lueur/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
+import 'package:lueur/features/auth/domain/usecases/check_session_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/register_usecase.dart';
@@ -65,6 +66,7 @@ void setupInjection() {
   sl.registerLazySingleton(() => RegisterUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
   sl.registerLazySingleton(() => SignInWithGoogleUseCase(sl()));
+  sl.registerLazySingleton(() => CheckSessionUseCase(sl()));
 
   // ── Auth Cubit — singleton shared across all routes ────────────────────────
   sl.registerLazySingleton(
@@ -73,6 +75,7 @@ void setupInjection() {
       registerUseCase: sl(),
       logoutUseCase: sl(),
       signInWithGoogleUseCase: sl(),
+      checkSessionUseCase: sl(),
       onLogout: sl<MoodCubit>().clearEntries,
     ),
   );

@@ -64,7 +64,10 @@ class RouterGenerationConfig {
         path: AppRoutes.splash,
         pageBuilder: (context, state) => _buildTransitionPage(
           state: state,
-          child: const SplashScreen(),
+          child: BlocProvider.value(
+            value: sl<AuthCubit>(),
+            child: const SplashScreen(),
+          ),
         ),
       ),
 

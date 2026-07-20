@@ -14,6 +14,19 @@ class AuthFirebaseDataSource {
   })  : _firebaseAuth = firebaseAuth,
         _googleSignIn = googleSignIn;
 
+  User? get currentUser => _firebaseAuth.currentUser;
+
+  /// Forces a refresh of the ID token so a session restored from local
+  /// storage is checked against Firebase rather than trusting a cached,
+  /// possibly-expired token.
+  Future<String> refreshIdToken() async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) throw StateError('No signed-in user');
+    final token = await user.getIdToken(true);
+    if (token == null) throw StateError('Failed to refresh ID token');
+    return token;
+  }
+
   Future<FirebaseAuthResult> login({
     required String email,
     required String password,

@@ -80,7 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
       _logger.e(
         'Google sign-in backend verify error: ${e.response?.statusCode} ${e.response?.data ?? e.message}',
       );
-      return Left(
+      return const Left(
         ServerFailure(
           'Signed in with Google, but syncing your account failed. Please try again.',
         ),
@@ -88,6 +88,26 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e, st) {
       _logger.e('Google sign-in unexpected error', error: e, stackTrace: st);
       return const Left(ServerFailure('Google sign-in failed. Please try again.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity?>> checkSession() async {
+    final user = _firebaseDataSource.currentUser;
+    if (user == null) return const Right(null);
+
+    try {
+      final idToken = await _firebaseDataSource.refreshIdToken();
+      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      return Right(djangoUser);
+    } catch (e, st) {
+      _logger.e(
+        'Session restore failed, signing out',
+        error: e,
+        stackTrace: st,
+      );
+      await _firebaseDataSource.logout();
+      return const Right(null);
     }
   }
 

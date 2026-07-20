@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
@@ -9,6 +10,8 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/splash/presentation/constants/splash_constants.dart';
 import 'package:lueur/features/splash/presentation/widgets/splash_blob.dart';
 
@@ -37,7 +40,18 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
 
-    context.go(AppRoutes.loginScreen);
+    // Force-refreshes the Firebase ID token so a locally persisted session
+    // that has expired or been revoked server-side is caught here, before
+    // Home makes its first authenticated API call.
+    final authCubit = context.read<AuthCubit>();
+    await authCubit.checkSession();
+    if (!mounted) return;
+
+    context.go(
+      authCubit.state is AuthAuthenticated
+          ? AppRoutes.home
+          : AppRoutes.loginScreen,
+    );
   }
 
   @override
