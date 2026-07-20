@@ -16,9 +16,16 @@ class AuthTokenInterceptor extends Interceptor {
   ) async {
     final user = _firebaseAuth.currentUser;
     if (user != null) {
-      final token = await user.getIdToken();
-      if (token != null) {
-        options.headers['Authorization'] = 'Bearer $token';
+      try {
+        final token = await user.getIdToken(true); // force refresh
+        if (token != null) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+      } catch (e) {
+        // Token refresh failed — let the request continue without auth
+        // rather than silently killing it. Backend will correctly return
+        // 401, which your app can handle explicitly instead of this
+        // failing invisibly before it's even sent.
       }
     }
     handler.next(options);

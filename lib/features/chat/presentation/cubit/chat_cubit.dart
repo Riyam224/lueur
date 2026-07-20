@@ -1,5 +1,6 @@
 // lib/features/chat/presentation/cubit/chat_cubit.dart
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
@@ -58,6 +59,7 @@ class ChatCubit extends Cubit<ChatState> {
         sessionEnded: sessionEnded,
       ),);
     } catch (e) {
+      debugPrint('ChatCubit.sendMessage failed: $e');
       emit(state.copyWith(
         status: ChatStatus.error,
         error: 'Luna is taking a little break 🌿',

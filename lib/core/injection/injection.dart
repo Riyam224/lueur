@@ -14,6 +14,11 @@ import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/register_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/breathing/data/datasources/breathing_local_datasource.dart';
+import 'package:lueur/features/breathing/data/repositories/breathing_repository_impl.dart';
+import 'package:lueur/features/breathing/domain/repositories/breathing_repository.dart';
+import 'package:lueur/features/breathing/domain/usecases/get_breathing_config_usecase.dart';
+import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart';
 import 'package:lueur/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:lueur/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
@@ -133,5 +138,15 @@ void setupInjection() {
   );
   sl.registerLazySingleton<ChatRepository>(
     () => ChatRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // ── Breathing ────────────────────────────────────────────────────────────
+  sl.registerLazySingleton(BreathingLocalDatasource.new);
+  sl.registerLazySingleton<BreathingRepository>(
+    () => BreathingRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => GetBreathingConfigUseCase(sl()));
+  sl.registerFactory<BreathingCubit>(
+    () => BreathingCubit(sl()),
   );
 }

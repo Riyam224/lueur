@@ -206,6 +206,9 @@ class RouterGenerationConfig {
           final emoji = extra?['emoji'] as String? ?? '😊';
           final thoughts = extra?['thoughts'] as String? ?? '';
           final aiResponse = extra?['aiResponse'] as String? ?? '';
+          // Thoughts with no reply yet (e.g. from the post-exercise check-in)
+          // are sent to Luna automatically instead of preloaded as history.
+          final needsAutoSend = thoughts.isNotEmpty && aiResponse.isEmpty;
           return _buildTransitionPage(
             state: state,
             child: MultiBlocProvider(
@@ -214,17 +217,22 @@ class RouterGenerationConfig {
                   create: (_) => ChatCubit(
                     repository: sl<ChatRepository>(),
                     userId: userId,
-                    initialMessages: [
-                      if (thoughts.isNotEmpty)
-                        ChatMessage(role: 'user', content: thoughts),
-                      if (aiResponse.isNotEmpty)
-                        ChatMessage(role: 'assistant', content: aiResponse),
-                    ],
+                    initialMessages: needsAutoSend
+                        ? const []
+                        : [
+                            if (thoughts.isNotEmpty)
+                              ChatMessage(role: 'user', content: thoughts),
+                            if (aiResponse.isNotEmpty)
+                              ChatMessage(role: 'assistant', content: aiResponse),
+                          ],
                   ),
                 ),
                 BlocProvider(create: (_) => sl<SavedQuotesCubit>()),
               ],
-              child: ChatScreen(emoji: emoji),
+              child: ChatScreen(
+                emoji: emoji,
+                autoSendThoughts: needsAutoSend ? thoughts : null,
+              ),
             ),
           );
         },
@@ -234,10 +242,12 @@ class RouterGenerationConfig {
         name: AppRoutes.breathing,
         path: AppRoutes.breathing,
         pageBuilder: (context, state) {
-          final emoji = state.extra as String? ?? '😔';
+          final extra = state.extra as Map<String, dynamic>?;
+          final emoji = extra?['emoji'] as String? ?? '😔';
+          final thoughts = extra?['thoughts'] as String? ?? '';
           return _buildTransitionPage(
             state: state,
-            child: BreathingScreen(emoji: emoji),
+            child: BreathingScreen(emoji: emoji, thoughts: thoughts),
           );
         },
       ),
@@ -245,10 +255,12 @@ class RouterGenerationConfig {
         name: AppRoutes.affirmation,
         path: AppRoutes.affirmation,
         pageBuilder: (context, state) {
-          final emoji = state.extra as String? ?? '😔';
+          final extra = state.extra as Map<String, dynamic>?;
+          final emoji = extra?['emoji'] as String? ?? '😔';
+          final thoughts = extra?['thoughts'] as String? ?? '';
           return _buildTransitionPage(
             state: state,
-            child: AffirmationScreen(emoji: emoji),
+            child: AffirmationScreen(emoji: emoji, thoughts: thoughts),
           );
         },
       ),

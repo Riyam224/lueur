@@ -97,6 +97,11 @@ class AppColors {
   static const Color onboardingBlobMint = Color(0xFFC8EDD8);
   static const Color onboardingBlobPeach = bannerGradientLightEnd; // 0xFFFFE4D0
 
+  // ── Breathing screen gradient (soft, calm — not saturated) ───────────────
+  static const Color breathingGradientLavender = Color(0xFFC8B4F8);
+  static const Color breathingGradientCream = Color(0xFFFFF8F5);
+  static const Color breathingGradientPeach = Color(0xFFFFD4B8);
+
   // ── Onboarding UI colors ──────────────────────────────────────────────────
   static const Color onboardingAccent      = Color(0xFF8C7FD6); // CTA, active dot, skip text
   static const Color onboardingDotInactive = Color(0xFFD8D3E8); // inactive indicator dot

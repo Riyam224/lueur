@@ -1,19 +1,27 @@
 // lib/features/affirmation/presentation/screens/affirmation_screen.dart
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/luna_check_in_prompt.dart';
 import 'package:lueur/features/affirmation/data/affirmations_data.dart';
 
 class AffirmationScreen extends StatefulWidget {
   final String emoji;
+  final String thoughts;
 
-  const AffirmationScreen({super.key, required this.emoji});
+  const AffirmationScreen({
+    super.key,
+    required this.emoji,
+    this.thoughts = '',
+  });
 
   @override
   State<AffirmationScreen> createState() => _AffirmationScreenState();
@@ -30,6 +38,18 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
   void _nextCard() {
     HapticFeedback.lightImpact();
     _index.value = (_index.value + 1) % _cards.length;
+  }
+
+  void _goToTalkToLuna(BuildContext context) {
+    context.push(
+      AppRoutes.chat,
+      extra: {
+        'userId': sl<FirebaseAuth>().currentUser?.uid ?? '',
+        'emoji': widget.emoji,
+        'thoughts': widget.thoughts,
+        'aiResponse': '',
+      },
+    );
   }
 
   @override
@@ -153,26 +173,10 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: AppSpacing.spaceMd),
-              SizedBox(
-                width: double.infinity,
-                height: AppSpacing.space3Xl + AppSpacing.space2Xl,
-                child: ElevatedButton(
-                  onPressed: () => context.go(AppRoutes.home),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: context.extra.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    'Start journaling now 🌸',
-                    style: ThemeTextStyles.whiteButton(context).copyWith(
-                      color: context.extra.onPrimaryTextColor,
-                    ),
-                  ),
-                ),
+              SizedBox(height: AppSpacing.spaceXl),
+              LunaCheckInPrompt(
+                onTalkToLuna: () => _goToTalkToLuna(context),
+                onDismiss: () => context.go(AppRoutes.home),
               ),
               SizedBox(height: AppSpacing.space3Xl),
             ],

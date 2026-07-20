@@ -99,7 +99,10 @@ class _MoodInputSectionState extends State<MoodInputSection> {
         emoji: emojiUnicode,
         thoughts: thoughts,
       );
-      context.go(AppRoutes.breathing, extra: emojiUnicode);
+      context.go(
+        AppRoutes.breathing,
+        extra: {'emoji': emojiUnicode, 'thoughts': thoughts},
+      );
     } else {
       context.push(
         AppRoutes.response,

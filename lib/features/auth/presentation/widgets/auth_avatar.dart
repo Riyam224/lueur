@@ -10,7 +10,7 @@ class AuthAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Image.asset(
-        AppAssets.lunaImage,
+        AppAssets.lunaCharacter,
         width: AuthConstants.avatarSize,
         height: AuthConstants.avatarSize,
         fit: BoxFit.contain,

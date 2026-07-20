@@ -13,9 +13,16 @@ import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart
 class ChatScreen extends StatefulWidget {
   final String emoji;
 
+  /// Thoughts carried over from a completed exercise (breathing /
+  /// affirmations) that haven't been sent to Luna yet. When present, they're
+  /// sent automatically on open so Luna's first reply already reflects what
+  /// the user shared — no need to repeat themselves.
+  final String? autoSendThoughts;
+
   const ChatScreen({
     super.key,
     required this.emoji,
+    this.autoSendThoughts,
   });
 
   @override
@@ -25,6 +32,22 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    final autoThoughts = widget.autoSendThoughts;
+    if (autoThoughts != null && autoThoughts.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          context.read<ChatCubit>().sendMessage(
+                emoji: widget.emoji,
+                thoughts: autoThoughts,
+              );
+        }
+      });
+    }
+  }
 
   @override
   void dispose() {
