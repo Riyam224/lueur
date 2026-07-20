@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/auth/data/datasources/auth_django_datasource.dart';
 import 'package:lueur/features/auth/data/datasources/auth_firebase_datasource.dart';
@@ -9,8 +11,9 @@ import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final AuthFirebaseDataSource _firebaseDataSource;
   final AuthDjangoDatasource _djangoDataSource;
+  final Logger _logger = Logger();
 
-  const AuthRepositoryImpl(this._firebaseDataSource, this._djangoDataSource);
+  AuthRepositoryImpl(this._firebaseDataSource, this._djangoDataSource);
 
   @override
   Future<Either<Failure, UserEntity>> login({
@@ -71,8 +74,19 @@ class AuthRepositoryImpl implements AuthRepository {
     } on GoogleSignInCancelledException {
       return const Left(CancellationFailure());
     } on FirebaseAuthException catch (e) {
+      _logger.e('Google sign-in Firebase error: ${e.code} ${e.message}');
       return Left(ServerFailure(_mapFirebaseError(e)));
-    } catch (_) {
+    } on DioException catch (e) {
+      _logger.e(
+        'Google sign-in backend verify error: ${e.response?.statusCode} ${e.response?.data ?? e.message}',
+      );
+      return Left(
+        ServerFailure(
+          'Signed in with Google, but syncing your account failed. Please try again.',
+        ),
+      );
+    } catch (e, st) {
+      _logger.e('Google sign-in unexpected error', error: e, stackTrace: st);
       return const Left(ServerFailure('Google sign-in failed. Please try again.'));
     }
   }

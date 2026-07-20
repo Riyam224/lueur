@@ -38,7 +38,28 @@
       "Bash(git -C /Users/r/StudioProjects/ai_therapist_app checkout -- android/app/src/main/AndroidManifest.xml ios/Runner/AppDelegate.swift macos/Flutter/GeneratedPluginRegistrant.swift pubspec.lock .specify/feature.json)",
       "Bash(java -version)",
       "Bash(./gradlew :app:help --stacktrace)",
-      "Bash(magick luna_raw.png -crop 350x350+1696+1696 +repage artifact_region.png)"
+      "Bash(magick luna_raw.png -crop 350x350+1696+1696 +repage artifact_region.png)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://web-production-f8628.up.railway.app/api/therapist/generate/ -H \"Content-Type: application/json\" -d '{\"user_id\":\"test\",\"emoji\":\"😀\",\"thoughts\":\"test\"}')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://web-production-f8628.up.railway.app/api/therapist/history/?user_id=test\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://web-production-f8628.up.railway.app/api/therapist/weekly-letter/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://web-production-f8628.up.railway.app/api/auth/verify/ -H \"Content-Type: application/json\" -d '{\"firebase_token\":\"fake\"}')",
+      "Bash(curl -s -i -X POST https://web-production-f8628.up.railway.app/api/therapist/generate/ -H \"Content-Type: application/json\" -d '{\"user_id\":\"test\",\"emoji\":\"😀\",\"thoughts\":\"test\"}')",
+      "Bash(curl -s -i https://web-production-f8628.up.railway.app/)",
+      "Bash(curl -s -i https://web-production-f8628.up.railway.app/api/)",
+      "Bash(curl -s -i https://web-production-f8628.up.railway.app/api/therapist/generate)",
+      "Bash(curl -s https://web-production-f8628.up.railway.app/)",
+      "Bash(curl -s -o /dev/null -w \"schema: %{http_code}\\\\n\" https://web-production-f8628.up.railway.app/api/schema/)",
+      "Bash(curl -s -o /dev/null -w \"schema.json: %{http_code}\\\\n\" https://web-production-f8628.up.railway.app/api/schema.json)",
+      "Bash(curl -s -o /dev/null -w \"openapi.json: %{http_code}\\\\n\" https://web-production-f8628.up.railway.app/api/openapi.json)",
+      "Bash(curl -s https://web-production-f8628.up.railway.app/api/schema/ -o /private/tmp/claude-501/-Users-r-StudioProjects-lueur/2bee4df7-6236-40d1-a2fb-27d4ac2f98db/scratchpad/schema.yaml)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://web-production-f8628.up.railway.app/api/companion/generate/ -H \"Content-Type: application/json\" -d '{\"emoji\":\"😀\",\"thoughts\":\"test\"}')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://web-production-f8628.up.railway.app/api/companion/history/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://web-production-f8628.up.railway.app/api/companion/weekly-letter/)",
+      "Bash(flutter run *)",
+      "Bash(tee /private/tmp/claude-501/-Users-r-StudioProjects-lueur/2bee4df7-6236-40d1-a2fb-27d4ac2f98db/scratchpad/flutter_run.log)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 /private/tmp/claude-501/-Users-r-StudioProjects-lueur/2bee4df7-6236-40d1-a2fb-27d4ac2f98db/scratchpad/make_splash.py)",
+      "Bash(dart run *)"
     ]
   }
 }

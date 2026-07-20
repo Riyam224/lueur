@@ -4,8 +4,8 @@ class ApiEndpoints {
   // ── Auth ─────────────────────────────────────────────────────────────────
   static const String authVerify = '/api/auth/verify/';
 
-  // ── Therapist ─────────────────────────────────────────────────────────────
-  static const String generate = '/api/therapist/generate/';
-  static const String history = '/api/therapist/history/';
-  static const String weeklyLetter = '/api/therapist/weekly-letter/';
+  // ── Companion ────────────────────────────────────────────────────────────
+  static const String generate = '/api/companion/generate/';
+  static const String history = '/api/companion/history/';
+  static const String weeklyLetter = '/api/companion/weekly-letter/';
 }
