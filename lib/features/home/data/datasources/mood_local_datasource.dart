@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lueur_app/features/home/data/models/mood_entry_model.dart';
+import 'package:lueur/features/home/data/models/mood_entry_model.dart';
 
 class MoodLocalDatasource {
   static const String boxName = 'mood_cache';

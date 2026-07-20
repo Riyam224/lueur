@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as fb;
-import 'package:lueur_app/features/auth/domain/entities/user_entity.dart';
+import 'package:lueur/features/auth/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   const UserModel({required super.id, required super.email, super.name});

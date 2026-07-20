@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
 
 /// Decorative blob background matching the splash / onboarding visual palette.
 /// Wrap any screen body with this widget to apply the soft blob decoration.

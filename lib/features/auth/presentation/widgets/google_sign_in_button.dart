@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lueur_app/core/styling/app_text_styles.dart';
-import 'package:lueur_app/features/auth/presentation/constants/auth_constants.dart';
-import 'package:lueur_app/features/auth/presentation/widgets/google_icon.dart';
+import 'package:lueur/core/styling/app_text_styles.dart';
+import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
+import 'package:lueur/features/auth/presentation/widgets/google_icon.dart';
 
 /// Outlined "Continue/Sign up with Google" button.
 class GoogleSignInButton extends StatelessWidget {

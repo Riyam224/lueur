@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:lueur_app/features/quotes/domain/entities/saved_quote_entity.dart';
+import 'package:lueur/features/quotes/domain/entities/saved_quote_entity.dart';
 
 abstract class SavedQuotesState extends Equatable {
   const SavedQuotesState();

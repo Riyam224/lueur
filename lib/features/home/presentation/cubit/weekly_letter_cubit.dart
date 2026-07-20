@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur_app/features/home/data/datasources/mood_remote_datasource.dart';
-import 'package:lueur_app/features/home/data/models/weekly_letter_model.dart';
+import 'package:lueur/features/home/data/datasources/mood_remote_datasource.dart';
+import 'package:lueur/features/home/data/models/weekly_letter_model.dart';
 
 // ── States ─────────────────────────────────────────────────────────────────
 

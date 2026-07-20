@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:lueur_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 
 abstract class MoodState extends Equatable {
   const MoodState();

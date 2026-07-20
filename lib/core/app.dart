@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lueur_app/core/cubits/theme_cubit.dart';
-import 'package:lueur_app/core/injection/injection.dart';
-import 'package:lueur_app/core/routing/router_generation_config.dart';
-import 'package:lueur_app/core/styling/app_theme.dart';
+import 'package:lueur/core/cubits/theme_cubit.dart';
+import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/routing/router_generation_config.dart';
+import 'package:lueur/core/styling/app_theme.dart';
 
 class Lueur extends StatelessWidget {
   const Lueur({super.key});

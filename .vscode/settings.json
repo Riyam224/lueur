@@ -1,5 +1,6 @@
 {
     "cmake.ignoreCMakeListsMissing": true,
+    "python.terminal.activateEnvironment": false,
     "flutterTools.displayGetxContextMenu": false,
     "flutterTools.displayMobxContextMenu": false,
     "flutterTools.displayRiverpodContextMenu": false,

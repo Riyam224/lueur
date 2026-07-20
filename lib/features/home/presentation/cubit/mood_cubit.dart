@@ -2,9 +2,9 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:lueur_app/features/home/domain/entities/mood_entry_entity.dart';
-import 'package:lueur_app/features/home/domain/repositories/mood_repository.dart';
-import 'package:lueur_app/features/home/presentation/cubit/mood_state.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
+import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 
 class MoodCubit extends Cubit<MoodState> {
   final MoodRepository _repository;

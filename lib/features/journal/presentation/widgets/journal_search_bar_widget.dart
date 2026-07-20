@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 
 /// Search bar for filtering journal entries
 class JournalSearchBarWidget extends StatelessWidget {

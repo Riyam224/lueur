@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lueur_app/core/constants/app_sizes.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 
 /// Large tappable mood tiles. When [illustrationPaths] is provided each tile
 /// shows an SVG/PNG illustration; otherwise falls back to unicode emoji text.

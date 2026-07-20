@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur_app/core/constants/app_sizes.dart';
-import 'package:lueur_app/core/cubits/theme_cubit.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/cubits/theme_cubit.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 
 /// Header with user avatar, app title, and theme toggle button
 class HomeHeader extends StatelessWidget {

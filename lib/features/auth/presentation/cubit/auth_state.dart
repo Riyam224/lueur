@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:lueur_app/features/auth/domain/entities/user_entity.dart';
+import 'package:lueur/features/auth/domain/entities/user_entity.dart';
 
 sealed class AuthState extends Equatable {
   const AuthState();

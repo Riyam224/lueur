@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:lueur_app/core/networking/api_endpoints.dart';
-import 'package:lueur_app/features/auth/data/models/django_user_model.dart';
+import 'package:lueur/core/networking/api_endpoints.dart';
+import 'package:lueur/features/auth/data/models/django_user_model.dart';
 
 class AuthDjangoDatasource {
   final Dio _dio;

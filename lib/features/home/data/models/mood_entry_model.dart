@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lueur_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 
 part 'mood_entry_model.g.dart';
 

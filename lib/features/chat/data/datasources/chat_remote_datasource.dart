@@ -1,8 +1,8 @@
 // lib/features/chat/data/datasources/chat_remote_datasource.dart
 
 import 'package:dio/dio.dart';
-import 'package:lueur_app/features/chat/data/models/chat_message_model.dart';
-import 'package:lueur_app/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/data/models/chat_message_model.dart';
+import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 
 abstract class ChatRemoteDataSource {
   Future<String> sendMessage({

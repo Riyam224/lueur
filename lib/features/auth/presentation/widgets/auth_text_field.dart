@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lueur_app/core/constants/app_spacing.dart';
-import 'package:lueur_app/core/styling/app_colors.dart';
-import 'package:lueur_app/core/styling/app_text_styles.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
-import 'package:lueur_app/features/auth/presentation/constants/auth_constants.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/app_text_styles.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 
 /// Labeled text field with the shared auth-screen styling (rounded border,
 /// filled background, themed focus/error states).

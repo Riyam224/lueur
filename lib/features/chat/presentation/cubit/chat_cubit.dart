@@ -1,9 +1,9 @@
 // lib/features/chat/presentation/cubit/chat_cubit.dart
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur_app/features/chat/domain/entities/chat_message.dart';
-import 'package:lueur_app/features/chat/domain/repositories/chat_repository.dart';
-import 'package:lueur_app/features/chat/presentation/cubit/chat_state.dart';
+import 'package:lueur/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
+import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository repository;

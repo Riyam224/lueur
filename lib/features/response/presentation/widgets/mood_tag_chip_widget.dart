@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lueur_app/core/constants/app_spacing.dart';
-import 'package:lueur_app/core/styling/app_colors.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 
 /// Mood tag chip for displaying mood categories
 class MoodTagChipWidget extends StatelessWidget {

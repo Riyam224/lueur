@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lueur_app/features/onboarding/presentation/models/onboarding_page_data.dart';
-import 'package:lueur_app/features/onboarding/presentation/widgets/onboarding_chat_painter.dart';
-import 'package:lueur_app/features/onboarding/presentation/widgets/onboarding_luna_painter.dart';
-import 'package:lueur_app/features/onboarding/presentation/widgets/onboarding_plant_painter.dart';
+import 'package:lueur/features/onboarding/presentation/models/onboarding_page_data.dart';
+import 'package:lueur/features/onboarding/presentation/widgets/onboarding_chat_painter.dart';
+import 'package:lueur/features/onboarding/presentation/widgets/onboarding_luna_painter.dart';
+import 'package:lueur/features/onboarding/presentation/widgets/onboarding_plant_painter.dart';
 
 /// Renders the correct CustomPaint illustration for an onboarding page.
 /// No glow ring or icon wrapper — illustrations render directly on the wave.

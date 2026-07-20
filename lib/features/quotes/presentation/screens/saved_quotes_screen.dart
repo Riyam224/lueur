@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lueur_app/core/constants/app_spacing.dart';
-import 'package:lueur_app/core/routing/app_routes.dart';
-import 'package:lueur_app/core/styling/app_colors.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
-import 'package:lueur_app/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
-import 'package:lueur_app/features/quotes/presentation/cubit/saved_quotes_state.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/routing/app_routes.dart';
+import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
+import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
 
 class SavedQuotesScreen extends StatelessWidget {
   const SavedQuotesScreen({super.key});

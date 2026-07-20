@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lueur_app/core/constants/app_sizes.dart';
-import 'package:lueur_app/core/styling/app_assets.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/styling/app_assets.dart';
 
 /// Google "G" logo used on the social sign-in button.
 class GoogleIcon extends StatelessWidget {

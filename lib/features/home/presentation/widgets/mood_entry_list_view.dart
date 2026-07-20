@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lueur_app/core/constants/app_spacing.dart';
-import 'package:lueur_app/core/models/mood_entry.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
-import 'package:lueur_app/core/widgets/mood_entry_card.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/models/mood_entry.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/mood_entry_card.dart';
 
 class MoodEntryListView extends StatelessWidget {
   final List<MoodEntry> moodEntries;

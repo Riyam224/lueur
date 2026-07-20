@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
 
 /// Glass-skin bottom navigation bar
 class AppBottomNavBar extends StatelessWidget {

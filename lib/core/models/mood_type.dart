@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lueur_app/core/styling/app_assets.dart';
-import 'package:lueur_app/core/styling/app_colors.dart';
-import 'package:lueur_app/core/utils/app_strings.dart';
+import 'package:lueur/core/styling/app_assets.dart';
+import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// The set of mood illustrations available in assets/illustrations/.
 enum MoodType {

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lueur_app/core/networking/api_endpoints.dart';
+import 'package:lueur/core/networking/api_endpoints.dart';
 
 class StreakRepository {
   final Dio dio;

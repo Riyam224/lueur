@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lueur_app/core/constants/app_sizes.dart';
-import 'package:lueur_app/core/constants/app_spacing.dart';
-import 'package:lueur_app/core/styling/theme_extensions.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
-import 'package:lueur_app/core/widgets/spacing_widgets.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/spacing_widgets.dart';
 
 /// Header for recent mood entries with "See all" navigation
 class RecentEntriesHeader extends StatelessWidget {

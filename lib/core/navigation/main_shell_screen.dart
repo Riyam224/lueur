@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lueur_app/core/navigation/app_bottom_nav_bar.dart';
-import 'package:lueur_app/core/widgets/app_blob_background.dart';
+import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
+import 'package:lueur/core/widgets/app_blob_background.dart';
 
 /// Main Shell Screen
 ///

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur_app/core/errors/failures.dart';
-import 'package:lueur_app/features/auth/domain/usecases/login_usecase.dart';
-import 'package:lueur_app/features/auth/domain/usecases/logout_usecase.dart';
-import 'package:lueur_app/features/auth/domain/usecases/register_usecase.dart';
-import 'package:lueur_app/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
-import 'package:lueur_app/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
+import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:lueur/features/auth/domain/usecases/register_usecase.dart';
+import 'package:lueur/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final LoginUseCase _loginUseCase;

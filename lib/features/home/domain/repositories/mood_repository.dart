@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:lueur_app/core/errors/failures.dart';
-import 'package:lueur_app/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 
 abstract class MoodRepository {
   Future<Either<Failure, MoodEntryEntity>> generateResponse({

@@ -1,4 +1,4 @@
-import 'package:lueur_app/features/auth/domain/entities/user_entity.dart';
+import 'package:lueur/features/auth/domain/entities/user_entity.dart';
 
 class DjangoUserModel extends UserEntity {
   const DjangoUserModel({

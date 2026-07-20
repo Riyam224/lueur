@@ -1,6 +1,6 @@
 // lib/features/chat/domain/repositories/chat_repository.dart
 
-import 'package:lueur_app/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 
 abstract class ChatRepository {
   Future<String> sendMessage({

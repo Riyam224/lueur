@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lueur_app/core/constants/app_spacing.dart';
-import 'package:lueur_app/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 
 /// Luna information widget showing name and subtitle
 class LunaInfoWidget extends StatelessWidget {

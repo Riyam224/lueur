@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lueur_app/core/styling/app_colors.dart';
-import 'package:lueur_app/core/utils/app_strings.dart';
-import 'package:lueur_app/features/onboarding/presentation/models/onboarding_page_data.dart';
+import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/features/onboarding/presentation/models/onboarding_page_data.dart';
 
 /// Layout, timing and content constants for the onboarding flow.
 class OnboardingConstants {

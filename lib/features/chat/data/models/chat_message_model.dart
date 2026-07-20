@@ -1,6 +1,6 @@
 // lib/features/chat/data/models/chat_message_model.dart
 
-import 'package:lueur_app/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 
 class ChatMessageModel {
   final String role;

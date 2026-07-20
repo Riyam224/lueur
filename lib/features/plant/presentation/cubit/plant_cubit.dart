@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur_app/features/plant/data/repositories/streak_repository.dart';
-import 'package:lueur_app/features/plant/domain/entities/plant_stage.dart';
-import 'package:lueur_app/features/plant/presentation/cubit/plant_state.dart';
+import 'package:lueur/features/plant/data/repositories/streak_repository.dart';
+import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
+import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 
 class PlantCubit extends Cubit<PlantState> {
   final StreakRepository repo;
