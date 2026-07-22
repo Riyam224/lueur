@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "921194076041-ifsba2gbqml2dvdcg806ceok0p308330.apps.googleusercontent.com",
+          "client_id": "921194076041-rctu4t6t6vp54rhehos0boaft2ceann0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.ai_therapist_app",
-            "certificate_hash": "790d0b0ffc4ee115d4a88353089e395e7bffc6c6"
+            "certificate_hash": "f9b6f672f53fd353561786892d389fa140bd0aa8"
           }
         },
         {
