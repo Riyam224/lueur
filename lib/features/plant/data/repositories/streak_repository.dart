@@ -23,7 +23,7 @@ class StreakRepository {
       final dates = entries
           .map((e) {
             final dateStr = e['created_at'] as String;
-            final date = DateTime.parse(dateStr);
+            final date = DateTime.parse(dateStr).toLocal();
             return DateTime(date.year, date.month, date.day);
           })
           .toSet()
@@ -37,9 +37,12 @@ class StreakRepository {
         DateTime.now().day,
       );
 
-      for (final date in dates) {
+      for (var i = 0; i < dates.length; i++) {
+        final date = dates[i];
         final diff = expected.difference(date).inDays;
-        if (diff > 1) break;
+        // First entry may be today or yesterday (today's entry might not exist yet).
+        // Every subsequent entry must land exactly on the expected consecutive day.
+        if (i == 0 ? diff > 1 : diff != 0) break;
         streak++;
         expected = date.subtract(const Duration(days: 1));
       }

@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(dart run *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(flutter test *)",
+      "Bash(git -C /Users/r/StudioProjects/lueur status)",
+      "Bash(git commit -m ' *)",
+      "Bash(git diff *)",
+      "Read(//tmp/**)",
+      "Bash(/usr/bin/grep -c \"^+\" /tmp/hs.diff)",
+      "Bash(/usr/bin/grep -c \"^-\" /tmp/hs.diff)"
     ]
   },
   "hooks": {

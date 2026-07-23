@@ -1,5 +1,7 @@
 // lib/features/journal/presentation/screens/journal_grid_screen.dart
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +11,8 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
@@ -27,7 +31,18 @@ class JournalGridScreen extends StatelessWidget {
         BlocProvider(create: (_) => sl<JournalGridCubit>()..loadEntries()),
         BlocProvider(create: (_) => sl<PlantCubit>()..loadPlant()),
       ],
-      child: const _JournalGridView(),
+      child: BlocListener<MoodCubit, MoodState>(
+        listenWhen: (previous, current) =>
+            current is MoodHistorySuccess &&
+            current.justGenerated != null &&
+            (previous is! MoodHistorySuccess ||
+                previous.justGenerated != current.justGenerated),
+        listener: (context, state) {
+          unawaited(context.read<JournalGridCubit>().loadEntries());
+          unawaited(context.read<PlantCubit>().loadPlant());
+        },
+        child: const _JournalGridView(),
+      ),
     );
   }
 }

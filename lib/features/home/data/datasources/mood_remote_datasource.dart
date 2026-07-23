@@ -14,14 +14,37 @@ class MoodRemoteDatasource {
   }
 
   Future<List<MoodEntryModel>> getHistory({required String userId}) async {
-    final response = await _dio.get(
-      ApiEndpoints.history,
-      queryParameters: {'user_id': userId},
-    );
-    final list = response.data as List<dynamic>;
-    return list
-        .map((e) => MoodEntryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final entries = <MoodEntryModel>[];
+    String? nextUrl = ApiEndpoints.history;
+    Map<String, dynamic>? queryParameters = {'user_id': userId};
+
+    // The backend may return either a bare list or a DRF-paginated
+    // {results, next} envelope — follow every page so the journal shows
+    // every day, not just the first page (DRF's default page size).
+    while (nextUrl != null) {
+      final response = await _dio.get(
+        nextUrl,
+        queryParameters: queryParameters,
+      );
+      queryParameters = null;
+
+      final data = response.data;
+      final List<dynamic> list;
+      if (data is List) {
+        list = data;
+        nextUrl = null;
+      } else {
+        final map = data as Map<String, dynamic>;
+        list = (map['results'] as List<dynamic>?) ?? [];
+        nextUrl = map['next'] as String?;
+      }
+
+      entries.addAll(
+        list.map((e) => MoodEntryModel.fromJson(e as Map<String, dynamic>)),
+      );
+    }
+
+    return entries;
   }
 
   Future<WeeklyLetterModel> getWeeklyLetter() async {

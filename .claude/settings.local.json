@@ -59,7 +59,8 @@
       "Bash(tee /private/tmp/claude-501/-Users-r-StudioProjects-lueur/2bee4df7-6236-40d1-a2fb-27d4ac2f98db/scratchpad/flutter_run.log)",
       "Bash(python3 -c ' *)",
       "Bash(python3 /private/tmp/claude-501/-Users-r-StudioProjects-lueur/2bee4df7-6236-40d1-a2fb-27d4ac2f98db/scratchpad/make_splash.py)",
-      "Bash(dart run *)"
+      "Bash(dart run *)",
+      "Bash(flutter test *)"
     ]
   }
 }

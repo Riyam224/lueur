@@ -28,10 +28,11 @@ class JournalStreakBarWidget extends StatelessWidget {
   Map<DateTime, int> _countsByDay() {
     final counts = <DateTime, int>{};
     for (final entry in entries) {
+      final localCreatedAt = entry.createdAt.toLocal();
       final day = DateTime(
-        entry.createdAt.year,
-        entry.createdAt.month,
-        entry.createdAt.day,
+        localCreatedAt.year,
+        localCreatedAt.month,
+        localCreatedAt.day,
       );
       counts[day] = (counts[day] ?? 0) + 1;
     }

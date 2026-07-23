@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -136,18 +137,14 @@ class _ChatScreenState extends State<ChatScreen> {
           Container(
             width: 36,
             height: 36,
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: cs.primary.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: const Center(
-              child: Text(
-                '🌙',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamilyFallback: ['Apple Color Emoji', 'Noto Color Emoji'],
-                ),
-              ),
+            child: Image.asset(
+              AppAssets.lunaCharacter,
+              fit: BoxFit.contain,
             ),
           ),
           const SizedBox(width: 8),
@@ -210,12 +207,11 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            '🌙',
-            style: TextStyle(
-              fontSize: 48,
-              fontFamilyFallback: ['Apple Color Emoji', 'Noto Color Emoji'],
-            ),
+          Image.asset(
+            AppAssets.lunaCharacter,
+            width: 72,
+            height: 72,
+            fit: BoxFit.contain,
           ),
           const SizedBox(height: 12),
           Text(
@@ -278,21 +274,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     width: 28,
                     height: 28,
                     margin: const EdgeInsets.only(right: 8, bottom: 2),
+                    padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                       color: cs.primary.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
                     ),
-                    child: const Center(
-                      child: Text(
-                        '🌙',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontFamilyFallback: [
-                            'Apple Color Emoji',
-                            'Noto Color Emoji',
-                          ],
-                        ),
-                      ),
+                    child: Image.asset(
+                      AppAssets.lunaCharacter,
+                      fit: BoxFit.contain,
                     ),
                   )
                 : const SizedBox(width: 36),
@@ -382,12 +371,11 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             const SizedBox(width: 6),
-            const Text(
-              '🌙',
-              style: TextStyle(
-                fontSize: 13,
-                fontFamilyFallback: ['Apple Color Emoji', 'Noto Color Emoji'],
-              ),
+            Image.asset(
+              AppAssets.lunaCharacter,
+              width: 16,
+              height: 16,
+              fit: BoxFit.contain,
             ),
           ],
         ),
