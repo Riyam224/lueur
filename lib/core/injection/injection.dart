@@ -29,6 +29,11 @@ import 'package:lueur/features/home/data/repositories/mood_repository_impl.dart'
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
+import 'package:lueur/features/journal/domain/usecases/delete_journal_entry_usecase.dart';
+import 'package:lueur/features/journal/domain/usecases/get_journal_entries_usecase.dart';
+import 'package:lueur/features/journal/domain/usecases/set_journal_card_color_usecase.dart';
+import 'package:lueur/features/journal/domain/usecases/toggle_journal_pin_usecase.dart';
+import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/plant/data/repositories/streak_repository.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
@@ -153,4 +158,18 @@ void setupInjection() {
 
   // ── Free Draw — presentation-only, ephemeral, no persistence ──────────────
   sl.registerFactory<DrawCubit>(DrawCubit.new);
+
+  // ── Journal grid — reuses MoodRepository, its own use case layer ──────────
+  sl.registerLazySingleton(() => GetJournalEntriesUseCase(sl()));
+  sl.registerLazySingleton(() => SetJournalCardColorUseCase(sl()));
+  sl.registerLazySingleton(() => ToggleJournalPinUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteJournalEntryUseCase(sl()));
+  sl.registerFactory<JournalGridCubit>(
+    () => JournalGridCubit(
+      getEntriesUseCase: sl(),
+      setCardColorUseCase: sl(),
+      togglePinUseCase: sl(),
+      deleteEntryUseCase: sl(),
+    ),
+  );
 }

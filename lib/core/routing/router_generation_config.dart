@@ -18,7 +18,7 @@ import 'package:lueur/features/draw/presentation/screens/free_draw_screen.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/home/presentation/screens/home_screen.dart';
-import 'package:lueur/features/journal/presentation/screens/journal_history_screen.dart';
+import 'package:lueur/features/journal/presentation/screens/journal_grid_screen.dart';
 import 'package:lueur/features/mood_choice/presentation/screens/mood_choice_screen.dart';
 import 'package:lueur/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lueur/features/profile/presentation/screens/profile_screen.dart';
@@ -149,7 +149,7 @@ class RouterGenerationConfig {
                 path: AppRoutes.journal,
                 pageBuilder: (context, state) => _buildTransitionPage(
                   state: state,
-                  child: const JournalHistoryScreen(),
+                  child: const JournalGridScreen(),
                 ),
               ),
             ],

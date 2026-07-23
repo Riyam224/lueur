@@ -18,4 +18,10 @@ abstract class MoodRepository {
   Future<Either<Failure, void>> deleteEntry(int id);
 
   Future<Either<Failure, void>> deleteAllEntries();
+
+  /// Journal grid card color — local-only, never synced to the backend.
+  Future<Either<Failure, MoodEntryEntity>> setCardColor(int id, String cardColor);
+
+  /// Journal grid pinned flag — local-only, never synced to the backend.
+  Future<Either<Failure, MoodEntryEntity>> setPinned(int id, bool pinned);
 }

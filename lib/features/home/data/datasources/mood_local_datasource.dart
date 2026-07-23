@@ -49,4 +49,38 @@ class MoodLocalDatasource {
   Future<void> deleteAllEntries({required String userId}) async {
     await _box.delete(_key(userId));
   }
+
+  /// Sets the journal grid card color for a single entry. Returns the
+  /// updated entry, or null if no entry with [id] is cached.
+  Future<MoodEntryModel?> setCardColor(
+    int id,
+    String cardColor, {
+    required String userId,
+  }) async {
+    final existing = getCachedHistory(userId: userId);
+    final index = existing.indexWhere((e) => e.id == id);
+    if (index == -1) return null;
+
+    final updated = existing[index].copyWith(cardColor: cardColor);
+    final newList = List<MoodEntryModel>.from(existing)..[index] = updated;
+    await cacheHistory(newList, userId: userId);
+    return updated;
+  }
+
+  /// Sets the journal grid pinned flag for a single entry. Returns the
+  /// updated entry, or null if no entry with [id] is cached.
+  Future<MoodEntryModel?> setPinned(
+    int id,
+    bool pinned, {
+    required String userId,
+  }) async {
+    final existing = getCachedHistory(userId: userId);
+    final index = existing.indexWhere((e) => e.id == id);
+    if (index == -1) return null;
+
+    final updated = existing[index].copyWith(pinned: pinned);
+    final newList = List<MoodEntryModel>.from(existing)..[index] = updated;
+    await cacheHistory(newList, userId: userId);
+    return updated;
+  }
 }

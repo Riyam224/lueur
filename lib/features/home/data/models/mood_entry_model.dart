@@ -19,6 +19,14 @@ class MoodEntryModel {
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
+  /// Journal grid customization — local-only, never sent to the backend
+  /// (the API request body for /generate is built manually and never
+  /// includes these fields; see [MoodRepositoryImpl]).
+  @JsonKey(name: 'card_color')
+  final String? cardColor;
+
+  final bool pinned;
+
   const MoodEntryModel({
     required this.id,
     required this.userId,
@@ -26,12 +34,25 @@ class MoodEntryModel {
     required this.thoughts,
     required this.aiResponse,
     required this.createdAt,
+    this.cardColor,
+    this.pinned = false,
   });
 
   factory MoodEntryModel.fromJson(Map<String, dynamic> json) =>
       _$MoodEntryModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MoodEntryModelToJson(this);
+
+  MoodEntryModel copyWith({String? cardColor, bool? pinned}) => MoodEntryModel(
+        id: id,
+        userId: userId,
+        emoji: emoji,
+        thoughts: thoughts,
+        aiResponse: aiResponse,
+        createdAt: createdAt,
+        cardColor: cardColor ?? this.cardColor,
+        pinned: pinned ?? this.pinned,
+      );
 
   MoodEntryEntity toEntity() => MoodEntryEntity(
         id: id,
@@ -40,5 +61,7 @@ class MoodEntryModel {
         thoughts: thoughts,
         aiResponse: aiResponse,
         createdAt: createdAt,
+        cardColor: cardColor,
+        pinned: pinned,
       );
 }

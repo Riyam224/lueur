@@ -82,10 +82,15 @@ class MoodRepositoryImpl implements MoodRepository {
       final List<MoodEntryModel> models =
           await _remote.getHistory(userId: _currentUserId);
 
-      await _local.cacheHistory(models, userId: _currentUserId);
+      // The backend doesn't know about cardColor/pinned — carry over the
+      // locally cached values so a refresh doesn't wipe journal grid
+      // customization back to defaults.
+      final merged = _mergeLocalOnlyFields(models);
 
-      _logger.i('Fetched ${models.length} entries for current user');
-      return Right(models.map((m) => m.toEntity()).toList());
+      await _local.cacheHistory(merged, userId: _currentUserId);
+
+      _logger.i('Fetched ${merged.length} entries for current user');
+      return Right(merged.map((m) => m.toEntity()).toList());
     } on DioException catch (e) {
       _logger.w('API failed, falling back to cache: ${e.message}');
       return _fallbackToCache(
@@ -128,5 +133,50 @@ class MoodRepositoryImpl implements MoodRepository {
       return Right(cached.map((m) => m.toEntity()).toList());
     }
     return Left(failure);
+  }
+
+  List<MoodEntryModel> _mergeLocalOnlyFields(List<MoodEntryModel> remoteModels) {
+    final cachedById = {
+      for (final entry in _local.getCachedHistory(userId: _currentUserId))
+        entry.id: entry,
+    };
+
+    return remoteModels.map((model) {
+      final cached = cachedById[model.id];
+      if (cached == null) return model;
+      return model.copyWith(cardColor: cached.cardColor, pinned: cached.pinned);
+    }).toList();
+  }
+
+  @override
+  Future<Either<Failure, MoodEntryEntity>> setCardColor(
+    int id,
+    String cardColor,
+  ) async {
+    try {
+      final updated =
+          await _local.setCardColor(id, cardColor, userId: _currentUserId);
+      if (updated == null) {
+        return const Left(NetworkFailure('Entry not found'));
+      }
+      return Right(updated.toEntity());
+    } catch (e) {
+      _logger.e('Failed to update entry color: $e');
+      return Left(NetworkFailure('Failed to update entry color: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MoodEntryEntity>> setPinned(int id, bool pinned) async {
+    try {
+      final updated = await _local.setPinned(id, pinned, userId: _currentUserId);
+      if (updated == null) {
+        return const Left(NetworkFailure('Entry not found'));
+      }
+      return Right(updated.toEntity());
+    } catch (e) {
+      _logger.e('Failed to update entry: $e');
+      return Left(NetworkFailure('Failed to update entry: $e'));
+    }
   }
 }

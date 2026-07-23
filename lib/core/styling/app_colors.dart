@@ -109,4 +109,11 @@ class AppColors {
   static const Color onboardingSubtitle    = Color(0xFF6B6480); // page subtitle text
   static const Color onboardingLunaDetail  = Color(0xFFC9C3F0); // Luna eyes + smile (screen 1)
   static const Color onboardingChatDetail  = Color(0xFFA8D5C2); // chat bubble dots + line (screen 2)
+
+  // ── Journal grid palette ──────────────────────────────────────────────────
+  static const Color journalCardLavender    = Color(0xFFC9BBF0);
+  static const Color journalCardMint        = Color(0xFFA9E0CE);
+  static const Color journalCardPeach       = Color(0xFFFFD9C2);
+  static const Color journalCardCoral       = Color(0xFFF2C4A8);
+  static const Color journalGridBackground  = Color(0xFFFFF9F5);
 }

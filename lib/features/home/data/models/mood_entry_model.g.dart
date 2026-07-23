@@ -14,6 +14,8 @@ MoodEntryModel _$MoodEntryModelFromJson(Map<String, dynamic> json) =>
       thoughts: json['thoughts'] as String,
       aiResponse: json['ai_response'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
+      cardColor: json['card_color'] as String?,
+      pinned: json['pinned'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$MoodEntryModelToJson(MoodEntryModel instance) =>
@@ -24,4 +26,6 @@ Map<String, dynamic> _$MoodEntryModelToJson(MoodEntryModel instance) =>
       'thoughts': instance.thoughts,
       'ai_response': instance.aiResponse,
       'created_at': instance.createdAt.toIso8601String(),
+      'card_color': instance.cardColor,
+      'pinned': instance.pinned,
     };
