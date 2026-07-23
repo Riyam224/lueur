@@ -32,47 +32,85 @@ class JournalGridScreen extends StatelessWidget {
   }
 }
 
+/// One journal bubble's worth of data — every entry from a single calendar
+/// day, chronologically ordered. Color/pin/delete act on [representative]
+/// (the day's most recent entry) since those fields live on a single entry.
+class _DayGroup {
+  final DateTime date;
+  final List<MoodEntryEntity> entries;
+
+  _DayGroup({required this.date, required this.entries});
+
+  MoodEntryEntity get representative => entries.last;
+
+  bool get pinned => entries.any((e) => e.pinned);
+}
+
 class _JournalGridView extends StatelessWidget {
   const _JournalGridView();
-
-  void _openEntry(BuildContext context, MoodEntryEntity entry) {
-    context.push(
-      AppRoutes.chat,
-      extra: {
-        'userId': entry.userId,
-        'emoji': entry.emoji,
-        'thoughts': entry.thoughts,
-        'aiResponse': entry.aiResponse,
-      },
-    );
-  }
-
-  List<MoodEntryEntity> _sorted(List<MoodEntryEntity> entries) {
-    final pinned = entries.where((e) => e.pinned).toList();
-    final rest = entries.where((e) => !e.pinned).toList();
-    return [...pinned, ...rest];
-  }
-
-  /// Entry id → recency rank (0 = most recent), independent of the
-  /// pinned-first display order — a pinned-but-old entry still sizes as old.
-  Map<int, int> _recencyRanks(List<MoodEntryEntity> entries) {
-    final byDate = [...entries]
-      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    return {for (var i = 0; i < byDate.length; i++) byDate[i].id: i};
-  }
 
   static const double _maxBubbleSize = 128;
   static const double _minBubbleSize = 96;
   static const int _recencySpan = 6;
+
+  /// Groups entries by calendar day — one bubble represents a whole day's
+  /// conversation, not a single check-in, since a day can have several
+  /// separate mood entries.
+  List<_DayGroup> _groupByDay(List<MoodEntryEntity> entries) {
+    final byDay = <DateTime, List<MoodEntryEntity>>{};
+    for (final entry in entries) {
+      final day = DateTime(
+        entry.createdAt.year,
+        entry.createdAt.month,
+        entry.createdAt.day,
+      );
+      (byDay[day] ??= []).add(entry);
+    }
+
+    final groups = byDay.entries.map((e) {
+      final dayEntries = [...e.value]
+        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+      return _DayGroup(date: e.key, entries: dayEntries);
+    }).toList();
+
+    groups.sort((a, b) => b.date.compareTo(a.date));
+    return groups;
+  }
+
+  List<_DayGroup> _sorted(List<_DayGroup> groups) {
+    final pinned = groups.where((g) => g.pinned).toList();
+    final rest = groups.where((g) => !g.pinned).toList();
+    return [...pinned, ...rest];
+  }
 
   double _sizeForRank(int rank) {
     final t = (rank / _recencySpan).clamp(0.0, 1.0);
     return _maxBubbleSize - (_maxBubbleSize - _minBubbleSize) * t;
   }
 
+  void _openDay(BuildContext context, _DayGroup group) {
+    final history = <Map<String, String>>[];
+    for (final entry in group.entries) {
+      if (entry.thoughts.isNotEmpty) {
+        history.add({'role': 'user', 'content': entry.thoughts});
+      }
+      if (entry.aiResponse.isNotEmpty) {
+        history.add({'role': 'assistant', 'content': entry.aiResponse});
+      }
+    }
+
+    context.push(
+      AppRoutes.chat,
+      extra: {
+        'userId': group.representative.userId,
+        'emoji': group.representative.emoji,
+        'history': history,
+      },
+    );
+  }
+
   Widget _buildBubbles(BuildContext context, List<MoodEntryEntity> entries) {
-    final sortedEntries = _sorted(entries);
-    final recencyRanks = _recencyRanks(entries);
+    final groups = _sorted(_groupByDay(entries));
 
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(
@@ -87,15 +125,15 @@ class _JournalGridView extends StatelessWidget {
           spacing: AppSpacing.spaceMd,
           runSpacing: AppSpacing.spaceMd,
           children: [
-            for (var i = 0; i < sortedEntries.length; i++)
+            for (var i = 0; i < groups.length; i++)
               JournalGridCardWidget(
-                entry: sortedEntries[i],
+                entry: groups[i].representative,
                 index: i,
-                size: _sizeForRank(recencyRanks[sortedEntries[i].id] ?? 0),
-                onTap: () => _openEntry(context, sortedEntries[i]),
+                size: _sizeForRank(i),
+                onTap: () => _openDay(context, groups[i]),
                 onLongPress: () => showJournalCardOptionsSheet(
                   context,
-                  entryId: sortedEntries[i].id,
+                  entryId: groups[i].representative.id,
                 ),
               ),
           ],
@@ -106,8 +144,16 @@ class _JournalGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor =
+        isDark ? AppColors.darkBackground : AppColors.journalGridBackground;
+    final headingColor =
+        isDark ? AppColors.darkOnBackground : AppColors.lightOnBackground;
+    final subheadingColor =
+        isDark ? AppColors.darkSecondaryText : AppColors.lightSecondaryText;
+
     return Scaffold(
-      backgroundColor: AppColors.journalGridBackground,
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -123,14 +169,14 @@ class _JournalGridView extends StatelessWidget {
                     Text(
                       'your journal',
                       style: ThemeTextStyles.headlineMedium(context).copyWith(
-                        color: AppColors.lightOnBackground,
+                        color: headingColor,
                       ),
                     ),
                     SizedBox(height: AppSpacing.spaceSm),
                     Text(
                       'a little collection of your days',
                       style: ThemeTextStyles.bodyMedium(context).copyWith(
-                        color: AppColors.lightSecondaryText,
+                        color: subheadingColor,
                       ),
                     ),
                     SizedBox(height: AppSpacing.spaceLg),
@@ -191,7 +237,7 @@ class _JournalGridView extends StatelessWidget {
                             'nothing here yet — your days will show up as you go',
                             textAlign: TextAlign.center,
                             style: ThemeTextStyles.bodyMedium(context).copyWith(
-                              color: AppColors.lightSecondaryText,
+                              color: subheadingColor,
                             ),
                           ),
                         ),

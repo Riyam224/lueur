@@ -208,9 +208,24 @@ class RouterGenerationConfig {
           final emoji = extra?['emoji'] as String? ?? '😊';
           final thoughts = extra?['thoughts'] as String? ?? '';
           final aiResponse = extra?['aiResponse'] as String? ?? '';
+          // A full day's worth of messages (e.g. from the journal grid,
+          // where one bubble can represent several check-ins that day)
+          // takes priority over the single thoughts/aiResponse pair below.
+          final rawHistory = extra?['history'] as List<dynamic>?;
+          final dayHistory = rawHistory
+              ?.map((e) => e as Map<String, dynamic>)
+              .map(
+                (e) => ChatMessage(
+                  role: e['role'] as String,
+                  content: e['content'] as String,
+                ),
+              )
+              .toList();
           // Thoughts with no reply yet (e.g. from the post-exercise check-in)
           // are sent to Luna automatically instead of preloaded as history.
-          final needsAutoSend = thoughts.isNotEmpty && aiResponse.isEmpty;
+          final needsAutoSend = dayHistory == null &&
+              thoughts.isNotEmpty &&
+              aiResponse.isEmpty;
           return _buildTransitionPage(
             state: state,
             child: MultiBlocProvider(
@@ -219,14 +234,18 @@ class RouterGenerationConfig {
                   create: (_) => ChatCubit(
                     repository: sl<ChatRepository>(),
                     userId: userId,
-                    initialMessages: needsAutoSend
-                        ? const []
-                        : [
-                            if (thoughts.isNotEmpty)
-                              ChatMessage(role: 'user', content: thoughts),
-                            if (aiResponse.isNotEmpty)
-                              ChatMessage(role: 'assistant', content: aiResponse),
-                          ],
+                    initialMessages: dayHistory ??
+                        (needsAutoSend
+                            ? const []
+                            : [
+                                if (thoughts.isNotEmpty)
+                                  ChatMessage(role: 'user', content: thoughts),
+                                if (aiResponse.isNotEmpty)
+                                  ChatMessage(
+                                    role: 'assistant',
+                                    content: aiResponse,
+                                  ),
+                              ]),
                   ),
                 ),
                 BlocProvider(create: (_) => sl<SavedQuotesCubit>()),

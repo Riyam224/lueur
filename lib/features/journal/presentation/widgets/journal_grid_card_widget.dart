@@ -113,40 +113,49 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget> {
                 ),
               Positioned.fill(
                 child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (moodType != null)
-                        Image.asset(
-                          moodType.assetPath,
-                          width: widget.size * 0.36,
-                          height: widget.size * 0.36,
-                          fit: BoxFit.contain,
-                        ),
-                      SizedBox(height: widget.size * 0.05),
-                      Text(
-                        _formatDate(widget.entry.createdAt),
-                        style: ThemeTextStyles.captionSmall(context).copyWith(
-                          color: AppColors.lightOnBackground
-                              .withValues(alpha: 0.6),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      if (showSummary) ...[
-                        SizedBox(height: widget.size * 0.03),
+                  // FittedBox absorbs any leftover overflow instead of
+                  // asserting — text-scale settings and long previews would
+                  // otherwise blow past the blob's fixed circular bounds.
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (moodType != null)
+                          Image.asset(
+                            moodType.assetPath,
+                            width: widget.size * 0.36,
+                            height: widget.size * 0.36,
+                            fit: BoxFit.contain,
+                          ),
+                        SizedBox(height: widget.size * 0.05),
                         Text(
-                          _preview(widget.entry, (widget.size / 4).round()),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: ThemeTextStyles.bodySmall(context).copyWith(
-                            color: AppColors.lightOnBackground,
-                            fontSize: 10,
+                          _formatDate(widget.entry.createdAt),
+                          style: ThemeTextStyles.captionSmall(context).copyWith(
+                            color: AppColors.lightOnBackground
+                                .withValues(alpha: 0.6),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
+                        if (showSummary) ...[
+                          SizedBox(height: widget.size * 0.03),
+                          SizedBox(
+                            width: widget.size * 0.78,
+                            child: Text(
+                              _preview(widget.entry, (widget.size / 4).round()),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: ThemeTextStyles.bodySmall(context).copyWith(
+                                color: AppColors.lightOnBackground,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),

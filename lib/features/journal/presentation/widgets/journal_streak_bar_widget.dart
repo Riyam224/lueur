@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
 
 /// A 7-day activity strip, plus the current streak count pulled from
 /// [PlantCubit]/[StreakRepository] — this widget never recomputes the
@@ -67,9 +69,26 @@ class JournalStreakBarWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            streakDays == 1 ? '1 day streak' : '$streakDays day streak',
-            style: ThemeTextStyles.titleMedium(context),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                streakDays == 1 ? '1 day streak' : '$streakDays day streak',
+                style: ThemeTextStyles.titleMedium(context),
+              ),
+              // Same growth-stage plant as the home screen — grown from the
+              // same streak count passed into this widget, so it's always
+              // in sync with what "$streakDays day streak" says above.
+              Lottie.asset(
+                PlantStage.fromStreak(streakDays).lottiePath,
+                width: 40,
+                height: 40,
+                fit: BoxFit.contain,
+                repeat: true,
+                errorBuilder: (_, __, ___) =>
+                    const SizedBox(width: 40, height: 40),
+              ),
+            ],
           ),
           SizedBox(height: AppSpacing.spaceMd),
           Row(
@@ -79,7 +98,8 @@ class JournalStreakBarWidget extends StatelessWidget {
               final isToday = day == todayDate;
               final count = counts[day] ?? 0;
               final ratio = count / maxCount;
-              final height = _minBarHeight + ratio * (_maxBarHeight - _minBarHeight);
+              final height =
+                  _minBarHeight + ratio * (_maxBarHeight - _minBarHeight);
               final barColor = count > 0
                   ? AppColors.primary
                   : AppColors.primary.withValues(alpha: 0.15);
