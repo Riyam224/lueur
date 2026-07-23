@@ -22,6 +22,7 @@ import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart
 import 'package:lueur/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:lueur/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
+import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
 import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart';
 import 'package:lueur/features/home/data/datasources/mood_remote_datasource.dart';
 import 'package:lueur/features/home/data/repositories/mood_repository_impl.dart';
@@ -149,4 +150,7 @@ void setupInjection() {
   sl.registerFactory<BreathingCubit>(
     () => BreathingCubit(sl()),
   );
+
+  // ── Free Draw — presentation-only, ephemeral, no persistence ──────────────
+  sl.registerFactory<DrawCubit>(DrawCubit.new);
 }

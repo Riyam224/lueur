@@ -100,7 +100,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
         thoughts: thoughts,
       );
       context.go(
-        AppRoutes.breathing,
+        AppRoutes.moodChoice,
         extra: {'emoji': emojiUnicode, 'thoughts': thoughts},
       );
     } else {

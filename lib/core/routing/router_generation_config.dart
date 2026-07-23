@@ -14,10 +14,12 @@ import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/screens/chat_screen.dart';
+import 'package:lueur/features/draw/presentation/screens/free_draw_screen.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/home/presentation/screens/home_screen.dart';
 import 'package:lueur/features/journal/presentation/screens/journal_history_screen.dart';
+import 'package:lueur/features/mood_choice/presentation/screens/mood_choice_screen.dart';
 import 'package:lueur/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lueur/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
@@ -53,7 +55,7 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.onBoarding,
+    initialLocation: AppRoutes.splash,
     onException: (context, state, router) {
       router.go(AppRoutes.splash);
     },
@@ -248,6 +250,32 @@ class RouterGenerationConfig {
           return _buildTransitionPage(
             state: state,
             child: BreathingScreen(emoji: emoji, thoughts: thoughts),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.moodChoice,
+        path: AppRoutes.moodChoice,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final emoji = extra?['emoji'] as String? ?? '😔';
+          final thoughts = extra?['thoughts'] as String? ?? '';
+          return _buildTransitionPage(
+            state: state,
+            child: MoodChoiceScreen(emoji: emoji, thoughts: thoughts),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.freeDraw,
+        path: AppRoutes.freeDraw,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final emoji = extra?['emoji'] as String? ?? '😔';
+          final thoughts = extra?['thoughts'] as String? ?? '';
+          return _buildTransitionPage(
+            state: state,
+            child: FreeDrawScreen(emoji: emoji, thoughts: thoughts),
           );
         },
       ),

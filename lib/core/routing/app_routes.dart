@@ -14,4 +14,6 @@ class AppRoutes {
 
   static const String breathing = '/breathing';
   static const String affirmation = '/affirmation';
+  static const String moodChoice = '/moodChoice';
+  static const String freeDraw = '/freeDraw';
 }
