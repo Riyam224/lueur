@@ -53,8 +53,27 @@ class _JournalGridView extends StatelessWidget {
     return [...pinned, ...rest];
   }
 
-  Widget _buildGrid(BuildContext context, List<MoodEntryEntity> entries) {
+  /// Entry id → recency rank (0 = most recent), independent of the
+  /// pinned-first display order — a pinned-but-old entry still sizes as old.
+  Map<int, int> _recencyRanks(List<MoodEntryEntity> entries) {
+    final byDate = [...entries]
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return {for (var i = 0; i < byDate.length; i++) byDate[i].id: i};
+  }
+
+  static const double _maxBubbleSize = 128;
+  static const double _minBubbleSize = 96;
+  static const int _recencySpan = 6;
+
+  double _sizeForRank(int rank) {
+    final t = (rank / _recencySpan).clamp(0.0, 1.0);
+    return _maxBubbleSize - (_maxBubbleSize - _minBubbleSize) * t;
+  }
+
+  Widget _buildBubbles(BuildContext context, List<MoodEntryEntity> entries) {
     final sortedEntries = _sorted(entries);
+    final recencyRanks = _recencyRanks(entries);
+
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(
         AppSpacing.horizontalPaddingLg,
@@ -62,25 +81,24 @@ class _JournalGridView extends StatelessWidget {
         AppSpacing.horizontalPaddingLg,
         AppSpacing.space2Xl,
       ),
-      sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: AppSpacing.spaceMd,
-          crossAxisSpacing: AppSpacing.spaceMd,
-          childAspectRatio: 0.85,
-        ),
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final entry = sortedEntries[index];
-            return JournalGridCardWidget(
-              entry: entry,
-              index: index,
-              onTap: () => _openEntry(context, entry),
-              onLongPress: () =>
-                  showJournalCardOptionsSheet(context, entryId: entry.id),
-            );
-          },
-          childCount: sortedEntries.length,
+      sliver: SliverToBoxAdapter(
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: AppSpacing.spaceMd,
+          runSpacing: AppSpacing.spaceMd,
+          children: [
+            for (var i = 0; i < sortedEntries.length; i++)
+              JournalGridCardWidget(
+                entry: sortedEntries[i],
+                index: i,
+                size: _sizeForRank(recencyRanks[sortedEntries[i].id] ?? 0),
+                onTap: () => _openEntry(context, sortedEntries[i]),
+                onLongPress: () => showJournalCardOptionsSheet(
+                  context,
+                  entryId: sortedEntries[i].id,
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -118,12 +136,14 @@ class _JournalGridView extends StatelessWidget {
                     SizedBox(height: AppSpacing.spaceLg),
                     BlocBuilder<PlantCubit, PlantState>(
                       builder: (context, plantState) {
-                        final streakDays =
-                            plantState is PlantLoaded ? plantState.streakDays : 0;
+                        final streakDays = plantState is PlantLoaded
+                            ? plantState.streakDays
+                            : 0;
                         return BlocBuilder<JournalGridCubit, JournalGridState>(
                           builder: (context, state) {
-                            final entries =
-                                state is JournalGridLoaded ? state.entries : const <MoodEntryEntity>[];
+                            final entries = state is JournalGridLoaded
+                                ? state.entries
+                                : const <MoodEntryEntity>[];
                             return JournalStreakBarWidget(
                               entries: entries,
                               streakDays: streakDays,
@@ -140,7 +160,9 @@ class _JournalGridView extends StatelessWidget {
             BlocBuilder<JournalGridCubit, JournalGridState>(
               builder: (context, state) {
                 return switch (state) {
-                  JournalGridInitial() || JournalGridLoading() => const SliverFillRemaining(
+                  JournalGridInitial() ||
+                  JournalGridLoading() =>
+                    const SliverFillRemaining(
                       hasScrollBody: false,
                       child: Center(child: CircularProgressIndicator()),
                     ),
@@ -148,7 +170,8 @@ class _JournalGridView extends StatelessWidget {
                       hasScrollBody: false,
                       child: Center(
                         child: Padding(
-                          padding: EdgeInsets.all(AppSpacing.horizontalPaddingLg),
+                          padding:
+                              EdgeInsets.all(AppSpacing.horizontalPaddingLg),
                           child: Text(
                             message,
                             textAlign: TextAlign.center,
@@ -162,7 +185,8 @@ class _JournalGridView extends StatelessWidget {
                       hasScrollBody: false,
                       child: Center(
                         child: Padding(
-                          padding: EdgeInsets.all(AppSpacing.horizontalPaddingLg),
+                          padding:
+                              EdgeInsets.all(AppSpacing.horizontalPaddingLg),
                           child: Text(
                             'nothing here yet — your days will show up as you go',
                             textAlign: TextAlign.center,
@@ -173,7 +197,8 @@ class _JournalGridView extends StatelessWidget {
                         ),
                       ),
                     ),
-                  JournalGridLoaded(:final entries) => _buildGrid(context, entries),
+                  JournalGridLoaded(:final entries) =>
+                    _buildBubbles(context, entries),
                 };
               },
             ),
