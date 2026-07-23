@@ -163,7 +163,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               Text(
-                'AI Therapist',
+                'Luna',
                 style: ThemeTextStyles.labelSmall(context).copyWith(
                   color: extra.secondaryTextColor,
                   fontSize: 11,

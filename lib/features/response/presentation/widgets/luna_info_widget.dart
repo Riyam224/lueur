@@ -16,7 +16,7 @@ class LunaInfoWidget extends StatelessWidget {
         ),
         SizedBox(height: AppSpacing.spaceXs),
         Text(
-          'AI Therapist · Always here for you',
+          'Your companion · Always here for you',
           style: ThemeTextStyles.bodySmall(context),
         ),
       ],
