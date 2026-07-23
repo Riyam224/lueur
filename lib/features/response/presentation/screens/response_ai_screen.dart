@@ -373,7 +373,7 @@ extension _ShareHelper on _ResponseAiScreenState {
             ),
             const SizedBox(height: 40),
             Text(
-              'MindEase · LunaTree',
+              'Lueur',
               style: ThemeTextStyles.bodySmall(context).copyWith(
                 color: theme.colorScheme.primary.withValues(alpha: 0.7),
               ),

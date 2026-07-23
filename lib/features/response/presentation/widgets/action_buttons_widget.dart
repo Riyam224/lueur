@@ -28,7 +28,7 @@ class ActionButtonsWidget extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onSave,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: AppColors.primaryButtonFill,
               foregroundColor: AppColors.whiteTextColor,
               padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceLg),
               shape: RoundedRectangleBorder(

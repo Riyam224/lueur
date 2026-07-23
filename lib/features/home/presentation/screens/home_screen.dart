@@ -369,7 +369,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: context.extra.shadowColor ?? Colors.black12,
+                            color: context.extra.shadowColor ?? AppColors.shadowColor,
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),

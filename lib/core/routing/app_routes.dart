@@ -3,6 +3,7 @@ class AppRoutes {
   static const String onBoarding = '/onBoarding';
   static const String loginScreen = '/loginScreen';
   static const String registerScreen = '/registerScreen';
+  static const String forgotPasswordScreen = '/forgotPasswordScreen';
 
   static const String home = '/home';
   static const String journal = '/journal';
@@ -14,7 +15,6 @@ class AppRoutes {
 
   static const String breathing = '/breathing';
   static const String affirmation = '/affirmation';
-  static const String moodChoice = '/moodChoice';
   static const String freeDraw = '/freeDraw';
   static const String streakCelebration = '/streakCelebration';
 }

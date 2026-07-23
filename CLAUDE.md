@@ -230,3 +230,8 @@ You MUST proactively suggest the appropriate agent when the situation matches. D
 - Dispose controllers and focus nodes in `StatefulWidget.dispose()`
 - Prefer small, composed widgets to minimize rebuild scope
 - Use `BlocBuilder`/`BlocSelector` on the smallest widget that needs the state — never at the top of the tree
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->

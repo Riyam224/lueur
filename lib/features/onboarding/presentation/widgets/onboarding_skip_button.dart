@@ -5,7 +5,8 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 
-/// Pill-shaped "Skip intro" button shown top-right on pages 1 and 2.
+/// Pill-shaped "Skip intro" button shown in the bottom nav row on every
+/// page except the last.
 class OnboardingSkipButton extends StatelessWidget {
   final VoidCallback onPressed;
 

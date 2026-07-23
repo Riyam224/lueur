@@ -10,6 +10,7 @@ import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/widgets/mood_selector_widget.dart';
 import 'package:lueur/features/home/presentation/widgets/thoughts_input_widget.dart';
+import 'package:lueur/features/mood_choice/presentation/widgets/mood_choice_dialog.dart';
 
 /// Combined section for mood selection and thoughts input
 class MoodInputSection extends StatefulWidget {
@@ -99,10 +100,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
         emoji: emojiUnicode,
         thoughts: thoughts,
       );
-      context.go(
-        AppRoutes.moodChoice,
-        extra: {'emoji': emojiUnicode, 'thoughts': thoughts},
-      );
+      showMoodChoiceDialog(context, emoji: emojiUnicode, thoughts: thoughts);
     } else {
       context.push(
         AppRoutes.response,

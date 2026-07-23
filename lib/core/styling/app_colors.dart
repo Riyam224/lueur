@@ -1,31 +1,51 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // ── MindEase Breathing/Affirmation Palette ───────────────────────────────
+  // ── Lueur pastel palette (source of truth — reference these, never a raw
+  // hex, anywhere else in the app) ─────────────────────────────────────────
+  static const Color pastelLavenderWhite = Color(0xFFF4E7F8);
+  static const Color pastelBlush         = Color(0xFFF2DDDC);
+  static const Color pastelCoral         = Color(0xFFF6BCBA);
+  static const Color pastelOrchid        = Color(0xFFE3AADD);
+  static const Color pastelPurple        = Color(0xFFC8A8E9);
+  static const Color pastelPeriwinkle    = Color(0xFFC3C7F4);
+
+  // ── Button-fill variants ─────────────────────────────────────────────────
+  // pastelPurple/pastelCoral read beautifully as backgrounds, glows, and
+  // decorative fills, but white text on top of them fails WCAG AA (measured
+  // 2.05:1 and 1.64:1 — need 4.5:1). These are the same hue, darkened via
+  // the WCAG relative-luminance formula until white text clears 4.5:1 —
+  // use ONLY where white/light text sits directly on the fill (buttons,
+  // filled chat bubbles). Leave every background/glow/decorative usage on
+  // the lighter pastel values above.
+  static const Color primaryButtonFill = Color(0xFF9658D5); // contrast w/ white: 4.51:1
+  static const Color accentButtonFill  = Color(0xFFE32C26); // contrast w/ white: 4.51:1
+
+  // ── Lueur Breathing/Affirmation Palette ─────────────────────────────────
   static const Color cardBorder = lightBorder;
   static const Color breathInColor = Color(0xFFE8621A);
   static const Color breathHoldColor = Color(0xFF2D6A4F);
   static const Color breathOutColor = Color(0xFF85B7EB);
 
   // ── Light Theme ──────────────────────────────────────────────────────────
-  static const Color lightBackground = Color(0xFFF8F6FB);    // Scaffold
+  static const Color lightBackground = pastelLavenderWhite;  // Scaffold
   static const Color lightSurface = Color(0xFFFFFFFF);       // Cards
-  static const Color primary = Color(0xFF8C7FD6);            // CTA buttons
-  static const Color primaryContainer = Color(0xFF5BBFA0);   // AI bubble, mint
+  static const Color primary = pastelPurple;                 // CTA buttons
+  static const Color primaryContainer = pastelPeriwinkle;    // AI bubble
   static const Color lightOnBackground = Color(0xFF2E2A47);  // Headings
   static const Color lightSecondaryText = Color(0xFF6B6480); // Labels, hints
-  static const Color lightBorder = Color(0xFFE4DFF5);        // Card borders
-  static const Color accent = Color(0xFFF2A66E);             // "Great" mood
+  static const Color lightBorder = Color(0xFFEEDFF2);        // Card borders
+  static const Color accent = pastelCoral;                   // "Great" mood
 
-  // ── Dark Theme (Celestials night-sky palette) ─────────────────────────────
-  static const Color darkBackground = Color(0xFF12142B);     // Scaffold — deep night navy
-  static const Color darkSurface = Color(0xFF1C2044);        // Cards — indigo navy
-  static const Color primaryDark = Color(0xFF8C93E8);        // Buttons, accents — periwinkle
-  static const Color darkPrimaryContainer = Color(0xFF262B52); // AI bubble bg — indigo container
-  static const Color darkOnBackground = Color(0xFFEDEAFF);   // Primary text — pale lavender
-  static const Color darkSecondaryText = Color(0xFFA7A9D6);  // Labels, hints — muted periwinkle
-  static const Color darkBorder = Color(0xFF2E3268);         // Card borders
-  static const Color darkTertiaryText = Color(0xFF9497C7);   // Captions, tertiary labels
+  // ── Dark Theme (same pastel family, deepened — no black/navy) ────────────
+  static const Color darkBackground = Color(0xFF2B2138);     // Scaffold — deep plum, not black
+  static const Color darkSurface = Color(0xFF3A2C4A);        // Cards — lighter plum
+  static const Color primaryDark = pastelPurple;             // Buttons, accents
+  static const Color darkPrimaryContainer = Color(0xFF3F3D63); // AI bubble bg — deep periwinkle
+  static const Color darkOnBackground = pastelLavenderWhite; // Primary text
+  static const Color darkSecondaryText = Color(0xFFC9B7D6);  // Labels, hints — muted mauve
+  static const Color darkBorder = Color(0xFF4A3B5C);         // Card borders
+  static const Color darkTertiaryText = Color(0xFFB8A6C7);   // Captions, tertiary labels
 
   // Dark-mode accent hues lifted from the Celestials artwork's creatures/sunset
   static const Color darkMintTeal = Color(0xFF6FCFB0);
@@ -84,9 +104,9 @@ class AppColors {
   static const Color settingsPrivacyIconBgDark     = Color(0xFF1B3B33); // deep teal
 
   // ── Gradient background colors ───────────────────────────────────────────
-  static const Color bannerGradientDarkStart  = Color(0xFF232760); // dark weekly banner — night indigo
+  static const Color bannerGradientDarkStart  = Color(0xFF3D2E52); // dark weekly banner — deep plum
   static const Color bannerGradientLightEnd   = Color(0xFFEDE8FF); // light weekly banner
-  static const Color primaryDarkDeep          = Color(0xFF3A3D82); // greeting card dark gradient end
+  static const Color primaryDarkDeep          = Color(0xFF4A3F72); // greeting card dark gradient end
   static const Color softLavender             = Color(0xFFF0ECFF); // after-feeling selector chip
 
   // ── Brand / functional colors ────────────────────────────────────────────

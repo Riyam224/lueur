@@ -168,6 +168,26 @@ class ThemeTextStyles {
     );
   }
 
+  /// Softer, more personal display style — DM Serif Display italic.
+  /// Reserved for emotional/editorial moments only (Luna's home greeting,
+  /// the streak celebration heading, the mood-choice prompt) — everywhere
+  /// else keep using headlineMedium/headlineSmall's Nunito.
+  static TextStyle editorialHeadline(
+    BuildContext context, {
+    double fontSize = 24,
+    Color? color,
+  }) {
+    return TextStyle(
+      fontFamily: AppFonts.displayFontName,
+      fontFamilyFallback: _emojiFallback,
+      fontSize: fontSize.sp,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w400,
+      height: 1.3,
+      color: color ?? context.extra.primaryTextColor,
+    );
+  }
+
   // White text styles for use on colored backgrounds
 
   /// Get white headline style (16sp, w500) - for colored backgrounds

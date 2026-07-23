@@ -21,7 +21,7 @@ import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  static const _subtitle = 'MindEase member';
+  static const _subtitle = 'Lueur member';
 
   static String _displayName(AuthState state) =>
       state is AuthAuthenticated ? state.user.displayName : 'Friend';

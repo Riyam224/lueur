@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
-import 'package:lueur/features/onboarding/presentation/widgets/onboarding_next_button.dart';
-import 'package:lueur/features/onboarding/presentation/widgets/onboarding_page_indicator.dart';
+import 'package:lueur/features/onboarding/presentation/widgets/onboarding_nav_button.dart';
 import 'package:lueur/features/onboarding/presentation/widgets/onboarding_page_view.dart';
 import 'package:lueur/features/onboarding/presentation/widgets/onboarding_skip_button.dart';
 
@@ -16,8 +15,14 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
+  late final PageController _pageController;
   int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
 
   @override
   void dispose() {
@@ -45,60 +50,69 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+  void _onBackPressed() {
+    if (_currentPage == 0) return;
+    _pageController.previousPage(
+      duration: OnboardingConstants.pageTransitionDuration,
+      curve: OnboardingConstants.pageTransitionCurve,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentData = OnboardingConstants.pages[_currentPage];
+
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                PageView.builder(
-                  controller: _pageController,
-                  itemCount: OnboardingConstants.pages.length,
-                  onPageChanged: (index) =>
-                      setState(() => _currentPage = index),
-                  itemBuilder: (context, index) {
-                    return OnboardingPageView(
-                      data: OnboardingConstants.pages[index],
-                    );
-                  },
-                ),
-                if (!_isLastPage)
-                  SafeArea(
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: OnboardingConstants.skipButtonTopPadding,
-                          right: OnboardingConstants.skipButtonRightPadding,
-                        ),
-                        child: OnboardingSkipButton(onPressed: _finishOnboarding),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              itemCount: OnboardingConstants.pages.length,
+              onPageChanged: (index) => setState(() => _currentPage = index),
+              itemBuilder: (context, index) {
+                return OnboardingPageView(
+                  data: OnboardingConstants.pages[index],
+                  index: index,
+                  pageController: _pageController,
+                );
+              },
+            ),
+            Positioned(
+              left: OnboardingConstants.navRowHorizontalPadding,
+              right: OnboardingConstants.navRowHorizontalPadding,
+              bottom: OnboardingConstants.navRowBottomPadding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      OnboardingNavButton(
+                        onPressed: _onBackPressed,
+                        icon: Icons.arrow_back_rounded,
+                        color: currentData.circleColor.withValues(alpha: 0.5),
+                        enabled: _currentPage > 0,
                       ),
-                    ),
+                      const SizedBox(width: OnboardingConstants.navArrowGap),
+                      OnboardingNavButton(
+                        onPressed: _onNextPressed,
+                        icon: _isLastPage
+                            ? Icons.check_rounded
+                            : Icons.arrow_forward_rounded,
+                        color: currentData.circleColor,
+                      ),
+                    ],
                   ),
-              ],
+                  if (!_isLastPage)
+                    OnboardingSkipButton(onPressed: _finishOnboarding)
+                  else
+                    const SizedBox(width: OnboardingConstants.navArrowButtonSize),
+                ],
+              ),
             ),
-          ),
-          SafeArea(
-            top: false,
-            child: Column(
-              children: [
-                const SizedBox(height: OnboardingConstants.subtitleToDots),
-                OnboardingPageIndicator(
-                  pageCount: OnboardingConstants.pages.length,
-                  currentPage: _currentPage,
-                ),
-                const SizedBox(height: OnboardingConstants.dotsToButton),
-                OnboardingNextButton(
-                  onPressed: _onNextPressed,
-                  isLastPage: _isLastPage,
-                ),
-                const SizedBox(height: OnboardingConstants.buttonToBottom),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

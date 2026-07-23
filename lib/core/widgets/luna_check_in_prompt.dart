@@ -12,11 +12,13 @@ import 'package:lueur/core/styling/theme_text_styles.dart';
 class LunaCheckInPrompt extends StatefulWidget {
   final VoidCallback onTalkToLuna;
   final VoidCallback onDismiss;
+  final String primaryLabel;
 
   const LunaCheckInPrompt({
     super.key,
     required this.onTalkToLuna,
     required this.onDismiss,
+    this.primaryLabel = 'Talk to Luna',
   });
 
   @override
@@ -29,6 +31,7 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
   late final Animation<double> _fade;
 
   @override
+
   void initState() {
     super.initState();
     _controller = AnimationController(
@@ -97,14 +100,14 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
               child: ElevatedButton(
                 onPressed: widget.onTalkToLuna,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: AppColors.primaryButtonFill,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                   elevation: 0,
                 ),
                 child: Text(
-                  'Talk to Luna',
+                  widget.primaryLabel,
                   style: ThemeTextStyles.whiteButton(context).copyWith(
                     color: AppColors.whiteTextColor,
                   ),

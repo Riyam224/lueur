@@ -9,11 +9,13 @@ import 'package:lueur/features/auth/data/datasources/auth_firebase_datasource.da
 import 'package:lueur/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
 import 'package:lueur/features/auth/domain/usecases/check_session_usecase.dart';
+import 'package:lueur/features/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/register_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/auth/presentation/cubit/forgot_password_cubit.dart';
 import 'package:lueur/features/breathing/data/datasources/breathing_local_datasource.dart';
 import 'package:lueur/features/breathing/data/repositories/breathing_repository_impl.dart';
 import 'package:lueur/features/breathing/domain/repositories/breathing_repository.dart';
@@ -34,7 +36,7 @@ import 'package:lueur/features/journal/domain/usecases/get_journal_entries_useca
 import 'package:lueur/features/journal/domain/usecases/set_journal_card_color_usecase.dart';
 import 'package:lueur/features/journal/domain/usecases/toggle_journal_pin_usecase.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
-import 'package:lueur/features/plant/data/repositories/streak_repository.dart';
+import 'package:lueur/features/plant/domain/usecases/calculate_streak_usecase.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
 import 'package:lueur/features/quotes/data/repositories/saved_quotes_repository_impl.dart';
@@ -78,6 +80,7 @@ void setupInjection() {
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
   sl.registerLazySingleton(() => SignInWithGoogleUseCase(sl()));
   sl.registerLazySingleton(() => CheckSessionUseCase(sl()));
+  sl.registerLazySingleton(() => ForgotPasswordUseCase(sl()));
 
   // ── Auth Cubit — singleton shared across all routes ────────────────────────
   sl.registerLazySingleton(
@@ -90,6 +93,9 @@ void setupInjection() {
       onLogout: sl<MoodCubit>().clearEntries,
     ),
   );
+
+  // ── Forgot Password Cubit — factory, scoped to its own screen ──────────────
+  sl.registerFactory(() => ForgotPasswordCubit(sl()));
 
   // ── Mood DataSources ───────────────────────────────────────────────────────
   sl.registerLazySingleton<MoodRemoteDatasource>(
@@ -131,11 +137,11 @@ void setupInjection() {
   );
 
   // ── Plant ──────────────────────────────────────────────────────────────────
-  sl.registerLazySingleton<StreakRepository>(
-    () => StreakRepository(sl<DioHelper>().dio, sl()),
+  sl.registerLazySingleton<CalculateStreakUseCase>(
+    () => CalculateStreakUseCase(sl<MoodRepository>()),
   );
   sl.registerFactory<PlantCubit>(
-    () => PlantCubit(sl<StreakRepository>()),
+    () => PlantCubit(sl<CalculateStreakUseCase>()),
   );
 
   // ── Chat ───────────────────────────────────────────────────────────────────

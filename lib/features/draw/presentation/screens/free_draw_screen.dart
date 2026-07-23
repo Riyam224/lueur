@@ -9,8 +9,8 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/theme/calm_mode_colors.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
@@ -63,35 +63,27 @@ class _FreeDrawView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: CalmModeColors.navyGradient,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildTopBar(context),
-              SizedBox(height: AppSpacing.spaceMd),
-              Expanded(child: _buildCanvas(context)),
-              SizedBox(height: AppSpacing.spaceLg),
-              _buildPalette(context),
-              SizedBox(height: AppSpacing.spaceLg),
-              _buildTalkToLunaLink(context),
-              SizedBox(height: AppSpacing.spaceMd),
-            ],
-          ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildTopBar(context),
+            SizedBox(height: AppSpacing.spaceMd),
+            Expanded(child: _buildCanvas(context)),
+            SizedBox(height: AppSpacing.spaceLg),
+            _buildPalette(context),
+            SizedBox(height: AppSpacing.spaceLg),
+            _buildTalkToLunaLink(context),
+            SizedBox(height: AppSpacing.spaceMd),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildTopBar(BuildContext context) {
+    final extra = context.extra;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.horizontalPaddingMd,
@@ -101,16 +93,16 @@ class _FreeDrawView extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => context.pop(),
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_ios_rounded,
-              color: CalmModeColors.ink,
+              color: extra.primaryTextColor,
               size: 20,
             ),
           ),
           Text(
             'free draw',
             style: ThemeTextStyles.bodyMedium(context).copyWith(
-              color: CalmModeColors.mutedInk,
+              color: extra.secondaryTextColor,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -119,7 +111,7 @@ class _FreeDrawView extends StatelessWidget {
             child: Text(
               'clear',
               style: ThemeTextStyles.bodyMedium(context).copyWith(
-                color: CalmModeColors.mutedInk,
+                color: extra.secondaryTextColor,
               ),
             ),
           ),
@@ -129,6 +121,8 @@ class _FreeDrawView extends StatelessWidget {
   }
 
   Widget _buildCanvas(BuildContext context) {
+    final extra = context.extra;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.horizontalPaddingLg,
@@ -140,8 +134,10 @@ class _FreeDrawView extends StatelessWidget {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.04),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                color: extra.cardBackgroundColor,
+                border: Border.all(
+                  color: extra.borderColor ?? AppColors.cardBorder,
+                ),
               ),
               child: GestureDetector(
                 onPanStart: (details) =>
@@ -161,6 +157,8 @@ class _FreeDrawView extends StatelessWidget {
   }
 
   Widget _buildPalette(BuildContext context) {
+    final extra = context.extra;
+
     return BlocBuilder<DrawCubit, DrawState>(
       builder: (context, state) {
         return Row(
@@ -179,7 +177,7 @@ class _FreeDrawView extends StatelessWidget {
                       color: color,
                       border: Border.all(
                         color: state.currentColor == color
-                            ? CalmModeColors.ink
+                            ? extra.primaryTextColor!
                             : Colors.transparent,
                         width: 2,
                       ),
@@ -194,13 +192,15 @@ class _FreeDrawView extends StatelessWidget {
   }
 
   Widget _buildTalkToLunaLink(BuildContext context) {
+    final secondaryText = context.extra.secondaryTextColor;
+
     return TextButton(
       onPressed: () => _goToTalkToLuna(context),
-      style: TextButton.styleFrom(foregroundColor: CalmModeColors.mutedInk),
+      style: TextButton.styleFrom(foregroundColor: secondaryText),
       child: Text(
         'feel like talking to luna now?',
         style: ThemeTextStyles.bodySmall(context).copyWith(
-          color: CalmModeColors.mutedInk,
+          color: secondaryText,
         ),
       ),
     );

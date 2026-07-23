@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 
@@ -80,7 +81,7 @@ class MoodSelectorWidget extends StatelessWidget {
                       moodBgColors != null &&
                       index < moodBgColors!.length)
                   ? moodBgColors![index]
-                  : (extra.cardBackgroundColor ?? Colors.white);
+                  : (extra.cardBackgroundColor ?? AppColors.lightSurface);
 
               return Padding(
                 padding:

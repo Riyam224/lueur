@@ -46,6 +46,17 @@ class AppStrings {
   static const String authFullNameHint = 'Your name';
   static const String authForgotPassword = 'Forgot password?';
   static const String authOrDivider = 'or';
+
+  // auth — forgot password
+  static const String forgotPasswordTitle = 'Reset your password';
+  static const String forgotPasswordSubtitle =
+      'Enter your email and Luna will send you a link to get back in.';
+  static const String forgotPasswordCta = 'Send reset link';
+  static const String forgotPasswordEmailRequired = 'Please enter your email';
+  static const String forgotPasswordSuccessTitle = 'Check your email';
+  static const String forgotPasswordSuccessSubtitle =
+      'We sent a password reset link to your email. Follow it to set a new password.';
+  static const String forgotPasswordBackToLogin = 'Back to login';
   static const String authContinueWithGoogle = 'Continue with Google';
   static const String authSignUpWithGoogle = 'Sign up with Google';
 

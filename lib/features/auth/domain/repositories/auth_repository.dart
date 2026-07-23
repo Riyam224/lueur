@@ -22,4 +22,9 @@ abstract class AuthRepository {
   /// or revoked server-side. Returns `Right(null)` when there is no signed-in
   /// user or the session could not be restored.
   Future<Either<Failure, UserEntity?>> checkSession();
+
+  /// Sends a Firebase password-reset email to [email].
+  Future<Either<Failure, void>> sendPasswordResetEmail({
+    required String email,
+  });
 }

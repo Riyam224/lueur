@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
-import 'package:lueur/core/widgets/app_blob_background.dart';
 
 /// Main Shell Screen
 ///
@@ -26,7 +25,7 @@ class MainShellScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: AppBlobBackground(child: navigationShell),
+      body: navigationShell,
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: navigationShell.currentIndex,
         onTap: _onTap,

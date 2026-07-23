@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/models/mood_choice_destination.dart';
 import 'package:lueur/core/navigation/main_shell_screen.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/affirmation/presentation/screens/affirmation_screen.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur/features/auth/presentation/cubit/forgot_password_cubit.dart';
+import 'package:lueur/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:lueur/features/auth/presentation/screens/login_screen.dart';
 import 'package:lueur/features/auth/presentation/screens/register_screen.dart';
 import 'package:lueur/features/breathing/presentation/screens/breathing_screen.dart';
@@ -19,7 +22,6 @@ import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/home/presentation/screens/home_screen.dart';
 import 'package:lueur/features/journal/presentation/screens/journal_grid_screen.dart';
-import 'package:lueur/features/mood_choice/presentation/screens/mood_choice_screen.dart';
 import 'package:lueur/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lueur/features/plant/presentation/screens/streak_celebration_screen.dart';
 import 'package:lueur/features/profile/presentation/screens/profile_screen.dart';
@@ -56,7 +58,7 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.onBoarding,
     onException: (context, state, router) {
       router.go(AppRoutes.splash);
     },
@@ -104,6 +106,17 @@ class RouterGenerationConfig {
           child: BlocProvider.value(
             value: sl<AuthCubit>(),
             child: const RegisterScreen(),
+          ),
+        ),
+      ),
+      GoRoute(
+        name: AppRoutes.forgotPasswordScreen,
+        path: AppRoutes.forgotPasswordScreen,
+        pageBuilder: (context, state) => _buildTransitionPage(
+          state: state,
+          child: BlocProvider(
+            create: (_) => sl<ForgotPasswordCubit>(),
+            child: const ForgotPasswordScreen(),
           ),
         ),
       ),
@@ -272,19 +285,6 @@ class RouterGenerationConfig {
         },
       ),
       GoRoute(
-        name: AppRoutes.moodChoice,
-        path: AppRoutes.moodChoice,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          final emoji = extra?['emoji'] as String? ?? '😔';
-          final thoughts = extra?['thoughts'] as String? ?? '';
-          return _buildTransitionPage(
-            state: state,
-            child: MoodChoiceScreen(emoji: emoji, thoughts: thoughts),
-          );
-        },
-      ),
-      GoRoute(
         name: AppRoutes.freeDraw,
         path: AppRoutes.freeDraw,
         pageBuilder: (context, state) {
@@ -304,9 +304,15 @@ class RouterGenerationConfig {
           final extra = state.extra as Map<String, dynamic>?;
           final emoji = extra?['emoji'] as String? ?? '😔';
           final thoughts = extra?['thoughts'] as String? ?? '';
+          final destination =
+              MoodChoiceDestination.fromName(extra?['destination'] as String?);
           return _buildTransitionPage(
             state: state,
-            child: AffirmationScreen(emoji: emoji, thoughts: thoughts),
+            child: AffirmationScreen(
+              emoji: emoji,
+              thoughts: thoughts,
+              destination: destination,
+            ),
           );
         },
       ),

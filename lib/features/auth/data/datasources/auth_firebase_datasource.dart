@@ -52,6 +52,10 @@ class AuthFirebaseDataSource {
     return _toResult(_firebaseAuth.currentUser!);
   }
 
+  Future<void> sendPasswordResetEmail({required String email}) {
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
   Future<void> logout() async {
     await Future.wait([
       _firebaseAuth.signOut(),

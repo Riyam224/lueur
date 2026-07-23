@@ -1,6 +1,7 @@
 // lib/features/journal/presentation/screens/journal_grid_screen.dart
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,6 +69,10 @@ class _JournalGridView extends StatelessWidget {
   static const double _minBubbleSize = 96;
   static const int _recencySpan = 6;
 
+  /// Max jitter (in each direction) applied to every bubble so the grid
+  /// reads as a loose scatter instead of a strict row/column layout.
+  static const double _scatterRange = 14;
+
   /// Groups entries by calendar day — one bubble represents a whole day's
   /// conversation, not a single check-in, since a day can have several
   /// separate mood entries.
@@ -103,6 +108,16 @@ class _JournalGridView extends StatelessWidget {
     return _maxBubbleSize - (_maxBubbleSize - _minBubbleSize) * t;
   }
 
+  /// Deterministic per-entry jitter — seeded by the entry's own id so a
+  /// given bubble always scatters to the same spot instead of reshuffling
+  /// on every rebuild/scroll.
+  Offset _scatterFor(int entryId) {
+    final random = Random(entryId);
+    final dx = (random.nextDouble() * 2 - 1) * _scatterRange;
+    final dy = (random.nextDouble() * 2 - 1) * _scatterRange;
+    return Offset(dx, dy);
+  }
+
   void _openDay(BuildContext context, _DayGroup group) {
     final history = <Map<String, String>>[];
     for (final entry in group.entries) {
@@ -130,25 +145,28 @@ class _JournalGridView extends StatelessWidget {
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(
         AppSpacing.horizontalPaddingLg,
-        0,
+        AppSpacing.space2Xl,
         AppSpacing.horizontalPaddingLg,
         AppSpacing.space2Xl,
       ),
       sliver: SliverToBoxAdapter(
         child: Wrap(
           alignment: WrapAlignment.center,
-          spacing: AppSpacing.spaceMd,
-          runSpacing: AppSpacing.spaceMd,
+          spacing: AppSpacing.spaceXl,
+          runSpacing: AppSpacing.spaceXl,
           children: [
             for (var i = 0; i < groups.length; i++)
-              JournalGridCardWidget(
-                entry: groups[i].representative,
-                index: i,
-                size: _sizeForRank(i),
-                onTap: () => _openDay(context, groups[i]),
-                onLongPress: () => showJournalCardOptionsSheet(
-                  context,
-                  entryId: groups[i].representative.id,
+              Transform.translate(
+                offset: _scatterFor(groups[i].representative.id),
+                child: JournalGridCardWidget(
+                  entry: groups[i].representative,
+                  index: i,
+                  size: _sizeForRank(i),
+                  onTap: () => _openDay(context, groups[i]),
+                  onLongPress: () => showJournalCardOptionsSheet(
+                    context,
+                    entryId: groups[i].representative.id,
+                  ),
                 ),
               ),
           ],
@@ -161,7 +179,7 @@ class _JournalGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor =
-        isDark ? AppColors.darkBackground : AppColors.journalGridBackground;
+        isDark ? AppColors.darkBackground : AppColors.lightBackground;
     final headingColor =
         isDark ? AppColors.darkOnBackground : AppColors.lightOnBackground;
     final subheadingColor =

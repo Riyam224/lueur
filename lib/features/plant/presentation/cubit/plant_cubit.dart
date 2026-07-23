@@ -1,17 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur/features/plant/data/repositories/streak_repository.dart';
 import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
+import 'package:lueur/features/plant/domain/usecases/calculate_streak_usecase.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 
 class PlantCubit extends Cubit<PlantState> {
-  final StreakRepository repo;
+  final CalculateStreakUseCase _calculateStreakUseCase;
 
-  PlantCubit(this.repo) : super(PlantInitial());
+  PlantCubit(this._calculateStreakUseCase) : super(PlantInitial());
 
   Future<void> loadPlant() async {
     emit(PlantLoading());
     try {
-      final streak = await repo.calculateStreak();
+      final streak = await _calculateStreakUseCase();
       emit(PlantLoaded(
         stage: PlantStage.fromStreak(streak),
         streakDays: streak,

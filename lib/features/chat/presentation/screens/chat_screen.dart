@@ -255,7 +255,6 @@ class _ChatScreenState extends State<ChatScreen> {
     VoidCallback? onBookmark,
   }) {
     final cs = Theme.of(context).colorScheme;
-    final extra = context.extra;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -288,39 +287,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
           // Bubble
           Flexible(
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.72,
-              ),
-              decoration: BoxDecoration(
-                color: isUser ? cs.primary : extra.cardBackgroundColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(18),
-                  topRight: const Radius.circular(18),
-                  bottomLeft: Radius.circular(isUser ? 18 : 4),
-                  bottomRight: Radius.circular(isUser ? 4 : 18),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: (extra.shadowColor ?? Colors.black)
-                        .withValues(alpha: 0.06),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Text(
-                content,
-                style: ThemeTextStyles.bodyMedium(context).copyWith(
-                  color: isUser
-                      ? AppColors.whiteTextColor
-                      : extra.primaryTextColor,
-                  height: 1.5,
-                ),
-              ),
-            ),
+            child: _ChatBubble(content: content, isUser: isUser),
           ),
           if (onBookmark != null)
             IconButton(
@@ -441,8 +408,8 @@ class _ChatScreenState extends State<ChatScreen> {
               height: 46,
               decoration: BoxDecoration(
                 color: isLoading
-                    ? cs.primary.withValues(alpha: 0.4)
-                    : cs.primary,
+                    ? AppColors.primaryButtonFill.withValues(alpha: 0.4)
+                    : AppColors.primaryButtonFill,
                 shape: BoxShape.circle,
                 boxShadow: isLoading
                     ? []
@@ -521,7 +488,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: cs.primary,
+                backgroundColor: AppColors.primaryButtonFill,
                 foregroundColor: AppColors.whiteTextColor,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -532,13 +499,87 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Text(
                 'Back to Home',
                 style: ThemeTextStyles.labelMedium(context).copyWith(
-                  color: Colors.white,
+                  color: AppColors.whiteTextColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A single chat bubble with a light bounce-scale on tap — purely a tactile
+/// touch, no navigation or side effect, so it stays a tiny self-contained
+/// widget instead of triggering a rebuild of the whole message list.
+class _ChatBubble extends StatefulWidget {
+  final String content;
+  final bool isUser;
+
+  const _ChatBubble({required this.content, required this.isUser});
+
+  @override
+  State<_ChatBubble> createState() => _ChatBubbleState();
+}
+
+class _ChatBubbleState extends State<_ChatBubble> {
+  static const Curve _bounceBackCurve = Cubic(0.34, 1.56, 0.64, 1.0);
+
+  bool _pressed = false;
+
+  void _setPressed(bool value) {
+    if (!mounted) return;
+    setState(() => _pressed = value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final extra = context.extra;
+
+    return GestureDetector(
+      onTapDown: (_) => _setPressed(true),
+      onTapUp: (_) => _setPressed(false),
+      onTapCancel: () => _setPressed(false),
+      child: AnimatedScale(
+        scale: _pressed ? 0.94 : 1.0,
+        duration: Duration(milliseconds: _pressed ? 100 : 300),
+        curve: _pressed ? Curves.easeOut : _bounceBackCurve,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.72,
+          ),
+          decoration: BoxDecoration(
+            color: widget.isUser
+                ? AppColors.primaryButtonFill
+                : extra.cardBackgroundColor,
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(18),
+              topRight: const Radius.circular(18),
+              bottomLeft: Radius.circular(widget.isUser ? 18 : 4),
+              bottomRight: Radius.circular(widget.isUser ? 4 : 18),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: (extra.shadowColor ?? Colors.black)
+                    .withValues(alpha: 0.06),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Text(
+            widget.content,
+            style: ThemeTextStyles.bodyMedium(context).copyWith(
+              color: widget.isUser
+                  ? AppColors.whiteTextColor
+                  : extra.primaryTextColor,
+              height: 1.5,
+            ),
+          ),
+        ),
       ),
     );
   }

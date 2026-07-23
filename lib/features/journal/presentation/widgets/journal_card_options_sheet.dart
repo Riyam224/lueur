@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
@@ -64,7 +65,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
-        color: Colors.white,
+        color: context.extra.cardBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(

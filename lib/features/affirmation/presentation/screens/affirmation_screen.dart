@@ -1,11 +1,10 @@
 // lib/features/affirmation/presentation/screens/affirmation_screen.dart
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/models/mood_choice_destination.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
@@ -16,11 +15,13 @@ import 'package:lueur/features/affirmation/data/affirmations_data.dart';
 class AffirmationScreen extends StatefulWidget {
   final String emoji;
   final String thoughts;
+  final MoodChoiceDestination destination;
 
   const AffirmationScreen({
     super.key,
     required this.emoji,
     this.thoughts = '',
+    this.destination = MoodChoiceDestination.talkToLuna,
   });
 
   @override
@@ -40,16 +41,23 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
     _index.value = (_index.value + 1) % _cards.length;
   }
 
-  void _goToTalkToLuna(BuildContext context) {
-    context.push(
-      AppRoutes.chat,
-      extra: {
-        'userId': sl<FirebaseAuth>().currentUser?.uid ?? '',
-        'emoji': widget.emoji,
-        'thoughts': widget.thoughts,
-        'aiResponse': '',
-      },
-    );
+  void _continue(BuildContext context) {
+    switch (widget.destination) {
+      case MoodChoiceDestination.talkToLuna:
+        context.push(
+          AppRoutes.response,
+          extra: {
+            'emojiPath': null,
+            'emojiUnicode': widget.emoji,
+            'thoughts': widget.thoughts,
+          },
+        );
+      case MoodChoiceDestination.freeDraw:
+        context.push(
+          AppRoutes.freeDraw,
+          extra: {'emoji': widget.emoji, 'thoughts': widget.thoughts},
+        );
+    }
   }
 
   @override
@@ -175,7 +183,10 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
               ),
               SizedBox(height: AppSpacing.spaceXl),
               LunaCheckInPrompt(
-                onTalkToLuna: () => _goToTalkToLuna(context),
+                primaryLabel: widget.destination == MoodChoiceDestination.freeDraw
+                    ? 'Start drawing'
+                    : 'Talk to Luna',
+                onTalkToLuna: () => _continue(context),
                 onDismiss: () => context.go(AppRoutes.home),
               ),
               SizedBox(height: AppSpacing.space3Xl),

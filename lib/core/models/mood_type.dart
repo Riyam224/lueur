@@ -83,7 +83,7 @@ extension MoodTypeDetails on MoodType {
       };
 
   /// Light-mode tile background — a soft tint of [color].
-  Color get bgColor => Color.lerp(color, Colors.white, 0.85)!;
+  Color get bgColor => Color.lerp(color, AppColors.lightSurface, 0.85)!;
 
   /// Moods distressing enough that "Talk to Luna" should route through the
   /// breathing exercise first instead of straight to the AI response.

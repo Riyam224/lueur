@@ -215,7 +215,7 @@ class _MoodModal extends StatelessWidget {
                       ? onTalkAgain
                       : () => Navigator.of(context).pop(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: AppColors.primaryButtonFill,
                     foregroundColor: AppColors.whiteTextColor,
                     elevation: 0,
                     padding: EdgeInsets.symmetric(vertical: 14.h),

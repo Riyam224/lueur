@@ -120,65 +120,44 @@ class _BreathingViewState extends State<_BreathingView>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final gradientColors = isDark
-        ? const [
-            AppColors.darkBackground,
-            AppColors.darkSurface,
-            AppColors.primaryDarkDeep,
-          ]
-        : const [
-            AppColors.breathingGradientLavender,
-            AppColors.breathingGradientCream,
-            AppColors.breathingGradientPeach,
-          ];
     final inkColor =
         isDark ? AppColors.darkOnBackground : AppColors.lightOnBackground;
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: gradientColors,
-          ),
-        ),
-        child: SafeArea(
-          child: BlocConsumer<BreathingCubit, BreathingState>(
-            listenWhen: (previous, current) =>
-                (current is BreathingInProgress &&
-                    (previous is! BreathingInProgress ||
-                        previous.phase != current.phase)) ||
-                current is BreathingFinished,
-            listener: (context, state) {
-              if (state is BreathingInProgress) {
-                _syncAnimation(state);
-              } else if (state is BreathingFinished) {
-                _scaleController.stop();
-                _scaleController.value = 0;
-              }
-            },
-            builder: (context, state) {
-              return switch (state) {
-                BreathingLoading() => const SizedBox.shrink(),
-                BreathingError(:final message) => Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(AppSpacing.horizontalPaddingLg),
-                      child: Text(
-                        message,
-                        textAlign: TextAlign.center,
-                        style: ThemeTextStyles.bodyMedium(context),
-                      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(
+        child: BlocConsumer<BreathingCubit, BreathingState>(
+          listenWhen: (previous, current) =>
+              (current is BreathingInProgress &&
+                  (previous is! BreathingInProgress ||
+                      previous.phase != current.phase)) ||
+              current is BreathingFinished,
+          listener: (context, state) {
+            if (state is BreathingInProgress) {
+              _syncAnimation(state);
+            } else if (state is BreathingFinished) {
+              _scaleController.stop();
+              _scaleController.value = 0;
+            }
+          },
+          builder: (context, state) {
+            return switch (state) {
+              BreathingLoading() => const SizedBox.shrink(),
+              BreathingError(:final message) => Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(AppSpacing.horizontalPaddingLg),
+                    child: Text(
+                      message,
+                      textAlign: TextAlign.center,
+                      style: ThemeTextStyles.bodyMedium(context),
                     ),
                   ),
-                BreathingInProgress() =>
-                  _buildInProgress(context, state, inkColor),
-                BreathingFinished() => _buildFinished(context),
-              };
-            },
-          ),
+                ),
+              BreathingInProgress() =>
+                _buildInProgress(context, state, inkColor),
+              BreathingFinished() => _buildFinished(context),
+            };
+          },
         ),
       ),
     );
@@ -340,7 +319,7 @@ class _BreathingViewState extends State<_BreathingView>
           child: LinearProgressIndicator(
             value: progress,
             minHeight: 6,
-            backgroundColor: Colors.white.withValues(alpha: 0.4),
+            backgroundColor: AppColors.primary.withValues(alpha: 0.15),
             valueColor: const AlwaysStoppedAnimation(AppColors.primary),
           ),
         ),

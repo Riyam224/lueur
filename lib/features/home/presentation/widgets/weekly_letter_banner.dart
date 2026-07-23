@@ -259,7 +259,7 @@ class _StatChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: isDark
             ? AppColors.darkBackground.withValues(alpha: 0.5)
-            : Colors.white.withValues(alpha: 0.6),
+            : AppColors.lightSurface.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(999),
         border: Border.all(
           color: isDark ? AppColors.darkBorder : AppColors.lightBorder,

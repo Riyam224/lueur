@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
@@ -32,16 +33,18 @@ class _GreetingCardState extends State<GreetingCard> {
       return 'Hey $name, I\'m Luna. I\'m here whenever you\'re ready to talk 🌱';
     }
     if (hour >= 5 && hour < 12) {
-      if (streak > 0)
+      if (streak > 0) {
         return 'Good morning, $name! $streak-day streak — that\'s beautiful 🌸';
+      }
       return 'Good morning, $name ☀️ What\'s on your heart today?';
     }
     if (hour >= 12 && hour < 17) {
       return 'Hey $name 🌤️ How\'s your day going so far?';
     }
     if (hour >= 17 && hour < 21) {
-      if (streak > 0)
+      if (streak > 0) {
         return 'Good evening, $name 🌙 $streak days strong — I\'m proud of you.';
+      }
       return 'Good evening, $name 🌙 I\'m here if you want to talk.';
     }
     return 'Hey $name ⭐ Still up? I\'m listening.';
@@ -106,15 +109,10 @@ class _GreetingCardState extends State<GreetingCard> {
                     children: [
                       Text(
                         message,
-                        style: TextStyle(
+                        style: ThemeTextStyles.editorialHeadline(
+                          context,
+                          fontSize: 19,
                           color: onPrimary,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                          height: 1.4,
-                          fontFamilyFallback: const [
-                            'Apple Color Emoji',
-                            'Noto Color Emoji',
-                          ],
                         ),
                       ),
                       if (streak > 0) ...[

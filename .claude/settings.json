@@ -9,7 +9,25 @@
       "Bash(git diff *)",
       "Read(//tmp/**)",
       "Bash(/usr/bin/grep -c \"^+\" /tmp/hs.diff)",
-      "Bash(/usr/bin/grep -c \"^-\" /tmp/hs.diff)"
+      "Bash(/usr/bin/grep -c \"^-\" /tmp/hs.diff)",
+      "Bash(dart analyze *)",
+      "Bash(xargs -I{} echo {})",
+      "Bash(python3 -)",
+      "Bash(grep -rn \"backgroundColor: AppColors.primary\\\\|backgroundColor: cs.primary\\\\|backgroundColor: Theme.of\\(context\\).colorScheme.primary\\\\|color: cs.primary,$\\\\|color: AppColors.primary,$\" --include=\"*.dart\" /Users/r/StudioProjects/lueur/lib)",
+      "Bash(echo \"exit: $?\")",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(flutter run *)",
+      "Bash(echo \"started with pid $!\")",
+      "Bash(break)",
+      "Bash(kill %1)",
+      "Bash(pkill -f \"flutter run\")",
+      "Bash(flutter run -d F05BDE0C-D31D-48FB-9895-C59CB1115C27 --debug > /tmp/flutter_run2.log 2>&1 & *)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(echo \"started pid $!\")"
+    ],
+    "additionalDirectories": [
+      "/tmp"
     ]
   },
   "hooks": {

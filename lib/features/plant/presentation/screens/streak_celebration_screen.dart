@@ -118,7 +118,6 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
               child: ConfettiWidget(
                 confettiController: _confettiController,
                 blastDirectionality: BlastDirectionality.explosive,
-                shouldLoop: false,
                 numberOfParticles: 24,
                 gravity: 0.3,
                 colors: const [
@@ -183,7 +182,8 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                   SizedBox(height: AppSpacing.spaceXl),
                   Text(
                     '${widget.streakDays} days with Luna 🌸',
-                    style: ThemeTextStyles.headlineMedium(context).copyWith(
+                    style: ThemeTextStyles.editorialHeadline(
+                      context,
                       color: headingColor,
                     ),
                     textAlign: TextAlign.center,
@@ -202,8 +202,8 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                     child: ElevatedButton(
                       onPressed: () => context.go(AppRoutes.home),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
+                        backgroundColor: AppColors.primaryButtonFill,
+                        foregroundColor: AppColors.whiteTextColor,
                         padding: EdgeInsets.symmetric(
                           vertical: AppSpacing.verticalPaddingLg,
                         ),
