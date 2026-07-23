@@ -21,6 +21,7 @@ import 'package:lueur/features/home/presentation/screens/home_screen.dart';
 import 'package:lueur/features/journal/presentation/screens/journal_grid_screen.dart';
 import 'package:lueur/features/mood_choice/presentation/screens/mood_choice_screen.dart';
 import 'package:lueur/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:lueur/features/plant/presentation/screens/streak_celebration_screen.dart';
 import 'package:lueur/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/screens/saved_quotes_screen.dart';
@@ -118,8 +119,7 @@ class RouterGenerationConfig {
               BlocProvider.value(value: sl<AuthCubit>()),
             ],
             child: BlocListener<AuthCubit, AuthState>(
-              listenWhen: (previous, current) =>
-                  current is AuthUnauthenticated,
+              listenWhen: (previous, current) => current is AuthUnauthenticated,
               listener: (ctx, authState) {
                 if (authState is AuthUnauthenticated) {
                   ctx.go(AppRoutes.loginScreen);
@@ -223,9 +223,8 @@ class RouterGenerationConfig {
               .toList();
           // Thoughts with no reply yet (e.g. from the post-exercise check-in)
           // are sent to Luna automatically instead of preloaded as history.
-          final needsAutoSend = dayHistory == null &&
-              thoughts.isNotEmpty &&
-              aiResponse.isEmpty;
+          final needsAutoSend =
+              dayHistory == null && thoughts.isNotEmpty && aiResponse.isEmpty;
           return _buildTransitionPage(
             state: state,
             child: MultiBlocProvider(
@@ -308,6 +307,18 @@ class RouterGenerationConfig {
           return _buildTransitionPage(
             state: state,
             child: AffirmationScreen(emoji: emoji, thoughts: thoughts),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.streakCelebration,
+        path: AppRoutes.streakCelebration,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final streakDays = extra?['streakDays'] as int? ?? 7;
+          return _buildTransitionPage(
+            state: state,
+            child: StreakCelebrationScreen(streakDays: streakDays),
           );
         },
       ),

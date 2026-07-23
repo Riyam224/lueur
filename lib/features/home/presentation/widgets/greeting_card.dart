@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
+import 'package:lueur/features/plant/presentation/widgets/streak_growth_widget.dart';
 
 /// Greeting card displaying Luna's contextual message with dynamic plant animation.
 class GreetingCard extends StatefulWidget {
@@ -32,24 +32,19 @@ class _GreetingCardState extends State<GreetingCard> {
       return 'Hey $name, I\'m Luna. I\'m here whenever you\'re ready to talk 🌱';
     }
     if (hour >= 5 && hour < 12) {
-      if (streak > 0) return 'Good morning, $name! $streak-day streak — that\'s beautiful 🌸';
+      if (streak > 0)
+        return 'Good morning, $name! $streak-day streak — that\'s beautiful 🌸';
       return 'Good morning, $name ☀️ What\'s on your heart today?';
     }
     if (hour >= 12 && hour < 17) {
       return 'Hey $name 🌤️ How\'s your day going so far?';
     }
     if (hour >= 17 && hour < 21) {
-      if (streak > 0) return 'Good evening, $name 🌙 $streak days strong — I\'m proud of you.';
+      if (streak > 0)
+        return 'Good evening, $name 🌙 $streak days strong — I\'m proud of you.';
       return 'Good evening, $name 🌙 I\'m here if you want to talk.';
     }
     return 'Hey $name ⭐ Still up? I\'m listening.';
-  }
-
-  String _timeBasedLottiePath(int hour) {
-    if (hour >= 5 && hour < 12) return 'assets/lottie/seed_soil.json';
-    if (hour >= 12 && hour < 17) return 'assets/lottie/plant_sprout.json';
-    if (hour >= 17 && hour < 21) return 'assets/lottie/plant.json';
-    return 'assets/lottie/blooming.json';
   }
 
   @override
@@ -80,8 +75,8 @@ class _GreetingCardState extends State<GreetingCard> {
 
           _lastStage ??= stage;
 
-          final message = _lunaMessage(widget.userName, hour, streak, widget.hasEntries);
-          final lottiePath = _timeBasedLottiePath(hour);
+          final message =
+              _lunaMessage(widget.userName, hour, streak, widget.hasEntries);
 
           return Container(
             width: double.infinity,
@@ -157,15 +152,7 @@ class _GreetingCardState extends State<GreetingCard> {
                     ],
                   ),
                 ),
-                Lottie.asset(
-                  lottiePath,
-                  width: 110,
-                  height: 110,
-                  fit: BoxFit.contain,
-                  repeat: true,
-                  errorBuilder: (_, __, ___) =>
-                      const SizedBox(width: 110, height: 110),
-                ),
+                StreakGrowthWidget(streakDays: streak),
               ],
             ),
           );
