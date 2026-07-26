@@ -47,7 +47,12 @@ class ChatCubit extends Cubit<ChatState> {
     try {
       // 2 — history = everything except the last user message
       // because API adds it via `thoughts` field
-      final history = updatedMessages.sublist(0, updatedMessages.length - 1);
+      // Only send the last 10 turns — matches the backend's own window,
+      // keeps the payload small, and avoids ever-growing token usage.
+      final fullHistory = updatedMessages.sublist(0, updatedMessages.length - 1);
+      final history = fullHistory.length > 10
+          ? fullHistory.sublist(fullHistory.length - 10)
+          : fullHistory;
 
       // 3 — call API with userId + history
       final reply = await repository.sendMessage(
@@ -73,9 +78,16 @@ class ChatCubit extends Cubit<ChatState> {
       ),);
     } catch (e) {
       debugPrint('ChatCubit.sendMessage failed: $e');
+      // Show the fallback as a normal Luna chat bubble, not a system
+      // error banner — keeps the "texting a friend" feel intact even
+      // when a request fails or gets throttled.
+      final fallbackMessage = ChatMessage(
+        role: 'assistant',
+        content: _randomSendFailedMessage(),
+      );
       emit(state.copyWith(
-        status: ChatStatus.error,
-        error: _randomSendFailedMessage(),
+        status: ChatStatus.success,
+        messages: [...updatedMessages, fallbackMessage],
       ),);
     }
   }

@@ -88,18 +88,6 @@ class _ChatScreenState extends State<ChatScreen> {
       body: BlocConsumer<ChatCubit, ChatState>(
         listener: (context, state) {
           if (state.status == ChatStatus.success) _scrollToBottom();
-          if (state.status == ChatStatus.error) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error ?? 'Something went wrong 🌿'),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            );
-          }
         },
         builder: (context, state) {
           return Column(
