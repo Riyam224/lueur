@@ -8,6 +8,7 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_state.dart';
@@ -74,7 +75,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
       listener: _onStateChanged,
       child: Scaffold(
-        body: SafeArea(
+        body: AppBlobBackground(
+          child: SafeArea(
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(
               horizontal: AppSpacing.horizontalPaddingXl,
@@ -107,6 +109,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 SizedBox(height: AppSpacing.verticalPaddingXl),
               ],
             ),
+          ),
           ),
         ),
       ),

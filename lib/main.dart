@@ -5,8 +5,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lueur/core/app.dart';
 import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/features/draw/data/datasources/saved_drawings_local_datasource.dart';
 import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart';
 import 'package:lueur/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
+import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_datasource.dart';
 import 'package:lueur/firebase_options.dart';
 
 void main() async {
@@ -18,6 +20,8 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox<String>(MoodLocalDatasource.boxName);
   await Hive.openBox<String>(SavedQuotesLocalDatasource.boxName);
+  await Hive.openBox<String>(SudokuResultsLocalDatasource.boxName);
+  await Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName);
   await Hive.openBox<bool>(ThemeCubit.boxName);
 
   setupInjection();

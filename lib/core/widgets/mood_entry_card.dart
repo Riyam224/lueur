@@ -7,6 +7,8 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/bouncy_tap.dart';
+import 'package:lueur/core/widgets/cozy_card.dart';
 
 class MoodEntryCard extends StatelessWidget {
   final String emoji;
@@ -61,21 +63,12 @@ class MoodEntryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final extraColors = context.extra;
 
-    return GestureDetector(
+    return BouncyTap(
       onTap: onTap,
-      child: Container(
+      pressedScale: 0.97,
+      child: CozyCard(
+        color: extraColors.surfaceColor,
         padding: EdgeInsets.all(AppSpacing.horizontalPaddingSm),
-        decoration: BoxDecoration(
-          color: extraColors.surfaceColor,
-          borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
-          boxShadow: [
-            BoxShadow(
-              color: extraColors.shadowColor!,
-              blurRadius: 10.r,
-              offset: Offset(0, 2.h),
-            ),
-          ],
-        ),
         child: Row(
           children: [
             // Sidebar

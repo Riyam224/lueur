@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/widgets/bouncy_tap.dart';
 
-/// Glass-skin bottom navigation bar
+/// Glassy, floating pill-shaped bottom navigation bar
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -30,37 +31,52 @@ class AppBottomNavBar extends StatelessWidget {
     final cardBackground = extra.cardBackgroundColor!;
     final borderColor = extra.borderColor!;
 
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-        child: Container(
-          decoration: BoxDecoration(
-            color: isDark
-                ? primary.withValues(alpha: 0.18)
-                : cardBackground.withValues(alpha: 0.60),
-            border: Border(
-              top: BorderSide(
-                color: borderColor.withValues(alpha: isDark ? 0.35 : 0.80),
-                width: 0.8,
+    return SafeArea(
+      top: false,
+      minimum: EdgeInsets.only(bottom: 12.h, left: 16.w, right: 16.w),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(28.r),
+          boxShadow: [
+            BoxShadow(
+              color: (isDark ? Colors.black : primary).withValues(
+                alpha: isDark ? 0.35 : 0.18,
               ),
+              blurRadius: 24,
+              offset: const Offset(0, 10),
             ),
-          ),
-          child: SafeArea(
-            top: false,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(
-                  _items.length,
-                  (i) => _NavItem(
-                    icon: _items[i].icon,
-                    activeIcon: _items[i].activeIcon,
-                    label: _items[i].label,
-                    isActive: currentIndex == i,
-                    activeColor: primary,
-                    inactiveColor: secondaryText,
-                    onTap: () => onTap(i),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(28.r),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+            child: Container(
+              decoration: BoxDecoration(
+                color: isDark
+                    ? primary.withValues(alpha: 0.22)
+                    : cardBackground.withValues(alpha: 0.72),
+                borderRadius: BorderRadius.circular(28.r),
+                border: Border.all(
+                  color: borderColor.withValues(alpha: isDark ? 0.35 : 0.80),
+                  width: 0.8,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(
+                    _items.length,
+                    (i) => _NavItem(
+                      icon: _items[i].icon,
+                      activeIcon: _items[i].activeIcon,
+                      label: _items[i].label,
+                      isActive: currentIndex == i,
+                      activeColor: primary,
+                      inactiveColor: secondaryText,
+                      onTap: () => onTap(i),
+                    ),
                   ),
                 ),
               ),
@@ -93,9 +109,9 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return BouncyTap(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
+      pressedScale: 0.88,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
         curve: Curves.easeInOut,
@@ -109,10 +125,19 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              isActive ? activeIcon : icon,
-              color: isActive ? activeColor : inactiveColor,
-              size: 22.sp,
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: isActive ? 1.0 : 0.0),
+              duration: const Duration(milliseconds: 320),
+              curve: Curves.elasticOut,
+              builder: (context, hop, child) => Transform.translate(
+                offset: Offset(0, -3.h * hop),
+                child: child,
+              ),
+              child: Icon(
+                isActive ? activeIcon : icon,
+                color: isActive ? activeColor : inactiveColor,
+                size: 22.sp,
+              ),
             ),
             SizedBox(height: 3.h),
             Text(

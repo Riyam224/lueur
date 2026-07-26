@@ -94,20 +94,49 @@ class _MoodChoiceDialog extends StatelessWidget {
                 style: ThemeTextStyles.editorialHeadline(context, fontSize: 20),
               ),
               SizedBox(height: AppSpacing.spaceXl),
-              _MoodChoiceCard(
-                title: 'Talk to Luna',
-                subtitle: 'share what\'s on your mind',
-                icon: Icons.chat_bubble_rounded,
-                glowColor: AppColors.lavender,
-                onTap: () => _choose(context, MoodChoiceDestination.talkToLuna),
-              ),
-              SizedBox(height: AppSpacing.spaceMd),
-              _MoodChoiceCard(
-                title: 'Free Draw',
-                subtitle: 'no pressure, just color',
-                icon: Icons.brush_rounded,
-                glowColor: AppColors.accent,
-                onTap: () => _choose(context, MoodChoiceDestination.freeDraw),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _MoodChoiceCard(
+                        title: 'Talk to Luna',
+                        subtitle: 'share what\'s on your mind',
+                        icon: Icons.chat_bubble_rounded,
+                        glowColor: AppColors.lavender,
+                        onTap: () =>
+                            _choose(context, MoodChoiceDestination.talkToLuna),
+                      ),
+                      SizedBox(height: AppSpacing.spaceMd),
+                      _MoodChoiceCard(
+                        title: 'Breathe with Luna',
+                        subtitle: 'a slow, guided breath',
+                        icon: Icons.self_improvement_rounded,
+                        glowColor: AppColors.primaryContainer,
+                        onTap: () =>
+                            _choose(context, MoodChoiceDestination.breathing),
+                      ),
+                      SizedBox(height: AppSpacing.spaceMd),
+                      _MoodChoiceCard(
+                        title: 'Free Draw',
+                        subtitle: 'no pressure, just color',
+                        icon: Icons.brush_rounded,
+                        glowColor: AppColors.accent,
+                        onTap: () =>
+                            _choose(context, MoodChoiceDestination.freeDraw),
+                      ),
+                      SizedBox(height: AppSpacing.spaceMd),
+                      _MoodChoiceCard(
+                        title: 'Sudoku',
+                        subtitle: 'a small, calm puzzle',
+                        icon: Icons.grid_view_rounded,
+                        glowColor: AppColors.pastelOrchid,
+                        onTap: () =>
+                            _choose(context, MoodChoiceDestination.sudoku),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

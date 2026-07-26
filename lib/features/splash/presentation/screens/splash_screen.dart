@@ -22,11 +22,34 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _entranceController;
+  late final Animation<double> _fade;
+  late final Animation<double> _scale;
+
   @override
   void initState() {
     super.initState();
+    _entranceController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+    _fade = CurvedAnimation(
+      parent: _entranceController,
+      curve: Curves.easeOut,
+    );
+    _scale = Tween<double>(begin: 0.9, end: 1.0).animate(
+      CurvedAnimation(parent: _entranceController, curve: Curves.easeOutBack),
+    );
+    _entranceController.forward();
     _navigate();
+  }
+
+  @override
+  void dispose() {
+    _entranceController.dispose();
+    super.dispose();
   }
 
   Future<void> _navigate() async {
@@ -109,37 +132,56 @@ class _SplashScreenState extends State<SplashScreen> {
 
           // ── Content ────────────────────────────────────────────────────
           SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.height * SplashConstants.topSpacerFraction,
+            child: FadeTransition(
+              opacity: _fade,
+              child: ScaleTransition(
+                scale: _scale,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: size.height * SplashConstants.topSpacerFraction,
+                    ),
+                    Text(
+                      AppStrings.appName,
+                      style: AppTextStyles.displayLarge(context).copyWith(
+                        fontSize: SplashConstants.titleFontSize.sp,
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height *
+                          SplashConstants.titleToTaglineSpacingFraction,
+                    ),
+                    Text(
+                      AppStrings.appTagline,
+                      style: AppTextStyles.labelSmall(context).copyWith(
+                        color: context.extra.secondaryTextColor,
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height *
+                          SplashConstants.taglineToLottieSpacingFraction,
+                    ),
+                    Container(
+                      width: size.width * SplashConstants.lottieWidthFraction *
+                          1.15,
+                      height: size.width * SplashConstants.lottieWidthFraction *
+                          1.15,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.pastelBlush,
+                      ),
+                      alignment: Alignment.center,
+                      child: Lottie.asset(
+                        AppAssets.lottiePlant,
+                        width:
+                            size.width * SplashConstants.lottieWidthFraction,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  AppStrings.appName,
-                  style: AppTextStyles.displayLarge(context)
-                      .copyWith(fontSize: SplashConstants.titleFontSize.sp),
-                ),
-                SizedBox(
-                  height: size.height *
-                      SplashConstants.titleToTaglineSpacingFraction,
-                ),
-                Text(
-                  AppStrings.appTagline,
-                  style: AppTextStyles.labelSmall(context).copyWith(
-                    color: context.extra.secondaryTextColor,
-                  ),
-                ),
-                SizedBox(
-                  height: size.height *
-                      SplashConstants.taglineToLottieSpacingFraction,
-                ),
-                Lottie.asset(
-                  AppAssets.lottiePlant,
-                  width: size.width * SplashConstants.lottieWidthFraction,
-                  fit: BoxFit.contain,
-                ),
-              ],
+              ),
             ),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
@@ -388,7 +389,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           const SizedBox(width: 10),
-          GestureDetector(
+          BouncyTap(
             onTap: isLoading ? null : () => _sendMessage(context),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),

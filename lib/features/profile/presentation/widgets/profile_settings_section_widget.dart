@@ -41,43 +41,9 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
             activeTrackColor: AppColors.primary.withValues(alpha: 0.4),
           ),
         ),
-
-        _divider(context),
-
-        _SettingsItem(
-          icon: Icons.auto_awesome_rounded,
-          iconColor: context.extra.settingsAboutIconColor!,
-          iconBgColor: context.extra.settingsAboutIconBg!,
-          label: 'About Luna',
-          trailing: _chevron(context),
-          onTap: () {},
-        ),
-
-        _divider(context),
-
-        _SettingsItem(
-          icon: Icons.privacy_tip_rounded,
-          iconColor: context.extra.settingsPrivacyIconColor!,
-          iconBgColor: context.extra.settingsPrivacyIconBg!,
-          label: 'Privacy Policy',
-          trailing: _chevron(context),
-          onTap: () {},
-        ),
       ],
     );
   }
-
-  Widget _divider(BuildContext context) => Divider(
-        height: 1,
-        thickness: 0.5,
-        color: context.extra.borderColor,
-      );
-
-  Widget _chevron(BuildContext context) => Icon(
-        Icons.chevron_right_rounded,
-        color: context.extra.tertiaryTextColor,
-        size: 20,
-      );
 }
 
 class _SettingsItem extends StatelessWidget {
@@ -86,7 +52,6 @@ class _SettingsItem extends StatelessWidget {
   final Color iconBgColor;
   final String label;
   final Widget trailing;
-  final VoidCallback? onTap;
 
   const _SettingsItem({
     required this.icon,
@@ -94,13 +59,11 @@ class _SettingsItem extends StatelessWidget {
     required this.iconBgColor,
     required this.label,
     required this.trailing,
-    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
       borderRadius: BorderRadius.circular(12.r),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 13.h),

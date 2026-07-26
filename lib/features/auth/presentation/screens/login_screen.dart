@@ -8,6 +8,7 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
@@ -65,7 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<AuthCubit, AuthState>(
       listener: _onAuthStateChanged,
       child: Scaffold(
-        body: SafeArea(
+        body: AppBlobBackground(
+          child: SafeArea(
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(
               horizontal: AppSpacing.horizontalPaddingXl,
@@ -217,6 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: AppSpacing.verticalPaddingXl),
               ],
             ),
+          ),
           ),
         ),
       ),

@@ -52,9 +52,19 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
             'thoughts': widget.thoughts,
           },
         );
+      case MoodChoiceDestination.breathing:
+        context.push(
+          AppRoutes.breathing,
+          extra: {'emoji': widget.emoji, 'thoughts': widget.thoughts},
+        );
       case MoodChoiceDestination.freeDraw:
         context.push(
           AppRoutes.freeDraw,
+          extra: {'emoji': widget.emoji, 'thoughts': widget.thoughts},
+        );
+      case MoodChoiceDestination.sudoku:
+        context.push(
+          AppRoutes.sudoku,
           extra: {'emoji': widget.emoji, 'thoughts': widget.thoughts},
         );
     }

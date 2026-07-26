@@ -11,8 +11,10 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
+import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
 
 class FreeDrawScreen extends StatelessWidget {
@@ -27,8 +29,11 @@ class FreeDrawScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<DrawCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<DrawCubit>()),
+        BlocProvider(create: (_) => sl<SavedDrawingsCubit>()),
+      ],
       child: _FreeDrawView(emoji: emoji, thoughts: thoughts),
     );
   }
@@ -47,6 +52,28 @@ class _FreeDrawView extends StatelessWidget {
   final String thoughts;
 
   const _FreeDrawView({required this.emoji, required this.thoughts});
+
+  void _saveDrawing(BuildContext context) {
+    final paths = context.read<DrawCubit>().state.paths;
+    if (paths.isEmpty) return;
+
+    final entities = paths
+        .map(
+          (p) => SavedDrawingPathEntity(
+            colorArgb: p.color.toARGB32(),
+            points: p.points.map((pt) => (pt.dx, pt.dy)).toList(),
+          ),
+        )
+        .toList();
+
+    context.read<SavedDrawingsCubit>().saveCurrent(entities);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Drawing saved to your profile'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   void _goToTalkToLuna(BuildContext context) {
     context.push(
@@ -104,6 +131,14 @@ class _FreeDrawView extends StatelessWidget {
             style: ThemeTextStyles.bodyMedium(context).copyWith(
               color: extra.secondaryTextColor,
               fontWeight: FontWeight.w600,
+            ),
+          ),
+          IconButton(
+            onPressed: () => _saveDrawing(context),
+            icon: Icon(
+              Icons.save_alt_rounded,
+              color: extra.primaryColor,
+              size: 20,
             ),
           ),
           TextButton(

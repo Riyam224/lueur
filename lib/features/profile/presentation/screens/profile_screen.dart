@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
@@ -13,8 +12,11 @@ import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_avatar_widget.dart';
+import 'package:lueur/features/profile/presentation/widgets/profile_quick_links_widget.dart';
+import 'package:lueur/features/profile/presentation/widgets/profile_saved_drawings_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_settings_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_stats_widget.dart';
+import 'package:lueur/features/profile/presentation/widgets/profile_sudoku_history_section_widget.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
 
@@ -70,27 +72,9 @@ class ProfileScreen extends StatelessWidget {
             AppSpacing.verticalPaddingMd,
           ),
           sliver: SliverToBoxAdapter(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('My Profile',
-                    style: ThemeTextStyles.headlineMedium(context),),
-
-                // Settings gear icon
-                Container(
-                  width: AppSizes.avatarSm,
-                  height: AppSizes.avatarSm,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: context.extra.cardBackgroundColor,
-                  ),
-                  child: Icon(
-                    Icons.settings_outlined,
-                    color: context.extra.secondaryTextColor,
-                    size: AppSizes.iconSm,
-                  ),
-                ),
-              ],
+            child: Text(
+              'My Profile',
+              style: ThemeTextStyles.headlineMedium(context),
             ),
           ),
         ),
@@ -268,6 +252,45 @@ class ProfileScreen extends StatelessWidget {
                 return const SizedBox.shrink();
               },
             ),
+          ),
+        ),
+
+        // ── My Drawings ──────────────────────────────────
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.horizontalPaddingLg,
+            0,
+            AppSpacing.horizontalPaddingLg,
+            AppSpacing.sectionSpacingMd,
+          ),
+          sliver: const SliverToBoxAdapter(
+            child: ProfileSavedDrawingsSectionWidget(),
+          ),
+        ),
+
+        // ── Sudoku History ────────────────────────────────
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.horizontalPaddingLg,
+            0,
+            AppSpacing.horizontalPaddingLg,
+            AppSpacing.sectionSpacingMd,
+          ),
+          sliver: const SliverToBoxAdapter(
+            child: ProfileSudokuHistorySectionWidget(),
+          ),
+        ),
+
+        // ── Weekly Letter / Mood Board quick links ────────
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.horizontalPaddingLg,
+            0,
+            AppSpacing.horizontalPaddingLg,
+            AppSpacing.sectionSpacingLg,
+          ),
+          sliver: const SliverToBoxAdapter(
+            child: ProfileQuickLinksWidget(),
           ),
         ),
 

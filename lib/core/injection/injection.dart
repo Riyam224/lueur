@@ -24,7 +24,14 @@ import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart
 import 'package:lueur/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:lueur/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
+import 'package:lueur/features/draw/data/datasources/saved_drawings_local_datasource.dart';
+import 'package:lueur/features/draw/data/repositories/saved_drawings_repository_impl.dart';
+import 'package:lueur/features/draw/domain/repositories/saved_drawings_repository.dart';
+import 'package:lueur/features/draw/domain/usecases/delete_drawing_usecase.dart';
+import 'package:lueur/features/draw/domain/usecases/get_saved_drawings_usecase.dart';
+import 'package:lueur/features/draw/domain/usecases/save_drawing_usecase.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
+import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart';
 import 'package:lueur/features/home/data/datasources/mood_remote_datasource.dart';
 import 'package:lueur/features/home/data/repositories/mood_repository_impl.dart';
@@ -45,6 +52,16 @@ import 'package:lueur/features/quotes/domain/usecases/delete_quote_usecase.dart'
 import 'package:lueur/features/quotes/domain/usecases/get_saved_quotes_usecase.dart';
 import 'package:lueur/features/quotes/domain/usecases/save_quote_usecase.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
+import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_datasource.dart';
+import 'package:lueur/features/sudoku/data/repositories/sudoku_results_repository_impl.dart';
+import 'package:lueur/features/sudoku/domain/repositories/sudoku_results_repository.dart';
+import 'package:lueur/features/sudoku/domain/usecases/delete_sudoku_result_usecase.dart';
+import 'package:lueur/features/sudoku/domain/usecases/generate_sudoku_puzzle_usecase.dart';
+import 'package:lueur/features/sudoku/domain/usecases/get_sudoku_results_usecase.dart';
+import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
+import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
+import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
+import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -177,5 +194,38 @@ void setupInjection() {
       togglePinUseCase: sl(),
       deleteEntryUseCase: sl(),
     ),
+  );
+
+  // ── Sudoku ─────────────────────────────────────────────────────────────
+  sl.registerLazySingleton<SudokuResultsLocalDatasource>(
+    SudokuResultsLocalDatasource.new,
+  );
+  sl.registerLazySingleton<SudokuResultsRepository>(
+    () => SudokuResultsRepositoryImpl(sl(), sl()),
+  );
+  sl.registerLazySingleton(() => GetSudokuResultsUseCase(sl()));
+  sl.registerLazySingleton(() => SaveSudokuResultUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteSudokuResultUseCase(sl()));
+  sl.registerLazySingleton(GenerateSudokuPuzzleUseCase.new);
+  sl.registerLazySingleton(ValidateSudokuMoveUseCase.new);
+  sl.registerFactory<SudokuCubit>(
+    () => SudokuCubit(sl(), sl(), sl()),
+  );
+  sl.registerFactory<SudokuResultsCubit>(
+    () => SudokuResultsCubit(sl(), sl()),
+  );
+
+  // ── Saved Drawings ─────────────────────────────────────────────────────
+  sl.registerLazySingleton<SavedDrawingsLocalDatasource>(
+    SavedDrawingsLocalDatasource.new,
+  );
+  sl.registerLazySingleton<SavedDrawingsRepository>(
+    () => SavedDrawingsRepositoryImpl(sl(), sl()),
+  );
+  sl.registerLazySingleton(() => GetSavedDrawingsUseCase(sl()));
+  sl.registerLazySingleton(() => SaveDrawingUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteDrawingUseCase(sl()));
+  sl.registerFactory<SavedDrawingsCubit>(
+    () => SavedDrawingsCubit(sl(), sl(), sl()),
   );
 }

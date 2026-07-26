@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // ── Lueur pastel palette (source of truth — reference these, never a raw
+  // ── Lueur cozy palette (source of truth — reference these, never a raw
   // hex, anywhere else in the app) ─────────────────────────────────────────
-  static const Color pastelLavenderWhite = Color(0xFFF4E7F8);
-  static const Color pastelBlush         = Color(0xFFF2DDDC);
-  static const Color pastelCoral         = Color(0xFFF6BCBA);
-  static const Color pastelOrchid        = Color(0xFFE3AADD);
-  static const Color pastelPurple        = Color(0xFFC8A8E9);
-  static const Color pastelPeriwinkle    = Color(0xFFC3C7F4);
+  // Brand duo: Luna's actual illustration purple (sampled from
+  // assets/images/luna_splash.png, #C5AAF7) + Buttermilk Yellow — every
+  // purple in the app (light or dark mode) is a tint/shade of this exact
+  // hue so nothing reads as a "different purple" than Luna herself.
+  static const Color lavenderLilac    = Color(0xFFC5AAF7);
+  static const Color buttermilkYellow = Color(0xFFFFE6A7);
+  static const Color creamBackground  = Color(0xFFF8F2E7);
+
+  static const Color pastelLavenderWhite = creamBackground;
+  static const Color pastelBlush         = Color(0xFFFCEFD0); // warm buttermilk tint
+  static const Color pastelCoral         = buttermilkYellow;   // "Great" mood, warm accent
+  static const Color pastelOrchid        = Color(0xFF996AF1); // deeper Luna-purple, decorative
+  static const Color pastelPurple        = lavenderLilac;
+  static const Color pastelPeriwinkle    = Color(0xFFDDD1FA); // lighter Luna-purple tint — AI bubble
 
   // ── Button-fill variants ─────────────────────────────────────────────────
   // pastelPurple/pastelCoral read beautifully as backgrounds, glows, and
-  // decorative fills, but white text on top of them fails WCAG AA (measured
-  // 2.05:1 and 1.64:1 — need 4.5:1). These are the same hue, darkened via
-  // the WCAG relative-luminance formula until white text clears 4.5:1 —
-  // use ONLY where white/light text sits directly on the fill (buttons,
-  // filled chat bubbles). Leave every background/glow/decorative usage on
-  // the lighter pastel values above.
-  static const Color primaryButtonFill = Color(0xFF9658D5); // contrast w/ white: 4.51:1
-  static const Color accentButtonFill  = Color(0xFFE32C26); // contrast w/ white: 4.51:1
+  // decorative fills, but white text on top of them fails WCAG AA (need
+  // 4.5:1). These are the same hue, darkened via the WCAG relative-luminance
+  // formula until white text clears 4.5:1 — use ONLY where white/light text
+  // sits directly on the fill (buttons, filled chat bubbles). Leave every
+  // background/glow/decorative usage on the lighter pastel values above.
+  static const Color primaryButtonFill = Color(0xFF8B55EF); // contrast w/ white: 4.51:1
+  static const Color accentButtonFill  = Color(0xFF9A6F00); // contrast w/ white: 4.52:1
 
   // ── Lueur Breathing/Affirmation Palette ─────────────────────────────────
   static const Color cardBorder = lightBorder;
@@ -34,7 +41,7 @@ class AppColors {
   static const Color primaryContainer = pastelPeriwinkle;    // AI bubble
   static const Color lightOnBackground = Color(0xFF2E2A47);  // Headings
   static const Color lightSecondaryText = Color(0xFF6B6480); // Labels, hints
-  static const Color lightBorder = Color(0xFFEEDFF2);        // Card borders
+  static const Color lightBorder = Color(0xFFE9E1F3);        // Card borders
   static const Color accent = pastelCoral;                   // "Great" mood
 
   // ── Dark Theme (same pastel family, deepened — no black/navy) ────────────
@@ -65,7 +72,7 @@ class AppColors {
 
   // Accent
   static const Color blushPink = accent;
-  static const Color lavender = Color(0xFFB4B8F0);
+  static const Color lavender = Color(0xFFCFB9F8); // lighter Luna-purple tint
 
   // Mood Colors
   static const Color moodHappy = Color(0xFF4CAF50);
@@ -88,7 +95,7 @@ class AppColors {
 
   // ── Settings icon colors (profile settings section) ─────────────────────
   // Light mode
-  static const Color settingsModeIconColorLight    = Color(0xFF7C6FCD);
+  static const Color settingsModeIconColorLight    = Color(0xFF864EEE); // Luna-purple, deeper
   static const Color settingsModeIconBgLight       = Color(0xFFEEEBFF);
   static const Color settingsAboutIconColorLight   = Color(0xFFD45CA0);
   static const Color settingsAboutIconBgLight      = Color(0xFFFFEBF5);
@@ -96,7 +103,7 @@ class AppColors {
   static const Color settingsPrivacyIconBgLight    = Color(0xFFE8F5E9);
 
   // Dark mode (Celestials palette)
-  static const Color settingsModeIconColorDark    = Color(0xFFA896F0); // lavender
+  static const Color settingsModeIconColorDark    = lavenderLilac; // Luna purple
   static const Color settingsModeIconBgDark        = darkPrimaryContainer;
   static const Color settingsAboutIconColorDark   = darkCoralPink;
   static const Color settingsAboutIconBgDark       = Color(0xFF3A2438); // deep plum
@@ -123,7 +130,7 @@ class AppColors {
   static const Color breathingGradientPeach = Color(0xFFFFD4B8);
 
   // ── Onboarding UI colors ──────────────────────────────────────────────────
-  static const Color onboardingAccent      = Color(0xFF8C7FD6); // CTA, active dot, skip text
+  static const Color onboardingAccent      = Color(0xFF864EEE); // CTA, active dot, skip text — Luna purple
   static const Color onboardingDotInactive = Color(0xFFD8D3E8); // inactive indicator dot
   static const Color onboardingHeadline    = Color(0xFF2E2A47); // page headline text
   static const Color onboardingSubtitle    = Color(0xFF6B6480); // page subtitle text
@@ -135,5 +142,5 @@ class AppColors {
   static const Color journalCardMint        = Color(0xFFA9E0CE);
   static const Color journalCardPeach       = Color(0xFFFFD9C2);
   static const Color journalCardCoral       = Color(0xFFF2C4A8);
-  static const Color journalGridBackground  = Color(0xFFFFF9F5);
+  static const Color journalGridBackground  = creamBackground;
 }

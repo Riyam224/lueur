@@ -17,10 +17,15 @@ import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/screens/chat_screen.dart';
+import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
+import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/draw/presentation/screens/free_draw_screen.dart';
+import 'package:lueur/features/draw/presentation/screens/saved_drawing_viewer_screen.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
+import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:lueur/features/home/presentation/screens/home_screen.dart';
+import 'package:lueur/features/home/presentation/screens/weekly_letter_screen.dart';
 import 'package:lueur/features/journal/presentation/screens/journal_grid_screen.dart';
 import 'package:lueur/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lueur/features/plant/presentation/screens/streak_celebration_screen.dart';
@@ -29,6 +34,9 @@ import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart
 import 'package:lueur/features/quotes/presentation/screens/saved_quotes_screen.dart';
 import 'package:lueur/features/response/presentation/screens/response_ai_screen.dart';
 import 'package:lueur/features/splash/presentation/screens/splash_screen.dart';
+import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
+import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
+import 'package:lueur/features/sudoku/presentation/screens/sudoku_screen.dart';
 
 class RouterGenerationConfig {
   static CustomTransitionPage _buildTransitionPage({
@@ -38,27 +46,35 @@ class RouterGenerationConfig {
     return CustomTransitionPage(
       key: state.pageKey,
       child: child,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-          FadeTransition(
-        opacity: animation,
-        child: SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 0.05),
-            end: Offset.zero,
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOut,
+      transitionDuration: const Duration(milliseconds: 380),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final fade = CurvedAnimation(parent: animation, curve: Curves.easeOut);
+        // easeOutBack overshoots past 1.0 — fine for a scale transform (reads
+        // as a cute little "pop"), but must stay off the opacity/slide curves
+        // below to avoid opacity/offset artifacts beyond their valid range.
+        final bounce = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutBack,
+        );
+        return FadeTransition(
+          opacity: fade,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.05),
+              end: Offset.zero,
+            ).animate(fade),
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.96, end: 1.0).animate(bounce),
+              child: child,
             ),
           ),
-          child: child,
-        ),
-      ),
+        );
+      },
     );
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.onBoarding,
+    initialLocation: AppRoutes.splash,
     onException: (context, state, router) {
       router.go(AppRoutes.splash);
     },
@@ -174,8 +190,20 @@ class RouterGenerationConfig {
                 path: AppRoutes.profile,
                 pageBuilder: (context, state) => _buildTransitionPage(
                   state: state,
-                  child: BlocProvider(
-                    create: (_) => sl<SavedQuotesCubit>()..loadQuotes(),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (_) => sl<SavedQuotesCubit>()..loadQuotes(),
+                      ),
+                      BlocProvider(
+                        create: (_) =>
+                            sl<SavedDrawingsCubit>()..loadDrawings(),
+                      ),
+                      BlocProvider(
+                        create: (_) =>
+                            sl<SudokuResultsCubit>()..loadResults(),
+                      ),
+                    ],
                     child: const ProfileScreen(),
                   ),
                 ),
@@ -296,6 +324,42 @@ class RouterGenerationConfig {
             child: FreeDrawScreen(emoji: emoji, thoughts: thoughts),
           );
         },
+      ),
+      GoRoute(
+        name: AppRoutes.sudoku,
+        path: AppRoutes.sudoku,
+        pageBuilder: (context, state) => _buildTransitionPage(
+          state: state,
+          child: BlocProvider(
+            create: (_) => sl<SudokuCubit>()..start(),
+            child: const SudokuScreen(),
+          ),
+        ),
+      ),
+      GoRoute(
+        name: AppRoutes.savedDrawingViewer,
+        path: AppRoutes.savedDrawingViewer,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return _buildTransitionPage(
+            state: state,
+            child: SavedDrawingViewerScreen(
+              drawing: extra['drawing'] as SavedDrawingEntity,
+              onDelete: extra['onDelete'] as VoidCallback,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.weeklyLetter,
+        path: AppRoutes.weeklyLetter,
+        pageBuilder: (context, state) => _buildTransitionPage(
+          state: state,
+          child: BlocProvider(
+            create: (_) => sl<WeeklyLetterCubit>()..load(),
+            child: const WeeklyLetterScreen(),
+          ),
+        ),
       ),
       GoRoute(
         name: AppRoutes.affirmation,

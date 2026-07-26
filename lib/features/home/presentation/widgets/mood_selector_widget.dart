@@ -6,6 +6,7 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/bouncy_tap.dart';
 
 /// Large tappable mood tiles. When [illustrationPaths] is provided each tile
 /// shows an SVG/PNG illustration; otherwise falls back to unicode emoji text.
@@ -86,58 +87,70 @@ class MoodSelectorWidget extends StatelessWidget {
               return Padding(
                 padding:
                     EdgeInsets.only(right: index < emojis.length - 1 ? 8 : 0),
-                child: GestureDetector(
+                child: BouncyTap(
                   onTap: () {
                     HapticFeedback.lightImpact();
                     onEmojiSelected(emoji);
                   },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    curve: Curves.easeOut,
-                    width: tileWidth,
-                    height: tileHeight,
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? tileBg
-                          : tileBg.withValues(alpha: isDark ? 1.0 : 0.65),
-                      borderRadius:
-                          BorderRadius.circular(AppSizes.borderRadiusMd),
-                      border: Border.all(
-                        color: isSelected
-                            ? highlightColor
-                            : (extra.borderColor ?? Colors.transparent),
-                        width: isSelected ? 2 : 1,
-                      ),
-                      boxShadow: isSelected
-                          ? [
-                              BoxShadow(
-                                color: highlightColor.withValues(alpha: 0.25),
-                                blurRadius: 10,
-                                offset: const Offset(0, 3),
-                              ),
-                            ]
-                          : null,
+                  pressedScale: 0.9,
+                  child: TweenAnimationBuilder<double>(
+                    key: ValueKey(emoji),
+                    tween: Tween(begin: 1.0, end: isSelected ? 1.12 : 1.0),
+                    duration: const Duration(milliseconds: 380),
+                    curve: Curves.elasticOut,
+                    builder: (context, pop, child) => Transform.scale(
+                      scale: pop,
+                      child: child,
                     ),
-                    child: hasIllustrations
-                        ? Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: _buildIllustration(
-                              illustrationPaths![index],
-                              tileHeight * 0.78,
-                            ),
-                          )
-                        : Center(
-                            child: Text(
-                              emoji,
-                              style: const TextStyle(
-                                fontSize: 30,
-                                fontFamilyFallback: [
-                                  'Apple Color Emoji',
-                                  'Noto Color Emoji',
-                                ],
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+                      curve: Curves.easeOut,
+                      width: tileWidth,
+                      height: tileHeight,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? tileBg
+                            : tileBg.withValues(alpha: isDark ? 1.0 : 0.65),
+                        borderRadius:
+                            BorderRadius.circular(AppSizes.borderRadiusMd),
+                        border: Border.all(
+                          color: isSelected
+                              ? highlightColor
+                              : (extra.borderColor ?? Colors.transparent),
+                          width: isSelected ? 2 : 1,
+                        ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color:
+                                      highlightColor.withValues(alpha: 0.25),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: hasIllustrations
+                          ? Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: _buildIllustration(
+                                illustrationPaths![index],
+                                tileHeight * 0.78,
+                              ),
+                            )
+                          : Center(
+                              child: Text(
+                                emoji,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                  fontFamilyFallback: [
+                                    'Apple Color Emoji',
+                                    'Noto Color Emoji',
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
+                    ),
                   ),
                 ),
               );

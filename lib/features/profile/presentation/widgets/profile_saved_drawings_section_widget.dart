@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/routing/app_routes.dart';
+import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
+import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
+import 'package:lueur/features/draw/presentation/cubit/saved_drawings_state.dart';
+import 'package:lueur/features/draw/presentation/widgets/saved_drawing_thumbnail.dart';
+
+/// "My Drawings" — saved free-draw sketches, tap to reopen, tap the corner
+/// icon to delete. Mirrors the Saved Quotes section's card styling.
+class ProfileSavedDrawingsSectionWidget extends StatelessWidget {
+  const ProfileSavedDrawingsSectionWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SavedDrawingsCubit, SavedDrawingsState>(
+      builder: (context, state) {
+        if (state is SavedDrawingsError) {
+          return const _EmptyCard(
+            emoji: '🎨',
+            title: 'My Drawings',
+            subtitle: 'Couldn\'t load your drawings — pull to refresh and try again',
+          );
+        }
+        if (state is! SavedDrawingsLoaded) return const SizedBox.shrink();
+
+        if (state.drawings.isEmpty) {
+          return const _EmptyCard(
+            emoji: '🎨',
+            title: 'My Drawings',
+            subtitle: 'Drawings you save from Free Draw will appear here',
+          );
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('My Drawings', style: ThemeTextStyles.headlineSmall(context)),
+            SizedBox(height: AppSpacing.spaceSm),
+            SizedBox(
+              height: 96,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                clipBehavior: Clip.none,
+                itemCount: state.drawings.length,
+                separatorBuilder: (_, __) => SizedBox(width: AppSpacing.spaceSm),
+                itemBuilder: (context, index) {
+                  final drawing = state.drawings[index];
+                  return _DrawingTile(drawing: drawing);
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _DrawingTile extends StatelessWidget {
+  final SavedDrawingEntity drawing;
+
+  const _DrawingTile({required this.drawing});
+
+  void _delete(BuildContext context) {
+    context.read<SavedDrawingsCubit>().deleteDrawing(drawing.id);
+  }
+
+  void _open(BuildContext context) {
+    context.push(
+      AppRoutes.savedDrawingViewer,
+      extra: {'drawing': drawing, 'onDelete': () => _delete(context)},
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final extra = context.extra;
+
+    return GestureDetector(
+      onTap: () => _open(context),
+      child: Stack(
+        children: [
+          Container(
+            width: 96,
+            height: 96,
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: extra.cardBackgroundColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: extra.borderColor ?? AppColors.cardBorder,
+              ),
+            ),
+            child: SavedDrawingThumbnail(drawing: drawing),
+          ),
+          Positioned(
+            top: 2,
+            right: 2,
+            child: GestureDetector(
+              onTap: () => _delete(context),
+              child: Container(
+                width: 22,
+                height: 22,
+                decoration: const BoxDecoration(
+                  color: AppColors.errorColor,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.close_rounded,
+                  color: AppColors.whiteTextColor,
+                  size: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EmptyCard extends StatelessWidget {
+  final String emoji;
+  final String title;
+  final String subtitle;
+
+  const _EmptyCard({
+    required this.emoji,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(AppSpacing.spaceLg),
+      decoration: BoxDecoration(
+        color: context.extra.cardBackgroundColor,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: context.extra.borderColor ?? Theme.of(context).colorScheme.outline,
+          width: 1.2,
+        ),
+      ),
+      child: Column(
+        children: [
+          Text(emoji, style: const TextStyle(fontSize: 32)),
+          SizedBox(height: AppSpacing.spaceSm),
+          Text(title, style: ThemeTextStyles.titleMedium(context)),
+          SizedBox(height: AppSpacing.spaceXs),
+          Text(
+            subtitle,
+            style: ThemeTextStyles.bodySmall(context)
+                .copyWith(color: context.extra.secondaryTextColor),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}

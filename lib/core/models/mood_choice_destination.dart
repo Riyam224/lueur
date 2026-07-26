@@ -3,7 +3,9 @@
 /// it to the right next screen.
 enum MoodChoiceDestination {
   talkToLuna,
-  freeDraw;
+  breathing,
+  freeDraw,
+  sudoku;
 
   static MoodChoiceDestination fromName(String? name) => values.firstWhere(
         (d) => d.name == name,

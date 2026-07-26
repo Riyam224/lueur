@@ -16,5 +16,8 @@ class AppRoutes {
   static const String breathing = '/breathing';
   static const String affirmation = '/affirmation';
   static const String freeDraw = '/freeDraw';
+  static const String savedDrawingViewer = '/savedDrawingViewer';
   static const String streakCelebration = '/streakCelebration';
+  static const String sudoku = '/sudoku';
+  static const String weeklyLetter = '/weeklyLetter';
 }
