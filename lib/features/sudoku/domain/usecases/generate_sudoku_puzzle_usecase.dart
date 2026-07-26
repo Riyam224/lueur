@@ -2,95 +2,170 @@ import 'dart:math';
 
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 
-/// Generates a simple, easy 4x4 sudoku puzzle. No external solver needed at
-/// this size: every valid 4x4 sudoku grid can be reached from one hardcoded
-/// base grid via digit relabeling + row/column-band shuffles (symmetries
-/// that always preserve row/column/box uniqueness), so a fresh valid grid
-/// is produced every time without a real constraint solver.
+/// Generates an "Easy" 9x9 sudoku puzzle with a verified unique solution.
+///
+/// Two steps, both pure Dart, no external solver package:
+/// 1. Build a valid solved grid via the standard base-grid formula, then
+///    reshuffle it (digit relabeling + row/column band permutations —
+///    symmetries that always preserve row/column/box uniqueness) so every
+///    game starts from a different-looking solution.
+/// 2. "Dig holes": try clearing cells one at a time, keeping the puzzle
+///    Easy by stopping once enough clues are removed, only ever removing a
+///    cell when a backtracking solver confirms the puzzle still has
+///    exactly one solution.
 class GenerateSudokuPuzzleUseCase {
-  static const List<List<int>> _baseGrid = [
-    [1, 2, 3, 4],
-    [3, 4, 1, 2],
-    [2, 1, 4, 3],
-    [4, 3, 2, 1],
-  ];
-
-  /// How many of the 16 cells stay blank for the player to fill in.
-  static const int blanksForEasyPuzzle = 7;
+  /// How many of the 81 cells stay filled for an Easy puzzle.
+  static const int easyClueCount = 40;
 
   SudokuBoardEntity call({Random? random}) {
     final rng = random ?? Random();
-    var grid = _baseGrid.map((row) => List<int>.from(row)).toList();
+    var grid = _baseSolvedGrid();
 
     grid = _relabelDigits(grid, rng);
     if (rng.nextBool()) grid = _transpose(grid);
     grid = _shuffleRowsWithinBands(grid, rng);
     grid = _shuffleColsWithinBands(grid, rng);
-    if (rng.nextBool()) grid = _swapRowBands(grid);
-    if (rng.nextBool()) grid = _swapColBands(grid);
-
-    final given = List.generate(
-      SudokuBoardEntity.size,
-      (_) => List.filled(SudokuBoardEntity.size, true),
-    );
-    final cellIndices = [
-      for (var r = 0; r < SudokuBoardEntity.size; r++)
-        for (var c = 0; c < SudokuBoardEntity.size; c++) (r, c),
-    ]..shuffle(rng);
-    for (final (r, c) in cellIndices.take(blanksForEasyPuzzle)) {
-      given[r][c] = false;
+    if (rng.nextBool()) grid = _swapBands(grid, rng, transposed: false);
+    if (rng.nextBool()) {
+      grid = _swapBands(_transpose(grid), rng, transposed: true);
     }
 
+    final given = _digHoles(grid, rng);
     return SudokuBoardEntity(solution: grid, given: given);
   }
 
+  List<List<int>> _baseSolvedGrid() {
+    const n = SudokuBoardEntity.size;
+    const box = SudokuBoardEntity.boxSize;
+    return List.generate(
+      n,
+      (r) => List.generate(n, (c) => (box * (r % box) + r ~/ box + c) % n + 1),
+    );
+  }
+
+  List<List<bool>> _digHoles(List<List<int>> solution, Random rng) {
+    const n = SudokuBoardEntity.size;
+    final given = List.generate(n, (_) => List.filled(n, true));
+    final puzzle = solution.map((row) => List<int>.from(row)).toList();
+
+    var filled = n * n;
+    final cells = [
+      for (var r = 0; r < n; r++)
+        for (var c = 0; c < n; c++) (r, c),
+    ]..shuffle(rng);
+
+    for (final (r, c) in cells) {
+      if (filled <= easyClueCount) break;
+
+      final backup = puzzle[r][c];
+      puzzle[r][c] = 0;
+      if (_countSolutions(puzzle, limit: 2) == 1) {
+        given[r][c] = false;
+        filled--;
+      } else {
+        puzzle[r][c] = backup;
+      }
+    }
+
+    return given;
+  }
+
+  /// Counts solutions up to [limit] (stops early — we only ever need to
+  /// distinguish "exactly one" from "more than one").
+  int _countSolutions(List<List<int>> grid, {required int limit}) {
+    const n = SudokuBoardEntity.size;
+    const box = SudokuBoardEntity.boxSize;
+    final board = grid.map((row) => List<int>.from(row)).toList();
+    var count = 0;
+
+    bool isSafe(int r, int c, int value) {
+      for (var i = 0; i < n; i++) {
+        if (board[r][i] == value || board[i][c] == value) return false;
+      }
+      final boxRow = (r ~/ box) * box;
+      final boxCol = (c ~/ box) * box;
+      for (var dr = 0; dr < box; dr++) {
+        for (var dc = 0; dc < box; dc++) {
+          if (board[boxRow + dr][boxCol + dc] == value) return false;
+        }
+      }
+      return true;
+    }
+
+    void solve(int index) {
+      if (count >= limit) return;
+      if (index == n * n) {
+        count++;
+        return;
+      }
+      final r = index ~/ n;
+      final c = index % n;
+      if (board[r][c] != 0) {
+        solve(index + 1);
+        return;
+      }
+      for (var value = 1; value <= n; value++) {
+        if (isSafe(r, c, value)) {
+          board[r][c] = value;
+          solve(index + 1);
+          board[r][c] = 0;
+          if (count >= limit) return;
+        }
+      }
+    }
+
+    solve(0);
+    return count;
+  }
+
   List<List<int>> _relabelDigits(List<List<int>> grid, Random rng) {
-    final mapping = [1, 2, 3, 4]..shuffle(rng);
+    final mapping = List.generate(SudokuBoardEntity.size, (i) => i + 1)
+      ..shuffle(rng);
     return grid
         .map((row) => row.map((v) => mapping[v - 1]).toList())
         .toList();
   }
 
   List<List<int>> _transpose(List<List<int>> grid) {
-    return List.generate(
-      SudokuBoardEntity.size,
-      (r) => List.generate(SudokuBoardEntity.size, (c) => grid[c][r]),
-    );
+    const n = SudokuBoardEntity.size;
+    return List.generate(n, (r) => List.generate(n, (c) => grid[c][r]));
   }
 
   List<List<int>> _shuffleRowsWithinBands(List<List<int>> grid, Random rng) {
     final result = grid.map((row) => List<int>.from(row)).toList();
-    for (final band in [0, 2]) {
-      if (rng.nextBool()) {
-        final tmp = result[band];
-        result[band] = result[band + 1];
-        result[band + 1] = tmp;
+    const box = SudokuBoardEntity.boxSize;
+    for (var band = 0; band < SudokuBoardEntity.size; band += box) {
+      final rows = List.generate(box, (i) => band + i)..shuffle(rng);
+      final bandCopy = [for (final r in rows) List<int>.from(result[r])];
+      for (var i = 0; i < box; i++) {
+        result[band + i] = bandCopy[i];
       }
     }
     return result;
   }
 
   List<List<int>> _shuffleColsWithinBands(List<List<int>> grid, Random rng) {
-    final result = grid.map((row) => List<int>.from(row)).toList();
-    for (final band in [0, 2]) {
-      if (rng.nextBool()) {
-        for (final row in result) {
-          final tmp = row[band];
-          row[band] = row[band + 1];
-          row[band + 1] = tmp;
-        }
+    return _transpose(_shuffleRowsWithinBands(_transpose(grid), rng));
+  }
+
+  /// Swaps the order of the row bands (top/middle/bottom thirds). When
+  /// [transposed] is true, the caller has already transposed the grid so
+  /// this effectively swaps column bands instead — result is transposed
+  /// back by the caller.
+  List<List<int>> _swapBands(
+    List<List<int>> grid,
+    Random rng, {
+    required bool transposed,
+  }) {
+    const box = SudokuBoardEntity.boxSize;
+    final bandOrder = List.generate(SudokuBoardEntity.size ~/ box, (i) => i)
+      ..shuffle(rng);
+    final result = <List<int>>[];
+    for (final band in bandOrder) {
+      for (var i = 0; i < box; i++) {
+        result.add(grid[band * box + i]);
       }
     }
-    return result;
-  }
-
-  List<List<int>> _swapRowBands(List<List<int>> grid) {
-    return [grid[2], grid[3], grid[0], grid[1]];
-  }
-
-  List<List<int>> _swapColBands(List<List<int>> grid) {
-    return grid
-        .map((row) => [row[2], row[3], row[0], row[1]])
-        .toList();
+    return transposed ? _transpose(result) : result;
   }
 }

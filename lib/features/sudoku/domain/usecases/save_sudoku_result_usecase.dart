@@ -11,7 +11,12 @@ class SaveSudokuResultUseCase {
   Future<Either<Failure, SudokuResultEntity>> call({
     required bool won,
     required int mistakes,
+    required int durationSeconds,
   }) {
-    return _repository.saveResult(won: won, mistakes: mistakes);
+    return _repository.saveResult(
+      won: won,
+      mistakes: mistakes,
+      durationSeconds: durationSeconds,
+    );
   }
 }

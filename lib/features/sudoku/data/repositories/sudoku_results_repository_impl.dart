@@ -31,12 +31,14 @@ class SudokuResultsRepositoryImpl implements SudokuResultsRepository {
   Future<Either<Failure, SudokuResultEntity>> saveResult({
     required bool won,
     required int mistakes,
+    required int durationSeconds,
   }) async {
     try {
       final result = SudokuResultModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         won: won,
         mistakes: mistakes,
+        durationSeconds: durationSeconds,
         completedAt: DateTime.now(),
       );
       await _local.saveResult(result, userId: _currentUserId);

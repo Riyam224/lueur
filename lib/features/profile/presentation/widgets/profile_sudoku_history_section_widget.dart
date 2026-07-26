@@ -20,6 +20,12 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
     return '$days days ago';
   }
 
+  static String _formatDuration(int seconds) {
+    final m = seconds ~/ 60;
+    final s = seconds % 60;
+    return '$m:${s.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SudokuResultsCubit, SudokuResultsState>(
@@ -143,7 +149,9 @@ class _ResultRow extends StatelessWidget {
                   style: ThemeTextStyles.bodyMedium(context),
                 ),
                 Text(
-                  '${result.mistakes} mistake${result.mistakes == 1 ? '' : 's'} · $dateLabel',
+                  result.won
+                      ? '${ProfileSudokuHistorySectionWidget._formatDuration(result.durationSeconds)} · $dateLabel'
+                      : '${result.mistakes} mistake${result.mistakes == 1 ? '' : 's'} · $dateLabel',
                   style: ThemeTextStyles.bodySmall(context)
                       .copyWith(color: extra.secondaryTextColor),
                 ),

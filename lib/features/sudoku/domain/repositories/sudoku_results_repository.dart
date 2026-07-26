@@ -7,6 +7,7 @@ abstract class SudokuResultsRepository {
   Future<Either<Failure, SudokuResultEntity>> saveResult({
     required bool won,
     required int mistakes,
+    required int durationSeconds,
   });
   Future<Either<Failure, void>> deleteResult(String id);
 }
