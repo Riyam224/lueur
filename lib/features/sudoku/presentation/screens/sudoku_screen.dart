@@ -9,6 +9,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_grid_widget.dart';
@@ -52,17 +53,14 @@ class _SudokuScreenState extends State<SudokuScreen> {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('How to play'),
+        title: const Text(AppStrings.sudokuHowToPlayTitle),
         content: const Text(
-          'Fill every row, column, and 3x3 box with the digits 1-9, '
-          'no repeats. Switch to Candidate mode to pencil in notes, and '
-          'turn on Auto Candidate Mode to have Luna clear out notes for '
-          'you as you go.',
+          AppStrings.sudokuHowToPlayMessage,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Got it'),
+            child: const Text(AppStrings.sudokuGotIt),
           ),
         ],
       ),
@@ -122,7 +120,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                               icon: const Icon(Icons.more_horiz_rounded),
                               onSelected: (_) => context.read<SudokuCubit>().start(),
                               itemBuilder: (context) => const [
-                                PopupMenuItem(value: 'new', child: Text('New game')),
+                                PopupMenuItem(value: 'new', child: Text(AppStrings.sudokuNewGameMenuItem)),
                               ],
                             ),
                           ],
@@ -130,7 +128,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Easy', style: ThemeTextStyles.bodyMedium(context)),
+                            Text(AppStrings.sudokuDifficultyEasy, style: ThemeTextStyles.bodyMedium(context)),
                             SizedBox(width: AppSpacing.spaceMd),
                             Text(
                               'Mistakes: ${state.mistakes}/${SudokuCubit.maxMistakes}',
@@ -180,7 +178,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        'paused',
+                                        AppStrings.sudokuPausedLabel,
                                         style: ThemeTextStyles.titleMedium(context),
                                       ),
                                     ),
@@ -209,7 +207,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                         if (state.status == SudokuStatus.won) ...[
                           SizedBox(height: AppSpacing.space2Xl),
                           Text(
-                            'you solved it! 🌸',
+                            AppStrings.sudokuWonMessage,
                             style: ThemeTextStyles.titleMedium(context),
                             textAlign: TextAlign.center,
                           ),
@@ -219,7 +217,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: () => context.go(AppRoutes.home),
-                                  child: const Text('done'),
+                                  child: const Text(AppStrings.sudokuDoneButton),
                                 ),
                               ),
                               SizedBox(width: AppSpacing.spaceMd),
@@ -230,7 +228,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                     backgroundColor: AppColors.primaryButtonFill,
                                     foregroundColor: AppColors.whiteTextColor,
                                   ),
-                                  child: const Text('play again'),
+                                  child: const Text(AppStrings.sudokuPlayAgainButton),
                                 ),
                               ),
                             ],
@@ -239,7 +237,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                         if (state.status == SudokuStatus.lost) ...[
                           SizedBox(height: AppSpacing.space2Xl),
                           Text(
-                            'out of tries — take a breath 🌱',
+                            AppStrings.sudokuLostMessage,
                             style: ThemeTextStyles.titleMedium(context),
                             textAlign: TextAlign.center,
                           ),
@@ -249,7 +247,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: () => context.go(AppRoutes.home),
-                                  child: const Text('done'),
+                                  child: const Text(AppStrings.sudokuDoneButton),
                                 ),
                               ),
                               SizedBox(width: AppSpacing.spaceMd),
@@ -260,7 +258,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                     backgroundColor: AppColors.primaryButtonFill,
                                     foregroundColor: AppColors.whiteTextColor,
                                   ),
-                                  child: const Text('try again'),
+                                  child: const Text(AppStrings.sudokuTryAgainButton),
                                 ),
                               ),
                             ],

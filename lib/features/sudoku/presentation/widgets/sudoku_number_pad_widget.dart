@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
@@ -116,7 +117,7 @@ class SudokuNumberPadWidget extends StatelessWidget {
                 onChanged: (value) => onAutoCandidateModeChanged(value ?? false),
                 activeColor: extra.primaryColor,
               ),
-              Text('Auto Candidate Mode', style: ThemeTextStyles.bodySmall(context)),
+              Text(AppStrings.sudokuAutoCandidateModeLabel, style: ThemeTextStyles.bodySmall(context)),
             ],
           ),
         ),

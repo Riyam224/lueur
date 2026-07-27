@@ -5,6 +5,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
 import 'package:lueur/features/draw/presentation/widgets/saved_drawing_thumbnail.dart';
@@ -46,7 +47,7 @@ class SavedDrawingViewerScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'your drawing',
+                    AppStrings.drawViewerTitle,
                     style: ThemeTextStyles.bodyMedium(context).copyWith(
                       color: extra.secondaryTextColor,
                       fontWeight: FontWeight.w600,

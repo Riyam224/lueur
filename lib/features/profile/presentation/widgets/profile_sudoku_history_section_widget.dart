@@ -4,6 +4,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_result_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_state.dart';
@@ -15,8 +16,8 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
 
   static String _relativeDate(DateTime date) {
     final days = DateTime.now().difference(date).inDays;
-    if (days <= 0) return 'Today';
-    if (days == 1) return 'Yesterday';
+    if (days <= 0) return AppStrings.profileSudokuRelativeToday;
+    if (days == 1) return AppStrings.profileSudokuRelativeYesterday;
     return '$days days ago';
   }
 
@@ -33,7 +34,7 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
         if (state is SudokuResultsError) {
           return _emptyCard(
             context,
-            'Couldn\'t load your Sudoku history — pull to refresh and try again',
+            AppStrings.profileSudokuHistoryErrorSubtitle,
           );
         }
         if (state is! SudokuResultsLoaded) return const SizedBox.shrink();
@@ -41,14 +42,14 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
         if (state.results.isEmpty) {
           return _emptyCard(
             context,
-            'Play a round of Sudoku to see your results here',
+            AppStrings.profileSudokuHistoryEmptySubtitle,
           );
         }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Sudoku History', style: ThemeTextStyles.headlineSmall(context)),
+            Text(AppStrings.profileSudokuHistoryTitle, style: ThemeTextStyles.headlineSmall(context)),
             SizedBox(height: AppSpacing.spaceSm),
             ...state.results.take(5).map(
               (result) => Dismissible(
@@ -97,7 +98,7 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
         children: [
           const Text('🧩', style: TextStyle(fontSize: 32)),
           SizedBox(height: AppSpacing.spaceSm),
-          Text('Sudoku History', style: ThemeTextStyles.titleMedium(context)),
+          Text(AppStrings.profileSudokuHistoryTitle, style: ThemeTextStyles.titleMedium(context)),
           SizedBox(height: AppSpacing.spaceXs),
           Text(
             subtitle,
@@ -145,7 +146,9 @@ class _ResultRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  result.won ? 'Solved it' : 'Gave it a go',
+                  result.won
+                      ? AppStrings.profileSudokuSolvedIt
+                      : AppStrings.profileSudokuGaveItAGo,
                   style: ThemeTextStyles.bodyMedium(context),
                 ),
                 Text(

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/styling/app_fonts.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// Row of 3 stat cards: total entries, this week, day streak
 class ProfileStatsWidget extends StatelessWidget {
@@ -23,19 +24,19 @@ class ProfileStatsWidget extends StatelessWidget {
       children: [
         _StatCard(
           value: '$totalEntries',
-          label: 'Total entries',
+          label: AppStrings.profileStatsTotalEntries,
         ),
         SizedBox(width: 10.w),
         _StatCard(
           value: '$thisWeek',
-          label: 'This week',
+          label: AppStrings.commonThisWeekLabel,
         ),
         SizedBox(width: 10.w),
         // Emoji separated into its own span so it bypasses the Urbanist font
         // and renders with the system emoji font (Apple Color Emoji / Noto)
         _StatCard(
           value: '$dayStreak',
-          label: 'Day streak',
+          label: AppStrings.profileStatsDayStreak,
         ),
       ],
     );

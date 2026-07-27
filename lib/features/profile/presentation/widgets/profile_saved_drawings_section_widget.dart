@@ -6,6 +6,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_state.dart';
@@ -23,8 +24,8 @@ class ProfileSavedDrawingsSectionWidget extends StatelessWidget {
         if (state is SavedDrawingsError) {
           return const _EmptyCard(
             emoji: '🎨',
-            title: 'My Drawings',
-            subtitle: 'Couldn\'t load your drawings — pull to refresh and try again',
+            title: AppStrings.profileDrawingsTitle,
+            subtitle: AppStrings.profileDrawingsErrorSubtitle,
           );
         }
         if (state is! SavedDrawingsLoaded) return const SizedBox.shrink();
@@ -32,15 +33,15 @@ class ProfileSavedDrawingsSectionWidget extends StatelessWidget {
         if (state.drawings.isEmpty) {
           return const _EmptyCard(
             emoji: '🎨',
-            title: 'My Drawings',
-            subtitle: 'Drawings you save from Free Draw will appear here',
+            title: AppStrings.profileDrawingsTitle,
+            subtitle: AppStrings.profileDrawingsEmptySubtitle,
           );
         }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('My Drawings', style: ThemeTextStyles.headlineSmall(context)),
+            Text(AppStrings.profileDrawingsTitle, style: ThemeTextStyles.headlineSmall(context)),
             SizedBox(height: AppSpacing.spaceSm),
             SizedBox(
               height: 96,

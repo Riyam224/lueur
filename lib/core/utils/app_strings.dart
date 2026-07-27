@@ -243,4 +243,56 @@ class AppStrings {
     'hold on, didn\'t catch that — try sending again',
     'hmm something glitched, can you resend that?',
   ];
+
+  // ── Sudoku ──
+  static const String sudokuHowToPlayTitle = 'How to play';
+  static const String sudokuHowToPlayMessage =
+      'Fill every row, column, and 3x3 box with the digits 1-9, '
+      'no repeats. Switch to Candidate mode to pencil in notes, and '
+      'turn on Auto Candidate Mode to have Luna clear out notes for '
+      'you as you go.';
+  static const String sudokuGotIt = 'Got it';
+  static const String sudokuNewGameMenuItem = 'New game';
+  static const String sudokuDifficultyEasy = 'Easy';
+  static const String sudokuPausedLabel = 'paused';
+  static const String sudokuWonMessage = 'you solved it! 🌸';
+  static const String sudokuDoneButton = 'done';
+  static const String sudokuPlayAgainButton = 'play again';
+  static const String sudokuLostMessage = 'out of tries — take a breath 🌱';
+  static const String sudokuTryAgainButton = 'try again';
+  static const String sudokuAutoCandidateModeLabel = 'Auto Candidate Mode';
+
+  // ── Free draw ──
+  static const String drawTopBarTitle = 'free draw';
+  static const String drawClearButton = 'clear';
+  static const String drawSavedSnack = 'Drawing saved to your profile';
+  static const String drawTalkToLunaLink = 'feel like talking to luna now?';
+  static const String drawViewerTitle = 'your drawing';
+
+  // ── Profile ──
+  static const String profileTitle = 'My Profile';
+  static const String profileSubtitle = 'Lueur member';
+  static const String profileFallbackName = 'Friend';
+  static const String profileQuotesEmptySubtitle =
+      'Your saved Luna moments will appear here';
+  static const String profileStatsTotalEntries = 'Total entries';
+  static const String profileStatsDayStreak = 'Day streak';
+  static const String profileQuickLinkWeeklyLetter = 'Weekly Letter';
+  static const String profileQuickLinkMoodBoard = 'Mood Board';
+  static const String profileSettingsSectionLabel = 'SETTINGS';
+  static const String profileSettingsAppearance = 'Appearance';
+  static const String profileDrawingsTitle = 'My Drawings';
+  static const String profileDrawingsErrorSubtitle =
+      'Couldn\'t load your drawings — pull to refresh and try again';
+  static const String profileDrawingsEmptySubtitle =
+      'Drawings you save from Free Draw will appear here';
+  static const String profileSudokuHistoryTitle = 'Sudoku History';
+  static const String profileSudokuHistoryErrorSubtitle =
+      'Couldn\'t load your Sudoku history — pull to refresh and try again';
+  static const String profileSudokuHistoryEmptySubtitle =
+      'Play a round of Sudoku to see your results here';
+  static const String profileSudokuRelativeToday = 'Today';
+  static const String profileSudokuRelativeYesterday = 'Yesterday';
+  static const String profileSudokuSolvedIt = 'Solved it';
+  static const String profileSudokuGaveItAGo = 'Gave it a go';
 }

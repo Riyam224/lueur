@@ -6,6 +6,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
@@ -23,10 +24,12 @@ import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  static const _subtitle = 'Lueur member';
+  static const _subtitle = AppStrings.profileSubtitle;
 
   static String _displayName(AuthState state) =>
-      state is AuthAuthenticated ? state.user.displayName : 'Friend';
+      state is AuthAuthenticated
+          ? state.user.displayName
+          : AppStrings.profileFallbackName;
 
   static String? _userSeed(AuthState state) =>
       state is AuthAuthenticated ? state.user.id : null;
@@ -76,7 +79,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           sliver: SliverToBoxAdapter(
             child: Text(
-              'My Profile',
+              AppStrings.profileTitle,
               style: ThemeTextStyles.headlineMedium(context),
             ),
           ),
@@ -152,12 +155,12 @@ class ProfileScreen extends StatelessWidget {
                           const Text('📌', style: TextStyle(fontSize: 32)),
                           SizedBox(height: AppSpacing.spaceSm),
                           Text(
-                            'Saved quotes',
+                            AppStrings.quotesScreenTitle,
                             style: ThemeTextStyles.titleMedium(context),
                           ),
                           SizedBox(height: AppSpacing.spaceXs),
                           Text(
-                            'Your saved Luna moments will appear here',
+                            AppStrings.profileQuotesEmptySubtitle,
                             style: ThemeTextStyles.bodySmall(context).copyWith(
                               color: context.extra.secondaryTextColor,
                             ),
@@ -174,7 +177,7 @@ class ProfileScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Saved quotes',
+                            AppStrings.quotesScreenTitle,
                             style: ThemeTextStyles.headlineSmall(context),
                           ),
                           const Spacer(),
@@ -325,7 +328,7 @@ class ProfileScreen extends StatelessWidget {
               icon:
                   const Icon(Icons.logout_rounded, color: AppColors.errorColor),
               label: Text(
-                'Log out',
+                AppStrings.authLogOut,
                 style: ThemeTextStyles.bodyMedium(context).copyWith(
                   color: AppColors.errorColor,
                   fontWeight: FontWeight.w600,

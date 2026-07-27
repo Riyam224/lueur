@@ -11,6 +11,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
@@ -69,7 +70,7 @@ class _FreeDrawView extends StatelessWidget {
     context.read<SavedDrawingsCubit>().saveCurrent(entities);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Drawing saved to your profile'),
+        content: Text(AppStrings.drawSavedSnack),
         duration: Duration(seconds: 2),
       ),
     );
@@ -127,7 +128,7 @@ class _FreeDrawView extends StatelessWidget {
             ),
           ),
           Text(
-            'free draw',
+            AppStrings.drawTopBarTitle,
             style: ThemeTextStyles.bodyMedium(context).copyWith(
               color: extra.secondaryTextColor,
               fontWeight: FontWeight.w600,
@@ -144,7 +145,7 @@ class _FreeDrawView extends StatelessWidget {
           TextButton(
             onPressed: () => context.read<DrawCubit>().clear(),
             child: Text(
-              'clear',
+              AppStrings.drawClearButton,
               style: ThemeTextStyles.bodyMedium(context).copyWith(
                 color: extra.secondaryTextColor,
               ),
@@ -233,7 +234,7 @@ class _FreeDrawView extends StatelessWidget {
       onPressed: () => _goToTalkToLuna(context),
       style: TextButton.styleFrom(foregroundColor: secondaryText),
       child: Text(
-        'feel like talking to luna now?',
+        AppStrings.drawTalkToLunaLink,
         style: ThemeTextStyles.bodySmall(context).copyWith(
           color: secondaryText,
         ),
