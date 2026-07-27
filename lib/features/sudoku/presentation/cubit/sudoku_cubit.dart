@@ -128,7 +128,7 @@ class SudokuCubit extends Cubit<SudokuState> {
     }
 
     final candidates = state.candidates
-        .map((row) => row.map((c) => Set<int>.from(c)).toList())
+        .map((row) => row.map(Set<int>.from).toList())
         .toList();
     for (var r = 0; r < SudokuBoardEntity.size; r++) {
       for (var c = 0; c < SudokuBoardEntity.size; c++) {
@@ -155,7 +155,7 @@ class SudokuCubit extends Cubit<SudokuState> {
     if (state.mode == SudokuInputMode.candidate) {
       if (state.values[row][col] != 0) return;
       final candidates = state.candidates
-          .map((r) => r.map((c) => Set<int>.from(c)).toList())
+          .map((r) => r.map(Set<int>.from).toList())
           .toList();
       final cell = candidates[row][col];
       if (!cell.remove(value)) cell.add(value);
@@ -163,10 +163,10 @@ class SudokuCubit extends Cubit<SudokuState> {
       return;
     }
 
-    final values = state.values.map((r) => List<int>.from(r)).toList();
+    final values = state.values.map(List<int>.from).toList();
     values[row][col] = value;
     final candidates = state.candidates
-        .map((r) => r.map((c) => Set<int>.from(c)).toList())
+        .map((r) => r.map(Set<int>.from).toList())
         .toList();
     candidates[row][col] = {};
 
@@ -208,10 +208,10 @@ class SudokuCubit extends Cubit<SudokuState> {
       _Move(row, col, state.values[row][col], Set.from(state.candidates[row][col])),
     );
 
-    final values = state.values.map((r) => List<int>.from(r)).toList();
+    final values = state.values.map(List<int>.from).toList();
     values[row][col] = 0;
     final candidates = state.candidates
-        .map((r) => r.map((c) => Set<int>.from(c)).toList())
+        .map((r) => r.map(Set<int>.from).toList())
         .toList();
     candidates[row][col] = {};
 
@@ -229,10 +229,10 @@ class SudokuCubit extends Cubit<SudokuState> {
     if (_history.isEmpty) return;
     final move = _history.removeLast();
 
-    final values = state.values.map((r) => List<int>.from(r)).toList();
+    final values = state.values.map(List<int>.from).toList();
     values[move.row][move.col] = move.prevValue;
     final candidates = state.candidates
-        .map((r) => r.map((c) => Set<int>.from(c)).toList())
+        .map((r) => r.map(Set<int>.from).toList())
         .toList();
     candidates[move.row][move.col] = Set.from(move.prevCandidates);
 

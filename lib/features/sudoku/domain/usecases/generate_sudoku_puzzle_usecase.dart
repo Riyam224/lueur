@@ -46,7 +46,7 @@ class GenerateSudokuPuzzleUseCase {
   List<List<bool>> _digHoles(List<List<int>> solution, Random rng) {
     const n = SudokuBoardEntity.size;
     final given = List.generate(n, (_) => List.filled(n, true));
-    final puzzle = solution.map((row) => List<int>.from(row)).toList();
+    final puzzle = solution.map(List<int>.from).toList();
 
     var filled = n * n;
     final cells = [
@@ -75,7 +75,7 @@ class GenerateSudokuPuzzleUseCase {
   int _countSolutions(List<List<int>> grid, {required int limit}) {
     const n = SudokuBoardEntity.size;
     const box = SudokuBoardEntity.boxSize;
-    final board = grid.map((row) => List<int>.from(row)).toList();
+    final board = grid.map(List<int>.from).toList();
     var count = 0;
 
     bool isSafe(int r, int c, int value) {
@@ -132,7 +132,7 @@ class GenerateSudokuPuzzleUseCase {
   }
 
   List<List<int>> _shuffleRowsWithinBands(List<List<int>> grid, Random rng) {
-    final result = grid.map((row) => List<int>.from(row)).toList();
+    final result = grid.map(List<int>.from).toList();
     const box = SudokuBoardEntity.boxSize;
     for (var band = 0; band < SudokuBoardEntity.size; band += box) {
       final rows = List.generate(box, (i) => band + i)..shuffle(rng);
