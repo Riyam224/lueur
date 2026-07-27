@@ -10,15 +10,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-
-const List<String> _streakCelebrationAffirmations = [
-  'A whole week of showing up for yourself. Luna noticed 🌸',
-  'Seven days of choosing yourself, one thought at a time.',
-  'You kept coming back — that\'s the whole secret, really.',
-  'Luna is so glad you\'re still here, day after day.',
-  'This is what taking care of you looks like. Keep it up.',
-  'A full week, gently and honestly. That\'s worth celebrating.',
-];
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// Celebrates a completed 7-day streak with a staged entrance: the flower
 /// blooms, Luna pops up beside it, then a one-time confetti burst.
@@ -50,8 +42,8 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
   @override
   void initState() {
     super.initState();
-    _affirmation = _streakCelebrationAffirmations[
-        Random().nextInt(_streakCelebrationAffirmations.length)];
+    _affirmation = AppStrings.streakCelebrationAffirmations[
+        Random().nextInt(AppStrings.streakCelebrationAffirmations.length)];
 
     _bloomController = AnimationController(
       vsync: this,
@@ -213,7 +205,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                         ),
                       ),
                       child: const Text(
-                        'keep going',
+                        AppStrings.streakCelebrationKeepGoingButton,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

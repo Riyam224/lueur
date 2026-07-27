@@ -9,6 +9,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/luna_check_in_prompt.dart';
 import 'package:lueur/features/affirmation/data/affirmations_data.dart';
 
@@ -44,13 +45,13 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
   String get _primaryLabel {
     switch (widget.destination) {
       case MoodChoiceDestination.talkToLuna:
-        return 'Talk to Luna';
+        return AppStrings.commonTalkToLuna;
       case MoodChoiceDestination.breathing:
-        return 'Start breathing';
+        return AppStrings.affirmationPrimaryStartBreathing;
       case MoodChoiceDestination.freeDraw:
-        return 'Start drawing';
+        return AppStrings.affirmationPrimaryStartDrawing;
       case MoodChoiceDestination.sudoku:
-        return 'Play Sudoku';
+        return AppStrings.affirmationPrimaryPlaySudoku;
     }
   }
 
@@ -102,7 +103,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
             children: [
               SizedBox(height: AppSpacing.space3Xl + AppSpacing.spaceSm),
               Text(
-                'A word from Luna 💙',
+                AppStrings.affirmationHeader,
                 style: ThemeTextStyles.headlineSmall(context).copyWith(
                   color: context.extra.primaryTextColor,
                 ),
@@ -110,7 +111,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
               ),
               SizedBox(height: AppSpacing.spaceSm),
               Text(
-                'A personalized card just for you',
+                AppStrings.affirmationSubheader,
                 style: ThemeTextStyles.bodyMedium(context).copyWith(
                   color: context.extra.secondaryTextColor,
                 ),
@@ -154,7 +155,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                           ),
                           SizedBox(height: AppSpacing.spaceMd),
                           Text(
-                            '— Luna 🌿',
+                            AppStrings.affirmationSignature,
                             style: ThemeTextStyles.labelSmall(context).copyWith(
                               color: context.extra.primaryColor,
                             ),
@@ -197,7 +198,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                     ),
                   ),
                   child: Text(
-                    'Next card ↻',
+                    AppStrings.affirmationNextCardButton,
                     style: ThemeTextStyles.labelMedium(context).copyWith(
                       color: context.extra.secondaryTextColor,
                     ),

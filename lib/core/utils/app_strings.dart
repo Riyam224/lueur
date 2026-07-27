@@ -295,4 +295,34 @@ class AppStrings {
   static const String profileSudokuRelativeYesterday = 'Yesterday';
   static const String profileSudokuSolvedIt = 'Solved it';
   static const String profileSudokuGaveItAGo = 'Gave it a go';
+
+  // ── Breathing ──
+  static const String breathingHeaderLabel = 'guided breathing';
+  static const String breathingPhaseIn = 'Breathe in';
+  static const String breathingPhaseOut = 'Breathe out';
+
+  // ── Affirmation ──
+  static const String affirmationHeader = 'A word from Luna 💙';
+  static const String affirmationSubheader = 'A personalized card just for you';
+  static const String affirmationSignature = '— Luna 🌿';
+  static const String affirmationNextCardButton = 'Next card ↻';
+  static const String affirmationPrimaryStartBreathing = 'Start breathing';
+  static const String affirmationPrimaryStartDrawing = 'Start drawing';
+  static const String affirmationPrimaryPlaySudoku = 'Play Sudoku';
+
+  // ── Luna check-in prompt (shared: breathing + affirmation completion) ──
+  static const String lunaCheckInTitle = 'Feel a little lighter?';
+  static const String lunaCheckInSubtitle = 'I\'m here if you want to talk more.';
+  static const String lunaCheckInDismiss = 'I\'m good for now';
+
+  // ── Streak celebration ──
+  static const List<String> streakCelebrationAffirmations = [
+    'A whole week of showing up for yourself. Luna noticed 🌸',
+    'Seven days of choosing yourself, one thought at a time.',
+    'You kept coming back — that\'s the whole secret, really.',
+    'Luna is so glad you\'re still here, day after day.',
+    'This is what taking care of you looks like. Keep it up.',
+    'A full week, gently and honestly. That\'s worth celebrating.',
+  ];
+  static const String streakCelebrationKeepGoingButton = 'keep going';
 }

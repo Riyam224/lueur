@@ -5,6 +5,7 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// A soft, single fade-in check-in from Luna shown once an exercise
 /// (breathing or affirmations) is fully done. Never shown mid-exercise —
@@ -18,7 +19,7 @@ class LunaCheckInPrompt extends StatefulWidget {
     super.key,
     required this.onTalkToLuna,
     required this.onDismiss,
-    this.primaryLabel = 'Talk to Luna',
+    this.primaryLabel = AppStrings.commonTalkToLuna,
   });
 
   @override
@@ -81,13 +82,13 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
             ),
             SizedBox(height: AppSpacing.spaceMd),
             Text(
-              'Feel a little lighter?',
+              AppStrings.lunaCheckInTitle,
               style: ThemeTextStyles.headlineSmall(context),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: AppSpacing.spaceXs),
             Text(
-              'I\'m here if you want to talk more.',
+              AppStrings.lunaCheckInSubtitle,
               style: ThemeTextStyles.bodyMedium(context).copyWith(
                 color: context.extra.secondaryTextColor,
               ),
@@ -118,7 +119,7 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
             TextButton(
               onPressed: widget.onDismiss,
               child: Text(
-                'I\'m good for now',
+                AppStrings.lunaCheckInDismiss,
                 style: ThemeTextStyles.bodyMedium(context).copyWith(
                   color: context.extra.secondaryTextColor,
                 ),
