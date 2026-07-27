@@ -28,6 +28,9 @@ class ProfileScreen extends StatelessWidget {
   static String _displayName(AuthState state) =>
       state is AuthAuthenticated ? state.user.displayName : 'Friend';
 
+  static String? _userSeed(AuthState state) =>
+      state is AuthAuthenticated ? state.user.id : null;
+
   static int _thisWeekCount(List<MoodEntryEntity> entries) {
     final now = DateTime.now();
     final weekStart = now.subtract(Duration(days: now.weekday - 1));
@@ -89,6 +92,7 @@ class ProfileScreen extends StatelessWidget {
               builder: (context, state) => ProfileAvatarWidget(
                 name: _displayName(state),
                 subtitle: _subtitle,
+                seed: _userSeed(state),
               ),
             ),
           ),

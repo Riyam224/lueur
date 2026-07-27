@@ -35,6 +35,9 @@ class HomeScreen extends StatelessWidget {
   static String _displayName(AuthState state) =>
       state is AuthAuthenticated ? state.user.displayName : 'Friend';
 
+  static String? _userSeed(AuthState state) =>
+      state is AuthAuthenticated ? state.user.id : null;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -53,17 +56,20 @@ class HomeScreen extends StatelessWidget {
         ),
       ],
       child: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, state) =>
-            _HomeScreenBody(userName: _displayName(state)),
+        builder: (context, state) => _HomeScreenBody(
+          userName: _displayName(state),
+          userSeed: _userSeed(state),
+        ),
       ),
     );
   }
 }
 
 class _HomeScreenBody extends StatefulWidget {
-  const _HomeScreenBody({required this.userName});
+  const _HomeScreenBody({required this.userName, this.userSeed});
 
   final String userName;
+  final String? userSeed;
 
   @override
   State<_HomeScreenBody> createState() => _HomeScreenBodyState();
@@ -210,7 +216,10 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                   AppSpacing.verticalPaddingLg,
                 ),
                 sliver: SliverToBoxAdapter(
-                  child: HomeHeader(userName: widget.userName),
+                  child: HomeHeader(
+                    userName: widget.userName,
+                    userSeed: widget.userSeed,
+                  ),
                 ),
               ),
 
