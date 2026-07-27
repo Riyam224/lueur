@@ -6,6 +6,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
 
@@ -33,7 +34,7 @@ class SavedQuotesScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Saved quotes',
+                      AppStrings.quotesScreenTitle,
                       style: ThemeTextStyles.headlineSmall(context),
                       textAlign: TextAlign.center,
                     ),
@@ -48,7 +49,7 @@ class SavedQuotesScreen extends StatelessWidget {
                     if (state is SavedQuotesLoading) {
                       return Center(
                         child: Text(
-                          'Loading saved quotes...',
+                          AppStrings.quotesLoadingMessage,
                           style: ThemeTextStyles.bodyMedium(context),
                         ),
                       );
@@ -66,12 +67,12 @@ class SavedQuotesScreen extends StatelessWidget {
                             ),
                             SizedBox(height: AppSpacing.spaceSm),
                             Text(
-                              'No saved quotes yet',
+                              AppStrings.quotesEmptyTitle,
                               style: ThemeTextStyles.titleMedium(context),
                             ),
                             SizedBox(height: AppSpacing.spaceXs),
                             Text(
-                              'Save Luna’s words to collect them here',
+                              AppStrings.quotesEmptySubtitle,
                               style: ThemeTextStyles.bodySmall(context).copyWith(
                                 color: context.extra.secondaryTextColor,
                               ),
@@ -94,23 +95,23 @@ class SavedQuotesScreen extends StatelessWidget {
                               return await showDialog<bool>(
                                     context: context,
                                     builder: (dialogContext) => AlertDialog(
-                                      title: const Text('Delete quote?'),
+                                      title: const Text(AppStrings.quotesDeleteTitle),
                                       content: const Text(
-                                        'This will remove the saved quote.',
+                                        AppStrings.quotesDeleteMessage,
                                       ),
                                       actions: [
                                         TextButton(
                                           onPressed: () => Navigator.of(
                                             dialogContext,
                                           ).pop(false),
-                                          child: const Text('Cancel'),
+                                          child: const Text(AppStrings.commonCancel),
                                         ),
                                         TextButton(
                                           onPressed: () => Navigator.of(
                                             dialogContext,
                                           ).pop(true),
                                           child: const Text(
-                                            'Delete',
+                                            AppStrings.commonDelete,
                                             style: TextStyle(color: AppColors.errorColor),
                                           ),
                                         ),
@@ -129,10 +130,10 @@ class SavedQuotesScreen extends StatelessWidget {
                               cubit.deleteQuote(quoteId);
                               messenger.showSnackBar(
                                 SnackBar(
-                                  content: const Text('Quote deleted'),
+                                  content: const Text(AppStrings.quotesDeletedSnack),
                                   duration: const Duration(seconds: 2),
                                   action: SnackBarAction(
-                                    label: 'Undo',
+                                    label: AppStrings.quotesUndoAction,
                                     onPressed: () => cubit.saveQuote(
                                       quoteText,
                                       emoji: quoteEmoji,

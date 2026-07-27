@@ -11,6 +11,7 @@ import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
@@ -200,14 +201,14 @@ class _JournalGridView extends StatelessWidget {
                   children: [
                     SizedBox(height: AppSpacing.spaceLg),
                     Text(
-                      'your journal',
+                      AppStrings.journalGridTitle,
                       style: ThemeTextStyles.headlineMedium(context).copyWith(
                         color: headingColor,
                       ),
                     ),
                     SizedBox(height: AppSpacing.spaceSm),
                     Text(
-                      'a little collection of your days',
+                      AppStrings.journalGridSubtitle,
                       style: ThemeTextStyles.bodyMedium(context).copyWith(
                         color: subheadingColor,
                       ),
@@ -267,7 +268,7 @@ class _JournalGridView extends StatelessWidget {
                           padding:
                               EdgeInsets.all(AppSpacing.horizontalPaddingLg),
                           child: Text(
-                            'nothing here yet — your days will show up as you go',
+                            AppStrings.journalGridEmptyMessage,
                             textAlign: TextAlign.center,
                             style: ThemeTextStyles.bodyMedium(context).copyWith(
                               color: subheadingColor,

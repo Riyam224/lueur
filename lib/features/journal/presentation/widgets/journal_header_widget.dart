@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// "My Journal" title + entry count badge
 class JournalHeaderWidget extends StatelessWidget {
@@ -19,7 +20,7 @@ class JournalHeaderWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('My Journal', style: ThemeTextStyles.headlineMedium(context)),
+        Text(AppStrings.journalTitle, style: ThemeTextStyles.headlineMedium(context)),
         Row(
           children: [
             if (onDeleteAll != null) ...[

@@ -5,6 +5,7 @@ import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 
@@ -33,19 +34,19 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
     final confirmed = await showDialog<bool>(
           context: context,
           builder: (dialogContext) => AlertDialog(
-            title: const Text('Delete this entry?'),
+            title: const Text(AppStrings.journalCardOptionsDeleteTitle),
             content: const Text(
-              'This will remove it from your journal for good.',
+              AppStrings.journalCardOptionsDeleteMessage,
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(false),
-                child: const Text('Cancel'),
+                child: const Text(AppStrings.commonCancel),
               ),
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(true),
                 child: const Text(
-                  'Delete',
+                  AppStrings.commonDelete,
                   style: TextStyle(color: AppColors.errorColor),
                 ),
               ),
@@ -99,7 +100,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                   ),
                   SizedBox(height: AppSpacing.spaceLg),
                   Text(
-                    'card color',
+                    AppStrings.journalCardOptionsColorLabel,
                     style: ThemeTextStyles.bodySmall(context).copyWith(
                       color: AppColors.lightSecondaryText,
                     ),
@@ -134,7 +135,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                   SwitchListTile.adaptive(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      'pin this entry',
+                      AppStrings.journalCardOptionsPinLabel,
                       style: ThemeTextStyles.bodyLarge(context),
                     ),
                     value: entry.pinned,
@@ -150,7 +151,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                       color: AppColors.errorColor,
                     ),
                     title: const Text(
-                      'delete entry',
+                      AppStrings.journalCardOptionsDeleteLabel,
                       style: TextStyle(color: AppColors.errorColor),
                     ),
                     onTap: () => _confirmDelete(context),

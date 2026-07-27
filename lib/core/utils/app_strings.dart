@@ -86,6 +86,7 @@ class AppStrings {
   static const String commonCancel = 'Cancel';
   static const String commonDelete = 'Delete';
   static const String commonTalkToLuna = 'Talk to Luna';
+  static const String commonThisWeekLabel = 'This week';
 
   // ── Bottom navigation ──
   static const String navHomeLabel = 'Home';
@@ -140,4 +141,37 @@ class AppStrings {
       'Keep journaling — your letter will be ready at the end of the week.';
   static const String weeklyLetterShowLess = 'Show less';
   static const String weeklyLetterReadMore = 'Read more';
+
+  // ── Journal ──
+  static const String journalTitle = 'My Journal';
+  static const String journalEmptyStateSubtitle = 'What\'s on your mind today?';
+  static const String journalStartJournalingButton = 'Start journaling';
+  static const String journalEntryDeleteTitle = 'Delete entry?';
+  static const String journalEntryDeleteMessage =
+      'This will permanently remove this journal entry.';
+  static const String journalSearchHint = 'Search entries...';
+  static const String journalCardOptionsColorLabel = 'card color';
+  static const String journalCardOptionsPinLabel = 'pin this entry';
+  static const String journalCardOptionsDeleteLabel = 'delete entry';
+  static const String journalCardOptionsDeleteTitle = 'Delete this entry?';
+  static const String journalCardOptionsDeleteMessage =
+      'This will remove it from your journal for good.';
+  static const String journalGridTitle = 'your journal';
+  static const String journalGridSubtitle = 'a little collection of your days';
+  static const String journalGridEmptyMessage =
+      'nothing here yet — your days will show up as you go';
+  static const String journalTodayNoEntriesMessage =
+      'No entries yet · Start with one gentle thought';
+  static const String journalMoodFallbackLabel = 'Okay';
+
+  // ── Saved quotes ──
+  static const String quotesScreenTitle = 'Saved quotes';
+  static const String quotesLoadingMessage = 'Loading saved quotes...';
+  static const String quotesEmptyTitle = 'No saved quotes yet';
+  static const String quotesEmptySubtitle =
+      'Save Luna’s words to collect them here';
+  static const String quotesDeleteTitle = 'Delete quote?';
+  static const String quotesDeleteMessage = 'This will remove the saved quote.';
+  static const String quotesDeletedSnack = 'Quote deleted';
+  static const String quotesUndoAction = 'Undo';
 }

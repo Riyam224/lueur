@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 
 /// Collapsible bar chart showing how many journal entries per day this week.
@@ -101,7 +102,7 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'This week',
+                      AppStrings.commonThisWeekLabel,
                       style: ThemeTextStyles.labelMedium(context).copyWith(
                         fontWeight: FontWeight.w700,
                       ),
