@@ -68,6 +68,16 @@ class _MoodInputSectionState extends State<MoodInputSection> {
     });
   }
 
+  /// Resets the mood + thoughts draft once it's been handed off to the next
+  /// screen. This widget stays alive under the shell's IndexedStack while
+  /// the user talks to Luna / breathes / draws / plays Sudoku, so without
+  /// this the previous mood and thoughts would still be sitting here when
+  /// they navigate back to Home.
+  void _clearDraft() {
+    _thoughtsController.clear();
+    setState(() => _selectedMood = null);
+  }
+
   void _onTalkToLuna() {
     final thoughts = _thoughtsController.text.trim();
 
@@ -112,6 +122,8 @@ class _MoodInputSectionState extends State<MoodInputSection> {
         },
       );
     }
+
+    _clearDraft();
   }
 
   @override
