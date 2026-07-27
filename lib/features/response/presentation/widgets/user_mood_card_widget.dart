@@ -6,6 +6,7 @@ import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_fonts.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// User mood card with pink background showing emoji and thoughts
 class UserMoodCardWidget extends StatelessWidget {
@@ -69,7 +70,7 @@ class UserMoodCardWidget extends StatelessWidget {
         children: [
           // Header Label
           Text(
-            'YOUR MOOD',
+            AppStrings.responseYourMoodLabel,
             style: ThemeTextStyles.labelSmall(context).copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.bold,

@@ -87,6 +87,9 @@ class AppStrings {
   static const String commonDelete = 'Delete';
   static const String commonTalkToLuna = 'Talk to Luna';
   static const String commonThisWeekLabel = 'This week';
+  static const String commonSavedToQuotesSnack = 'Saved to quotes 🌿';
+  static const String commonDismissBarrierLabel = 'Dismiss';
+  static const String lunaName = 'Luna';
 
   // ── Bottom navigation ──
   static const String navHomeLabel = 'Home';
@@ -174,4 +177,70 @@ class AppStrings {
   static const String quotesDeleteMessage = 'This will remove the saved quote.';
   static const String quotesDeletedSnack = 'Quote deleted';
   static const String quotesUndoAction = 'Undo';
+
+  // ── Response (Luna's reply screen) ──
+  static const String responseTryAgainButton = 'Try again';
+  static const String responseShareButton = 'Share';
+  static const String responseDoneLabel = 'Done';
+  static const String responseKeepChattingLabel = 'Keep chatting';
+  static const String responseMoodTagExpressing = 'Expressing';
+  static const String responseMoodTagReflecting = 'Reflecting';
+  static const String responseMoodTagGrowing = 'Growing';
+  static const String responseThinkingLabel = 'Luna is thinking';
+  static const String responseShareCardHeading = 'Luna says';
+  static const String responseYourMoodLabel = 'YOUR MOOD';
+  static const String responseLunaSaysLabel = 'LUNA SAYS';
+  static const String responseSaveQuoteTooltip = 'Save quote';
+  static const String responseCopiedToClipboardSnack = 'Copied to clipboard 🌿';
+  static const String lunaSubtitle = 'Your companion · Always here for you';
+
+  // ── After-feeling selector ──
+  static const String afterFeelingPromptLabel =
+      'How are you feeling after this?';
+  static const String afterFeelingCalmLabel = 'Calm';
+  static const String afterFeelingCalmMessage =
+      'Feeling calm is a beautiful shift. You did great.';
+  static const String afterFeelingLovedLabel = 'Loved';
+  static const String afterFeelingLovedMessage =
+      'You deserve every bit of that love. Hold onto it.';
+  static const String afterFeelingBetterLabel = 'Better';
+  static const String afterFeelingBetterMessage =
+      'Every small step forward counts. You are making progress.';
+  static const String afterFeelingStillSadLabel = 'Still sad';
+  static const String afterFeelingStillSadMessage =
+      'It\'s okay to still feel this way. Luna is always here whenever you '
+      'need to talk again.';
+  static const String afterFeelingTakeYourTime = 'Take your time';
+  static const String afterFeelingTalkToLunaAgain = 'Talk to Luna again';
+  static const String afterFeelingThankYouLuna = 'Thank you, Luna';
+  static const String afterFeelingImOkay = 'I\'ll be okay';
+
+  // ── Mood choice dialog ──
+  static const String moodChoicePrompt = 'rough day, huh?';
+  static const String moodChoiceSubPrompt = 'whatever feels right right now';
+  static const String moodChoiceTalkSubtitle = 'share what\'s on your mind';
+  static const String moodChoiceBreatheTitle = 'Breathe with Luna';
+  static const String moodChoiceBreatheSubtitle = 'a slow, guided breath';
+  static const String moodChoiceDrawTitle = 'Free Draw';
+  static const String moodChoiceDrawSubtitle = 'no pressure, just color';
+  static const String moodChoiceSudokuTitle = 'Sudoku';
+  static const String moodChoiceSudokuSubtitle = 'a small, calm puzzle';
+
+  // ── Chat ──
+  static const String chatInputHint = 'Share what\'s on your mind...';
+  static const String chatEmptyStateMessage =
+      'Hi, I\'m Luna 💜\nTell me how you\'re feeling.';
+  static const String chatTypingLabel = 'Luna is typing';
+  static const String chatSessionEndGladMessage =
+      'I\'m glad you\'re feeling better 💜';
+  static const String chatSessionEndSavedMessage =
+      'This session has been saved to your journal.';
+  static const String chatBackToHomeButton = 'Back to Home';
+  static const List<String> chatSendFailedMessages = [
+    'hmm that didn\'t send, try again?',
+    'ugh my signal\'s being weird, say that again?',
+    'wait that got cut off, one more time?',
+    'hold on, didn\'t catch that — try sending again',
+    'hmm something glitched, can you resend that?',
+  ];
 }

@@ -9,6 +9,7 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_fonts.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// After-feeling selector — tapping any emoji shows a floating modal.
 class AfterFeelingSelectorWidget extends StatefulWidget {
@@ -29,24 +30,23 @@ class _AfterFeelingSelectorWidgetState
       [
     (
       asset: MoodType.calm.assetPath,
-      label: 'Calm',
-      message: 'Feeling calm is a beautiful shift. You did great.',
+      label: AppStrings.afterFeelingCalmLabel,
+      message: AppStrings.afterFeelingCalmMessage,
     ),
     (
       asset: MoodType.grateful.assetPath,
-      label: 'Loved',
-      message: 'You deserve every bit of that love. Hold onto it.',
+      label: AppStrings.afterFeelingLovedLabel,
+      message: AppStrings.afterFeelingLovedMessage,
     ),
     (
       asset: MoodType.hopeful.assetPath,
-      label: 'Better',
-      message: 'Every small step forward counts. You are making progress.',
+      label: AppStrings.afterFeelingBetterLabel,
+      message: AppStrings.afterFeelingBetterMessage,
     ),
     (
       asset: MoodType.sad.assetPath,
-      label: 'Still sad',
-      message:
-          'It\'s okay to still feel this way. Luna is always here whenever you need to talk again.',
+      label: AppStrings.afterFeelingStillSadLabel,
+      message: AppStrings.afterFeelingStillSadMessage,
     ),
   ];
 
@@ -64,7 +64,7 @@ class _AfterFeelingSelectorWidgetState
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      barrierLabel: 'Dismiss',
+      barrierLabel: AppStrings.commonDismissBarrierLabel,
       barrierColor: Colors.black.withValues(alpha: 0.4),
       transitionDuration: const Duration(milliseconds: 300),
       transitionBuilder: (_, anim, __, child) {
@@ -106,7 +106,7 @@ class _AfterFeelingSelectorWidgetState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'How are you feeling after this?',
+            AppStrings.afterFeelingPromptLabel,
             style: ThemeTextStyles.titleSmall(context).copyWith(
               color: AppColors.primary,
             ),
@@ -192,7 +192,9 @@ class _MoodModal extends StatelessWidget {
 
               // Feeling label
               Text(
-                isNegative ? 'Take your time' : 'You are feeling $label',
+                isNegative
+                    ? AppStrings.afterFeelingTakeYourTime
+                    : 'You are feeling $label',
                 style: ThemeTextStyles.titleLarge(context),
                 textAlign: TextAlign.center,
               ),
@@ -224,7 +226,9 @@ class _MoodModal extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    isNegative ? 'Talk to Luna again' : 'Thank you, Luna',
+                    isNegative
+                        ? AppStrings.afterFeelingTalkToLunaAgain
+                        : AppStrings.afterFeelingThankYouLuna,
                     style: ThemeTextStyles.labelMedium(context).copyWith(
                       color: AppColors.whiteTextColor,
                     ),
@@ -237,7 +241,7 @@ class _MoodModal extends StatelessWidget {
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
-                    'I\'ll be okay',
+                    AppStrings.afterFeelingImOkay,
                     style: ThemeTextStyles.bodySmall(context),
                   ),
                 ),

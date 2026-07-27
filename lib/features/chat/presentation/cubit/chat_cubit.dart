@@ -4,20 +4,13 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
 
-const List<String> _sendFailedMessages = [
-  "hmm that didn't send, try again?",
-  "ugh my signal's being weird, say that again?",
-  'wait that got cut off, one more time?',
-  "hold on, didn't catch that — try sending again",
-  'hmm something glitched, can you resend that?',
-];
-
-String _randomSendFailedMessage() =>
-    _sendFailedMessages[Random().nextInt(_sendFailedMessages.length)];
+String _randomSendFailedMessage() => AppStrings
+    .chatSendFailedMessages[Random().nextInt(AppStrings.chatSendFailedMessages.length)];
 
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository repository;

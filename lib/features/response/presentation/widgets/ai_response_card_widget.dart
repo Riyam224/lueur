@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// Removes all emoji and non-text Unicode symbols from [text].
 String _stripEmojis(String text) {
@@ -62,7 +63,7 @@ class AiResponseCardWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'LUNA SAYS',
+                AppStrings.responseLunaSaysLabel,
                 style: ThemeTextStyles.labelSmall(context).copyWith(
                   color: AppColors.lavender,
                   fontWeight: FontWeight.bold,
@@ -75,7 +76,7 @@ class AiResponseCardWidget extends StatelessWidget {
                   onPressed: onBookmark,
                   icon: const Icon(Icons.bookmark_border),
                   color: AppColors.lavender,
-                  tooltip: 'Save quote',
+                  tooltip: AppStrings.responseSaveQuoteTooltip,
                   visualDensity: VisualDensity.compact,
                 ),
             ],
@@ -88,7 +89,7 @@ class AiResponseCardWidget extends StatelessWidget {
               Clipboard.setData(ClipboardData(text: cleanedResponse));
               HapticFeedback.mediumImpact();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Copied to clipboard 🌿')),
+                const SnackBar(content: Text(AppStrings.responseCopiedToClipboardSnack)),
               );
             },
             child: Text(

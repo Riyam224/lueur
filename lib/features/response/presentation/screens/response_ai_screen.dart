@@ -13,6 +13,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
@@ -172,7 +173,7 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                                           );
                                     }
                                   },
-                                  child: const Text('Try again'),
+                                  child: const Text(AppStrings.responseTryAgainButton),
                                 ),
                               ],
                             ),
@@ -219,19 +220,23 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                                       );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('Saved to quotes 🌿'),
+                                      content: Text(AppStrings.commonSavedToQuotesSnack),
                                     ),
                                   );
                                 },
                               ),
                               SizedBox(height: AppSpacing.spaceLg),
                               const MoodTagsRowWidget(
-                                tags: ['Expressing', 'Reflecting', 'Growing'],
+                                tags: [
+                                  AppStrings.responseMoodTagExpressing,
+                                  AppStrings.responseMoodTagReflecting,
+                                  AppStrings.responseMoodTagGrowing,
+                                ],
                               ),
                               SizedBox(height: AppSpacing.sectionSpacingMd),
                               ActionButtonsWidget(
-                                saveLabel: 'Done',
-                                talkAgainLabel: 'Keep chatting',
+                                saveLabel: AppStrings.responseDoneLabel,
+                                talkAgainLabel: AppStrings.responseKeepChattingLabel,
                                 onSave: () {
                                   if (context.canPop()) {
                                     context.pop();
@@ -276,7 +281,7 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                                     ),
                                   ),
                                   child: Text(
-                                    'Share',
+                                    AppStrings.responseShareButton,
                                     style: ThemeTextStyles.labelMedium(context)
                                         .copyWith(
                                       color:
@@ -356,7 +361,7 @@ extension _ShareHelper on _ResponseAiScreenState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Luna says',
+              AppStrings.responseShareCardHeading,
               style: ThemeTextStyles.labelMedium(context).copyWith(
                 color: theme.colorScheme.primary,
                 letterSpacing: 1.2,
@@ -373,7 +378,7 @@ extension _ShareHelper on _ResponseAiScreenState {
             ),
             const SizedBox(height: 40),
             Text(
-              'Lueur',
+              AppStrings.appName,
               style: ThemeTextStyles.bodySmall(context).copyWith(
                 color: theme.colorScheme.primary.withValues(alpha: 0.7),
               ),
@@ -425,7 +430,7 @@ class _LunaTypingIndicatorState extends State<LunaTypingIndicator>
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Luna is thinking', style: textStyle),
+            Text(AppStrings.responseThinkingLabel, style: textStyle),
             SizedBox(height: AppSpacing.spaceSm),
             Row(
               mainAxisSize: MainAxisSize.min,

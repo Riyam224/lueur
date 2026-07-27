@@ -7,6 +7,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// Floating "rough day, huh?" chooser shown when the user logs a low mood —
 /// lets them pick how they'd like to feel better before Luna sends them on
@@ -19,7 +20,7 @@ Future<void> showMoodChoiceDialog(
   return showGeneralDialog(
     context: context,
     barrierDismissible: true,
-    barrierLabel: 'Dismiss',
+    barrierLabel: AppStrings.commonDismissBarrierLabel,
     barrierColor: Colors.black.withValues(alpha: 0.4),
     transitionDuration: const Duration(milliseconds: 300),
     transitionBuilder: (_, animation, __, child) {
@@ -82,7 +83,7 @@ class _MoodChoiceDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'rough day, huh?',
+                AppStrings.moodChoicePrompt,
                 style: ThemeTextStyles.bodySmall(context).copyWith(
                   color: context.extra.secondaryTextColor,
                   letterSpacing: 0.5,
@@ -90,7 +91,7 @@ class _MoodChoiceDialog extends StatelessWidget {
               ),
               SizedBox(height: AppSpacing.spaceXs),
               Text(
-                'whatever feels right right now',
+                AppStrings.moodChoiceSubPrompt,
                 style: ThemeTextStyles.editorialHeadline(context, fontSize: 20),
               ),
               SizedBox(height: AppSpacing.spaceXl),
@@ -100,8 +101,8 @@ class _MoodChoiceDialog extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _MoodChoiceCard(
-                        title: 'Talk to Luna',
-                        subtitle: 'share what\'s on your mind',
+                        title: AppStrings.commonTalkToLuna,
+                        subtitle: AppStrings.moodChoiceTalkSubtitle,
                         icon: Icons.chat_bubble_rounded,
                         glowColor: AppColors.lavender,
                         onTap: () =>
@@ -109,8 +110,8 @@ class _MoodChoiceDialog extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceMd),
                       _MoodChoiceCard(
-                        title: 'Breathe with Luna',
-                        subtitle: 'a slow, guided breath',
+                        title: AppStrings.moodChoiceBreatheTitle,
+                        subtitle: AppStrings.moodChoiceBreatheSubtitle,
                         icon: Icons.self_improvement_rounded,
                         glowColor: AppColors.primaryContainer,
                         onTap: () =>
@@ -118,8 +119,8 @@ class _MoodChoiceDialog extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceMd),
                       _MoodChoiceCard(
-                        title: 'Free Draw',
-                        subtitle: 'no pressure, just color',
+                        title: AppStrings.moodChoiceDrawTitle,
+                        subtitle: AppStrings.moodChoiceDrawSubtitle,
                         icon: Icons.brush_rounded,
                         glowColor: AppColors.accent,
                         onTap: () =>
@@ -127,8 +128,8 @@ class _MoodChoiceDialog extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceMd),
                       _MoodChoiceCard(
-                        title: 'Sudoku',
-                        subtitle: 'a small, calm puzzle',
+                        title: AppStrings.moodChoiceSudokuTitle,
+                        subtitle: AppStrings.moodChoiceSudokuSubtitle,
                         icon: Icons.grid_view_rounded,
                         glowColor: AppColors.pastelOrchid,
                         onTap: () =>

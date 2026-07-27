@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// Luna information widget showing name and subtitle
 class LunaInfoWidget extends StatelessWidget {
@@ -11,12 +12,12 @@ class LunaInfoWidget extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Luna',
+          AppStrings.lunaName,
           style: ThemeTextStyles.titleLarge(context),
         ),
         SizedBox(height: AppSpacing.spaceXs),
         Text(
-          'Your companion · Always here for you',
+          AppStrings.lunaSubtitle,
           style: ThemeTextStyles.bodySmall(context),
         ),
       ],

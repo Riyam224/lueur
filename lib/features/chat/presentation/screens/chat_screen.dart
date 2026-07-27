@@ -6,6 +6,7 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
@@ -141,7 +142,7 @@ class _ChatScreenState extends State<ChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Luna',
+                AppStrings.lunaName,
                 style: ThemeTextStyles.labelMedium(context).copyWith(
                   color: cs.primary,
                   fontWeight: FontWeight.w600,
@@ -149,7 +150,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               Text(
-                'Luna',
+                AppStrings.lunaName,
                 style: ThemeTextStyles.labelSmall(context).copyWith(
                   color: extra.secondaryTextColor,
                   fontSize: 11,
@@ -204,7 +205,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            "Hi, I'm Luna 💜\nTell me how you're feeling.",
+            AppStrings.chatEmptyStateMessage,
             textAlign: TextAlign.center,
             style: ThemeTextStyles.bodyMedium(context).copyWith(
               color: extra.secondaryTextColor,
@@ -231,7 +232,7 @@ class _ChatScreenState extends State<ChatScreen> {
           thoughts: precedingThoughts,
         );
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Saved to quotes 🌿')),
+      const SnackBar(content: Text(AppStrings.commonSavedToQuotesSnack)),
     );
   }
 
@@ -320,7 +321,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Luna is typing',
+              AppStrings.chatTypingLabel,
               style: ThemeTextStyles.labelSmall(context).copyWith(
                 color: cs.primary,
                 fontSize: 13,
@@ -371,7 +372,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 color: extra.primaryTextColor,
               ),
               decoration: InputDecoration(
-                hintText: 'Share what\'s on your mind...',
+                hintText: AppStrings.chatInputHint,
                 hintStyle: ThemeTextStyles.bodySmall(context).copyWith(
                   color: extra.secondaryTextColor,
                 ),
@@ -454,7 +455,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            "I'm glad you're feeling better 💜",
+            AppStrings.chatSessionEndGladMessage,
             textAlign: TextAlign.center,
             style: ThemeTextStyles.headlineSmall(context).copyWith(
               color: cs.primary,
@@ -462,7 +463,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'This session has been saved to your journal.',
+            AppStrings.chatSessionEndSavedMessage,
             textAlign: TextAlign.center,
             style: ThemeTextStyles.bodySmall(context).copyWith(
               color: extra.secondaryTextColor,
@@ -486,7 +487,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
               child: Text(
-                'Back to Home',
+                AppStrings.chatBackToHomeButton,
                 style: ThemeTextStyles.labelMedium(context).copyWith(
                   color: AppColors.whiteTextColor,
                   fontWeight: FontWeight.w600,
