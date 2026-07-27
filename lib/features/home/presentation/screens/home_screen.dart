@@ -123,9 +123,11 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     );
   }
 
+  static final RegExp _sentenceSplitter = RegExp(r'[.!?]');
+
   /// Use the first sentence or first 40 chars of thoughts as the card title
   String _titleFromThoughts(String thoughts) {
-    final sentence = thoughts.split(RegExp(r'[.!?]')).first.trim();
+    final sentence = thoughts.split(_sentenceSplitter).first.trim();
     if (sentence.isEmpty) return thoughts;
     return sentence.length > 40 ? '${sentence.substring(0, 40)}…' : sentence;
   }

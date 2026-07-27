@@ -20,6 +20,7 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
   bool _expanded = true;
   late final AnimationController _animController;
   late final Animation<double> _expandAnim;
+  late List<int> _counts;
 
   static const _days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -35,6 +36,15 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
       parent: _animController,
       curve: Curves.easeInOut,
     );
+    _counts = _countsThisWeek();
+  }
+
+  @override
+  void didUpdateWidget(covariant JournalMoodGraphWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.entries, widget.entries)) {
+      _counts = _countsThisWeek();
+    }
   }
 
   @override
@@ -73,7 +83,7 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final counts = _countsThisWeek();
+    final counts = _counts;
     final maxY = (counts.reduce((a, b) => a > b ? a : b) + 1).toDouble();
 
     return Container(
