@@ -123,17 +123,19 @@ flutter:
 # NOTE: flutter_native_splash renders before the Flutter engine (and its
 # fonts/widgets) is up, so it can only show a flat background color + one
 # static image — no custom text, shapes, or animation. The colors below
-# must be kept in sync with AppColors.lavenderLilac (light) and
+# must be kept in sync with AppColors.creamBackground (light) and
 # AppColors.darkBackground (dark) by hand, since this YAML config can't
-# reference Dart constants. No image here — the in-app SplashScreen draws
-# Luna's face (eyes + smile) as plain shapes, not a raster asset, so there
-# is nothing to show natively without a jump-cut; it takes over the instant
-# Flutter renders its first frame, fading in on the same solid color.
+# reference Dart constants. The in-app SplashScreen centers this same Luna
+# asset on the same background and adds the "Lueur" wordmark + tagline —
+# same image, same backdrop, so there's no jump-cut when Flutter takes over.
 flutter_native_splash:
-  color: "#B7AEDC"
+  color: "#F8F2E7"
+  image: assets/images/luna_splash.png
   color_dark: "#2B2138"
+  image_dark: assets/images/luna_splash.png
   android_12:
-    color: "#B7AEDC"
+    image: assets/images/luna_splash_android12.png
+    color: "#F8F2E7"
     color_dark: "#2B2138"
   android: true
   ios: true

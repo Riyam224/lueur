@@ -3,16 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
+import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/app_fonts.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/splash/presentation/constants/splash_constants.dart';
-import 'package:lueur/features/splash/presentation/widgets/luna_face.dart';
 
-/// The in-app splash — a calm, minimal moment: just Luna's eyes and a
-/// closed smile on a solid color, fading in. Native splash can only show
-/// a flat background + a single static image, so this simple scene is
-/// the first real Flutter frame the user sees.
+/// The in-app splash — Luna's illustration centered on a solid background,
+/// with the app name and tagline beneath, fading in once. Native splash can
+/// only show a flat background + a single static image, so this simple
+/// scene (same Luna asset, same background) is what takes over the instant
+/// Flutter renders its first frame — no visual jump between the two.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -73,13 +76,58 @@ class _SplashScreenState extends State<SplashScreen>
     final size = MediaQuery.sizeOf(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    // Same brand hue in both themes, just the contrast-safe variant for
+    // each background: a deep shade on the light cream backdrop, and the
+    // bright pastel itself (which already pops) on the dark plum backdrop.
+    final titleColor =
+        isDark ? AppColors.lavenderLilac : AppColors.primaryButtonFill;
+    final taglineColor =
+        isDark ? AppColors.darkSecondaryText : AppColors.lightSecondaryText;
+
     return Scaffold(
       backgroundColor:
-          isDark ? AppColors.darkBackground : AppColors.lavenderLilac,
+          isDark ? AppColors.darkBackground : AppColors.creamBackground,
       body: Center(
         child: FadeTransition(
           opacity: _fade,
-          child: LunaFace(eyeSize: size.width * SplashConstants.eyeSizeFraction),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                AppAssets.lunaCharacter,
+                width: size.width * SplashConstants.lunaSizeFraction,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                AppStrings.appName,
+                style: TextStyle(
+                  fontFamily: AppFonts.mainFontName,
+                  fontFamilyFallback: const [
+                    'Apple Color Emoji',
+                    'Noto Color Emoji',
+                  ],
+                  fontSize: SplashConstants.titleFontSize,
+                  fontWeight: FontWeight.w800,
+                  color: titleColor,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                AppStrings.appTagline,
+                style: TextStyle(
+                  fontFamily: AppFonts.mainFontName,
+                  fontFamilyFallback: const [
+                    'Apple Color Emoji',
+                    'Noto Color Emoji',
+                  ],
+                  fontSize: SplashConstants.taglineFontSize,
+                  fontWeight: FontWeight.w500,
+                  color: taglineColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

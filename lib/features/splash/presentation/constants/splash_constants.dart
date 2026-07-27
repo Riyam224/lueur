@@ -2,8 +2,11 @@
 class SplashConstants {
   static const Duration navigationDelay = Duration(seconds: 3);
 
-  // Luna's eye diameter as a fraction of screen width.
-  static const double eyeSizeFraction = 0.11;
+  // Luna illustration width as a fraction of screen width.
+  static const double lunaSizeFraction = 0.42;
+
+  static const double titleFontSize = 34; // "Lueur" — bold, Luna-colored
+  static const double taglineFontSize = 14; // "a little light for you"
 
   // Single fade-in only — no scale, bounce, or looping.
   static const Duration fadeInDuration = Duration(milliseconds: 500);
