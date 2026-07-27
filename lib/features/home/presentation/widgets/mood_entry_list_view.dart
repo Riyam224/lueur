@@ -4,6 +4,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_entry.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/mood_entry_card.dart';
 
 class MoodEntryListView extends StatelessWidget {
@@ -23,7 +24,7 @@ class MoodEntryListView extends StatelessWidget {
         height: 100.h,
         child: Center(
           child: Text(
-            'No mood entries yet',
+            AppStrings.moodEntryListEmptyMessage,
             style: ThemeTextStyles.bodyLarge(context).copyWith(
               color: context.extra.secondaryTextColor,
             ),

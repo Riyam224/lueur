@@ -4,6 +4,7 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 /// Thoughts input field with submit button
 class ThoughtsInputWidget extends StatelessWidget {
@@ -31,7 +32,7 @@ class ThoughtsInputWidget extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: extraColors.cardBackgroundColor,
-            hintText: 'What\'s on your mind today...',
+            hintText: AppStrings.homeThoughtsHint,
             hintStyle: ThemeTextStyles.bodySmall(context),
             counterText: '',
             border: OutlineInputBorder(
@@ -91,7 +92,7 @@ class ThoughtsInputWidget extends StatelessWidget {
               elevation: 0,
             ),
             child: Text(
-              'Talk to Luna',
+              AppStrings.commonTalkToLuna,
               style: ThemeTextStyles.whiteButton(context),
             ),
           ),
@@ -102,10 +103,10 @@ class ThoughtsInputWidget extends StatelessWidget {
   }
 
   String _encouragementForCount(int count) {
-    if (count < 50) return 'What\'s on your mind... 🌱';
-    if (count < 150) return 'Keep going...';
-    if (count < 300) return 'You\'re opening up 🌿';
-    if (count < 450) return 'Beautiful reflection 🌸';
-    return 'Luna is listening 💜';
+    if (count < 50) return AppStrings.homeThoughtsEncouragementStart;
+    if (count < 150) return AppStrings.homeThoughtsEncouragementContinue;
+    if (count < 300) return AppStrings.homeThoughtsEncouragementOpeningUp;
+    if (count < 450) return AppStrings.homeThoughtsEncouragementBeautiful;
+    return AppStrings.homeThoughtsEncouragementListening;
   }
 }

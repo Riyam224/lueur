@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/data/models/weekly_letter_model.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
 
@@ -154,7 +155,7 @@ class _LetterContentState extends State<_LetterContent> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Your weekly letter',
+                  AppStrings.weeklyLetterBannerTitle,
                   style: ThemeTextStyles.labelMedium(context).copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -216,7 +217,9 @@ class _LetterContentState extends State<_LetterContent> {
             GestureDetector(
               onTap: () => setState(() => _expanded = !_expanded),
               child: Text(
-                _expanded ? 'Show less' : 'Read more',
+                _expanded
+                    ? AppStrings.weeklyLetterShowLess
+                    : AppStrings.weeklyLetterReadMore,
                 style: ThemeTextStyles.labelSmall(context).copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,
@@ -226,7 +229,7 @@ class _LetterContentState extends State<_LetterContent> {
           ] else ...[
             const SizedBox(height: 8),
             Text(
-              'Keep journaling — your letter will be ready at the end of the week.',
+              AppStrings.weeklyLetterWaitingMessage,
               style: ThemeTextStyles.bodySmall(context).copyWith(
                 color: context.extra.secondaryTextColor,
               ),

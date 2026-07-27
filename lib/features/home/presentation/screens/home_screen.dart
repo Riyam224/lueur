@@ -12,6 +12,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
@@ -152,14 +153,12 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Delete all entries?'),
-        content: const Text(
-          'This will permanently remove all journal entries from your device.',
-        ),
+        title: const Text(AppStrings.moodEntryDeleteAllTitle),
+        content: const Text(AppStrings.moodEntryDeleteAllMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Cancel'),
+            child: const Text(AppStrings.commonCancel),
           ),
           TextButton(
             onPressed: () {
@@ -167,7 +166,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
               context.read<MoodCubit>().deleteAllEntries();
             },
             child: const Text(
-              'Delete all',
+              AppStrings.moodEntryDeleteAllConfirm,
               style: TextStyle(color: AppColors.errorColor),
             ),
           ),
@@ -335,13 +334,13 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                         const Text('🌱', style: TextStyle(fontSize: 44)),
                         SizedBox(height: AppSpacing.spaceMd),
                         Text(
-                          'Your story starts here',
+                          AppStrings.moodEntryEmptyStateTitle,
                           style: ThemeTextStyles.headlineSmall(context),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: AppSpacing.spaceSm),
                         Text(
-                          'Share a thought and tap Talk to Luna',
+                          AppStrings.homeEmptyStateSubtitle,
                           style: ThemeTextStyles.bodyMedium(context).copyWith(
                             color: context.extra.secondaryTextColor,
                           ),
@@ -400,7 +399,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                           ),
                           SizedBox(height: AppSpacing.spaceMd),
                           Text(
-                            'You just planted your first seed 🌱',
+                            AppStrings.homeFirstSeedCelebration,
                             style: ThemeTextStyles.headlineSmall(context),
                             textAlign: TextAlign.center,
                           ),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 
 /// Glassy, floating pill-shaped bottom navigation bar
@@ -17,9 +18,9 @@ class AppBottomNavBar extends StatelessWidget {
   });
 
   static const _items = [
-    (icon: Icons.home_outlined,   activeIcon: Icons.home_rounded,    label: 'Home'),
-    (icon: Icons.book_outlined,   activeIcon: Icons.book_rounded,    label: 'Journal'),
-    (icon: Icons.person_outlined, activeIcon: Icons.person_rounded,  label: 'Profile'),
+    (icon: Icons.home_outlined,   activeIcon: Icons.home_rounded,    label: AppStrings.navHomeLabel),
+    (icon: Icons.book_outlined,   activeIcon: Icons.book_rounded,    label: AppStrings.navJournalLabel),
+    (icon: Icons.person_outlined, activeIcon: Icons.person_rounded,  label: AppStrings.navProfileLabel),
   ];
 
   @override

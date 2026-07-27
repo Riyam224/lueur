@@ -5,6 +5,7 @@ import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/router_generation_config.dart';
 import 'package:lueur/core/styling/app_theme.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 
 class Lueur extends StatelessWidget {
   const Lueur({super.key});
@@ -22,7 +23,7 @@ class Lueur extends StatelessWidget {
             builder: (context, themeMode) {
               return MaterialApp.router(
                 debugShowCheckedModeBanner: false,
-                title: 'Lueur',
+                title: AppStrings.appName,
                 theme: AppTheme.light,
                 darkTheme: AppTheme.dark,
                 themeMode: themeMode,

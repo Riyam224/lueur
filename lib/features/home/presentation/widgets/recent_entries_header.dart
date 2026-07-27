@@ -4,6 +4,7 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/spacing_widgets.dart';
 
 /// Header for recent mood entries with "See all" navigation
@@ -19,7 +20,7 @@ class RecentEntriesHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('RECENT ENTRIES', style: ThemeTextStyles.labelLarge(context)),
+        Text(AppStrings.homeRecentEntriesLabel, style: ThemeTextStyles.labelLarge(context)),
         Row(
           children: [
             if (onDeleteAll != null) ...[
@@ -38,7 +39,7 @@ class RecentEntriesHeader extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    'See all',
+                    AppStrings.homeSeeAllLabel,
                     style: ThemeTextStyles.labelMedium(context).copyWith(
                       color: extraColors.primaryColor,
                     ),

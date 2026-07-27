@@ -81,4 +81,63 @@ class AppStrings {
   static const String moodLabelScared = 'Scared';
   static const String moodLabelBurnout = 'Burnt out';
   static const String moodLabelContentPeaceful = 'Content & Peaceful';
+
+  // ── Common (shared across dialogs/screens) ──
+  static const String commonCancel = 'Cancel';
+  static const String commonDelete = 'Delete';
+  static const String commonTalkToLuna = 'Talk to Luna';
+
+  // ── Bottom navigation ──
+  static const String navHomeLabel = 'Home';
+  static const String navJournalLabel = 'Journal';
+  static const String navProfileLabel = 'Profile';
+
+  // ── Mood entries (shared: home + journal) ──
+  static const String moodEntryDeleteAllTitle = 'Delete all entries?';
+  static const String moodEntryDeleteAllMessage =
+      'This will permanently remove all journal entries from your device.';
+  static const String moodEntryDeleteAllConfirm = 'Delete all';
+  static const String moodEntryEmptyStateTitle = 'Your story starts here';
+  static const String moodEntryListEmptyMessage = 'No mood entries yet';
+
+  // ── Home ──
+  static const String homeMoodPromptLabel = 'How are you feeling today?';
+  static const String homeThoughtsLabelSad = 'What\'s weighing on you?';
+  static const String homeThoughtsLabelLonely = 'What\'s been on your mind?';
+  static const String homeThoughtsLabelAngry = 'What set this off?';
+  static const String homeThoughtsLabelWorried = 'What\'s worrying you?';
+  static const String homeThoughtsLabelBurnout = 'What\'s been draining you?';
+  static const String homeThoughtsLabelNeutralGood = 'What\'s going on today?';
+  static const String homeThoughtsLabelFeelGood =
+      'What\'s making you feel good?';
+  static const String homeThoughtsLabelGrateful = 'What are you grateful for?';
+  static const String homeThoughtsLabelHopeful =
+      'What are you looking forward to?';
+  static const String homeThoughtsLabelDefault = 'Tell me what\'s going on...';
+  static const String homeMoodRequiredSnack = 'Please select your mood first';
+  static const String homeThoughtsRequiredSnack = 'Please share your thoughts';
+  static const String homeThoughtsHint = 'What\'s on your mind today...';
+  static const String homeThoughtsEncouragementStart =
+      'What\'s on your mind... 🌱';
+  static const String homeThoughtsEncouragementContinue = 'Keep going...';
+  static const String homeThoughtsEncouragementOpeningUp =
+      'You\'re opening up 🌿';
+  static const String homeThoughtsEncouragementBeautiful =
+      'Beautiful reflection 🌸';
+  static const String homeThoughtsEncouragementListening =
+      'Luna is listening 💜';
+  static const String homeRecentEntriesLabel = 'RECENT ENTRIES';
+  static const String homeSeeAllLabel = 'See all';
+  static const String homeEmptyStateSubtitle =
+      'Share a thought and tap Talk to Luna';
+  static const String homeFirstSeedCelebration =
+      'You just planted your first seed 🌱';
+
+  // ── Weekly letter ──
+  static const String weeklyLetterBannerTitle = 'Your weekly letter';
+  static const String weeklyLetterScreenTitle = 'Weekly letter';
+  static const String weeklyLetterWaitingMessage =
+      'Keep journaling — your letter will be ready at the end of the week.';
+  static const String weeklyLetterShowLess = 'Show less';
+  static const String weeklyLetterReadMore = 'Read more';
 }

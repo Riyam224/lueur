@@ -7,6 +7,7 @@ import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/widgets/mood_selector_widget.dart';
 import 'package:lueur/features/home/presentation/widgets/thoughts_input_widget.dart';
@@ -29,29 +30,29 @@ class _MoodInputSectionState extends State<MoodInputSection> {
   String _thoughtsLabel(MoodType? mood) {
     switch (mood) {
       case MoodType.sad:
-        return 'What\'s weighing on you?';
+        return AppStrings.homeThoughtsLabelSad;
       case MoodType.lonely:
-        return 'What\'s been on your mind?';
+        return AppStrings.homeThoughtsLabelLonely;
       case MoodType.angry:
-        return 'What set this off?';
+        return AppStrings.homeThoughtsLabelAngry;
       case MoodType.anxious:
       case MoodType.scared:
-        return 'What\'s worrying you?';
+        return AppStrings.homeThoughtsLabelWorried;
       case MoodType.burnout:
-        return 'What\'s been draining you?';
+        return AppStrings.homeThoughtsLabelBurnout;
       case MoodType.calm:
       case MoodType.contentPeaceful:
-        return 'What\'s going on today?';
+        return AppStrings.homeThoughtsLabelNeutralGood;
       case MoodType.happy:
       case MoodType.excited:
-        return 'What\'s making you feel good?';
+        return AppStrings.homeThoughtsLabelFeelGood;
       case MoodType.grateful:
-        return 'What are you grateful for?';
+        return AppStrings.homeThoughtsLabelGrateful;
       case MoodType.hopeful:
-        return 'What are you looking forward to?';
+        return AppStrings.homeThoughtsLabelHopeful;
       case MoodType.neutral:
       case null:
-        return 'Tell me what\'s going on...';
+        return AppStrings.homeThoughtsLabelDefault;
     }
   }
 
@@ -73,7 +74,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
     if (_selectedMood == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please select your mood first'),
+          content: Text(AppStrings.homeMoodRequiredSnack),
           duration: Duration(seconds: 2),
         ),
       );
@@ -83,7 +84,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
     if (thoughts.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please share your thoughts'),
+          content: Text(AppStrings.homeThoughtsRequiredSnack),
           duration: Duration(seconds: 2),
         ),
       );
@@ -121,7 +122,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'How are you feeling today?',
+          AppStrings.homeMoodPromptLabel,
           style: ThemeTextStyles.bodyMedium(context).copyWith(
             color: extra.secondaryTextColor,
             fontWeight: FontWeight.w600,
