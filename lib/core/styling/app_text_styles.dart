@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/app_fonts.dart';
 
 class AppTextStyles {
   // ── Display (عناوين كبيرة — DM Serif Display italic) ─────────────────
@@ -23,7 +24,7 @@ class AppTextStyles {
 
   // ── Headline (عناوين أقسام — Nunito SemiBold) ─────────────────────────
   static TextStyle headlineLarge(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 24),
         fontWeight: FontWeight.w600,
         color: _onBg(context),
@@ -31,7 +32,7 @@ class AppTextStyles {
       );
 
   static TextStyle headlineMedium(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 20),
         fontWeight: FontWeight.w600,
         color: _onBg(context),
@@ -39,7 +40,7 @@ class AppTextStyles {
       );
 
   static TextStyle headlineSmall(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 18),
         fontWeight: FontWeight.w600,
         color: _onBg(context),
@@ -47,7 +48,7 @@ class AppTextStyles {
 
   // ── Body (نصوص عادية — Nunito Regular) ──────────────────────────────
   static TextStyle bodyLarge(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 16),
         fontWeight: FontWeight.w400,
         color: _onBg(context),
@@ -55,7 +56,7 @@ class AppTextStyles {
       );
 
   static TextStyle bodyMedium(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 14),
         fontWeight: FontWeight.w400,
         color: _onBg(context),
@@ -63,7 +64,7 @@ class AppTextStyles {
       );
 
   static TextStyle bodySmall(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 12),
         fontWeight: FontWeight.w300,
         color: _secondaryText(context),
@@ -72,7 +73,7 @@ class AppTextStyles {
 
   // ── Label (chips, badges, captions) ───────────────────────────────────
   static TextStyle labelLarge(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 14),
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
@@ -80,7 +81,7 @@ class AppTextStyles {
       );
 
   static TextStyle labelMedium(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 12),
         fontWeight: FontWeight.w500,
         letterSpacing: 1.2,
@@ -88,7 +89,7 @@ class AppTextStyles {
       );
 
   static TextStyle labelSmall(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 10),
         fontWeight: FontWeight.w400,
         letterSpacing: 1.8,
@@ -97,68 +98,68 @@ class AppTextStyles {
 
   // ── Button ────────────────────────────────────────────────────────────
   static TextStyle button(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 16),
         fontWeight: FontWeight.w600,
         letterSpacing: 0.3,
       );
 
   static TextStyle buttonEmphasis(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 16),
         fontWeight: FontWeight.w700,
       );
 
   static TextStyle buttonOutlined(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 14),
         fontWeight: FontWeight.w600,
       );
 
   // ── Form fields ───────────────────────────────────────────────────────
   static TextStyle fieldLabel(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 12),
         fontWeight: FontWeight.w600,
         color: _onBg(context),
       );
 
   static TextStyle fieldInput(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontWeight: FontWeight.w400,
         color: _onBg(context),
       );
 
   static TextStyle fieldHint(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontWeight: FontWeight.w300,
         color: _secondaryText(context),
       );
 
   // ── Caption / link text ───────────────────────────────────────────────
   static TextStyle captionSmall(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 12),
         fontWeight: FontWeight.w400,
         color: _secondaryText(context),
       );
 
   static TextStyle caption(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 13),
         fontWeight: FontWeight.w400,
         color: _secondaryText(context),
       );
 
   static TextStyle captionEmphasis(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 13),
         fontWeight: FontWeight.w700,
         color: _onBg(context),
       );
 
   static TextStyle strengthLabel(BuildContext context) => TextStyle(
-        fontFamily: 'Nunito',
+        fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 11),
         fontWeight: FontWeight.w400,
         color: _secondaryText(context),

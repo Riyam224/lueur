@@ -21,6 +21,10 @@ class _Move {
 /// [DrawCubit] for free draw): only the final result is persisted, via
 /// [SaveSudokuResultUseCase], never the in-progress board.
 class SudokuCubit extends Cubit<SudokuState> {
+  /// Three strikes and the round ends — keeps a hard round short and low
+  /// stakes rather than letting mistakes pile up indefinitely.
+  static const int maxMistakes = 3;
+
   final GenerateSudokuPuzzleUseCase _generatePuzzle;
   final ValidateSudokuMoveUseCase _validateMove;
   final SaveSudokuResultUseCase _saveResult;
@@ -176,8 +180,10 @@ class SudokuCubit extends Cubit<SudokuState> {
     final isSolved =
         values.every((r) => r.every((v) => v != 0)) &&
         conflicts.every((r) => r.every((flag) => !flag));
+    final isOutOfTries = !isSolved && mistakes >= maxMistakes;
 
     if (isSolved) _saveOnce(won: true, mistakes: mistakes);
+    if (isOutOfTries) _saveOnce(won: false, mistakes: mistakes);
 
     emit(
       state.copyWith(
@@ -186,7 +192,9 @@ class SudokuCubit extends Cubit<SudokuState> {
         conflicts: conflicts,
         mistakes: mistakes,
         canUndo: true,
-        status: isSolved ? SudokuStatus.won : SudokuStatus.playing,
+        status: isSolved
+            ? SudokuStatus.won
+            : (isOutOfTries ? SudokuStatus.lost : SudokuStatus.playing),
       ),
     );
   }

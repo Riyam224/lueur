@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum SudokuStatus { playing, won }
+enum SudokuStatus { playing, won, lost }
 
 enum SudokuInputMode { normal, candidate }
 

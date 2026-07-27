@@ -133,6 +133,15 @@ class _SudokuScreenState extends State<SudokuScreen> {
                             Text('Easy', style: ThemeTextStyles.bodyMedium(context)),
                             SizedBox(width: AppSpacing.spaceMd),
                             Text(
+                              'Mistakes: ${state.mistakes}/${SudokuCubit.maxMistakes}',
+                              style: ThemeTextStyles.bodyMedium(context).copyWith(
+                                color: state.mistakes > 0
+                                    ? AppColors.errorColor
+                                    : extra.secondaryTextColor,
+                              ),
+                            ),
+                            SizedBox(width: AppSpacing.spaceMd),
+                            Text(
                               _formatDuration(state.elapsedSeconds),
                               style: ThemeTextStyles.bodyMedium(context).copyWith(
                                 color: extra.secondaryTextColor,
@@ -185,6 +194,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                           mode: state.mode,
                           canUndo: state.canUndo,
                           autoCandidateMode: state.autoCandidateMode,
+                          values: state.values,
                           onModeChanged: (mode) =>
                               context.read<SudokuCubit>().setMode(mode),
                           onUndo: () => context.read<SudokuCubit>().undo(),
@@ -221,6 +231,36 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                     foregroundColor: AppColors.whiteTextColor,
                                   ),
                                   child: const Text('play again'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                        if (state.status == SudokuStatus.lost) ...[
+                          SizedBox(height: AppSpacing.space2Xl),
+                          Text(
+                            'out of tries — take a breath 🌱',
+                            style: ThemeTextStyles.titleMedium(context),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: AppSpacing.spaceMd),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () => context.go(AppRoutes.home),
+                                  child: const Text('done'),
+                                ),
+                              ),
+                              SizedBox(width: AppSpacing.spaceMd),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () => context.read<SudokuCubit>().start(),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primaryButtonFill,
+                                    foregroundColor: AppColors.whiteTextColor,
+                                  ),
+                                  child: const Text('try again'),
                                 ),
                               ),
                             ],

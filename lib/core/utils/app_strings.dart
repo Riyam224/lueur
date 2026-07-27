@@ -3,6 +3,7 @@ class AppStrings {
   // splash
   static const String appName = 'Lueur';
   static const String appTagline = 'a little light for you';
+  static const String appSplashCaption = 'grow a little every day';
   // onboarding
   static const String onboardingSkip = 'Skip intro';
   static const String onboardingGetStarted = 'Get started';

@@ -84,7 +84,7 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryDark,
       primaryContainer: AppColors.darkPrimaryContainer,
-      secondary: AppColors.lavender,
+      secondary: AppColors.darkMintTeal, // touch of green — cozy plum + moss
       surface: AppColors.darkSurface,
       onPrimary: AppColors.whiteTextColor,
       onSecondary: AppColors.whiteTextColor,

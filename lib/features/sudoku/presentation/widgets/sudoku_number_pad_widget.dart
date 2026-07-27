@@ -13,6 +13,7 @@ class SudokuNumberPadWidget extends StatelessWidget {
   final SudokuInputMode mode;
   final bool canUndo;
   final bool autoCandidateMode;
+  final List<List<int>> values;
   final ValueChanged<SudokuInputMode> onModeChanged;
   final VoidCallback onUndo;
   final ValueChanged<int> onNumberTap;
@@ -24,6 +25,7 @@ class SudokuNumberPadWidget extends StatelessWidget {
     required this.mode,
     required this.canUndo,
     required this.autoCandidateMode,
+    required this.values,
     required this.onModeChanged,
     required this.onUndo,
     required this.onNumberTap,
@@ -31,9 +33,23 @@ class SudokuNumberPadWidget extends StatelessWidget {
     required this.onAutoCandidateModeChanged,
   });
 
+  /// How many of each digit are still left to place — every digit fills
+  /// exactly 9 cells in a solved grid, so 9 minus the placed count is what
+  /// remains.
+  List<int> _remainingCounts() {
+    final placed = List.filled(SudokuBoardEntity.size + 1, 0);
+    for (final row in values) {
+      for (final value in row) {
+        if (value != 0) placed[value]++;
+      }
+    }
+    return [for (var n = 1; n <= SudokuBoardEntity.size; n++) 9 - placed[n]];
+  }
+
   @override
   Widget build(BuildContext context) {
     final extra = context.extra;
+    final remaining = _remainingCounts();
 
     return Column(
       children: [
@@ -68,26 +84,10 @@ class SudokuNumberPadWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             for (var n = 1; n <= SudokuBoardEntity.size; n++)
-              BouncyTap(
+              _NumberButton(
+                number: n,
+                remaining: remaining[n - 1],
                 onTap: () => onNumberTap(n),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: extra.cardBackgroundColor,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: extra.borderColor!),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$n',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: extra.primaryColor,
-                    ),
-                  ),
-                ),
               ),
             BouncyTap(
               onTap: onClearTap,
@@ -121,6 +121,60 @@ class SudokuNumberPadWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _NumberButton extends StatelessWidget {
+  final int number;
+  final int remaining;
+  final VoidCallback onTap;
+
+  const _NumberButton({
+    required this.number,
+    required this.remaining,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final extra = context.extra;
+    final isExhausted = remaining <= 0;
+
+    return BouncyTap(
+      onTap: isExhausted ? null : onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: extra.cardBackgroundColor,
+              shape: BoxShape.circle,
+              border: Border.all(color: extra.borderColor!),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '$number',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: isExhausted ? extra.tertiaryTextColor : extra.primaryColor,
+              ),
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            '$remaining',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+              color: extra.tertiaryTextColor,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

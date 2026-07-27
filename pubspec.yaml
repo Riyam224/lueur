@@ -51,6 +51,7 @@ dependencies:
   share_plus: ^10.1.4
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.14.4"
   build_runner: ^2.4.9
   flutter_lints: ^6.0.0
   flutter_native_splash: ^2.4.8
@@ -119,16 +120,32 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 
+# NOTE: flutter_native_splash renders before the Flutter engine (and its
+# fonts/widgets) is up, so it can only show a flat background color + one
+# static image — no custom text, shapes, or animation. The colors below
+# must be kept in sync with AppColors.creamBackground (light) and
+# AppColors.darkBackground (dark) by hand, since this YAML config can't
+# reference Dart constants. The full designed splash (typography hierarchy,
+# blobs, staggered Luna+plant fade-in) lives in SplashScreen and takes over
+# the instant Flutter renders its first frame.
 flutter_native_splash:
-  color: "#FFF8F5"
+  color: "#F8F2E7"
   image: assets/images/luna_splash.png
-  color_dark: "#FFF8F5"
+  color_dark: "#2B2138"
   image_dark: assets/images/luna_splash.png
   android_12:
     image: assets/images/luna_splash_android12.png
-    color: "#FFF8F5"
-    color_dark: "#FFF8F5"
+    color: "#F8F2E7"
+    color_dark: "#2B2138"
   android: true
   ios: true
   web: false
   fullscreen: true
+
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21

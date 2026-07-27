@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 class AppColors {
   // ── Lueur cozy palette (source of truth — reference these, never a raw
   // hex, anywhere else in the app) ─────────────────────────────────────────
-  // Brand duo: Luna's actual illustration purple (sampled from
-  // assets/images/luna_splash.png, #C5AAF7) + Buttermilk Yellow — every
-  // purple in the app (light or dark mode) is a tint/shade of this exact
-  // hue so nothing reads as a "different purple" than Luna herself.
-  static const Color lavenderLilac    = Color(0xFFC5AAF7);
+  // Brand duo: Lavender Lilac (#B7AEDC) + Buttermilk Yellow (#FFE6A7) — the
+  // dusty, storybook-cozy pair from the app's mood board. Every purple in
+  // the app (light or dark mode) is the same hue/saturation as Lavender
+  // Lilac, just lighter or darker, so nothing reads as a "different purple".
+  static const Color lavenderLilac    = Color(0xFFB7AEDC);
   static const Color buttermilkYellow = Color(0xFFFFE6A7);
   static const Color creamBackground  = Color(0xFFF8F2E7);
 
   static const Color pastelLavenderWhite = creamBackground;
   static const Color pastelBlush         = Color(0xFFFCEFD0); // warm buttermilk tint
   static const Color pastelCoral         = buttermilkYellow;   // "Great" mood, warm accent
-  static const Color pastelOrchid        = Color(0xFF996AF1); // deeper Luna-purple, decorative
+  static const Color pastelOrchid        = Color(0xFF6E59C5); // deeper lavender-lilac, decorative
   static const Color pastelPurple        = lavenderLilac;
-  static const Color pastelPeriwinkle    = Color(0xFFDDD1FA); // lighter Luna-purple tint — AI bubble
+  static const Color pastelPeriwinkle    = Color(0xFFD9D4ED); // lighter lavender-lilac tint — AI bubble
 
   // ── Button-fill variants ─────────────────────────────────────────────────
   // pastelPurple/pastelCoral read beautifully as backgrounds, glows, and
@@ -25,8 +25,15 @@ class AppColors {
   // formula until white text clears 4.5:1 — use ONLY where white/light text
   // sits directly on the fill (buttons, filled chat bubbles). Leave every
   // background/glow/decorative usage on the lighter pastel values above.
-  static const Color primaryButtonFill = Color(0xFF8B55EF); // contrast w/ white: 4.51:1
+  static const Color primaryButtonFill = Color(0xFF604DB2); // contrast w/ white: 6.56:1
   static const Color accentButtonFill  = Color(0xFF9A6F00); // contrast w/ white: 4.52:1
+
+  // Greeting card gradient — same hue family, same contrast-safe treatment,
+  // for the diagonal gradient behind Luna's white greeting text. Used in
+  // both light and dark mode: the card always carries white text, so it
+  // always needs the darkened pair regardless of theme.
+  static const Color greetingGradientStart = Color(0xFF55439D); // contrast w/ white: 7.85:1
+  static const Color greetingGradientEnd   = Color(0xFF7362BC); // contrast w/ white: 5.00:1
 
   // ── Lueur Breathing/Affirmation Palette ─────────────────────────────────
   static const Color cardBorder = lightBorder;
@@ -45,13 +52,16 @@ class AppColors {
   static const Color accent = pastelCoral;                   // "Great" mood
 
   // ── Dark Theme (same pastel family, deepened — no black/navy) ────────────
+  // Structural surfaces below carry a whisper of darkMintTeal blended in —
+  // a deliberate "touch of green" so dark mode reads like a cozy cabin at
+  // night (plum + moss) rather than plain purple-on-black.
   static const Color darkBackground = Color(0xFF2B2138);     // Scaffold — deep plum, not black
-  static const Color darkSurface = Color(0xFF3A2C4A);        // Cards — lighter plum
+  static const Color darkSurface = Color(0xFF3E3952);        // Cards — lighter plum, mint-touched
   static const Color primaryDark = pastelPurple;             // Buttons, accents
-  static const Color darkPrimaryContainer = Color(0xFF3F3D63); // AI bubble bg — deep periwinkle
+  static const Color darkPrimaryContainer = Color(0xFF454F6C); // AI bubble bg — plum + mint touch
   static const Color darkOnBackground = pastelLavenderWhite; // Primary text
   static const Color darkSecondaryText = Color(0xFFC9B7D6);  // Labels, hints — muted mauve
-  static const Color darkBorder = Color(0xFF4A3B5C);         // Card borders
+  static const Color darkBorder = Color(0xFF4E4A64);         // Card borders — plum + mint touch
   static const Color darkTertiaryText = Color(0xFFB8A6C7);   // Captions, tertiary labels
 
   // Dark-mode accent hues lifted from the Celestials artwork's creatures/sunset
@@ -95,8 +105,8 @@ class AppColors {
 
   // ── Settings icon colors (profile settings section) ─────────────────────
   // Light mode
-  static const Color settingsModeIconColorLight    = Color(0xFF864EEE); // Luna-purple, deeper
-  static const Color settingsModeIconBgLight       = Color(0xFFEEEBFF);
+  static const Color settingsModeIconColorLight    = Color(0xFF4E38A8); // lavender-lilac, deeper
+  static const Color settingsModeIconBgLight       = softLavender;
   static const Color settingsAboutIconColorLight   = Color(0xFFD45CA0);
   static const Color settingsAboutIconBgLight      = Color(0xFFFFEBF5);
   static const Color settingsPrivacyIconColorLight = Color(0xFF4CAF50);
@@ -112,33 +122,33 @@ class AppColors {
 
   // ── Gradient background colors ───────────────────────────────────────────
   static const Color bannerGradientDarkStart  = Color(0xFF3D2E52); // dark weekly banner — deep plum
-  static const Color bannerGradientLightEnd   = Color(0xFFEDE8FF); // light weekly banner
+  static const Color softLavender             = Color(0xFFF0EDFA); // near-white lavender-lilac wash
+  static const Color bannerGradientLightEnd   = softLavender;      // light weekly banner
   static const Color primaryDarkDeep          = Color(0xFF4A3F72); // greeting card dark gradient end
-  static const Color softLavender             = Color(0xFFF0ECFF); // after-feeling selector chip
 
   // ── Brand / functional colors ────────────────────────────────────────────
   static const Color warningAmber = Color(0xFFEF9F27); // password medium strength
 
   // ── Onboarding wave blob backgrounds ─────────────────────────────────────
-  static const Color onboardingBlobLavender = Color(0xFFEDE8FF);
+  static const Color onboardingBlobLavender = softLavender;
   static const Color onboardingBlobMint = Color(0xFFC8EDD8);
-  static const Color onboardingBlobPeach = bannerGradientLightEnd; // 0xFFFFE4D0
+  static const Color onboardingBlobPeach = bannerGradientLightEnd; // 0xFFF0EDFA
 
   // ── Breathing screen gradient (soft, calm — not saturated) ───────────────
-  static const Color breathingGradientLavender = Color(0xFFC8B4F8);
+  static const Color breathingGradientLavender = Color(0xFFBFB7E1);
   static const Color breathingGradientCream = Color(0xFFFFF8F5);
   static const Color breathingGradientPeach = Color(0xFFFFD4B8);
 
   // ── Onboarding UI colors ──────────────────────────────────────────────────
-  static const Color onboardingAccent      = Color(0xFF864EEE); // CTA, active dot, skip text — Luna purple
+  static const Color onboardingAccent      = Color(0xFF4E38A8); // CTA, active dot, skip text — lavender-lilac
   static const Color onboardingDotInactive = Color(0xFFD8D3E8); // inactive indicator dot
   static const Color onboardingHeadline    = Color(0xFF2E2A47); // page headline text
   static const Color onboardingSubtitle    = Color(0xFF6B6480); // page subtitle text
-  static const Color onboardingLunaDetail  = Color(0xFFC9C3F0); // Luna eyes + smile (screen 1)
+  static const Color onboardingLunaDetail  = Color(0xFFCFC9E8); // Luna eyes + smile (screen 1)
   static const Color onboardingChatDetail  = Color(0xFFA8D5C2); // chat bubble dots + line (screen 2)
 
   // ── Journal grid palette ──────────────────────────────────────────────────
-  static const Color journalCardLavender    = Color(0xFFC9BBF0);
+  static const Color journalCardLavender    = Color(0xFFC4BDE3);
   static const Color journalCardMint        = Color(0xFFA9E0CE);
   static const Color journalCardPeach       = Color(0xFFFFD9C2);
   static const Color journalCardCoral       = Color(0xFFF2C4A8);

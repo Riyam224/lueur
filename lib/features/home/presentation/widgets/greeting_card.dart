@@ -72,7 +72,6 @@ class _GreetingCardState extends State<GreetingCard> {
           final extra = context.extra;
           final onPrimary = extra.onPrimaryTextColor!;
           final primary = extra.primaryColor!;
-          final isDark = Theme.of(context).brightness == Brightness.dark;
           final stage = state is PlantLoaded ? state.stage : PlantStage.seed;
           final streak = state is PlantLoaded ? state.streakDays : 0;
 
@@ -85,10 +84,14 @@ class _GreetingCardState extends State<GreetingCard> {
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: isDark
-                    ? [AppColors.primaryDark, AppColors.primaryDarkDeep]
-                    : [AppColors.primary, AppColors.primaryContainer],
+              gradient: const LinearGradient(
+                // Contrast-verified against the white greeting text (see
+                // AppColors.greetingGradientStart/End) — same pair in both
+                // themes, since this card always carries white text.
+                colors: [
+                  AppColors.greetingGradientStart,
+                  AppColors.greetingGradientEnd,
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

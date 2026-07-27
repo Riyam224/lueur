@@ -41,6 +41,19 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
     _index.value = (_index.value + 1) % _cards.length;
   }
 
+  String get _primaryLabel {
+    switch (widget.destination) {
+      case MoodChoiceDestination.talkToLuna:
+        return 'Talk to Luna';
+      case MoodChoiceDestination.breathing:
+        return 'Start breathing';
+      case MoodChoiceDestination.freeDraw:
+        return 'Start drawing';
+      case MoodChoiceDestination.sudoku:
+        return 'Play Sudoku';
+    }
+  }
+
   void _continue(BuildContext context) {
     switch (widget.destination) {
       case MoodChoiceDestination.talkToLuna:
@@ -193,9 +206,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
               ),
               SizedBox(height: AppSpacing.spaceXl),
               LunaCheckInPrompt(
-                primaryLabel: widget.destination == MoodChoiceDestination.freeDraw
-                    ? 'Start drawing'
-                    : 'Talk to Luna',
+                primaryLabel: _primaryLabel,
                 onTalkToLuna: () => _continue(context),
                 onDismiss: () => context.go(AppRoutes.home),
               ),

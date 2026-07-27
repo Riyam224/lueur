@@ -1,42 +1,41 @@
 /// Layout and timing constants specific to the splash screen.
 /// Sizes/offsets are expressed as fractions of the screen width/height
-/// so the decorative blobs scale with any device size.
+/// so the decorative blobs and plant scene scale with any device size.
 class SplashConstants {
   static const Duration navigationDelay = Duration(seconds: 3);
 
   // Blob diameters as a fraction of screen width
-  static const double blobTopLeftSizeFraction = 0.55;
-  static const double blobTopRightSizeFraction = 0.22;
-  static const double blobBottomLeftSizeFraction = 0.30;
-  static const double blobBottomRightSizeFraction = 0.50;
-  static const double blobAccentTopSizeFraction = 0.18;
-  static const double blobAccentBottomSizeFraction = 0.14;
+  static const double blobOneSizeFraction = 0.65; // top-left, bleeds off-screen
+  static const double blobTwoSizeFraction = 0.30; // upper-right, smaller
+  static const double blobThreeSizeFraction = 0.60; // lower-right, large
 
   // Blob opacities
-  static const double blobTopLeftOpacity = 0.40;
-  static const double blobTopRightOpacity = 0.22;
-  static const double blobBottomLeftOpacity = 0.28;
-  static const double blobBottomRightOpacity = 0.55;
-  static const double blobAccentTopOpacity = 0.18;
-  static const double blobAccentBottomOpacity = 0.20;
-
-  // Accent blob positions, as a fraction of screen width/height
-  static const double blobAccentTopDxFraction = 0.60;
-  static const double blobAccentTopDyFraction = 0.08;
-  static const double blobAccentBottomDxFraction = 0.10;
-  static const double blobAccentBottomDyFraction = 0.55;
+  static const double blobOneOpacity = 0.55;
+  static const double blobTwoOpacity = 0.55;
+  static const double blobThreeOpacity = 0.18;
 
   // Fraction of a blob's own size used to offset it past the screen edge
   static const double blobEdgeOffsetFactor = 0.35;
 
   // Vertical rhythm of the content column, as a fraction of screen height
-  static const double topSpacerFraction = 0.15;
-  static const double titleToTaglineSpacingFraction = 0.008;
-  static const double taglineToLottieSpacingFraction = 0.26;
+  static const double topSpacerFraction = 0.16;
+  static const double titleToTaglineSpacingFraction = 0.012;
+  static const double taglineToSceneSpacingFraction = 0.07;
+  static const double sceneToCaptionSpacingFraction = 0.018;
 
-  // Lottie animation width as a fraction of screen width
-  static const double lottieWidthFraction = 0.55;
+  // Plant scene sizing
+  static const double potHeightFraction = 0.11; // fraction of screen width
 
-  // App title font size
-  static const double titleFontSize = 60;
+  // Typography hierarchy
+  static const double titleFontSize = 58; // "Lueur" — DM Serif Display italic
+  static const double taglineFontSize = 14; // "a little light for you"
+  static const double captionFontSize = 11.5; // "grow a little every day"
+  static const double taglineLetterSpacing = 2.5;
+
+  // Staggered fade-in — background/logo fade first, plant+Luna scene
+  // follows ~150ms later. No scale, bounce, or looping per the brand's
+  // animation-restraint rule.
+  static const Duration entranceDuration = Duration(milliseconds: 450);
+  static const double logoFadeEnd = 300 / 450;
+  static const double sceneFadeStart = 150 / 450;
 }
