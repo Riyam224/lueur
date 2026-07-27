@@ -141,6 +141,14 @@ class _BreathingViewState extends State<_BreathingView>
               _scaleController.value = 0;
             }
           },
+          // The cubit ticks `elapsedSeconds` once per second while in
+          // progress; only rebuild this (heavier) tree on type/phase changes
+          // and let the progress bar re-render itself via its own selector.
+          buildWhen: (previous, current) =>
+              previous.runtimeType != current.runtimeType ||
+              (previous is BreathingInProgress &&
+                  current is BreathingInProgress &&
+                  previous.phase != current.phase),
           builder: (context, state) {
             return switch (state) {
               BreathingLoading() => const SizedBox.shrink(),
@@ -312,27 +320,36 @@ class _BreathingViewState extends State<_BreathingView>
     Color inkColor,
   ) {
     final total = state.config.totalDurationSeconds;
-    final progress = (state.elapsedSeconds / total).clamp(0.0, 1.0);
 
-    return Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: LinearProgressIndicator(
-            value: progress,
-            minHeight: 6,
-            backgroundColor: AppColors.primary.withValues(alpha: 0.15),
-            valueColor: const AlwaysStoppedAnimation(AppColors.primary),
-          ),
-        ),
-        SizedBox(height: AppSpacing.spaceSm),
-        Text(
-          '${_formatTime(state.elapsedSeconds)} / ${_formatTime(total)}',
-          style: ThemeTextStyles.bodySmall(context).copyWith(
-            color: inkColor.withValues(alpha: 0.7),
-          ),
-        ),
-      ],
+    // Scoped to elapsedSeconds so the once-per-second tick only rebuilds the
+    // progress bar/time label, not the ambient blobs, ring, or Luna above.
+    return BlocSelector<BreathingCubit, BreathingState, int>(
+      selector: (state) =>
+          state is BreathingInProgress ? state.elapsedSeconds : 0,
+      builder: (context, elapsedSeconds) {
+        final progress = (elapsedSeconds / total).clamp(0.0, 1.0);
+
+        return Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 6,
+                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
+                valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+              ),
+            ),
+            SizedBox(height: AppSpacing.spaceSm),
+            Text(
+              '${_formatTime(elapsedSeconds)} / ${_formatTime(total)}',
+              style: ThemeTextStyles.bodySmall(context).copyWith(
+                color: inkColor.withValues(alpha: 0.7),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -15,6 +15,34 @@ import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_grid_widget.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_number_pad_widget.dart';
 
+/// Slice of [SudokuState] the mistakes/timer/pause row needs. Scoping the
+/// rebuild to just this record means the ticking timer (`elapsedSeconds`,
+/// emitted once per second) no longer forces the 9x9 grid or number pad to
+/// rebuild.
+typedef _HeaderSlice = (int mistakes, int elapsedSeconds, bool isPaused);
+
+/// Slice of [SudokuState] the grid actually renders. `values`/`given`/
+/// `conflicts`/`candidates` keep the same list reference from `copyWith`
+/// whenever they aren't the field being updated, so comparing this record by
+/// value skips a grid rebuild on unrelated state changes (e.g. the timer).
+typedef _GridSlice = (
+  List<List<int>>,
+  List<List<bool>>,
+  List<List<bool>>,
+  List<List<Set<int>>>,
+  int?,
+  int?,
+  bool,
+);
+
+/// Slice of [SudokuState] the number pad needs.
+typedef _NumberPadSlice = (
+  SudokuInputMode mode,
+  bool canUndo,
+  bool autoCandidateMode,
+  List<List<int>> values,
+);
+
 /// A calm, simple 9x9 sudoku — one of Luna's offerings for a rough moment.
 class SudokuScreen extends StatefulWidget {
   const SudokuScreen({super.key});
@@ -76,201 +104,248 @@ class _SudokuScreenState extends State<SudokuScreen> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: BlocConsumer<SudokuCubit, SudokuState>(
+          child: BlocListener<SudokuCubit, SudokuState>(
+            listenWhen: (previous, current) => previous.status != current.status,
             listener: (context, state) {
               if (state.status == SudokuStatus.won) {
                 _confettiController.play();
               }
             },
-            builder: (context, state) {
-              final extra = context.extra;
-              return Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  ConfettiWidget(
-                    confettiController: _confettiController,
-                    blastDirectionality: BlastDirectionality.explosive,
-                    numberOfParticles: 24,
-                    gravity: 0.3,
-                    colors: const [
-                      AppColors.primary,
-                      AppColors.lavender,
-                      AppColors.blushPink,
-                      AppColors.primaryContainer,
-                    ],
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                ConfettiWidget(
+                  confettiController: _confettiController,
+                  blastDirectionality: BlastDirectionality.explosive,
+                  numberOfParticles: 24,
+                  gravity: 0.3,
+                  colors: const [
+                    AppColors.primary,
+                    AppColors.lavender,
+                    AppColors.blushPink,
+                    AppColors.primaryContainer,
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.horizontalPaddingLg,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSpacing.horizontalPaddingLg,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () => _leave(context),
-                              icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              onPressed: () => _showHelp(context),
-                              icon: const Icon(Icons.help_outline_rounded),
-                            ),
-                            PopupMenuButton<String>(
-                              icon: const Icon(Icons.more_horiz_rounded),
-                              onSelected: (_) => context.read<SudokuCubit>().start(),
-                              itemBuilder: (context) => const [
-                                PopupMenuItem(value: 'new', child: Text(AppStrings.sudokuNewGameMenuItem)),
-                              ],
-                            ),
-                          ],
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => _leave(context),
+                            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () => _showHelp(context),
+                            icon: const Icon(Icons.help_outline_rounded),
+                          ),
+                          PopupMenuButton<String>(
+                            icon: const Icon(Icons.more_horiz_rounded),
+                            onSelected: (_) => context.read<SudokuCubit>().start(),
+                            itemBuilder: (context) => const [
+                              PopupMenuItem(value: 'new', child: Text(AppStrings.sudokuNewGameMenuItem)),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // Scoped to (mistakes, elapsedSeconds, isPaused) so the
+                      // once-per-second timer tick only rebuilds this row,
+                      // not the grid or number pad below.
+                      BlocSelector<SudokuCubit, SudokuState, _HeaderSlice>(
+                        selector: (state) => (state.mistakes, state.elapsedSeconds, state.isPaused),
+                        builder: (context, header) {
+                          final (mistakes, elapsedSeconds, isPaused) = header;
+                          final extra = context.extra;
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(AppStrings.sudokuDifficultyEasy, style: ThemeTextStyles.bodyMedium(context)),
+                              SizedBox(width: AppSpacing.spaceMd),
+                              Text(
+                                'Mistakes: $mistakes/${SudokuCubit.maxMistakes}',
+                                style: ThemeTextStyles.bodyMedium(context).copyWith(
+                                  color: mistakes > 0
+                                      ? AppColors.errorColor
+                                      : extra.secondaryTextColor,
+                                ),
+                              ),
+                              SizedBox(width: AppSpacing.spaceMd),
+                              Text(
+                                _formatDuration(elapsedSeconds),
+                                style: ThemeTextStyles.bodyMedium(context).copyWith(
+                                  color: extra.secondaryTextColor,
+                                ),
+                              ),
+                              SizedBox(width: AppSpacing.spaceSm),
+                              IconButton(
+                                onPressed: () => context.read<SudokuCubit>().togglePause(),
+                                icon: Icon(
+                                  isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
+                                  size: 20,
+                                ),
+                                visualDensity: VisualDensity.compact,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      SizedBox(height: AppSpacing.spaceMd),
+                      // Scoped to only the fields the grid renders, so the
+                      // 9x9 grid does not rebuild on every timer tick or
+                      // mistakes-counter change — only on moves/selection.
+                      BlocSelector<SudokuCubit, SudokuState, _GridSlice>(
+                        selector: (state) => (
+                          state.values,
+                          state.given,
+                          state.conflicts,
+                          state.candidates,
+                          state.selectedRow,
+                          state.selectedCol,
+                          state.isPaused,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(AppStrings.sudokuDifficultyEasy, style: ThemeTextStyles.bodyMedium(context)),
-                            SizedBox(width: AppSpacing.spaceMd),
-                            Text(
-                              'Mistakes: ${state.mistakes}/${SudokuCubit.maxMistakes}',
-                              style: ThemeTextStyles.bodyMedium(context).copyWith(
-                                color: state.mistakes > 0
-                                    ? AppColors.errorColor
-                                    : extra.secondaryTextColor,
+                        builder: (context, grid) {
+                          final (_, _, _, _, _, _, isPaused) = grid;
+                          final extra = context.extra;
+                          return Stack(
+                            children: [
+                              SudokuGridWidget(
+                                state: context.read<SudokuCubit>().state,
+                                onCellTap: (row, col) =>
+                                    context.read<SudokuCubit>().selectCell(row, col),
                               ),
-                            ),
-                            SizedBox(width: AppSpacing.spaceMd),
-                            Text(
-                              _formatDuration(state.elapsedSeconds),
-                              style: ThemeTextStyles.bodyMedium(context).copyWith(
-                                color: extra.secondaryTextColor,
-                              ),
-                            ),
-                            SizedBox(width: AppSpacing.spaceSm),
-                            IconButton(
-                              onPressed: () => context.read<SudokuCubit>().togglePause(),
-                              icon: Icon(
-                                state.isPaused
-                                    ? Icons.play_arrow_rounded
-                                    : Icons.pause_rounded,
-                                size: 20,
-                              ),
-                              visualDensity: VisualDensity.compact,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: AppSpacing.spaceMd),
-                        Stack(
-                          children: [
-                            SudokuGridWidget(
-                              state: state,
-                              onCellTap: (row, col) =>
-                                  context.read<SudokuCubit>().selectCell(row, col),
-                            ),
-                            if (state.isPaused)
-                              Positioned.fill(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: BackdropFilter(
-                                    filter: ui.ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                                    child: Container(
-                                      color: extra.cardBackgroundColor!.withValues(
-                                        alpha: 0.7,
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        AppStrings.sudokuPausedLabel,
-                                        style: ThemeTextStyles.titleMedium(context),
+                              if (isPaused)
+                                Positioned.fill(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: BackdropFilter(
+                                      filter: ui.ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                                      child: Container(
+                                        color: extra.cardBackgroundColor!.withValues(
+                                          alpha: 0.7,
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          AppStrings.sudokuPausedLabel,
+                                          style: ThemeTextStyles.titleMedium(context),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                          ],
-                        ),
-                        SizedBox(height: AppSpacing.space2Xl),
-                        SudokuNumberPadWidget(
-                          mode: state.mode,
-                          canUndo: state.canUndo,
-                          autoCandidateMode: state.autoCandidateMode,
-                          values: state.values,
-                          onModeChanged: (mode) =>
-                              context.read<SudokuCubit>().setMode(mode),
-                          onUndo: () => context.read<SudokuCubit>().undo(),
-                          onNumberTap: (n) =>
-                              context.read<SudokuCubit>().inputNumber(n),
-                          onClearTap: () =>
-                              context.read<SudokuCubit>().clearSelectedCell(),
-                          onAutoCandidateModeChanged: (enabled) => context
-                              .read<SudokuCubit>()
-                              .toggleAutoCandidateMode(enabled),
-                        ),
-                        if (state.status == SudokuStatus.won) ...[
-                          SizedBox(height: AppSpacing.space2Xl),
-                          Text(
-                            AppStrings.sudokuWonMessage,
-                            style: ThemeTextStyles.titleMedium(context),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: AppSpacing.spaceMd),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: OutlinedButton(
-                                  onPressed: () => context.go(AppRoutes.home),
-                                  child: const Text(AppStrings.sudokuDoneButton),
-                                ),
-                              ),
-                              SizedBox(width: AppSpacing.spaceMd),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () => context.read<SudokuCubit>().start(),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primaryButtonFill,
-                                    foregroundColor: AppColors.whiteTextColor,
-                                  ),
-                                  child: const Text(AppStrings.sudokuPlayAgainButton),
-                                ),
-                              ),
                             ],
-                          ),
-                        ],
-                        if (state.status == SudokuStatus.lost) ...[
-                          SizedBox(height: AppSpacing.space2Xl),
-                          Text(
-                            AppStrings.sudokuLostMessage,
-                            style: ThemeTextStyles.titleMedium(context),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: AppSpacing.spaceMd),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: OutlinedButton(
-                                  onPressed: () => context.go(AppRoutes.home),
-                                  child: const Text(AppStrings.sudokuDoneButton),
+                          );
+                        },
+                      ),
+                      SizedBox(height: AppSpacing.space2Xl),
+                      // Scoped to only the fields the number pad needs.
+                      BlocSelector<SudokuCubit, SudokuState, _NumberPadSlice>(
+                        selector: (state) =>
+                            (state.mode, state.canUndo, state.autoCandidateMode, state.values),
+                        builder: (context, pad) {
+                          final (mode, canUndo, autoCandidateMode, values) = pad;
+                          return SudokuNumberPadWidget(
+                            mode: mode,
+                            canUndo: canUndo,
+                            autoCandidateMode: autoCandidateMode,
+                            values: values,
+                            onModeChanged: (mode) =>
+                                context.read<SudokuCubit>().setMode(mode),
+                            onUndo: () => context.read<SudokuCubit>().undo(),
+                            onNumberTap: (n) =>
+                                context.read<SudokuCubit>().inputNumber(n),
+                            onClearTap: () =>
+                                context.read<SudokuCubit>().clearSelectedCell(),
+                            onAutoCandidateModeChanged: (enabled) => context
+                                .read<SudokuCubit>()
+                                .toggleAutoCandidateMode(enabled),
+                          );
+                        },
+                      ),
+                      // Scoped to only `status` — unaffected by moves/timer.
+                      BlocSelector<SudokuCubit, SudokuState, SudokuStatus>(
+                        selector: (state) => state.status,
+                        builder: (context, status) {
+                          if (status == SudokuStatus.won) {
+                            return Column(
+                              children: [
+                                SizedBox(height: AppSpacing.space2Xl),
+                                Text(
+                                  AppStrings.sudokuWonMessage,
+                                  style: ThemeTextStyles.titleMedium(context),
+                                  textAlign: TextAlign.center,
                                 ),
-                              ),
-                              SizedBox(width: AppSpacing.spaceMd),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () => context.read<SudokuCubit>().start(),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primaryButtonFill,
-                                    foregroundColor: AppColors.whiteTextColor,
-                                  ),
-                                  child: const Text(AppStrings.sudokuTryAgainButton),
+                                SizedBox(height: AppSpacing.spaceMd),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: OutlinedButton(
+                                        onPressed: () => context.go(AppRoutes.home),
+                                        child: const Text(AppStrings.sudokuDoneButton),
+                                      ),
+                                    ),
+                                    SizedBox(width: AppSpacing.spaceMd),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () => context.read<SudokuCubit>().start(),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.primaryButtonFill,
+                                          foregroundColor: AppColors.whiteTextColor,
+                                        ),
+                                        child: const Text(AppStrings.sudokuPlayAgainButton),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                        SizedBox(height: AppSpacing.spaceXl),
-                      ],
-                    ),
+                              ],
+                            );
+                          }
+                          if (status == SudokuStatus.lost) {
+                            return Column(
+                              children: [
+                                SizedBox(height: AppSpacing.space2Xl),
+                                Text(
+                                  AppStrings.sudokuLostMessage,
+                                  style: ThemeTextStyles.titleMedium(context),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: AppSpacing.spaceMd),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: OutlinedButton(
+                                        onPressed: () => context.go(AppRoutes.home),
+                                        child: const Text(AppStrings.sudokuDoneButton),
+                                      ),
+                                    ),
+                                    SizedBox(width: AppSpacing.spaceMd),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () => context.read<SudokuCubit>().start(),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.primaryButtonFill,
+                                          foregroundColor: AppColors.whiteTextColor,
+                                        ),
+                                        child: const Text(AppStrings.sudokuTryAgainButton),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      SizedBox(height: AppSpacing.spaceXl),
+                    ],
                   ),
-                ],
-              );
-            },
+                ),
+              ],
+            ),
           ),
         ),
       ),

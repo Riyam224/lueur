@@ -330,8 +330,8 @@ class _ChatScreenState extends State<ChatScreen> {
             const SizedBox(width: 6),
             Image.asset(
               AppAssets.lunaCharacter,
-              width: 16,
-              height: 16,
+              width: 22,
+              height: 22,
               fit: BoxFit.contain,
             ),
           ],
