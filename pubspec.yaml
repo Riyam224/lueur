@@ -123,19 +123,17 @@ flutter:
 # NOTE: flutter_native_splash renders before the Flutter engine (and its
 # fonts/widgets) is up, so it can only show a flat background color + one
 # static image — no custom text, shapes, or animation. The colors below
-# must be kept in sync with AppColors.creamBackground (light) and
+# must be kept in sync with AppColors.lavenderLilac (light) and
 # AppColors.darkBackground (dark) by hand, since this YAML config can't
-# reference Dart constants. The full designed splash (typography hierarchy,
-# blobs, staggered Luna+plant fade-in) lives in SplashScreen and takes over
-# the instant Flutter renders its first frame.
+# reference Dart constants. No image here — the in-app SplashScreen draws
+# Luna's face (eyes + smile) as plain shapes, not a raster asset, so there
+# is nothing to show natively without a jump-cut; it takes over the instant
+# Flutter renders its first frame, fading in on the same solid color.
 flutter_native_splash:
-  color: "#F8F2E7"
-  image: assets/images/luna_splash.png
+  color: "#B7AEDC"
   color_dark: "#2B2138"
-  image_dark: assets/images/luna_splash.png
   android_12:
-    image: assets/images/luna_splash_android12.png
-    color: "#F8F2E7"
+    color: "#B7AEDC"
     color_dark: "#2B2138"
   android: true
   ios: true

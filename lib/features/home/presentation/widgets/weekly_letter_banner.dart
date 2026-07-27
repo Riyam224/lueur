@@ -90,7 +90,6 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
         key: const ValueKey('weekly_letter_banner'),
         onDismissed: (_) => setState(() => _dismissed = true),
         child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: isDark
