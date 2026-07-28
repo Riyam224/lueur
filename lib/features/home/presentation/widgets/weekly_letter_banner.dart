@@ -187,14 +187,16 @@ class _LetterContentState extends State<_LetterContent> {
             children: [
               Flexible(
                 child: _StatChip(
-                  label: '${stats.entryCount} entries',
+                  label: AppLocalizations.of(context)!
+                      .weeklyLetterEntriesChip(stats.entryCount),
                   icon: Icons.edit_note_rounded,
                 ),
               ),
               SizedBox(width: AppSpacing.spaceSm),
               Flexible(
                 child: _StatChip(
-                  label: '🔥 ${stats.streak} day streak',
+                  label: AppLocalizations.of(context)!
+                      .weeklyLetterStreakChip(stats.streak),
                   isEmoji: true,
                 ),
               ),

@@ -151,11 +151,29 @@
   "homeEmptyStateSubtitle": "Share a thought and tap Talk to Luna",
   "homeFirstSeedCelebration": "You just planted your first seed 🌱",
   "homeFirstSeedCelebrationSubtitle": "Luna is so happy you're here!",
+  "homeDaysStreakChip": "{streak} days streak",
+  "@homeDaysStreakChip": {
+    "placeholders": {
+      "streak": {"type": "int"}
+    }
+  },
   "weeklyLetterBannerTitle": "Your weekly letter",
   "weeklyLetterScreenTitle": "Weekly letter",
   "weeklyLetterWaitingMessage": "Keep journaling — your letter will be ready at the end of the week.",
   "weeklyLetterShowLess": "Show less",
   "weeklyLetterReadMore": "Read more",
+  "weeklyLetterEntriesChip": "{count} entries",
+  "@weeklyLetterEntriesChip": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "weeklyLetterStreakChip": "🔥 {count} day streak",
+  "@weeklyLetterStreakChip": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "journalTitle": "My Journal",
   "journalEmptyStateSubtitle": "What's on your mind today?",
   "journalStartJournalingButton": "Start journaling",

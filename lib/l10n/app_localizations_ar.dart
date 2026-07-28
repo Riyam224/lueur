@@ -356,6 +356,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeFirstSeedCelebrationSubtitle => 'لونا سعيدة جداً بوجودك هنا!';
 
   @override
+  String homeDaysStreakChip(int streak) {
+    return '$streak يوم متتالي';
+  }
+
+  @override
   String get weeklyLetterBannerTitle => 'رسالتك الأسبوعية';
 
   @override
@@ -370,6 +375,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get weeklyLetterReadMore => 'قراءة المزيد';
+
+  @override
+  String weeklyLetterEntriesChip(int count) {
+    return '$count مدخلة';
+  }
+
+  @override
+  String weeklyLetterStreakChip(int count) {
+    return '🔥 $count يوم متتالي';
+  }
 
   @override
   String get journalTitle => 'يومياتي';

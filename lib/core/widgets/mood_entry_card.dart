@@ -64,6 +64,15 @@ class MoodEntryCard extends StatelessWidget {
     return DateFormat('MMM d').format(date);
   }
 
+  String _formatTime(BuildContext context, DateTime date) {
+    // Keep digits in Western format regardless of locale; only the AM/PM
+    // indicator is localized (Arabic uses ص/م instead of AM/PM).
+    final formatted = DateFormat('h:mm a', 'en_US').format(date);
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    if (!isArabic) return formatted;
+    return formatted.replaceAll('AM', 'ص').replaceAll('PM', 'م');
+  }
+
   @override
   Widget build(BuildContext context) {
     final extraColors = context.extra;
@@ -123,7 +132,7 @@ class MoodEntryCard extends StatelessWidget {
                   ),
                   SizedBox(height: AppSpacing.spaceXs),
                   Text(
-                    "${_formatDate(context, date)} · ${DateFormat('h:mm a').format(date)}",
+                    "${_formatDate(context, date)} · ${_formatTime(context, date)}",
                     style: ThemeTextStyles.captionSmall(context),
                   ),
                 ],

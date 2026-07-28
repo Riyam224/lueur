@@ -154,7 +154,8 @@ class _GreetingCardState extends State<GreetingCard> {
                               ),
                               SizedBox(width: AppSpacing.spaceXs),
                               Text(
-                                '$streak day${streak == 1 ? '' : 's'} streak',
+                                AppLocalizations.of(context)!
+                                    .homeDaysStreakChip(streak),
                                 style: ThemeTextStyles.labelSmall(context)
                                     .copyWith(
                                   color: onPrimary,

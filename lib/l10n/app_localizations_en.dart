@@ -360,6 +360,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Luna is so happy you\'re here!';
 
   @override
+  String homeDaysStreakChip(int streak) {
+    return '$streak days streak';
+  }
+
+  @override
   String get weeklyLetterBannerTitle => 'Your weekly letter';
 
   @override
@@ -374,6 +379,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get weeklyLetterReadMore => 'Read more';
+
+  @override
+  String weeklyLetterEntriesChip(int count) {
+    return '$count entries';
+  }
+
+  @override
+  String weeklyLetterStreakChip(int count) {
+    return '🔥 $count day streak';
+  }
 
   @override
   String get journalTitle => 'My Journal';

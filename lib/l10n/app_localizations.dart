@@ -752,6 +752,12 @@ abstract class AppLocalizations {
   /// **'Luna is so happy you\'re here!'**
   String get homeFirstSeedCelebrationSubtitle;
 
+  /// No description provided for @homeDaysStreakChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{streak} days streak'**
+  String homeDaysStreakChip(int streak);
+
   /// No description provided for @weeklyLetterBannerTitle.
   ///
   /// In en, this message translates to:
@@ -781,6 +787,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read more'**
   String get weeklyLetterReadMore;
+
+  /// No description provided for @weeklyLetterEntriesChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries'**
+  String weeklyLetterEntriesChip(int count);
+
+  /// No description provided for @weeklyLetterStreakChip.
+  ///
+  /// In en, this message translates to:
+  /// **'🔥 {count} day streak'**
+  String weeklyLetterStreakChip(int count);
 
   /// No description provided for @journalTitle.
   ///
