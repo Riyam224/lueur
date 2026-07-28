@@ -20,6 +20,41 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String homeGreetingMessage(String name, int streak) {
+    return 'مساء الخير يا $name 🌙 $streak يوم متواصل — أنا فخورة بك';
+  }
+
+  @override
+  String homeGreetingNoEntries(String name) {
+    return 'مرحباً $name، أنا لونا. أنا هنا كلما كنت مستعداً للحديث 🌱';
+  }
+
+  @override
+  String homeGreetingMorningStreak(String name, int streak) {
+    return 'صباح الخير يا $name! $streak يوم متواصل — هذا جميل 🌸';
+  }
+
+  @override
+  String homeGreetingMorning(String name) {
+    return 'صباح الخير يا $name ☀️ ما الذي يشغل قلبك اليوم؟';
+  }
+
+  @override
+  String homeGreetingAfternoon(String name) {
+    return 'أهلاً $name 🌤️ كيف يمر يومك حتى الآن؟';
+  }
+
+  @override
+  String homeGreetingEveningNoStreak(String name) {
+    return 'مساء الخير يا $name 🌙 أنا هنا إذا أردت الحديث';
+  }
+
+  @override
+  String homeGreetingLateNight(String name) {
+    return 'أهلاً $name ⭐ ما زلت مستيقظاً؟ أنا أستمع';
+  }
+
+  @override
   String get appTagline => 'نور صغير من أجلك';
 
   @override

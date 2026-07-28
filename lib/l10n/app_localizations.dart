@@ -116,6 +116,48 @@ abstract class AppLocalizations {
   /// **'{days} days with Luna 🌸'**
   String streakDaysWithLuna(int days);
 
+  /// No description provided for @homeGreetingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening, {name} 🌙 {streak} days strong — I\'m proud of you.'**
+  String homeGreetingMessage(String name, int streak);
+
+  /// No description provided for @homeGreetingNoEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Hey {name}, I\'m Luna. I\'m here whenever you\'re ready to talk 🌱'**
+  String homeGreetingNoEntries(String name);
+
+  /// No description provided for @homeGreetingMorningStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning, {name}! {streak}-day streak — that\'s beautiful 🌸'**
+  String homeGreetingMorningStreak(String name, int streak);
+
+  /// No description provided for @homeGreetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning, {name} ☀️ What\'s on your heart today?'**
+  String homeGreetingMorning(String name);
+
+  /// No description provided for @homeGreetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Hey {name} 🌤️ How\'s your day going so far?'**
+  String homeGreetingAfternoon(String name);
+
+  /// No description provided for @homeGreetingEveningNoStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening, {name} 🌙 I\'m here if you want to talk.'**
+  String homeGreetingEveningNoStreak(String name);
+
+  /// No description provided for @homeGreetingLateNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Hey {name} ⭐ Still up? I\'m listening.'**
+  String homeGreetingLateNight(String name);
+
   /// No description provided for @appTagline.
   ///
   /// In en, this message translates to:

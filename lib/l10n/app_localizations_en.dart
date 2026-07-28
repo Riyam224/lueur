@@ -20,6 +20,41 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String homeGreetingMessage(String name, int streak) {
+    return 'Good evening, $name 🌙 $streak days strong — I\'m proud of you.';
+  }
+
+  @override
+  String homeGreetingNoEntries(String name) {
+    return 'Hey $name, I\'m Luna. I\'m here whenever you\'re ready to talk 🌱';
+  }
+
+  @override
+  String homeGreetingMorningStreak(String name, int streak) {
+    return 'Good morning, $name! $streak-day streak — that\'s beautiful 🌸';
+  }
+
+  @override
+  String homeGreetingMorning(String name) {
+    return 'Good morning, $name ☀️ What\'s on your heart today?';
+  }
+
+  @override
+  String homeGreetingAfternoon(String name) {
+    return 'Hey $name 🌤️ How\'s your day going so far?';
+  }
+
+  @override
+  String homeGreetingEveningNoStreak(String name) {
+    return 'Good evening, $name 🌙 I\'m here if you want to talk.';
+  }
+
+  @override
+  String homeGreetingLateNight(String name) {
+    return 'Hey $name ⭐ Still up? I\'m listening.';
+  }
+
+  @override
   String get appTagline => 'a little light for you';
 
   @override

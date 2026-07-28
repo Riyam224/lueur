@@ -8,6 +8,50 @@
       "days": {"type": "int"}
     }
   },
+  "homeGreetingMessage": "Good evening, {name} 🌙 {streak} days strong — I'm proud of you.",
+  "@homeGreetingMessage": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "streak": {"type": "int"}
+    }
+  },
+  "homeGreetingNoEntries": "Hey {name}, I'm Luna. I'm here whenever you're ready to talk 🌱",
+  "@homeGreetingNoEntries": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "homeGreetingMorningStreak": "Good morning, {name}! {streak}-day streak — that's beautiful 🌸",
+  "@homeGreetingMorningStreak": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "streak": {"type": "int"}
+    }
+  },
+  "homeGreetingMorning": "Good morning, {name} ☀️ What's on your heart today?",
+  "@homeGreetingMorning": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "homeGreetingAfternoon": "Hey {name} 🌤️ How's your day going so far?",
+  "@homeGreetingAfternoon": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "homeGreetingEveningNoStreak": "Good evening, {name} 🌙 I'm here if you want to talk.",
+  "@homeGreetingEveningNoStreak": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "homeGreetingLateNight": "Hey {name} ⭐ Still up? I'm listening.",
+  "@homeGreetingLateNight": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
   "appTagline": "a little light for you",
   "onboardingSkip": "Skip intro",
   "onboardingGetStarted": "Get started",
