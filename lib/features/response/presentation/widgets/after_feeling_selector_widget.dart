@@ -65,7 +65,7 @@ class _AfterFeelingSelectorWidgetState
       context: context,
       barrierDismissible: true,
       barrierLabel: AppStrings.commonDismissBarrierLabel,
-      barrierColor: Colors.black.withValues(alpha: 0.4),
+      barrierColor: AppColors.overlayBlack.withValues(alpha: 0.4),
       transitionDuration: const Duration(milliseconds: 300),
       transitionBuilder: (_, anim, __, child) {
         final curved =
@@ -151,7 +151,7 @@ class _MoodModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 28.w),
           padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 32.h),
@@ -160,7 +160,7 @@ class _MoodModal extends StatelessWidget {
             borderRadius: BorderRadius.circular(28.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: AppColors.overlayBlack.withValues(alpha: 0.1),
                 blurRadius: 32,
                 offset: const Offset(0, 12),
               ),
@@ -282,10 +282,10 @@ class _EmojiOption extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.primary.withValues(alpha: 0.1)
-              : Colors.transparent,
+              : AppColors.transparent,
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
-            color: isSelected ? AppColors.primary : Colors.transparent,
+            color: isSelected ? AppColors.primary : AppColors.transparent,
             width: 2,
           ),
         ),

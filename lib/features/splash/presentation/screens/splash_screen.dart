@@ -5,7 +5,7 @@ import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/styling/app_fonts.dart';
+import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
@@ -98,29 +98,19 @@ class _SplashScreenState extends State<SplashScreen>
                 width: size.width * SplashConstants.lunaSizeFraction,
                 fit: BoxFit.contain,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: SplashConstants.lunaToTitleGap),
               Text(
                 AppStrings.appName,
-                style: TextStyle(
-                  fontFamily: AppFonts.mainFontName,
-                  fontFamilyFallback: const [
-                    'Apple Color Emoji',
-                    'Noto Color Emoji',
-                  ],
+                style: AppTextStyles.headlineLarge(context).copyWith(
                   fontSize: SplashConstants.titleFontSize,
                   fontWeight: FontWeight.w800,
                   color: titleColor,
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: SplashConstants.titleToTaglineGap),
               Text(
                 AppStrings.appTagline,
-                style: TextStyle(
-                  fontFamily: AppFonts.mainFontName,
-                  fontFamilyFallback: const [
-                    'Apple Color Emoji',
-                    'Noto Color Emoji',
-                  ],
+                style: AppTextStyles.bodyMedium(context).copyWith(
                   fontSize: SplashConstants.taglineFontSize,
                   fontWeight: FontWeight.w500,
                   color: taglineColor,

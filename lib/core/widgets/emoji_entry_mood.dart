@@ -163,7 +163,7 @@ class _MoodLabelPopup extends StatelessWidget {
         border: Border.all(color: color, width: 1.w),
         boxShadow: [
           BoxShadow(
-            color: context.extra.shadowColor ?? Colors.black12,
+            color: context.extra.shadowColor ?? AppColors.shadowColor,
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),

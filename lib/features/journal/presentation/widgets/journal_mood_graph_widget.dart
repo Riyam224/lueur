@@ -1,5 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/utils/app_strings.dart';
@@ -89,7 +92,7 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
     return Container(
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
         border: Border.all(
           color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
         ),
@@ -99,17 +102,22 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
           // ── Header / toggle ────────────────────────────────────
           InkWell(
             onTap: _toggle,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.spaceLg,
+                AppSpacing.spaceMd,
+                AppSpacing.spaceMd,
+                AppSpacing.spaceMd,
+              ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.bar_chart_rounded,
-                    size: 20,
+                    size: AppSizes.iconSm,
                     color: AppColors.primary,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: AppSpacing.spaceSm),
                   Expanded(
                     child: Text(
                       AppStrings.commonThisWeekLabel,
@@ -121,9 +129,9 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                   AnimatedRotation(
                     turns: _expanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 280),
-                    child: const Icon(
+                    child: Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      size: 22,
+                      size: 22.sp,
                     ),
                   ),
                 ],
@@ -135,9 +143,14 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
           SizeTransition(
             sizeFactor: _expandAnim,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 16, 16),
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.spaceMd,
+                0,
+                AppSpacing.spaceLg,
+                AppSpacing.spaceLg,
+              ),
               child: SizedBox(
-                height: 140,
+                height: 140.h,
                 child: BarChart(
                   BarChartData(
                     maxY: maxY,
@@ -172,7 +185,7 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                             final isToday =
                                 i == DateTime.now().weekday - 1;
                             return Padding(
-                              padding: const EdgeInsets.only(top: 4),
+                              padding: EdgeInsets.only(top: AppSpacing.spaceXs),
                               child: Text(
                                 _days[i],
                                 style: ThemeTextStyles.labelSmall(context)
@@ -199,9 +212,9 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                         barRods: [
                           BarChartRodData(
                             toY: counts[i].toDouble(),
-                            width: 18,
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(6),
+                            width: 18.w,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(6.r),
                             ),
                             color: isToday
                                 ? AppColors.primary

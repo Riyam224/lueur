@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
@@ -118,16 +121,16 @@ class _ChatScreenState extends State<ChatScreen> {
       centerTitle: true,
       leading: IconButton(
         icon: Icon(Icons.arrow_back_ios_rounded,
-            color: cs.primary, size: 20,),
+            color: cs.primary, size: AppSizes.iconSm,),
         onPressed: () => Navigator.pop(context),
       ),
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 36,
-            height: 36,
-            padding: const EdgeInsets.all(4),
+            width: 36.w,
+            height: 36.h,
+            padding: EdgeInsets.all(4.r),
             decoration: BoxDecoration(
               color: cs.primary.withValues(alpha: 0.15),
               shape: BoxShape.circle,
@@ -137,7 +140,7 @@ class _ChatScreenState extends State<ChatScreen> {
               fit: BoxFit.contain,
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: AppSpacing.spaceSm),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -146,14 +149,14 @@ class _ChatScreenState extends State<ChatScreen> {
                 style: ThemeTextStyles.labelMedium(context).copyWith(
                   color: cs.primary,
                   fontWeight: FontWeight.w600,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                 ),
               ),
               Text(
                 AppStrings.lunaName,
                 style: ThemeTextStyles.labelSmall(context).copyWith(
                   color: extra.secondaryTextColor,
-                  fontSize: 11,
+                  fontSize: 11.sp,
                 ),
               ),
             ],
@@ -168,7 +171,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return ListView.builder(
       controller: _scrollController,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.horizontalPaddingMd,
+        vertical: AppSpacing.verticalPaddingSm,
+      ),
       itemCount: state.messages.length,
       itemBuilder: (context, index) {
         final message = state.messages[index];
@@ -199,11 +205,11 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           Image.asset(
             AppAssets.lunaCharacter,
-            width: 72,
-            height: 72,
+            width: 72.w,
+            height: 72.h,
             fit: BoxFit.contain,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: AppSpacing.verticalPaddingSm),
           Text(
             AppStrings.chatEmptyStateMessage,
             textAlign: TextAlign.center,
@@ -248,8 +254,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return Padding(
       padding: EdgeInsets.only(
-        bottom: isPreviousSameRole ? 4 : 12,
-        top: isFirst ? 4 : 0,
+        bottom: isPreviousSameRole ? 4.h : 12.h,
+        top: isFirst ? 4.h : 0,
       ),
       child: Row(
         mainAxisAlignment:
@@ -260,10 +266,10 @@ class _ChatScreenState extends State<ChatScreen> {
           if (!isUser)
             !isPreviousSameRole
                 ? Container(
-                    width: 28,
-                    height: 28,
-                    margin: const EdgeInsets.only(right: 8, bottom: 2),
-                    padding: const EdgeInsets.all(3),
+                    width: 28.w,
+                    height: 28.h,
+                    margin: EdgeInsets.only(right: AppSpacing.spaceSm, bottom: 2.h),
+                    padding: EdgeInsets.all(3.r),
                     decoration: BoxDecoration(
                       color: cs.primary.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
@@ -273,7 +279,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       fit: BoxFit.contain,
                     ),
                   )
-                : const SizedBox(width: 36),
+                : SizedBox(width: 36.w),
 
           // Bubble
           Flexible(
@@ -284,10 +290,10 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: onBookmark,
               icon: Icon(
                 Icons.bookmark_border_rounded,
-                size: 18,
+                size: 18.sp,
                 color: cs.primary.withValues(alpha: 0.6),
               ),
-              padding: const EdgeInsets.only(left: 4),
+              padding: EdgeInsets.only(left: 4.w),
               constraints: const BoxConstraints(),
               visualDensity: VisualDensity.compact,
             ),
@@ -303,14 +309,17 @@ class _ChatScreenState extends State<ChatScreen> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: const EdgeInsets.only(left: 16, bottom: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        margin: EdgeInsets.only(left: AppSpacing.spaceLg, bottom: AppSpacing.spaceSm),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.spaceLg,
+          vertical: 10.h,
+        ),
         decoration: BoxDecoration(
           color: extra.cardBackgroundColor,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(18.r),
           boxShadow: [
             BoxShadow(
-              color: (extra.shadowColor ?? Colors.black)
+              color: (extra.shadowColor ?? AppColors.overlayBlack)
                   .withValues(alpha: 0.05),
               blurRadius: 6,
               offset: const Offset(0, 2),
@@ -324,14 +333,14 @@ class _ChatScreenState extends State<ChatScreen> {
               AppStrings.chatTypingLabel,
               style: ThemeTextStyles.labelSmall(context).copyWith(
                 color: cs.primary,
-                fontSize: 13,
+                fontSize: 13.sp,
               ),
             ),
-            const SizedBox(width: 6),
+            SizedBox(width: 6.w),
             Image.asset(
               AppAssets.lunaCharacter,
-              width: 22,
-              height: 22,
+              width: 22.w,
+              height: 22.h,
               fit: BoxFit.contain,
             ),
           ],
@@ -346,13 +355,13 @@ class _ChatScreenState extends State<ChatScreen> {
     final isLoading = state.status == ChatStatus.loading;
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 28.h),
       decoration: BoxDecoration(
         color: extra.cardBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
         boxShadow: [
           BoxShadow(
-            color: (extra.shadowColor ?? Colors.black)
+            color: (extra.shadowColor ?? AppColors.overlayBlack)
                 .withValues(alpha: 0.07),
             blurRadius: 12,
             offset: const Offset(0, -2),
@@ -379,23 +388,23 @@ class _ChatScreenState extends State<ChatScreen> {
                 filled: true,
                 fillColor: Theme.of(context).scaffoldBackgroundColor,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   borderSide: BorderSide.none,
                 ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.horizontalPaddingMd,
+                  vertical: AppSpacing.verticalPaddingSm,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.w),
           BouncyTap(
             onTap: isLoading ? null : () => _sendMessage(context),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              width: 46,
-              height: 46,
+              width: 46.w,
+              height: 46.h,
               decoration: BoxDecoration(
                 color: isLoading
                     ? AppColors.primaryButtonFill.withValues(alpha: 0.4)
@@ -411,10 +420,10 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                       ],
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.send_rounded,
                 color: AppColors.whiteTextColor,
-                size: 20,
+                size: 20.sp,
               ),
             ),
           ),
@@ -428,15 +437,15 @@ class _ChatScreenState extends State<ChatScreen> {
     final cs = Theme.of(context).colorScheme;
 
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(20),
+      margin: EdgeInsets.all(AppSpacing.spaceLg),
+      padding: EdgeInsets.all(AppSpacing.space2Xl),
       decoration: BoxDecoration(
         color: extra.cardBackgroundColor,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
         border: Border.all(color: extra.borderColor ?? cs.outline),
         boxShadow: [
           BoxShadow(
-            color: (extra.shadowColor ?? Colors.black)
+            color: (extra.shadowColor ?? AppColors.overlayBlack)
                 .withValues(alpha: 0.06),
             blurRadius: 12,
             offset: const Offset(0, 2),
@@ -446,14 +455,14 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
+          Text(
             '🌿',
             style: TextStyle(
-              fontSize: 32,
-              fontFamilyFallback: ['Apple Color Emoji', 'Noto Color Emoji'],
+              fontSize: 32.sp,
+              fontFamilyFallback: const ['Apple Color Emoji', 'Noto Color Emoji'],
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: AppSpacing.spaceSm),
           Text(
             AppStrings.chatSessionEndGladMessage,
             textAlign: TextAlign.center,
@@ -461,7 +470,7 @@ class _ChatScreenState extends State<ChatScreen> {
               color: cs.primary,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             AppStrings.chatSessionEndSavedMessage,
             textAlign: TextAlign.center,
@@ -469,7 +478,7 @@ class _ChatScreenState extends State<ChatScreen> {
               color: extra.secondaryTextColor,
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: AppSpacing.spaceLg),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -482,9 +491,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 foregroundColor: AppColors.whiteTextColor,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: EdgeInsets.symmetric(vertical: 14.h),
               ),
               child: Text(
                 AppStrings.chatBackToHomeButton,
@@ -537,7 +546,10 @@ class _ChatBubbleState extends State<_ChatBubble> {
         duration: Duration(milliseconds: _pressed ? 100 : 300),
         curve: _pressed ? Curves.easeOut : _bounceBackCurve,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.horizontalPaddingMd,
+            vertical: AppSpacing.verticalPaddingSm,
+          ),
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.72,
           ),
@@ -546,14 +558,14 @@ class _ChatBubbleState extends State<_ChatBubble> {
                 ? AppColors.primaryButtonFill
                 : extra.cardBackgroundColor,
             borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(18),
-              topRight: const Radius.circular(18),
-              bottomLeft: Radius.circular(widget.isUser ? 18 : 4),
-              bottomRight: Radius.circular(widget.isUser ? 4 : 18),
+              topLeft: Radius.circular(18.r),
+              topRight: Radius.circular(18.r),
+              bottomLeft: Radius.circular(widget.isUser ? 18.r : 4.r),
+              bottomRight: Radius.circular(widget.isUser ? 4.r : 18.r),
             ),
             boxShadow: [
               BoxShadow(
-                color: (extra.shadowColor ?? Colors.black)
+                color: (extra.shadowColor ?? AppColors.overlayBlack)
                     .withValues(alpha: 0.06),
                 blurRadius: 6,
                 offset: const Offset(0, 2),

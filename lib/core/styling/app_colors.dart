@@ -94,7 +94,9 @@ class AppColors {
 
   // Utility
   static const Color shadowColor = Color(0x0D000000);
+  static const Color overlayBlack = Color(0xFF000000);
   static const Color errorColor = Color(0xFFF44336);
+  static const Color transparent = Colors.transparent;
 
   // ── Mood Selector (home screen emoji buttons) ────────────────────────────
   static const Color moodSelectorAwful = Color(0xFF2563EB);   // Awful  — bold blue

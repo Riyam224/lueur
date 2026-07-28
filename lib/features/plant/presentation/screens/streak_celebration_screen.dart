@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
@@ -129,7 +130,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                 children: [
                   const Spacer(),
                   SizedBox(
-                    height: 240,
+                    height: 240.h,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -141,12 +142,12 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                           ),
                           child: Lottie.asset(
                             'assets/lottie/blooming.json',
-                            width: 180,
-                            height: 180,
+                            width: 180.w,
+                            height: 180.h,
                             fit: BoxFit.contain,
                             repeat: false,
                             errorBuilder: (_, __, ___) =>
-                                const SizedBox(width: 180, height: 180),
+                                SizedBox(width: 180.w, height: 180.h),
                           ),
                         ),
                         Align(
@@ -162,8 +163,8 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                             ),
                             child: Image.asset(
                               'assets/images/luna_splash.png',
-                              width: 90,
-                              height: 90,
+                              width: 90.w,
+                              height: 90.h,
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -204,10 +205,10 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                               BorderRadius.circular(AppSizes.borderRadiusLg),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         AppStrings.streakCelebrationKeepGoingButton,
-                        style: TextStyle(
-                          fontSize: 16,
+                        style: ThemeTextStyles.labelLarge(context).copyWith(
+                          color: AppColors.whiteTextColor,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

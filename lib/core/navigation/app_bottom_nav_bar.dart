@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 
@@ -40,7 +42,7 @@ class AppBottomNavBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(28.r),
           boxShadow: [
             BoxShadow(
-              color: (isDark ? Colors.black : primary).withValues(
+              color: (isDark ? AppColors.overlayBlack : primary).withValues(
                 alpha: isDark ? 0.35 : 0.18,
               ),
               blurRadius: 24,
@@ -143,9 +145,9 @@ class _NavItem extends StatelessWidget {
             SizedBox(height: 3.h),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 11.sp,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+              style: ThemeTextStyles.navLabel(
+                context,
+                isActive: isActive,
                 color: isActive ? activeColor : inactiveColor,
               ),
             ),

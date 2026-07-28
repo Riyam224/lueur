@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -82,7 +84,7 @@ class _GreetingCardState extends State<GreetingCard> {
 
           return Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(AppSpacing.horizontalPaddingLg),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 // Contrast-verified against the white greeting text (see
@@ -119,15 +121,15 @@ class _GreetingCardState extends State<GreetingCard> {
                         ),
                       ),
                       if (streak > 0) ...[
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 5.h,
                           ),
                           decoration: BoxDecoration(
                             color: onPrimary.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -135,14 +137,14 @@ class _GreetingCardState extends State<GreetingCard> {
                               Icon(
                                 Icons.local_fire_department,
                                 color: onPrimary,
-                                size: 14,
+                                size: 14.sp,
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: AppSpacing.spaceXs),
                               Text(
                                 '$streak day${streak == 1 ? '' : 's'} streak',
-                                style: TextStyle(
+                                style: ThemeTextStyles.labelSmall(context)
+                                    .copyWith(
                                   color: onPrimary,
-                                  fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

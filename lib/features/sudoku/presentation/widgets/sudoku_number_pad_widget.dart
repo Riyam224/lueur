@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -59,28 +62,30 @@ class SudokuNumberPadWidget extends StatelessWidget {
             Expanded(
               child: _ModeToggle(mode: mode, onChanged: onModeChanged),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             BouncyTap(
               onTap: canUndo ? onUndo : null,
               child: Container(
-                height: 40,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: AppSizes.buttonHeightSm,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.horizontalPaddingMd,
+                ),
                 decoration: BoxDecoration(
                   color: extra.cardBackgroundColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                   border: Border.all(color: extra.borderColor!),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.undo_rounded,
-                  size: 20,
+                  size: AppSizes.iconSm,
                   color: canUndo ? extra.primaryColor : extra.tertiaryTextColor,
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: AppSpacing.sectionSpacingSm),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -93,20 +98,24 @@ class SudokuNumberPadWidget extends StatelessWidget {
             BouncyTap(
               onTap: onClearTap,
               child: Container(
-                width: 36,
-                height: 36,
+                width: 36.w,
+                height: 36.w,
                 decoration: BoxDecoration(
                   color: extra.cardBackgroundColor,
                   shape: BoxShape.circle,
                   border: Border.all(color: extra.borderColor!),
                 ),
                 alignment: Alignment.center,
-                child: Icon(Icons.close_rounded, size: 18, color: extra.secondaryTextColor),
+                child: Icon(
+                  Icons.close_rounded,
+                  size: 18.sp,
+                  color: extra.secondaryTextColor,
+                ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: AppSpacing.verticalPaddingSm),
         BouncyTap(
           onTap: () => onAutoCandidateModeChanged(!autoCandidateMode),
           child: Row(
@@ -148,8 +157,8 @@ class _NumberButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 36,
-            height: 36,
+            width: 36.w,
+            height: 36.w,
             decoration: BoxDecoration(
               color: extra.cardBackgroundColor,
               shape: BoxShape.circle,
@@ -158,18 +167,17 @@ class _NumberButton extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               '$number',
-              style: TextStyle(
-                fontSize: 16,
+              style: ThemeTextStyles.titleMedium(context).copyWith(
                 fontWeight: FontWeight.w700,
                 color: isExhausted ? extra.tertiaryTextColor : extra.primaryColor,
               ),
             ),
           ),
-          const SizedBox(height: 2),
+          SizedBox(height: 2.h),
           Text(
             '$remaining',
             style: TextStyle(
-              fontSize: 10,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w500,
               color: extra.tertiaryTextColor,
             ),
@@ -191,17 +199,25 @@ class _ModeToggle extends StatelessWidget {
     final extra = context.extra;
 
     return Container(
-      height: 40,
-      padding: const EdgeInsets.all(3),
+      height: AppSizes.buttonHeightSm,
+      padding: EdgeInsets.all(3.r),
       decoration: BoxDecoration(
         color: extra.cardBackgroundColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
         border: Border.all(color: extra.borderColor!),
       ),
       child: Row(
         children: [
-          _segment(context, 'Normal', SudokuInputMode.normal),
-          _segment(context, 'Candidate', SudokuInputMode.candidate),
+          _segment(
+            context,
+            AppStrings.sudokuNormalModeLabel,
+            SudokuInputMode.normal,
+          ),
+          _segment(
+            context,
+            AppStrings.sudokuCandidateModeLabel,
+            SudokuInputMode.candidate,
+          ),
         ],
       ),
     );
@@ -217,14 +233,13 @@ class _ModeToggle extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           decoration: BoxDecoration(
-            color: isActive ? extra.primaryColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(17),
+            color: isActive ? extra.primaryColor : AppColors.transparent,
+            borderRadius: BorderRadius.circular(17.r),
           ),
           alignment: Alignment.center,
           child: Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
+            style: ThemeTextStyles.labelSmall(context).copyWith(
               fontWeight: FontWeight.w600,
               color: isActive ? AppColors.whiteTextColor : extra.secondaryTextColor,
             ),

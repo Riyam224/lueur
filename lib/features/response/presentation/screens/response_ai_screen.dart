@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
@@ -47,6 +48,14 @@ class ResponseAiScreen extends StatefulWidget {
 class _ResponseAiScreenState extends State<ResponseAiScreen> {
   bool _didResponseHaptic = false;
   final ScreenshotController _screenshotController = ScreenshotController();
+
+  // Share-card export is rendered off-screen at a fixed pixel size (it
+  // becomes a PNG, not on-screen UI), so it intentionally does not use
+  // flutter_screenutil scaling like the rest of this screen.
+  static const double _shareCardWidth = 1080;
+  static const double _shareCardPadding = 64;
+  static const double _shareCardHeadingGap = 24;
+  static const double _shareCardBodyGap = 40;
 
   @override
   void initState() {
@@ -149,10 +158,10 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.error_outline,
                                   color: AppColors.errorColor,
-                                  size: 48,
+                                  size: AppSizes.iconXl,
                                 ),
                                 SizedBox(height: AppSpacing.spaceMd),
                                 Text(
@@ -344,8 +353,9 @@ extension _ShareHelper on _ResponseAiScreenState {
     return Material(
       color: theme.scaffoldBackgroundColor,
       child: Container(
-        width: 1080,
-        padding: const EdgeInsets.all(64),
+        width: _ResponseAiScreenState._shareCardWidth,
+        padding:
+            const EdgeInsets.all(_ResponseAiScreenState._shareCardPadding),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -368,7 +378,7 @@ extension _ShareHelper on _ResponseAiScreenState {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: _ResponseAiScreenState._shareCardHeadingGap),
             Text(
               '"$aiResponse"',
               style: ThemeTextStyles.headlineSmall(context).copyWith(
@@ -376,7 +386,7 @@ extension _ShareHelper on _ResponseAiScreenState {
                 height: 1.5,
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: _ResponseAiScreenState._shareCardBodyGap),
             Text(
               AppStrings.appName,
               style: ThemeTextStyles.bodySmall(context).copyWith(

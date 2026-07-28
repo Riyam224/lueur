@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -55,7 +56,7 @@ class _QuickLinkItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12.r),
+      borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 13.h),
         child: Row(
@@ -65,9 +66,9 @@ class _QuickLinkItem extends StatelessWidget {
               height: 40.h,
               decoration: BoxDecoration(
                 color: iconBgColor,
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
               ),
-              child: Icon(icon, color: iconColor, size: 20.sp),
+              child: Icon(icon, color: iconColor, size: AppSizes.iconSm),
             ),
             SizedBox(width: 14.w),
             Expanded(
@@ -76,7 +77,7 @@ class _QuickLinkItem extends StatelessWidget {
             Icon(
               Icons.chevron_right_rounded,
               color: context.extra.tertiaryTextColor,
-              size: 20,
+              size: AppSizes.iconSm,
             ),
           ],
         ),

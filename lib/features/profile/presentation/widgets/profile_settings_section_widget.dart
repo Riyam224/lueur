@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
@@ -27,7 +29,7 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
             letterSpacing: 1.2,
           ),
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: AppSpacing.verticalPaddingSm),
 
         // Appearance (dark mode toggle)
         _SettingsItem(
@@ -65,7 +67,7 @@ class _SettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(12.r),
+      borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 13.h),
         child: Row(
@@ -76,9 +78,9 @@ class _SettingsItem extends StatelessWidget {
               height: 40.h,
               decoration: BoxDecoration(
                 color: iconBgColor,
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
               ),
-              child: Icon(icon, color: iconColor, size: 20.sp),
+              child: Icon(icon, color: iconColor, size: AppSizes.iconSm),
             ),
             SizedBox(width: 14.w),
 

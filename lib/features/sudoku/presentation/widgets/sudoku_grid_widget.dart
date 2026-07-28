@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
@@ -36,7 +39,7 @@ class SudokuGridWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: extra.primaryColor!, width: 2.5),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -122,7 +125,7 @@ class _SudokuCell extends StatelessWidget {
     } else if (isGiven) {
       background = extra.primaryColor!.withValues(alpha: 0.04);
     } else {
-      background = Colors.transparent;
+      background = AppColors.transparent;
     }
 
     return BouncyTap(
@@ -147,8 +150,7 @@ class _SudokuCell extends StatelessWidget {
         child: value != 0
             ? Text(
                 '$value',
-                style: TextStyle(
-                  fontSize: 18,
+                style: ThemeTextStyles.titleLarge(context).copyWith(
                   fontWeight: isGiven ? FontWeight.w700 : FontWeight.w500,
                   color: hasConflict
                       ? AppColors.errorColor
@@ -174,14 +176,14 @@ class _CandidateGrid extends StatelessWidget {
     return GridView.count(
       crossAxisCount: 3,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(2),
+      padding: EdgeInsets.all(2.r),
       children: List.generate(9, (i) {
         final n = i + 1;
         return Center(
           child: candidates.contains(n)
               ? Text(
                   '$n',
-                  style: TextStyle(fontSize: 8, color: color),
+                  style: TextStyle(fontSize: 8.sp, color: color),
                 )
               : null,
         );

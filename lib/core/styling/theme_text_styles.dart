@@ -233,4 +233,19 @@ class ThemeTextStyles {
       color: context.extra.onPrimaryTextColor,
     );
   }
+
+  /// Get bottom nav label style (11sp, w600 active / w400 inactive)
+  static TextStyle navLabel(
+    BuildContext context, {
+    required bool isActive,
+    required Color color,
+  }) {
+    return TextStyle(
+      fontFamily: AppFonts.mainFontName,
+      fontFamilyFallback: _emojiFallback,
+      fontSize: 11.sp,
+      fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+      color: color,
+    );
+  }
 }

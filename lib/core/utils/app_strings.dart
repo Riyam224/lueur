@@ -120,6 +120,10 @@ class AppStrings {
   static const String homeThoughtsLabelDefault = 'Tell me what\'s going on...';
   static const String homeMoodRequiredSnack = 'Please select your mood first';
   static const String homeThoughtsRequiredSnack = 'Please share your thoughts';
+  static const String homeThoughtsRequiredSnackFirst =
+      'Please share your thoughts first';
+  static const String homeShareThoughtsSectionLabel = 'SHARE YOUR THOUGHTS';
+  static const String homeTalkToLunaWithSparkle = 'Talk to Luna ✨';
   static const String homeThoughtsHint = 'What\'s on your mind today...';
   static const String homeThoughtsEncouragementStart =
       'What\'s on your mind... 🌱';
@@ -136,6 +140,8 @@ class AppStrings {
       'Share a thought and tap Talk to Luna';
   static const String homeFirstSeedCelebration =
       'You just planted your first seed 🌱';
+  static const String homeFirstSeedCelebrationSubtitle =
+      'Luna is so happy you\'re here!';
 
   // ── Weekly letter ──
   static const String weeklyLetterBannerTitle = 'Your weekly letter';
@@ -261,6 +267,8 @@ class AppStrings {
   static const String sudokuLostMessage = 'out of tries — take a breath 🌱';
   static const String sudokuTryAgainButton = 'try again';
   static const String sudokuAutoCandidateModeLabel = 'Auto Candidate Mode';
+  static const String sudokuNormalModeLabel = 'Normal';
+  static const String sudokuCandidateModeLabel = 'Candidate';
 
   // ── Free draw ──
   static const String drawTopBarTitle = 'free draw';

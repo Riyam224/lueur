@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
@@ -39,7 +41,7 @@ class SavedQuotesScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  SizedBox(width: 40.w),
                 ],
               ),
               SizedBox(height: AppSpacing.sectionSpacingMd),
@@ -62,7 +64,7 @@ class SavedQuotesScreen extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.bookmark_rounded,
-                              size: 48,
+                              size: AppSizes.iconXl,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                             SizedBox(height: AppSpacing.spaceSm),
@@ -145,15 +147,15 @@ class SavedQuotesScreen extends StatelessWidget {
                             },
                             background: Container(
                               alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.only(right: 20),
+                              padding: EdgeInsets.only(right: AppSpacing.spaceXl),
                               decoration: BoxDecoration(
                                 color: AppColors.errorColor,
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.delete_outline_rounded,
                                 color: AppColors.whiteTextColor,
-                                size: 26,
+                                size: 26.sp,
                               ),
                             ),
                             child: Container(
@@ -162,7 +164,7 @@ class SavedQuotesScreen extends StatelessWidget {
                               padding: EdgeInsets.all(AppSpacing.spaceLg),
                               decoration: BoxDecoration(
                                 color: context.extra.cardBackgroundColor,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                                 border: Border.all(
                                   color: context.extra.borderColor ??
                                       Theme.of(context).colorScheme.outline,
@@ -178,15 +180,15 @@ class SavedQuotesScreen extends StatelessWidget {
                                       if (quote.emoji != null) ...[
                                         Text(
                                           quote.emoji!,
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            fontFamilyFallback: [
+                                          style: TextStyle(
+                                            fontSize: 20.sp,
+                                            fontFamilyFallback: const [
                                               'Apple Color Emoji',
                                               'Noto Color Emoji',
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
+                                        SizedBox(width: AppSpacing.spaceSm),
                                       ],
                                       Expanded(
                                         child: Text(
@@ -195,10 +197,10 @@ class SavedQuotesScreen extends StatelessWidget {
                                               ThemeTextStyles.bodyMedium(context),
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      SizedBox(width: AppSpacing.spaceSm),
                                       Icon(
                                         Icons.bookmark_rounded,
-                                        size: 18,
+                                        size: 18.sp,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .primary

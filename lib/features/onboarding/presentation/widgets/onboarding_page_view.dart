@@ -81,7 +81,9 @@ class _OnboardingCard extends StatelessWidget {
             horizontal: constraints.maxWidth *
                 OnboardingConstants.cardHorizontalMarginFraction,
           ),
-          padding: const EdgeInsets.symmetric(vertical: 28),
+          padding: const EdgeInsets.symmetric(
+            vertical: OnboardingConstants.cardVerticalPadding,
+          ),
           decoration: BoxDecoration(
             color: data.cardColor,
             borderRadius:

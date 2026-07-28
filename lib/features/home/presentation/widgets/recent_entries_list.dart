@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_entry.dart';
 import 'package:lueur/core/styling/app_colors.dart';
@@ -27,15 +29,15 @@ class RecentEntriesList extends StatelessWidget {
             onDismissed: (_) => onDelete(entry.id),
             background: Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 20),
+              padding: EdgeInsets.only(right: AppSpacing.spaceXl),
               decoration: BoxDecoration(
                 color: AppColors.errorColor,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.delete_outline_rounded,
                 color: AppColors.whiteTextColor,
-                size: 26,
+                size: 26.sp,
               ),
             ),
             child: Padding(

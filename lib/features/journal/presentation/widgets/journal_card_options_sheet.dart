@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/styling/app_colors.dart';
@@ -16,7 +18,7 @@ Future<void> showJournalCardOptionsSheet(
   final cubit = context.read<JournalGridCubit>();
   return showModalBottomSheet(
     context: context,
-    backgroundColor: Colors.transparent,
+    backgroundColor: AppColors.transparent,
     isScrollControlled: true,
     builder: (_) => BlocProvider.value(
       value: cubit,
@@ -67,7 +69,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
     return SafeArea(
       child: Material(
         color: context.extra.cardBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppSizes.borderRadiusXl)),
         child: Padding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,
@@ -90,11 +92,11 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                 children: [
                   Center(
                     child: Container(
-                      width: 40,
-                      height: 4,
+                      width: 40.w,
+                      height: 4.h,
                       decoration: BoxDecoration(
                         color: AppColors.lightBorder,
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(4.r),
                       ),
                     ),
                   ),
@@ -115,15 +117,15 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                             .read<JournalGridCubit>()
                             .setCardColor(entryId, option.name),
                         child: Container(
-                          width: 40,
-                          height: 40,
+                          width: AppSizes.avatarSm,
+                          height: AppSizes.avatarSm,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: option.color,
                             border: Border.all(
                               color: isSelected
                                   ? AppColors.lightOnBackground
-                                  : Colors.transparent,
+                                  : AppColors.transparent,
                               width: 2,
                             ),
                           ),

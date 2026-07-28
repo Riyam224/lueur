@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
@@ -301,7 +302,7 @@ class _BreathingViewState extends State<_BreathingView>
             color: active
                 ? AppColors.primary
                 : inkColor.withValues(alpha: 0.25),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
           ),
         );
 
@@ -332,10 +333,10 @@ class _BreathingViewState extends State<_BreathingView>
         return Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
               child: LinearProgressIndicator(
                 value: progress,
-                minHeight: 6,
+                minHeight: 6.h,
                 backgroundColor: AppColors.primary.withValues(alpha: 0.15),
                 valueColor: const AlwaysStoppedAnimation(AppColors.primary),
               ),

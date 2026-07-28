@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_choice_destination.dart';
 import 'package:lueur/core/routing/app_routes.dart';
@@ -21,7 +23,7 @@ Future<void> showMoodChoiceDialog(
     context: context,
     barrierDismissible: true,
     barrierLabel: AppStrings.commonDismissBarrierLabel,
-    barrierColor: Colors.black.withValues(alpha: 0.4),
+    barrierColor: AppColors.overlayBlack.withValues(alpha: 0.4),
     transitionDuration: const Duration(milliseconds: 300),
     transitionBuilder: (_, animation, __, child) {
       final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutBack);
@@ -60,7 +62,7 @@ class _MoodChoiceDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: Container(
           margin: EdgeInsets.symmetric(
             horizontal: AppSpacing.horizontalPaddingXl,
@@ -68,13 +70,13 @@ class _MoodChoiceDialog extends StatelessWidget {
           padding: EdgeInsets.all(AppSpacing.space2Xl),
           decoration: BoxDecoration(
             color: context.extra.cardBackgroundColor,
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(28.r),
             boxShadow: [
               BoxShadow(
-                color: (context.extra.shadowColor ?? Colors.black)
+                color: (context.extra.shadowColor ?? AppColors.overlayBlack)
                     .withValues(alpha: 0.15),
-                blurRadius: 32,
-                offset: const Offset(0, 12),
+                blurRadius: 32.r,
+                offset: Offset(0, 12.h),
               ),
             ],
           ),
@@ -194,13 +196,17 @@ class _MoodChoiceCardState extends State<_MoodChoiceCard> {
           child: Row(
             children: [
               Container(
-                width: 44,
-                height: 44,
+                width: 44.w,
+                height: 44.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: widget.glowColor.withValues(alpha: 0.2),
                 ),
-                child: Icon(widget.icon, color: widget.glowColor, size: 20),
+                child: Icon(
+                  widget.icon,
+                  color: widget.glowColor,
+                  size: AppSizes.iconSm,
+                ),
               ),
               SizedBox(width: AppSpacing.spaceLg),
               Expanded(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -59,12 +62,12 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
           return _shell(
             context,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceMd),
               child: Center(
                 child: Lottie.asset(
                   'assets/lottie/plant_sprout.json',
-                  width: 24,
-                  height: 24,
+                  width: 24.w,
+                  height: 24.h,
                   repeat: true,
                 ),
               ),
@@ -99,7 +102,7 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
             border: Border.all(
               color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
             ),
@@ -138,7 +141,12 @@ class _LetterContentState extends State<_LetterContent> {
         widget.data.letter != null && widget.data.letter!.isNotEmpty;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 12, 14),
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.spaceLg,
+        AppSpacing.spaceMd,
+        AppSpacing.spaceMd,
+        14.h,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -152,7 +160,7 @@ class _LetterContentState extends State<_LetterContent> {
                   fontFamilyFallback: ['Apple Color Emoji', 'Noto Color Emoji'],
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: AppSpacing.spaceSm),
               Expanded(
                 child: Text(
                   AppStrings.weeklyLetterBannerTitle,
@@ -163,7 +171,7 @@ class _LetterContentState extends State<_LetterContent> {
               ),
               IconButton(
                 onPressed: widget.onDismiss,
-                icon: const Icon(Icons.close_rounded, size: 18),
+                icon: Icon(Icons.close_rounded, size: 18.sp),
                 visualDensity: VisualDensity.compact,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
@@ -172,7 +180,7 @@ class _LetterContentState extends State<_LetterContent> {
             ],
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
 
           // ── Stats row ─────────────────────────────────────────
           Row(
@@ -181,12 +189,12 @@ class _LetterContentState extends State<_LetterContent> {
                 label: '${stats.entryCount} entries',
                 icon: Icons.edit_note_rounded,
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: AppSpacing.spaceSm),
               _StatChip(
                 label: '🔥 ${stats.streak} day streak',
                 isEmoji: true,
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: AppSpacing.spaceSm),
               _StatChip(
                 label: stats.dominantEmoji,
                 isEmoji: true,
@@ -196,7 +204,7 @@ class _LetterContentState extends State<_LetterContent> {
 
           // ── Letter body (expandable) ───────────────────────────
           if (hasLetter) ...[
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             AnimatedCrossFade(
               duration: const Duration(milliseconds: 250),
               crossFadeState: _expanded
@@ -213,7 +221,7 @@ class _LetterContentState extends State<_LetterContent> {
                 style: ThemeTextStyles.bodySmall(context),
               ),
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6.h),
             GestureDetector(
               onTap: () => setState(() => _expanded = !_expanded),
               child: Text(
@@ -227,7 +235,7 @@ class _LetterContentState extends State<_LetterContent> {
               ),
             ),
           ] else ...[
-            const SizedBox(height: 8),
+            SizedBox(height: AppSpacing.spaceSm),
             Text(
               AppStrings.weeklyLetterWaitingMessage,
               style: ThemeTextStyles.bodySmall(context).copyWith(
@@ -257,12 +265,12 @@ class _StatChip extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: isDark
             ? AppColors.darkBackground.withValues(alpha: 0.5)
             : AppColors.lightSurface.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusCircle),
         border: Border.all(
           color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
         ),
@@ -271,8 +279,8 @@ class _StatChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
-            Icon(icon, size: 12, color: AppColors.primary),
-            const SizedBox(width: 4),
+            Icon(icon, size: 12.sp, color: AppColors.primary),
+            SizedBox(width: AppSpacing.spaceXs),
           ],
           Text(
             label,

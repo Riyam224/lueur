@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/utils/app_strings.dart';
@@ -26,19 +28,19 @@ class JournalHeaderWidget extends StatelessWidget {
             if (onDeleteAll != null) ...[
               GestureDetector(
                 onTap: onDeleteAll,
-                child: const Icon(
+                child: Icon(
                   Icons.delete_outline_rounded,
                   color: AppColors.primary,
-                  size: 20,
+                  size: AppSizes.iconSm,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: AppSpacing.spaceMd),
             ],
             Container(
               padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(999.r),
+                borderRadius: BorderRadius.circular(AppSizes.borderRadiusCircle),
               ),
               child: Text(
                 '$entryCount entries',

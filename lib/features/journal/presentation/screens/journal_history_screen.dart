@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_entry.dart';
 import 'package:lueur/core/models/mood_type.dart';
@@ -10,6 +12,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/mood_entry_card.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
@@ -77,19 +80,22 @@ class _JournalBodyState extends State<_JournalBody> {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Delete all entries?'),
-        content: const Text('This will permanently remove all journal entries from your device.'),
+        title: const Text(AppStrings.moodEntryDeleteAllTitle),
+        content: const Text(AppStrings.moodEntryDeleteAllMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Cancel'),
+            child: const Text(AppStrings.commonCancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
               context.read<MoodCubit>().deleteAllEntries();
             },
-            child: const Text('Delete all', style: TextStyle(color: AppColors.errorColor)),
+            child: const Text(
+              AppStrings.moodEntryDeleteAllConfirm,
+              style: TextStyle(color: AppColors.errorColor),
+            ),
           ),
         ],
       ),
@@ -150,7 +156,7 @@ class _JournalBodyState extends State<_JournalBody> {
       return DateUtils.isSameDay(e.createdAt, today);
     }).toList();
     if (todayEntries.isEmpty) {
-      return 'No entries yet · Start with one gentle thought';
+      return AppStrings.journalTodayNoEntriesMessage;
     }
     final emojiCounts = <String, int>{};
     for (final entry in todayEntries) {
@@ -240,7 +246,7 @@ class _JournalBodyState extends State<_JournalBody> {
                     padding: EdgeInsets.all(AppSpacing.spaceLg),
                     decoration: BoxDecoration(
                       color: context.extra.cardBackgroundColor,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                       border: Border.all(
                         color: context.extra.borderColor ?? AppColors.cardBorder,
                         width: 1.5,
@@ -333,8 +339,8 @@ class _JournalBodyState extends State<_JournalBody> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.cloud_off_outlined,
-                          size: 48, color: Theme.of(context).colorScheme.outline,),
-                      const SizedBox(height: 12),
+                          size: AppSizes.iconLg, color: Theme.of(context).colorScheme.outline,),
+                      SizedBox(height: AppSpacing.spaceMd),
                       Text(
                         state.message,
                         textAlign: TextAlign.center,
@@ -364,13 +370,13 @@ class _JournalBodyState extends State<_JournalBody> {
                         ),
                         SizedBox(height: AppSpacing.spaceLg),
                         Text(
-                          'Your story starts here',
+                          AppStrings.moodEntryEmptyStateTitle,
                           style: ThemeTextStyles.headlineSmall(context),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: AppSpacing.spaceSm),
                         Text(
-                          'What\'s on your mind today?',
+                          AppStrings.journalEmptyStateSubtitle,
                           style: ThemeTextStyles.bodyMedium(context).copyWith(
                             color: context.extra.secondaryTextColor,
                           ),
@@ -384,7 +390,7 @@ class _JournalBodyState extends State<_JournalBody> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: context.extra.primaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
                               ),
                               elevation: 0,
                               padding: EdgeInsets.symmetric(
@@ -392,7 +398,7 @@ class _JournalBodyState extends State<_JournalBody> {
                               ),
                             ),
                             child: Text(
-                              'Start journaling',
+                              AppStrings.journalStartJournalingButton,
                               style: ThemeTextStyles.whiteButton(context)
                                   .copyWith(
                                 color: context.extra.onPrimaryTextColor,
@@ -427,21 +433,21 @@ class _JournalBodyState extends State<_JournalBody> {
                           return await showDialog<bool>(
                                 context: context,
                                 builder: (dialogContext) => AlertDialog(
-                                  title: const Text('Delete entry?'),
+                                  title: const Text(AppStrings.journalEntryDeleteTitle),
                                   content: const Text(
-                                    'This will permanently remove this journal entry.',
+                                    AppStrings.journalEntryDeleteMessage,
                                   ),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(dialogContext).pop(false),
-                                      child: const Text('Cancel'),
+                                      child: const Text(AppStrings.commonCancel),
                                     ),
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(dialogContext).pop(true),
                                       child: const Text(
-                                        'Delete',
+                                        AppStrings.commonDelete,
                                         style: TextStyle(color: AppColors.errorColor),
                                       ),
                                     ),
@@ -455,15 +461,15 @@ class _JournalBodyState extends State<_JournalBody> {
                         },
                         background: Container(
                           alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 20),
+                          padding: EdgeInsets.only(right: AppSpacing.spaceXl),
                           decoration: BoxDecoration(
                             color: AppColors.errorColor,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.delete_outline_rounded,
                             color: AppColors.whiteTextColor,
-                            size: 26,
+                            size: 26.sp,
                           ),
                         ),
                         child: Padding(

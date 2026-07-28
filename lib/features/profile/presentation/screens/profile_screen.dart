@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
@@ -143,7 +145,7 @@ class ProfileScreen extends StatelessWidget {
                       padding: EdgeInsets.all(AppSpacing.spaceLg),
                       decoration: BoxDecoration(
                         color: context.extra.cardBackgroundColor,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                         border: Border.all(
                           color: context.extra.borderColor ??
                               Theme.of(context).colorScheme.outline,
@@ -152,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          const Text('📌', style: TextStyle(fontSize: 32)),
+                          Text('📌', style: TextStyle(fontSize: AppSizes.iconLg)),
                           SizedBox(height: AppSpacing.spaceSm),
                           Text(
                             AppStrings.quotesScreenTitle,
@@ -197,7 +199,7 @@ class ProfileScreen extends StatelessWidget {
                               padding: EdgeInsets.all(AppSpacing.spaceLg),
                               decoration: BoxDecoration(
                                 color: context.extra.cardBackgroundColor,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                                 border: Border.all(
                                   color: context.extra.borderColor ??
                                       Theme.of(context).colorScheme.outline,
@@ -214,15 +216,15 @@ class ProfileScreen extends StatelessWidget {
                                       if (quote.emoji != null) ...[
                                         Text(
                                           quote.emoji!,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontFamilyFallback: [
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            fontFamilyFallback: const [
                                               'Apple Color Emoji',
                                               'Noto Color Emoji',
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
+                                        SizedBox(width: AppSpacing.spaceSm),
                                       ],
                                       Expanded(
                                         child: Text(
@@ -320,7 +322,7 @@ class ProfileScreen extends StatelessWidget {
             AppSpacing.horizontalPaddingLg,
             0,
             AppSpacing.horizontalPaddingLg,
-            100,
+            100.h,
           ),
           sliver: SliverToBoxAdapter(
             child: TextButton.icon(
@@ -335,9 +337,9 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: EdgeInsets.symmetric(vertical: 14.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
                   side: BorderSide(
                       color: AppColors.errorColor.withValues(alpha: 0.3),),
                 ),

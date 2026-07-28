@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
@@ -59,11 +60,11 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
                     context.read<SudokuResultsCubit>().deleteResult(result.id),
                 background: Container(
                   alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 20),
+                  padding: EdgeInsets.only(right: AppSpacing.spaceXl),
                   margin: EdgeInsets.only(bottom: AppSpacing.spaceMd),
                   decoration: BoxDecoration(
                     color: AppColors.errorColor,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
                   ),
                   child: const Icon(
                     Icons.delete_outline_rounded,
@@ -88,7 +89,7 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
       padding: EdgeInsets.all(AppSpacing.spaceLg),
       decoration: BoxDecoration(
         color: context.extra.cardBackgroundColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
         border: Border.all(
           color: context.extra.borderColor ?? Theme.of(context).colorScheme.outline,
           width: 1.2,
@@ -96,7 +97,7 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text('🧩', style: TextStyle(fontSize: 32)),
+          Text('🧩', style: TextStyle(fontSize: AppSizes.iconLg)),
           SizedBox(height: AppSpacing.spaceSm),
           Text(AppStrings.profileSudokuHistoryTitle, style: ThemeTextStyles.titleMedium(context)),
           SizedBox(height: AppSpacing.spaceXs),
@@ -128,7 +129,7 @@ class _ResultRow extends StatelessWidget {
       padding: EdgeInsets.all(AppSpacing.spaceLg),
       decoration: BoxDecoration(
         color: extra.cardBackgroundColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
         border: Border.all(
           color: extra.borderColor ?? Theme.of(context).colorScheme.outline,
           width: 1.2,

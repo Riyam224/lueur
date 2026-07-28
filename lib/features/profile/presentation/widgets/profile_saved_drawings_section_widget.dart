@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
@@ -44,7 +46,7 @@ class ProfileSavedDrawingsSectionWidget extends StatelessWidget {
             Text(AppStrings.profileDrawingsTitle, style: ThemeTextStyles.headlineSmall(context)),
             SizedBox(height: AppSpacing.spaceSm),
             SizedBox(
-              height: 96,
+              height: 96.h,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 clipBehavior: Clip.none,
@@ -88,12 +90,12 @@ class _DrawingTile extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: 96,
-            height: 96,
-            padding: const EdgeInsets.all(6),
+            width: 96.w,
+            height: 96.h,
+            padding: EdgeInsets.all(6.r),
             decoration: BoxDecoration(
               color: extra.cardBackgroundColor,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
               border: Border.all(
                 color: extra.borderColor ?? AppColors.cardBorder,
               ),
@@ -101,21 +103,21 @@ class _DrawingTile extends StatelessWidget {
             child: SavedDrawingThumbnail(drawing: drawing),
           ),
           Positioned(
-            top: 2,
-            right: 2,
+            top: 2.h,
+            right: 2.w,
             child: GestureDetector(
               onTap: () => _delete(context),
               child: Container(
-                width: 22,
-                height: 22,
+                width: 22.w,
+                height: 22.w,
                 decoration: const BoxDecoration(
                   color: AppColors.errorColor,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.close_rounded,
                   color: AppColors.whiteTextColor,
-                  size: 14,
+                  size: 14.sp,
                 ),
               ),
             ),
@@ -144,7 +146,7 @@ class _EmptyCard extends StatelessWidget {
       padding: EdgeInsets.all(AppSpacing.spaceLg),
       decoration: BoxDecoration(
         color: context.extra.cardBackgroundColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
         border: Border.all(
           color: context.extra.borderColor ?? Theme.of(context).colorScheme.outline,
           width: 1.2,
@@ -152,7 +154,7 @@ class _EmptyCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 32)),
+          Text(emoji, style: TextStyle(fontSize: AppSizes.iconLg)),
           SizedBox(height: AppSpacing.spaceSm),
           Text(title, style: ThemeTextStyles.titleMedium(context)),
           SizedBox(height: AppSpacing.spaceXs),

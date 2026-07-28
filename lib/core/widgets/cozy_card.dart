@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/widgets/sketchy_border_painter.dart';
 
@@ -32,7 +33,7 @@ class CozyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fill = color ?? context.extra.cardBackgroundColor!;
-    final shadow = context.extra.shadowColor ?? Colors.black12;
+    final shadow = context.extra.shadowColor ?? AppColors.shadowColor;
 
     return Container(
       padding: padding ?? EdgeInsets.all(16.r),

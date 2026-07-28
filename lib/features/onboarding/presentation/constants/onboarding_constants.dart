@@ -13,6 +13,7 @@ class OnboardingConstants {
   static const double cardHorizontalMarginFraction = 0.06;
   static const double cardTopMarginFraction = 0.04;
   static const double cardBorderRadius = 32;
+  static const double cardVerticalPadding = 28;
   static const double circleSizeFraction = 0.56;
   static const double circleTopFraction = 0.08;
   static const double lunaSizeFraction = 0.4;

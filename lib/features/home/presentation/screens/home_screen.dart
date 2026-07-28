@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/models/mood_entry.dart';
@@ -33,8 +35,9 @@ import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  static String _displayName(AuthState state) =>
-      state is AuthAuthenticated ? state.user.displayName : 'Friend';
+  static String _displayName(AuthState state) => state is AuthAuthenticated
+      ? state.user.displayName
+      : AppStrings.profileFallbackName;
 
   static String? _userSeed(AuthState state) =>
       state is AuthAuthenticated ? state.user.id : null;
@@ -280,12 +283,14 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
               if (state is MoodLoading)
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    padding: EdgeInsets.symmetric(
+                      vertical: AppSpacing.sectionSpacingMd,
+                    ),
                     child: Center(
                       child: Lottie.asset(
                         'assets/lottie/plant_sprout.json',
-                        width: 48,
-                        height: 48,
+                        width: AppSizes.iconXl,
+                        height: AppSizes.iconXl,
                         repeat: true,
                       ),
                     ),
@@ -298,7 +303,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: AppSpacing.horizontalPaddingLg,
-                      vertical: 16,
+                      vertical: AppSpacing.sectionSpacingSm,
                     ),
                     child: Text(
                       state.message,
@@ -371,7 +376,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                       ),
                       decoration: BoxDecoration(
                         color: context.extra.cardBackgroundColor,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                         border: Border.all(
                           color:
                               context.extra.borderColor ?? AppColors.cardBorder,
@@ -390,8 +395,8 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                         children: [
                           Lottie.asset(
                             'assets/lottie/blooming.json',
-                            width: 140,
-                            height: 140,
+                            width: 140.w,
+                            height: 140.h,
                             repeat: false,
                             onLoaded: (_) {
                               if (!_confettiShown) {
@@ -407,7 +412,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                           ),
                           SizedBox(height: AppSpacing.spaceSm),
                           Text(
-                            'Luna is so happy you\'re here!',
+                            AppStrings.homeFirstSeedCelebrationSubtitle,
                             style: ThemeTextStyles.bodyMedium(context).copyWith(
                               color: context.extra.secondaryTextColor,
                             ),

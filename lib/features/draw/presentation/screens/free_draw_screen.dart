@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
@@ -124,7 +125,7 @@ class _FreeDrawView extends StatelessWidget {
             icon: Icon(
               Icons.arrow_back_ios_rounded,
               color: extra.primaryTextColor,
-              size: 20,
+              size: AppSizes.iconSm,
             ),
           ),
           Text(
@@ -139,7 +140,7 @@ class _FreeDrawView extends StatelessWidget {
             icon: Icon(
               Icons.save_alt_rounded,
               color: extra.primaryColor,
-              size: 20,
+              size: AppSizes.iconSm,
             ),
           ),
           TextButton(
@@ -214,8 +215,8 @@ class _FreeDrawView extends StatelessWidget {
                       border: Border.all(
                         color: state.currentColor == color
                             ? extra.primaryTextColor!
-                            : Colors.transparent,
-                        width: 2,
+                            : AppColors.transparent,
+                        width: 2.w,
                       ),
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -85,8 +86,9 @@ class MoodSelectorWidget extends StatelessWidget {
                   : (extra.cardBackgroundColor ?? AppColors.lightSurface);
 
               return Padding(
-                padding:
-                    EdgeInsets.only(right: index < emojis.length - 1 ? 8 : 0),
+                padding: EdgeInsets.only(
+                  right: index < emojis.length - 1 ? AppSpacing.spaceSm : 0,
+                ),
                 child: BouncyTap(
                   onTap: () {
                     HapticFeedback.lightImpact();
@@ -116,7 +118,7 @@ class MoodSelectorWidget extends StatelessWidget {
                         border: Border.all(
                           color: isSelected
                               ? highlightColor
-                              : (extra.borderColor ?? Colors.transparent),
+                              : (extra.borderColor ?? AppColors.transparent),
                           width: isSelected ? 2 : 1,
                         ),
                         boxShadow: isSelected
@@ -132,7 +134,7 @@ class MoodSelectorWidget extends StatelessWidget {
                       ),
                       child: hasIllustrations
                           ? Padding(
-                              padding: const EdgeInsets.all(6),
+                              padding: EdgeInsets.all(6.w),
                               child: _buildIllustration(
                                 illustrationPaths![index],
                                 tileHeight * 0.78,
@@ -157,7 +159,7 @@ class MoodSelectorWidget extends StatelessWidget {
             }),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: AppSpacing.spaceMd),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
           transitionBuilder: (child, animation) => FadeTransition(

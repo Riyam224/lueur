@@ -299,7 +299,7 @@ class _StickerSquare extends StatelessWidget {
           borderRadius: BorderRadius.circular(size * 0.28),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: AppColors.overlayBlack.withValues(alpha: 0.08),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -314,14 +314,14 @@ class _StickerSquare extends StatelessWidget {
 class _SmileyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final dotPaint = Paint()..color = Colors.black.withValues(alpha: 0.75);
+    final dotPaint = Paint()..color = AppColors.overlayBlack.withValues(alpha: 0.75);
     final eyeRadius = size.width * 0.07;
     final eyeY = size.height * 0.42;
     canvas.drawCircle(Offset(size.width * 0.35, eyeY), eyeRadius, dotPaint);
     canvas.drawCircle(Offset(size.width * 0.65, eyeY), eyeRadius, dotPaint);
 
     final smilePaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.75)
+      ..color = AppColors.overlayBlack.withValues(alpha: 0.75)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.07
       ..strokeCap = StrokeCap.round;

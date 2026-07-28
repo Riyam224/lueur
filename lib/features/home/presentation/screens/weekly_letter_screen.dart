@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -35,7 +36,7 @@ class WeeklyLetterScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  SizedBox(width: 40.w),
                 ],
               ),
               SizedBox(height: AppSpacing.sectionSpacingMd),

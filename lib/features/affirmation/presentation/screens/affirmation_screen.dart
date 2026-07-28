@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_choice_destination.dart';
 import 'package:lueur/core/routing/app_routes.dart';
@@ -131,7 +133,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                       padding: EdgeInsets.all(AppSpacing.space2Xl),
                       decoration: BoxDecoration(
                         color: context.extra.cardBackgroundColor,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
                         border: Border.all(
                           color: context.extra.borderColor ?? AppColors.cardBorder,
                           width: 1.5,
@@ -194,7 +196,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                       width: 1.5,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14.r),
                     ),
                   ),
                   child: Text(

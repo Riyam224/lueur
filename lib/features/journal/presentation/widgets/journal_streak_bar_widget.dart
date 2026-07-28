@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
@@ -61,7 +62,8 @@ class JournalStreakBarWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
         boxShadow: [
           BoxShadow(
-            color: (extra.shadowColor ?? Colors.black).withValues(alpha: 0.06),
+            color: (extra.shadowColor ?? AppColors.overlayBlack)
+                .withValues(alpha: 0.06),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -82,12 +84,12 @@ class JournalStreakBarWidget extends StatelessWidget {
               // in sync with what "$streakDays day streak" says above.
               Lottie.asset(
                 PlantStage.fromStreak(streakDays).lottiePath,
-                width: 40,
-                height: 40,
+                width: AppSizes.avatarSm,
+                height: AppSizes.avatarSm,
                 fit: BoxFit.contain,
                 repeat: true,
                 errorBuilder: (_, __, ___) =>
-                    const SizedBox(width: 40, height: 40),
+                    SizedBox(width: AppSizes.avatarSm, height: AppSizes.avatarSm),
               ),
             ],
           ),
@@ -109,22 +111,22 @@ class JournalStreakBarWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: 16,
+                    height: 16.h,
                     child: isToday
                         ? const Text('🌱', style: TextStyle(fontSize: 14))
                         : null,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: AppSpacing.spaceXs),
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    width: 16,
+                    width: 16.w,
                     height: height,
                     decoration: BoxDecoration(
                       color: barColor,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(6.r),
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   Text(
                     DateFormat('E').format(day).substring(0, 1),
                     style: ThemeTextStyles.captionSmall(context),
