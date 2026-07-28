@@ -5,10 +5,10 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
 import 'package:lueur/features/draw/presentation/widgets/saved_drawing_thumbnail.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Read-only replay of a saved drawing — no editing controls, just a
 /// full-size look and a way to delete it.
@@ -46,11 +46,14 @@ class SavedDrawingViewerScreen extends StatelessWidget {
                       size: 20,
                     ),
                   ),
-                  Text(
-                    AppStrings.drawViewerTitle,
-                    style: ThemeTextStyles.bodyMedium(context).copyWith(
-                      color: extra.secondaryTextColor,
-                      fontWeight: FontWeight.w600,
+                  Flexible(
+                    child: Text(
+                      AppLocalizations.of(context)!.drawViewerTitle,
+                      overflow: TextOverflow.ellipsis,
+                      style: ThemeTextStyles.bodyMedium(context).copyWith(
+                        color: extra.secondaryTextColor,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   IconButton(

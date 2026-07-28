@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Search bar for filtering journal entries
 class JournalSearchBarWidget extends StatelessWidget {
@@ -28,7 +28,7 @@ class JournalSearchBarWidget extends StatelessWidget {
         onChanged: onChanged,
         style: ThemeTextStyles.bodyMedium(context),
         decoration: InputDecoration(
-          hintText: AppStrings.journalSearchHint,
+          hintText: AppLocalizations.of(context)!.journalSearchHint,
           hintStyle: ThemeTextStyles.bodySmall(context),
           prefixIcon: Icon(
             Icons.search_rounded,

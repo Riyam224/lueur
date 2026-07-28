@@ -7,9 +7,9 @@ import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 Future<void> showJournalCardOptionsSheet(
   BuildContext context, {
@@ -36,20 +36,20 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
     final confirmed = await showDialog<bool>(
           context: context,
           builder: (dialogContext) => AlertDialog(
-            title: const Text(AppStrings.journalCardOptionsDeleteTitle),
-            content: const Text(
-              AppStrings.journalCardOptionsDeleteMessage,
+            title: Text(AppLocalizations.of(context)!.journalCardOptionsDeleteTitle),
+            content: Text(
+              AppLocalizations.of(context)!.journalCardOptionsDeleteMessage,
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(false),
-                child: const Text(AppStrings.commonCancel),
+                child: Text(AppLocalizations.of(context)!.commonCancel),
               ),
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(true),
-                child: const Text(
-                  AppStrings.commonDelete,
-                  style: TextStyle(color: AppColors.errorColor),
+                child: Text(
+                  AppLocalizations.of(context)!.commonDelete,
+                  style: const TextStyle(color: AppColors.errorColor),
                 ),
               ),
             ],
@@ -102,7 +102,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                   ),
                   SizedBox(height: AppSpacing.spaceLg),
                   Text(
-                    AppStrings.journalCardOptionsColorLabel,
+                    AppLocalizations.of(context)!.journalCardOptionsColorLabel,
                     style: ThemeTextStyles.bodySmall(context).copyWith(
                       color: AppColors.lightSecondaryText,
                     ),
@@ -137,7 +137,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                   SwitchListTile.adaptive(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      AppStrings.journalCardOptionsPinLabel,
+                      AppLocalizations.of(context)!.journalCardOptionsPinLabel,
                       style: ThemeTextStyles.bodyLarge(context),
                     ),
                     value: entry.pinned,
@@ -152,9 +152,9 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                       Icons.delete_outline_rounded,
                       color: AppColors.errorColor,
                     ),
-                    title: const Text(
-                      AppStrings.journalCardOptionsDeleteLabel,
-                      style: TextStyle(color: AppColors.errorColor),
+                    title: Text(
+                      AppLocalizations.of(context)!.journalCardOptionsDeleteLabel,
+                      style: const TextStyle(color: AppColors.errorColor),
                     ),
                     onTap: () => _confirmDelete(context),
                   ),

@@ -11,7 +11,6 @@ import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
@@ -22,6 +21,7 @@ import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_wi
 import 'package:lueur/features/journal/presentation/widgets/journal_streak_bar_widget.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class JournalGridScreen extends StatelessWidget {
   const JournalGridScreen({super.key});
@@ -201,14 +201,14 @@ class _JournalGridView extends StatelessWidget {
                   children: [
                     SizedBox(height: AppSpacing.spaceLg),
                     Text(
-                      AppStrings.journalGridTitle,
+                      AppLocalizations.of(context)!.journalGridTitle,
                       style: ThemeTextStyles.headlineMedium(context).copyWith(
                         color: headingColor,
                       ),
                     ),
                     SizedBox(height: AppSpacing.spaceSm),
                     Text(
-                      AppStrings.journalGridSubtitle,
+                      AppLocalizations.of(context)!.journalGridSubtitle,
                       style: ThemeTextStyles.bodyMedium(context).copyWith(
                         color: subheadingColor,
                       ),
@@ -268,7 +268,7 @@ class _JournalGridView extends StatelessWidget {
                           padding:
                               EdgeInsets.all(AppSpacing.horizontalPaddingLg),
                           child: Text(
-                            AppStrings.journalGridEmptyMessage,
+                            AppLocalizations.of(context)!.journalGridEmptyMessage,
                             textAlign: TextAlign.center,
                             style: ThemeTextStyles.bodyMedium(context).copyWith(
                               color: subheadingColor,

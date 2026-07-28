@@ -5,10 +5,10 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Mode toggle (Normal / Candidate) + Undo, the 1-9 digit pad + clear, and
 /// the Auto Candidate Mode checkbox — mirrors the reference sudoku app's
@@ -126,7 +126,10 @@ class SudokuNumberPadWidget extends StatelessWidget {
                 onChanged: (value) => onAutoCandidateModeChanged(value ?? false),
                 activeColor: extra.primaryColor,
               ),
-              Text(AppStrings.sudokuAutoCandidateModeLabel, style: ThemeTextStyles.bodySmall(context)),
+              Text(
+                AppLocalizations.of(context)!.sudokuAutoCandidateModeLabel,
+                style: ThemeTextStyles.bodySmall(context),
+              ),
             ],
           ),
         ),
@@ -210,12 +213,12 @@ class _ModeToggle extends StatelessWidget {
         children: [
           _segment(
             context,
-            AppStrings.sudokuNormalModeLabel,
+            AppLocalizations.of(context)!.sudokuNormalModeLabel,
             SudokuInputMode.normal,
           ),
           _segment(
             context,
-            AppStrings.sudokuCandidateModeLabel,
+            AppLocalizations.of(context)!.sudokuCandidateModeLabel,
             SudokuInputMode.candidate,
           ),
         ],

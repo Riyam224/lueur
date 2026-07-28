@@ -5,7 +5,7 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// A soft, single fade-in check-in from Luna shown once an exercise
 /// (breathing or affirmations) is fully done. Never shown mid-exercise —
@@ -13,13 +13,13 @@ import 'package:lueur/core/utils/app_strings.dart';
 class LunaCheckInPrompt extends StatefulWidget {
   final VoidCallback onTalkToLuna;
   final VoidCallback onDismiss;
-  final String primaryLabel;
+  final String? primaryLabel;
 
   const LunaCheckInPrompt({
     super.key,
     required this.onTalkToLuna,
     required this.onDismiss,
-    this.primaryLabel = AppStrings.commonTalkToLuna,
+    this.primaryLabel,
   });
 
   @override
@@ -82,13 +82,13 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
             ),
             SizedBox(height: AppSpacing.spaceMd),
             Text(
-              AppStrings.lunaCheckInTitle,
+              AppLocalizations.of(context)!.lunaCheckInTitle,
               style: ThemeTextStyles.headlineSmall(context),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: AppSpacing.spaceXs),
             Text(
-              AppStrings.lunaCheckInSubtitle,
+              AppLocalizations.of(context)!.lunaCheckInSubtitle,
               style: ThemeTextStyles.bodyMedium(context).copyWith(
                 color: context.extra.secondaryTextColor,
               ),
@@ -108,7 +108,8 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
                   elevation: 0,
                 ),
                 child: Text(
-                  widget.primaryLabel,
+                  widget.primaryLabel ??
+                      AppLocalizations.of(context)!.commonTalkToLuna,
                   style: ThemeTextStyles.whiteButton(context).copyWith(
                     color: AppColors.whiteTextColor,
                   ),
@@ -119,7 +120,7 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
             TextButton(
               onPressed: widget.onDismiss,
               child: Text(
-                AppStrings.lunaCheckInDismiss,
+                AppLocalizations.of(context)!.lunaCheckInDismiss,
                 style: ThemeTextStyles.bodyMedium(context).copyWith(
                   color: context.extra.secondaryTextColor,
                 ),

@@ -12,7 +12,6 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/mood_entry_card.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
@@ -21,6 +20,7 @@ import 'package:lueur/features/journal/presentation/widgets/journal_emoji_filter
 import 'package:lueur/features/journal/presentation/widgets/journal_header_widget.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_mood_graph_widget.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_search_bar_widget.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class JournalHistoryScreen extends StatelessWidget {
   const JournalHistoryScreen({super.key});
@@ -80,21 +80,21 @@ class _JournalBodyState extends State<_JournalBody> {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text(AppStrings.moodEntryDeleteAllTitle),
-        content: const Text(AppStrings.moodEntryDeleteAllMessage),
+        title: Text(AppLocalizations.of(context)!.moodEntryDeleteAllTitle),
+        content: Text(AppLocalizations.of(context)!.moodEntryDeleteAllMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text(AppStrings.commonCancel),
+            child: Text(AppLocalizations.of(context)!.commonCancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
               context.read<MoodCubit>().deleteAllEntries();
             },
-            child: const Text(
-              AppStrings.moodEntryDeleteAllConfirm,
-              style: TextStyle(color: AppColors.errorColor),
+            child: Text(
+              AppLocalizations.of(context)!.moodEntryDeleteAllConfirm,
+              style: const TextStyle(color: AppColors.errorColor),
             ),
           ),
         ],
@@ -146,17 +146,17 @@ class _JournalBodyState extends State<_JournalBody> {
     return streak;
   }
 
-  String _moodLabel(String emoji) {
-    return moodTypeFromEmoji(emoji)?.label ?? 'Okay';
+  String _moodLabel(BuildContext context, String emoji) {
+    return moodTypeFromEmoji(emoji)?.label(context) ?? 'Okay';
   }
 
-  String _todayMoodSummary(List<MoodEntryEntity> entries) {
+  String _todayMoodSummary(BuildContext context, List<MoodEntryEntity> entries) {
     final today = DateTime.now();
     final todayEntries = entries.where((e) {
       return DateUtils.isSameDay(e.createdAt, today);
     }).toList();
     if (todayEntries.isEmpty) {
-      return AppStrings.journalTodayNoEntriesMessage;
+      return AppLocalizations.of(context)!.journalTodayNoEntriesMessage;
     }
     final emojiCounts = <String, int>{};
     for (final entry in todayEntries) {
@@ -165,7 +165,7 @@ class _JournalBodyState extends State<_JournalBody> {
     final topEmoji = emojiCounts.entries
         .reduce((a, b) => a.value >= b.value ? a : b)
         .key;
-    final label = _moodLabel(topEmoji);
+    final label = _moodLabel(context, topEmoji);
     final count = todayEntries.length;
     final entryLabel = count == 1 ? 'entry' : 'entries';
     final streak = _calculateStreakDays(entries);
@@ -263,7 +263,7 @@ class _JournalBodyState extends State<_JournalBody> {
                         ),
                         SizedBox(height: AppSpacing.spaceSm),
                         Text(
-                          _todayMoodSummary(allEntities),
+                          _todayMoodSummary(context, allEntities),
                           style: ThemeTextStyles.bodyMedium(context),
                         ),
                       ],
@@ -370,13 +370,13 @@ class _JournalBodyState extends State<_JournalBody> {
                         ),
                         SizedBox(height: AppSpacing.spaceLg),
                         Text(
-                          AppStrings.moodEntryEmptyStateTitle,
+                          AppLocalizations.of(context)!.moodEntryEmptyStateTitle,
                           style: ThemeTextStyles.headlineSmall(context),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: AppSpacing.spaceSm),
                         Text(
-                          AppStrings.journalEmptyStateSubtitle,
+                          AppLocalizations.of(context)!.journalEmptyStateSubtitle,
                           style: ThemeTextStyles.bodyMedium(context).copyWith(
                             color: context.extra.secondaryTextColor,
                           ),
@@ -398,7 +398,7 @@ class _JournalBodyState extends State<_JournalBody> {
                               ),
                             ),
                             child: Text(
-                              AppStrings.journalStartJournalingButton,
+                              AppLocalizations.of(context)!.journalStartJournalingButton,
                               style: ThemeTextStyles.whiteButton(context)
                                   .copyWith(
                                 color: context.extra.onPrimaryTextColor,
@@ -433,22 +433,22 @@ class _JournalBodyState extends State<_JournalBody> {
                           return await showDialog<bool>(
                                 context: context,
                                 builder: (dialogContext) => AlertDialog(
-                                  title: const Text(AppStrings.journalEntryDeleteTitle),
-                                  content: const Text(
-                                    AppStrings.journalEntryDeleteMessage,
+                                  title: Text(AppLocalizations.of(context)!.journalEntryDeleteTitle),
+                                  content: Text(
+                                    AppLocalizations.of(context)!.journalEntryDeleteMessage,
                                   ),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(dialogContext).pop(false),
-                                      child: const Text(AppStrings.commonCancel),
+                                      child: Text(AppLocalizations.of(context)!.commonCancel),
                                     ),
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(dialogContext).pop(true),
-                                      child: const Text(
-                                        AppStrings.commonDelete,
-                                        style: TextStyle(color: AppColors.errorColor),
+                                      child: Text(
+                                        AppLocalizations.of(context)!.commonDelete,
+                                        style: const TextStyle(color: AppColors.errorColor),
                                       ),
                                     ),
                                   ],

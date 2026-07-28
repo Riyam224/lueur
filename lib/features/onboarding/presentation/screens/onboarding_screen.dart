@@ -30,8 +30,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
-  bool get _isLastPage =>
-      _currentPage == OnboardingConstants.pages.length - 1;
+  bool _isLastPage(BuildContext context) =>
+      _currentPage == OnboardingConstants.pages(context).length - 1;
 
   Future<void> _finishOnboarding() async {
     await OnboardingPrefs.markSeen();
@@ -40,7 +40,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _onNextPressed() {
-    if (_isLastPage) {
+    if (_isLastPage(context)) {
       _finishOnboarding();
       return;
     }
@@ -60,7 +60,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentData = OnboardingConstants.pages[_currentPage];
+    final currentData = OnboardingConstants.pages(context)[_currentPage];
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -69,11 +69,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             PageView.builder(
               controller: _pageController,
-              itemCount: OnboardingConstants.pages.length,
+              itemCount: OnboardingConstants.pages(context).length,
               onPageChanged: (index) => setState(() => _currentPage = index),
               itemBuilder: (context, index) {
                 return OnboardingPageView(
-                  data: OnboardingConstants.pages[index],
+                  data: OnboardingConstants.pages(context)[index],
                   index: index,
                   pageController: _pageController,
                 );
@@ -97,14 +97,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       const SizedBox(width: OnboardingConstants.navArrowGap),
                       OnboardingNavButton(
                         onPressed: _onNextPressed,
-                        icon: _isLastPage
+                        icon: _isLastPage(context)
                             ? Icons.check_rounded
                             : Icons.arrow_forward_rounded,
                         color: currentData.circleColor,
                       ),
                     ],
                   ),
-                  if (!_isLastPage)
+                  if (!_isLastPage(context))
                     OnboardingSkipButton(onPressed: _finishOnboarding)
                   else
                     const SizedBox(width: OnboardingConstants.navArrowButtonSize),

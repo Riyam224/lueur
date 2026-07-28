@@ -233,5 +233,6 @@ You MUST proactively suggest the appropriate agent when the situation matches. D
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+shell commands, and other important information, read the current plan:
+specs/003-arabic-localization/plan.md
 <!-- SPECKIT END -->

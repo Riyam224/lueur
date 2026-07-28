@@ -11,7 +11,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Celebrates a completed 7-day streak with a staged entrance: the flower
 /// blooms, Luna pops up beside it, then a one-time confetti burst.
@@ -38,13 +38,22 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
   late final Animation<double> _lunaScale;
   late final Animation<double> _lunaOffset;
   late final ConfettiController _confettiController;
-  late final String _affirmation;
+  static const int _affirmationCount = 6;
+  late final int _affirmationIndex;
+
+  String _affirmation(AppLocalizations l10n) => switch (_affirmationIndex) {
+        0 => l10n.streakCelebrationAffirmations0,
+        1 => l10n.streakCelebrationAffirmations1,
+        2 => l10n.streakCelebrationAffirmations2,
+        3 => l10n.streakCelebrationAffirmations3,
+        4 => l10n.streakCelebrationAffirmations4,
+        _ => l10n.streakCelebrationAffirmations5,
+      };
 
   @override
   void initState() {
     super.initState();
-    _affirmation = AppStrings.streakCelebrationAffirmations[
-        Random().nextInt(AppStrings.streakCelebrationAffirmations.length)];
+    _affirmationIndex = Random().nextInt(_affirmationCount);
 
     _bloomController = AnimationController(
       vsync: this,
@@ -92,6 +101,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor =
         isDark ? AppColors.darkBackground : AppColors.journalGridBackground;
@@ -174,7 +184,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                   ),
                   SizedBox(height: AppSpacing.spaceXl),
                   Text(
-                    '${widget.streakDays} days with Luna 🌸',
+                    l10n.streakDaysWithLuna(widget.streakDays),
                     style: ThemeTextStyles.editorialHeadline(
                       context,
                       color: headingColor,
@@ -183,7 +193,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                   ),
                   SizedBox(height: AppSpacing.spaceMd),
                   Text(
-                    _affirmation,
+                    _affirmation(l10n),
                     style: ThemeTextStyles.bodyMedium(context).copyWith(
                       color: subheadingColor,
                     ),
@@ -206,7 +216,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                         ),
                       ),
                       child: Text(
-                        AppStrings.streakCelebrationKeepGoingButton,
+                        l10n.streakCelebrationKeepGoingButton,
                         style: ThemeTextStyles.labelLarge(context).copyWith(
                           color: AppColors.whiteTextColor,
                           fontWeight: FontWeight.w600,

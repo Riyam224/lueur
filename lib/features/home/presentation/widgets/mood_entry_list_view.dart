@@ -4,8 +4,8 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_entry.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/mood_entry_card.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class MoodEntryListView extends StatelessWidget {
   final List<MoodEntry> moodEntries;
@@ -24,7 +24,7 @@ class MoodEntryListView extends StatelessWidget {
         height: 100.h,
         child: Center(
           child: Text(
-            AppStrings.moodEntryListEmptyMessage,
+            AppLocalizations.of(context)!.moodEntryListEmptyMessage,
             style: ThemeTextStyles.bodyLarge(context).copyWith(
               color: context.extra.secondaryTextColor,
             ),

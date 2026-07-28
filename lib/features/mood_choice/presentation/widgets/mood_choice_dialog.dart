@@ -9,7 +9,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Floating "rough day, huh?" chooser shown when the user logs a low mood —
 /// lets them pick how they'd like to feel better before Luna sends them on
@@ -22,7 +22,7 @@ Future<void> showMoodChoiceDialog(
   return showGeneralDialog(
     context: context,
     barrierDismissible: true,
-    barrierLabel: AppStrings.commonDismissBarrierLabel,
+    barrierLabel: AppLocalizations.of(context)!.commonDismissBarrierLabel,
     barrierColor: AppColors.overlayBlack.withValues(alpha: 0.4),
     transitionDuration: const Duration(milliseconds: 300),
     transitionBuilder: (_, animation, __, child) {
@@ -85,7 +85,7 @@ class _MoodChoiceDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppStrings.moodChoicePrompt,
+                AppLocalizations.of(context)!.moodChoicePrompt,
                 style: ThemeTextStyles.bodySmall(context).copyWith(
                   color: context.extra.secondaryTextColor,
                   letterSpacing: 0.5,
@@ -93,7 +93,7 @@ class _MoodChoiceDialog extends StatelessWidget {
               ),
               SizedBox(height: AppSpacing.spaceXs),
               Text(
-                AppStrings.moodChoiceSubPrompt,
+                AppLocalizations.of(context)!.moodChoiceSubPrompt,
                 style: ThemeTextStyles.editorialHeadline(context, fontSize: 20),
               ),
               SizedBox(height: AppSpacing.spaceXl),
@@ -103,8 +103,9 @@ class _MoodChoiceDialog extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _MoodChoiceCard(
-                        title: AppStrings.commonTalkToLuna,
-                        subtitle: AppStrings.moodChoiceTalkSubtitle,
+                        title: AppLocalizations.of(context)!.commonTalkToLuna,
+                        subtitle: AppLocalizations.of(context)!
+                            .moodChoiceTalkSubtitle,
                         icon: Icons.chat_bubble_rounded,
                         glowColor: AppColors.lavender,
                         onTap: () =>
@@ -112,8 +113,10 @@ class _MoodChoiceDialog extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceMd),
                       _MoodChoiceCard(
-                        title: AppStrings.moodChoiceBreatheTitle,
-                        subtitle: AppStrings.moodChoiceBreatheSubtitle,
+                        title: AppLocalizations.of(context)!
+                            .moodChoiceBreatheTitle,
+                        subtitle: AppLocalizations.of(context)!
+                            .moodChoiceBreatheSubtitle,
                         icon: Icons.self_improvement_rounded,
                         glowColor: AppColors.primaryContainer,
                         onTap: () =>
@@ -121,8 +124,10 @@ class _MoodChoiceDialog extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceMd),
                       _MoodChoiceCard(
-                        title: AppStrings.moodChoiceDrawTitle,
-                        subtitle: AppStrings.moodChoiceDrawSubtitle,
+                        title: AppLocalizations.of(context)!
+                            .moodChoiceDrawTitle,
+                        subtitle: AppLocalizations.of(context)!
+                            .moodChoiceDrawSubtitle,
                         icon: Icons.brush_rounded,
                         glowColor: AppColors.accent,
                         onTap: () =>
@@ -130,8 +135,10 @@ class _MoodChoiceDialog extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceMd),
                       _MoodChoiceCard(
-                        title: AppStrings.moodChoiceSudokuTitle,
-                        subtitle: AppStrings.moodChoiceSudokuSubtitle,
+                        title: AppLocalizations.of(context)!
+                            .moodChoiceSudokuTitle,
+                        subtitle: AppLocalizations.of(context)!
+                            .moodChoiceSudokuSubtitle,
                         icon: Icons.grid_view_rounded,
                         glowColor: AppColors.pastelOrchid,
                         onTap: () =>

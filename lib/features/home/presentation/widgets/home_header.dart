@@ -4,8 +4,8 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/initials_avatar.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Header with user avatar, app title, and theme toggle button
 class HomeHeader extends StatelessWidget {
@@ -35,7 +35,13 @@ class HomeHeader extends StatelessWidget {
         ),
 
         // App Title
-        Text(AppStrings.appName, style: ThemeTextStyles.headlineSmall(context)),
+        Flexible(
+          child: Text(
+            AppLocalizations.of(context)!.appName,
+            overflow: TextOverflow.ellipsis,
+            style: ThemeTextStyles.headlineSmall(context),
+          ),
+        ),
 
         // Theme Toggle Button
         BlocBuilder<ThemeCubit, ThemeMode>(

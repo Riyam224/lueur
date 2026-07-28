@@ -35,6 +35,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_localizations:
+    sdk: flutter
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.3.0
   get_it: ^9.2.1
@@ -49,6 +51,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   screenshot: ^3.0.0
   share_plus: ^10.1.4
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_launcher_icons: "^0.14.4"
@@ -69,6 +72,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  generate: true
 
   # Assets
   assets:

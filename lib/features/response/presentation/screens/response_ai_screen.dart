@@ -14,8 +14,8 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
@@ -121,7 +121,7 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        'Luna\'s Response',
+                        AppLocalizations.of(context)!.responseScreenTitle,
                         style: ThemeTextStyles.headlineSmall(context),
                         textAlign: TextAlign.center,
                       ),
@@ -182,7 +182,7 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                                           );
                                     }
                                   },
-                                  child: const Text(AppStrings.responseTryAgainButton),
+                                  child: Text(AppLocalizations.of(context)!.responseTryAgainButton),
                                 ),
                               ],
                             ),
@@ -228,24 +228,24 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                                         thoughts: displayThoughts,
                                       );
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(AppStrings.commonSavedToQuotesSnack),
+                                    SnackBar(
+                                      content: Text(AppLocalizations.of(context)!.commonSavedToQuotesSnack),
                                     ),
                                   );
                                 },
                               ),
                               SizedBox(height: AppSpacing.spaceLg),
-                              const MoodTagsRowWidget(
+                              MoodTagsRowWidget(
                                 tags: [
-                                  AppStrings.responseMoodTagExpressing,
-                                  AppStrings.responseMoodTagReflecting,
-                                  AppStrings.responseMoodTagGrowing,
+                                  AppLocalizations.of(context)!.responseMoodTagExpressing,
+                                  AppLocalizations.of(context)!.responseMoodTagReflecting,
+                                  AppLocalizations.of(context)!.responseMoodTagGrowing,
                                 ],
                               ),
                               SizedBox(height: AppSpacing.sectionSpacingMd),
                               ActionButtonsWidget(
-                                saveLabel: AppStrings.responseDoneLabel,
-                                talkAgainLabel: AppStrings.responseKeepChattingLabel,
+                                saveLabel: AppLocalizations.of(context)!.responseDoneLabel,
+                                talkAgainLabel: AppLocalizations.of(context)!.responseKeepChattingLabel,
                                 onSave: () {
                                   if (context.canPop()) {
                                     context.pop();
@@ -290,7 +290,7 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                                     ),
                                   ),
                                   child: Text(
-                                    AppStrings.responseShareButton,
+                                    AppLocalizations.of(context)!.responseShareButton,
                                     style: ThemeTextStyles.labelMedium(context)
                                         .copyWith(
                                       color:
@@ -371,7 +371,7 @@ extension _ShareHelper on _ResponseAiScreenState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.responseShareCardHeading,
+              AppLocalizations.of(context)!.responseShareCardHeading,
               style: ThemeTextStyles.labelMedium(context).copyWith(
                 color: theme.colorScheme.primary,
                 letterSpacing: 1.2,
@@ -388,7 +388,7 @@ extension _ShareHelper on _ResponseAiScreenState {
             ),
             const SizedBox(height: _ResponseAiScreenState._shareCardBodyGap),
             Text(
-              AppStrings.appName,
+              AppLocalizations.of(context)!.appName,
               style: ThemeTextStyles.bodySmall(context).copyWith(
                 color: theme.colorScheme.primary.withValues(alpha: 0.7),
               ),
@@ -440,7 +440,7 @@ class _LunaTypingIndicatorState extends State<LunaTypingIndicator>
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(AppStrings.responseThinkingLabel, style: textStyle),
+            Text(AppLocalizations.of(context)!.responseThinkingLabel, style: textStyle),
             SizedBox(height: AppSpacing.spaceSm),
             Row(
               mainAxisSize: MainAxisSize.min,

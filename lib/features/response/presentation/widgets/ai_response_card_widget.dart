@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Removes all emoji and non-text Unicode symbols from [text].
 String _stripEmojis(String text) {
@@ -62,21 +62,23 @@ class AiResponseCardWidget extends StatelessWidget {
           // Header Label
           Row(
             children: [
-              Text(
-                AppStrings.responseLunaSaysLabel,
-                style: ThemeTextStyles.labelSmall(context).copyWith(
-                  color: AppColors.lavender,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
+              Expanded(
+                child: Text(
+                  AppLocalizations.of(context)!.responseLunaSaysLabel,
+                  overflow: TextOverflow.ellipsis,
+                  style: ThemeTextStyles.labelSmall(context).copyWith(
+                    color: AppColors.lavender,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
-              const Spacer(),
               if (onBookmark != null)
                 IconButton(
                   onPressed: onBookmark,
                   icon: const Icon(Icons.bookmark_border),
                   color: AppColors.lavender,
-                  tooltip: AppStrings.responseSaveQuoteTooltip,
+                  tooltip: AppLocalizations.of(context)!.responseSaveQuoteTooltip,
                   visualDensity: VisualDensity.compact,
                 ),
             ],
@@ -89,7 +91,7 @@ class AiResponseCardWidget extends StatelessWidget {
               Clipboard.setData(ClipboardData(text: cleanedResponse));
               HapticFeedback.mediumImpact();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text(AppStrings.responseCopiedToClipboardSnack)),
+                SnackBar(content: Text(AppLocalizations.of(context)!.responseCopiedToClipboardSnack)),
               );
             },
             child: Text(

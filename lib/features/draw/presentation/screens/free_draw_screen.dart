@@ -12,12 +12,12 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class FreeDrawScreen extends StatelessWidget {
   final String emoji;
@@ -70,9 +70,9 @@ class _FreeDrawView extends StatelessWidget {
 
     context.read<SavedDrawingsCubit>().saveCurrent(entities);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(AppStrings.drawSavedSnack),
-        duration: Duration(seconds: 2),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.drawSavedSnack),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -128,11 +128,14 @@ class _FreeDrawView extends StatelessWidget {
               size: AppSizes.iconSm,
             ),
           ),
-          Text(
-            AppStrings.drawTopBarTitle,
-            style: ThemeTextStyles.bodyMedium(context).copyWith(
-              color: extra.secondaryTextColor,
-              fontWeight: FontWeight.w600,
+          Flexible(
+            child: Text(
+              AppLocalizations.of(context)!.drawTopBarTitle,
+              overflow: TextOverflow.ellipsis,
+              style: ThemeTextStyles.bodyMedium(context).copyWith(
+                color: extra.secondaryTextColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           IconButton(
@@ -143,12 +146,15 @@ class _FreeDrawView extends StatelessWidget {
               size: AppSizes.iconSm,
             ),
           ),
-          TextButton(
-            onPressed: () => context.read<DrawCubit>().clear(),
-            child: Text(
-              AppStrings.drawClearButton,
-              style: ThemeTextStyles.bodyMedium(context).copyWith(
-                color: extra.secondaryTextColor,
+          Flexible(
+            child: TextButton(
+              onPressed: () => context.read<DrawCubit>().clear(),
+              child: Text(
+                AppLocalizations.of(context)!.drawClearButton,
+                overflow: TextOverflow.ellipsis,
+                style: ThemeTextStyles.bodyMedium(context).copyWith(
+                  color: extra.secondaryTextColor,
+                ),
               ),
             ),
           ),
@@ -235,7 +241,7 @@ class _FreeDrawView extends StatelessWidget {
       onPressed: () => _goToTalkToLuna(context),
       style: TextButton.styleFrom(foregroundColor: secondaryText),
       child: Text(
-        AppStrings.drawTalkToLunaLink,
+        AppLocalizations.of(context)!.drawTalkToLunaLink,
         style: ThemeTextStyles.bodySmall(context).copyWith(
           color: secondaryText,
         ),

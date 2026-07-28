@@ -43,6 +43,12 @@ import 'package:lueur/features/journal/domain/usecases/get_journal_entries_useca
 import 'package:lueur/features/journal/domain/usecases/set_journal_card_color_usecase.dart';
 import 'package:lueur/features/journal/domain/usecases/toggle_journal_pin_usecase.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
+import 'package:lueur/features/language/data/datasources/language_local_datasource.dart';
+import 'package:lueur/features/language/data/repositories/language_repository_impl.dart';
+import 'package:lueur/features/language/domain/repositories/language_repository.dart';
+import 'package:lueur/features/language/domain/usecases/get_language_preference_usecase.dart';
+import 'package:lueur/features/language/domain/usecases/set_language_preference_usecase.dart';
+import 'package:lueur/features/language/presentation/cubit/language_cubit.dart';
 import 'package:lueur/features/plant/domain/usecases/calculate_streak_usecase.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
@@ -62,12 +68,30 @@ import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase
 import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
-void setupInjection() {
+void setupInjection({required SharedPreferences sharedPreferences}) {
   // ── Theme ──────────────────────────────────────────────────────────────────
   sl.registerLazySingleton(ThemeCubit.new);
+
+  // ── Language ───────────────────────────────────────────────────────────────
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  sl.registerLazySingleton(
+    () => LanguageLocalDatasource(sl<SharedPreferences>()),
+  );
+  sl.registerLazySingleton<LanguageRepository>(
+    () => LanguageRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => GetLanguagePreferenceUseCase(sl()));
+  sl.registerLazySingleton(() => SetLanguagePreferenceUseCase(sl()));
+  sl.registerLazySingleton(
+    () => LanguageCubit(
+      getLanguagePreferenceUseCase: sl(),
+      setLanguagePreferenceUseCase: sl(),
+    ),
+  );
 
   // ── Firebase ───────────────────────────────────────────────────────────────
   sl.registerLazySingleton(() => FirebaseAuth.instance);

@@ -103,7 +103,7 @@ class _EmojiEntryMoodState extends State<EmojiEntryMood>
                 child: Opacity(
                   opacity: labelOpacity,
                   child: _MoodLabelPopup(
-                    label: widget.moodType.label,
+                    label: widget.moodType.label(context),
                     color: color,
                   ),
                 ),

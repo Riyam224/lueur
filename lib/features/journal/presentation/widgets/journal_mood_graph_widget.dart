@@ -5,8 +5,8 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Collapsible bar chart showing how many journal entries per day this week.
 class JournalMoodGraphWidget extends StatefulWidget {
@@ -120,7 +120,7 @@ class _JournalMoodGraphWidgetState extends State<JournalMoodGraphWidget>
                   SizedBox(width: AppSpacing.spaceSm),
                   Expanded(
                     child: Text(
-                      AppStrings.commonThisWeekLabel,
+                      AppLocalizations.of(context)!.commonThisWeekLabel,
                       style: ThemeTextStyles.labelMedium(context).copyWith(
                         fontWeight: FontWeight.w700,
                       ),

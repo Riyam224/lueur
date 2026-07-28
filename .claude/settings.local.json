@@ -63,7 +63,12 @@
       "Bash(flutter test *)",
       "Bash(.specify/scripts/bash/check-prerequisites.sh *)",
       "Bash(git stash *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(bash /Users/r/StudioProjects/lueur/.specify/scripts/bash/setup-tasks.sh --json 2>&1)",
+      "Bash(bash /Users/r/StudioProjects/lueur/.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks 2>&1)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('lib/l10n/app_en.arb'\\)\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('lib/l10n/app_ar.arb'\\)\\)\")",
+      "Bash(flutter gen-l10n *)"
     ]
   }
 }

@@ -8,7 +8,6 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
@@ -22,16 +21,18 @@ import 'package:lueur/features/profile/presentation/widgets/profile_stats_widget
 import 'package:lueur/features/profile/presentation/widgets/profile_sudoku_history_section_widget.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  static const _subtitle = AppStrings.profileSubtitle;
+  static String _subtitle(BuildContext context) =>
+      AppLocalizations.of(context)!.profileSubtitle;
 
-  static String _displayName(AuthState state) =>
+  static String _displayName(BuildContext context, AuthState state) =>
       state is AuthAuthenticated
           ? state.user.displayName
-          : AppStrings.profileFallbackName;
+          : AppLocalizations.of(context)!.profileFallbackName;
 
   static String? _userSeed(AuthState state) =>
       state is AuthAuthenticated ? state.user.id : null;
@@ -81,7 +82,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           sliver: SliverToBoxAdapter(
             child: Text(
-              AppStrings.profileTitle,
+              AppLocalizations.of(context)!.profileTitle,
               style: ThemeTextStyles.headlineMedium(context),
             ),
           ),
@@ -95,8 +96,8 @@ class ProfileScreen extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) => ProfileAvatarWidget(
-                name: _displayName(state),
-                subtitle: _subtitle,
+                name: _displayName(context, state),
+                subtitle: _subtitle(context),
                 seed: _userSeed(state),
               ),
             ),
@@ -157,12 +158,13 @@ class ProfileScreen extends StatelessWidget {
                           Text('📌', style: TextStyle(fontSize: AppSizes.iconLg)),
                           SizedBox(height: AppSpacing.spaceSm),
                           Text(
-                            AppStrings.quotesScreenTitle,
+                            AppLocalizations.of(context)!.quotesScreenTitle,
                             style: ThemeTextStyles.titleMedium(context),
                           ),
                           SizedBox(height: AppSpacing.spaceXs),
                           Text(
-                            AppStrings.profileQuotesEmptySubtitle,
+                            AppLocalizations.of(context)!
+                                .profileQuotesEmptySubtitle,
                             style: ThemeTextStyles.bodySmall(context).copyWith(
                               color: context.extra.secondaryTextColor,
                             ),
@@ -178,11 +180,13 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            AppStrings.quotesScreenTitle,
-                            style: ThemeTextStyles.headlineSmall(context),
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(context)!.quotesScreenTitle,
+                              overflow: TextOverflow.ellipsis,
+                              style: ThemeTextStyles.headlineSmall(context),
+                            ),
                           ),
-                          const Spacer(),
                           IconButton(
                             onPressed: () => context.go(AppRoutes.savedQuotes),
                             icon: const Icon(Icons.chevron_right_rounded),
@@ -330,7 +334,7 @@ class ProfileScreen extends StatelessWidget {
               icon:
                   const Icon(Icons.logout_rounded, color: AppColors.errorColor),
               label: Text(
-                AppStrings.authLogOut,
+                AppLocalizations.of(context)!.authLogOut,
                 style: ThemeTextStyles.bodyMedium(context).copyWith(
                   color: AppColors.errorColor,
                   fontWeight: FontWeight.w600,

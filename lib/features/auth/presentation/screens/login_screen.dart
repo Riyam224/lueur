@@ -7,7 +7,6 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
@@ -18,6 +17,7 @@ import 'package:lueur/features/auth/presentation/widgets/auth_or_divider.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:lueur/features/auth/presentation/widgets/google_sign_in_button.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: secondaryText,
                     ),
                     label: Text(
-                      AppStrings.authLogOut,
+                      AppLocalizations.of(context)!.authLogOut,
                       style: AppTextStyles.captionSmall(context)
                           .copyWith(color: secondaryText),
                     ),
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    AppStrings.loginWelcomeBack,
+                    AppLocalizations.of(context)!.loginWelcomeBack,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.headlineItalic(context),
                   ),
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    AppStrings.loginSubtitle,
+                    AppLocalizations.of(context)!.loginSubtitle,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.bodyMedium(context)
                         .copyWith(color: AppColors.onboardingSubtitle),
@@ -122,16 +122,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: AppSpacing.sectionSpacingLg),
                 AuthTextField(
                   controller: _emailController,
-                  label: AppStrings.authEmailLabel,
-                  hint: AppStrings.authEmailHint,
+                  label: AppLocalizations.of(context)!.authEmailLabel,
+                  hint: AppLocalizations.of(context)!.authEmailHint,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 AuthTextField(
                   controller: _passwordController,
-                  label: AppStrings.authPasswordLabel,
-                  hint: AppStrings.authPasswordHint,
+                  label: AppLocalizations.of(context)!.authPasswordLabel,
+                  hint: AppLocalizations.of(context)!.authPasswordHint,
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   suffixIcon: IconButton(
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text(
-                      AppStrings.authForgotPassword,
+                      AppLocalizations.of(context)!.authForgotPassword,
                       style: AppTextStyles.captionSmall(context)
                           .copyWith(color: AppColors.onboardingAccent),
                     ),
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: AppSpacing.verticalPaddingXl),
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) => AuthPrimaryButton(
-                    label: AppStrings.loginCta,
+                    label: AppLocalizations.of(context)!.loginCta,
                     isLoading: state is AuthLoading,
                     onPressed: () => context.read<AuthCubit>().login(
                           email: _emailController.text.trim(),
@@ -181,15 +181,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 GoogleSignInButton(
-                  label: AppStrings.authContinueWithGoogle,
+                  label: AppLocalizations.of(context)!.authContinueWithGoogle,
                   borderColor: borderColor,
                   foregroundColor: textPrimary,
                   onPressed: () => context.read<AuthCubit>().signInWithGoogle(),
                 ),
                 SizedBox(height: AuthConstants.googleToFooterSpacing),
                 AuthFooterLink(
-                  prompt: AppStrings.loginSignUpPrompt,
-                  action: AppStrings.loginSignUpAction,
+                  prompt: AppLocalizations.of(context)!.loginSignUpPrompt,
+                  action: AppLocalizations.of(context)!.loginSignUpAction,
                   promptColor: secondaryText,
                   actionColor: AppColors.onboardingAccent,
                   onTap: () => context.go(AppRoutes.registerScreen),
@@ -207,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     child: Text(
-                      AppStrings.authContinueAsGuest,
+                      AppLocalizations.of(context)!.authContinueAsGuest,
                       style: AppTextStyles.caption(context).copyWith(
                         color: secondaryText,
                         decoration: TextDecoration.underline,

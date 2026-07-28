@@ -9,11 +9,11 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_grid_widget.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_number_pad_widget.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Slice of [SudokuState] the mistakes/timer/pause row needs. Scoping the
 /// rebuild to just this record means the ticking timer (`elapsedSeconds`,
@@ -78,17 +78,18 @@ class _SudokuScreenState extends State<SudokuScreen> {
   }
 
   void _showHelp(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text(AppStrings.sudokuHowToPlayTitle),
-        content: const Text(
-          AppStrings.sudokuHowToPlayMessage,
+        title: Text(l10n.sudokuHowToPlayTitle),
+        content: Text(
+          l10n.sudokuHowToPlayMessage,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text(AppStrings.sudokuGotIt),
+            child: Text(l10n.sudokuGotIt),
           ),
         ],
       ),
@@ -146,8 +147,11 @@ class _SudokuScreenState extends State<SudokuScreen> {
                           PopupMenuButton<String>(
                             icon: const Icon(Icons.more_horiz_rounded),
                             onSelected: (_) => context.read<SudokuCubit>().start(),
-                            itemBuilder: (context) => const [
-                              PopupMenuItem(value: 'new', child: Text(AppStrings.sudokuNewGameMenuItem)),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'new',
+                                child: Text(AppLocalizations.of(context)!.sudokuNewGameMenuItem),
+                              ),
                             ],
                           ),
                         ],
@@ -163,21 +167,36 @@ class _SudokuScreenState extends State<SudokuScreen> {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(AppStrings.sudokuDifficultyEasy, style: ThemeTextStyles.bodyMedium(context)),
-                              SizedBox(width: AppSpacing.spaceMd),
-                              Text(
-                                'Mistakes: $mistakes/${SudokuCubit.maxMistakes}',
-                                style: ThemeTextStyles.bodyMedium(context).copyWith(
-                                  color: mistakes > 0
-                                      ? AppColors.errorColor
-                                      : extra.secondaryTextColor,
+                              Flexible(
+                                child: Text(
+                                  AppLocalizations.of(context)!.sudokuDifficultyEasy,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: ThemeTextStyles.bodyMedium(context),
                                 ),
                               ),
                               SizedBox(width: AppSpacing.spaceMd),
-                              Text(
-                                _formatDuration(elapsedSeconds),
-                                style: ThemeTextStyles.bodyMedium(context).copyWith(
-                                  color: extra.secondaryTextColor,
+                              Flexible(
+                                child: Text(
+                                  AppLocalizations.of(context)!.sudokuMistakesLabel(
+                                    mistakes,
+                                    SudokuCubit.maxMistakes,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: ThemeTextStyles.bodyMedium(context).copyWith(
+                                    color: mistakes > 0
+                                        ? AppColors.errorColor
+                                        : extra.secondaryTextColor,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: AppSpacing.spaceMd),
+                              Flexible(
+                                child: Text(
+                                  _formatDuration(elapsedSeconds),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: ThemeTextStyles.bodyMedium(context).copyWith(
+                                    color: extra.secondaryTextColor,
+                                  ),
                                 ),
                               ),
                               SizedBox(width: AppSpacing.spaceSm),
@@ -229,7 +248,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                         ),
                                         alignment: Alignment.center,
                                         child: Text(
-                                          AppStrings.sudokuPausedLabel,
+                                          AppLocalizations.of(context)!.sudokuPausedLabel,
                                           style: ThemeTextStyles.titleMedium(context),
                                         ),
                                       ),
@@ -274,7 +293,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                               children: [
                                 SizedBox(height: AppSpacing.space2Xl),
                                 Text(
-                                  AppStrings.sudokuWonMessage,
+                                  AppLocalizations.of(context)!.sudokuWonMessage,
                                   style: ThemeTextStyles.titleMedium(context),
                                   textAlign: TextAlign.center,
                                 ),
@@ -284,7 +303,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                     Expanded(
                                       child: OutlinedButton(
                                         onPressed: () => context.go(AppRoutes.home),
-                                        child: const Text(AppStrings.sudokuDoneButton),
+                                        child: Text(AppLocalizations.of(context)!.sudokuDoneButton),
                                       ),
                                     ),
                                     SizedBox(width: AppSpacing.spaceMd),
@@ -295,7 +314,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                           backgroundColor: AppColors.primaryButtonFill,
                                           foregroundColor: AppColors.whiteTextColor,
                                         ),
-                                        child: const Text(AppStrings.sudokuPlayAgainButton),
+                                        child: Text(AppLocalizations.of(context)!.sudokuPlayAgainButton),
                                       ),
                                     ),
                                   ],
@@ -308,7 +327,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                               children: [
                                 SizedBox(height: AppSpacing.space2Xl),
                                 Text(
-                                  AppStrings.sudokuLostMessage,
+                                  AppLocalizations.of(context)!.sudokuLostMessage,
                                   style: ThemeTextStyles.titleMedium(context),
                                   textAlign: TextAlign.center,
                                 ),
@@ -318,7 +337,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                     Expanded(
                                       child: OutlinedButton(
                                         onPressed: () => context.go(AppRoutes.home),
-                                        child: const Text(AppStrings.sudokuDoneButton),
+                                        child: Text(AppLocalizations.of(context)!.sudokuDoneButton),
                                       ),
                                     ),
                                     SizedBox(width: AppSpacing.spaceMd),
@@ -329,7 +348,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                           backgroundColor: AppColors.primaryButtonFill,
                                           foregroundColor: AppColors.whiteTextColor,
                                         ),
-                                        child: const Text(AppStrings.sudokuTryAgainButton),
+                                        child: Text(AppLocalizations.of(context)!.sudokuTryAgainButton),
                                       ),
                                     ),
                                   ],

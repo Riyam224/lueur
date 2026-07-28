@@ -4,13 +4,14 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
 
-String _randomSendFailedMessage() => AppStrings
-    .chatSendFailedMessages[Random().nextInt(AppStrings.chatSendFailedMessages.length)];
+const int _sendFailedMessageCount = 5;
+
+String _randomSendFailedSentinel() =>
+    '${ChatMessage.sendFailedSentinelPrefix}${Random().nextInt(_sendFailedMessageCount)}';
 
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository repository;
@@ -76,7 +77,7 @@ class ChatCubit extends Cubit<ChatState> {
       // when a request fails or gets throttled.
       final fallbackMessage = ChatMessage(
         role: 'assistant',
-        content: _randomSendFailedMessage(),
+        content: _randomSendFailedSentinel(),
       );
       emit(state.copyWith(
         status: ChatStatus.success,

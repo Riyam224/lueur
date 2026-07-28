@@ -4,7 +4,7 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// "My Journal" title + entry count badge
 class JournalHeaderWidget extends StatelessWidget {
@@ -22,7 +22,14 @@ class JournalHeaderWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(AppStrings.journalTitle, style: ThemeTextStyles.headlineMedium(context)),
+        Flexible(
+          child: Text(
+            AppLocalizations.of(context)!.journalTitle,
+            overflow: TextOverflow.ellipsis,
+            style: ThemeTextStyles.headlineMedium(context),
+          ),
+        ),
+        SizedBox(width: AppSpacing.spaceSm),
         Row(
           children: [
             if (onDeleteAll != null) ...[

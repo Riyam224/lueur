@@ -8,9 +8,9 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class SavedQuotesScreen extends StatelessWidget {
   const SavedQuotesScreen({super.key});
@@ -36,7 +36,7 @@ class SavedQuotesScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      AppStrings.quotesScreenTitle,
+                      AppLocalizations.of(context)!.quotesScreenTitle,
                       style: ThemeTextStyles.headlineSmall(context),
                       textAlign: TextAlign.center,
                     ),
@@ -51,7 +51,7 @@ class SavedQuotesScreen extends StatelessWidget {
                     if (state is SavedQuotesLoading) {
                       return Center(
                         child: Text(
-                          AppStrings.quotesLoadingMessage,
+                          AppLocalizations.of(context)!.quotesLoadingMessage,
                           style: ThemeTextStyles.bodyMedium(context),
                         ),
                       );
@@ -69,12 +69,12 @@ class SavedQuotesScreen extends StatelessWidget {
                             ),
                             SizedBox(height: AppSpacing.spaceSm),
                             Text(
-                              AppStrings.quotesEmptyTitle,
+                              AppLocalizations.of(context)!.quotesEmptyTitle,
                               style: ThemeTextStyles.titleMedium(context),
                             ),
                             SizedBox(height: AppSpacing.spaceXs),
                             Text(
-                              AppStrings.quotesEmptySubtitle,
+                              AppLocalizations.of(context)!.quotesEmptySubtitle,
                               style: ThemeTextStyles.bodySmall(context).copyWith(
                                 color: context.extra.secondaryTextColor,
                               ),
@@ -97,24 +97,36 @@ class SavedQuotesScreen extends StatelessWidget {
                               return await showDialog<bool>(
                                     context: context,
                                     builder: (dialogContext) => AlertDialog(
-                                      title: const Text(AppStrings.quotesDeleteTitle),
-                                      content: const Text(
-                                        AppStrings.quotesDeleteMessage,
+                                      title: Text(
+                                        AppLocalizations.of(
+                                          dialogContext,
+                                        )!.quotesDeleteTitle,
+                                      ),
+                                      content: Text(
+                                        AppLocalizations.of(
+                                          dialogContext,
+                                        )!.quotesDeleteMessage,
                                       ),
                                       actions: [
                                         TextButton(
                                           onPressed: () => Navigator.of(
                                             dialogContext,
                                           ).pop(false),
-                                          child: const Text(AppStrings.commonCancel),
+                                          child: Text(
+                                            AppLocalizations.of(
+                                              dialogContext,
+                                            )!.commonCancel,
+                                          ),
                                         ),
                                         TextButton(
                                           onPressed: () => Navigator.of(
                                             dialogContext,
                                           ).pop(true),
-                                          child: const Text(
-                                            AppStrings.commonDelete,
-                                            style: TextStyle(color: AppColors.errorColor),
+                                          child: Text(
+                                            AppLocalizations.of(
+                                              dialogContext,
+                                            )!.commonDelete,
+                                            style: const TextStyle(color: AppColors.errorColor),
                                           ),
                                         ),
                                       ],
@@ -132,10 +144,12 @@ class SavedQuotesScreen extends StatelessWidget {
                               cubit.deleteQuote(quoteId);
                               messenger.showSnackBar(
                                 SnackBar(
-                                  content: const Text(AppStrings.quotesDeletedSnack),
+                                  content: Text(
+                                    AppLocalizations.of(context)!.quotesDeletedSnack,
+                                  ),
                                   duration: const Duration(seconds: 2),
                                   action: SnackBarAction(
-                                    label: AppStrings.quotesUndoAction,
+                                    label: AppLocalizations.of(context)!.quotesUndoAction,
                                     onPressed: () => cubit.saveQuote(
                                       quoteText,
                                       emoji: quoteEmoji,

@@ -11,9 +11,9 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/luna_check_in_prompt.dart';
 import 'package:lueur/features/affirmation/data/affirmations_data.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class AffirmationScreen extends StatefulWidget {
   final String emoji;
@@ -44,16 +44,16 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
     _index.value = (_index.value + 1) % _cards.length;
   }
 
-  String get _primaryLabel {
+  String _primaryLabel(BuildContext context) {
     switch (widget.destination) {
       case MoodChoiceDestination.talkToLuna:
-        return AppStrings.commonTalkToLuna;
+        return AppLocalizations.of(context)!.commonTalkToLuna;
       case MoodChoiceDestination.breathing:
-        return AppStrings.affirmationPrimaryStartBreathing;
+        return AppLocalizations.of(context)!.affirmationPrimaryStartBreathing;
       case MoodChoiceDestination.freeDraw:
-        return AppStrings.affirmationPrimaryStartDrawing;
+        return AppLocalizations.of(context)!.affirmationPrimaryStartDrawing;
       case MoodChoiceDestination.sudoku:
-        return AppStrings.affirmationPrimaryPlaySudoku;
+        return AppLocalizations.of(context)!.affirmationPrimaryPlaySudoku;
     }
   }
 
@@ -105,7 +105,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
             children: [
               SizedBox(height: AppSpacing.space3Xl + AppSpacing.spaceSm),
               Text(
-                AppStrings.affirmationHeader,
+                AppLocalizations.of(context)!.affirmationHeader,
                 style: ThemeTextStyles.headlineSmall(context).copyWith(
                   color: context.extra.primaryTextColor,
                 ),
@@ -113,7 +113,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
               ),
               SizedBox(height: AppSpacing.spaceSm),
               Text(
-                AppStrings.affirmationSubheader,
+                AppLocalizations.of(context)!.affirmationSubheader,
                 style: ThemeTextStyles.bodyMedium(context).copyWith(
                   color: context.extra.secondaryTextColor,
                 ),
@@ -157,7 +157,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                           ),
                           SizedBox(height: AppSpacing.spaceMd),
                           Text(
-                            AppStrings.affirmationSignature,
+                            AppLocalizations.of(context)!.affirmationSignature,
                             style: ThemeTextStyles.labelSmall(context).copyWith(
                               color: context.extra.primaryColor,
                             ),
@@ -200,7 +200,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                     ),
                   ),
                   child: Text(
-                    AppStrings.affirmationNextCardButton,
+                    AppLocalizations.of(context)!.affirmationNextCardButton,
                     style: ThemeTextStyles.labelMedium(context).copyWith(
                       color: context.extra.secondaryTextColor,
                     ),
@@ -209,7 +209,7 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
               ),
               SizedBox(height: AppSpacing.spaceXl),
               LunaCheckInPrompt(
-                primaryLabel: _primaryLabel,
+                primaryLabel: _primaryLabel(context),
                 onTalkToLuna: () => _continue(context),
                 onDismiss: () => context.go(AppRoutes.home),
               ),
