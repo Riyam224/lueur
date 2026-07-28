@@ -12,772 +12,744 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appName => 'Lueur';
 
   @override
-  String get responseScreenTitle => 'TODO_AR: Luna\'s Response';
+  String get responseScreenTitle => 'رد لونا';
 
   @override
   String streakDaysWithLuna(int days) {
-    return 'TODO_AR: $days days with Luna 🌸';
+    return '$days يوم مع لونا 🌸';
   }
 
   @override
-  String get appTagline => 'TODO_AR: a little light for you';
+  String get appTagline => 'نور صغير من أجلك';
 
   @override
-  String get onboardingSkip => 'TODO_AR: Skip intro';
+  String get onboardingSkip => 'تخطي المقدمة';
 
   @override
-  String get onboardingGetStarted => 'TODO_AR: Get started';
+  String get onboardingGetStarted => 'ابدأ الآن';
 
   @override
-  String get onboardingTitle1 => 'TODO_AR: A gentle space,\njust for you';
+  String get onboardingTitle1 => 'مساحة هادئة،\nخاصة بك فقط';
 
   @override
-  String get onboardingSubtitle1 =>
-      'TODO_AR: Check in with how you\'re feeling —\nno pressure, just presence.';
+  String get onboardingSubtitle1 => 'تحدث عن شعورك —\nمن غير ضغط، فقط حضور';
 
   @override
-  String get onboardingTitle2 => 'TODO_AR: Meet Luna,\nyour companion';
+  String get onboardingTitle2 => 'تعرّف على لونا،\nرفيقتك';
 
   @override
-  String get onboardingSubtitle2 =>
-      'TODO_AR: She\'s here to listen whenever\nyou need to talk it out.';
+  String get onboardingSubtitle2 => 'هي هنا لتستمع إليك\nكلما احتجت أن تتحدث';
 
   @override
-  String get onboardingTitle3 => 'TODO_AR: Small steps,\nreal growth';
+  String get onboardingTitle3 => 'خطوات صغيرة،\nنمو حقيقي';
 
   @override
   String get onboardingSubtitle3 =>
-      'TODO_AR: Show up for yourself each day and\nwatch something beautiful grow.';
+      'كن حاضراً لنفسك كل يوم\nوشاهد شيئاً جميلاً ينمو';
 
   @override
-  String get loginWelcomeBack => 'TODO_AR: Welcome back';
+  String get loginWelcomeBack => 'أهلاً بعودتك';
 
   @override
-  String get loginSubtitle => 'TODO_AR: Luna missed you';
+  String get loginSubtitle => 'لونا اشتاقت لك';
 
   @override
-  String get loginCta => 'TODO_AR: Talk to Luna';
+  String get loginCta => 'تحدث مع لونا';
 
   @override
-  String get loginSignUpPrompt => 'TODO_AR: Don\'t have an account? ';
+  String get loginSignUpPrompt => 'ليس لديك حساب؟ ';
 
   @override
-  String get loginSignUpAction => 'TODO_AR: Start growing';
+  String get loginSignUpAction => 'ابدأ النمو';
 
   @override
-  String get registerTitle => 'TODO_AR: Start your journey';
+  String get registerTitle => 'ابدأ رحلتك';
 
   @override
-  String get registerSubtitle => 'TODO_AR: Luna is ready to listen';
+  String get registerSubtitle => 'لونا جاهزة للاستماع إليك';
 
   @override
-  String get registerCta => 'TODO_AR: Begin growing';
+  String get registerCta => 'ابدأ النمو';
 
   @override
-  String get registerSignInPrompt => 'TODO_AR: Already have an account? ';
+  String get registerSignInPrompt => 'لديك حساب بالفعل؟ ';
 
   @override
-  String get registerSignInAction => 'TODO_AR: Sign in';
+  String get registerSignInAction => 'تسجيل الدخول';
 
   @override
-  String get authContinueAsGuest => 'TODO_AR: Continue as guest';
+  String get authContinueAsGuest => 'المتابعة كضيف';
 
   @override
-  String get authLogOut => 'TODO_AR: Log out';
+  String get authLogOut => 'تسجيل الخروج';
 
   @override
-  String get authEmailLabel => 'TODO_AR: Email';
+  String get authEmailLabel => 'البريد الإلكتروني';
 
   @override
-  String get authEmailHint => 'TODO_AR: your@email.com';
+  String get authEmailHint => 'your@email.com';
 
   @override
-  String get authPasswordLabel => 'TODO_AR: Password';
+  String get authPasswordLabel => 'كلمة المرور';
 
   @override
-  String get authPasswordHint => 'TODO_AR: ••••••••';
+  String get authPasswordHint => '••••••••';
 
   @override
-  String get authFullNameLabel => 'TODO_AR: Full name';
+  String get authFullNameLabel => 'الاسم الكامل';
 
   @override
-  String get authFullNameHint => 'TODO_AR: Your name';
+  String get authFullNameHint => 'اسمك';
 
   @override
-  String get authForgotPassword => 'TODO_AR: Forgot password?';
+  String get authForgotPassword => 'نسيت كلمة المرور؟';
 
   @override
-  String get authOrDivider => 'TODO_AR: or';
+  String get authOrDivider => 'أو';
 
   @override
-  String get forgotPasswordTitle => 'TODO_AR: Reset your password';
+  String get forgotPasswordTitle => 'إعادة تعيين كلمة المرور';
 
   @override
   String get forgotPasswordSubtitle =>
-      'TODO_AR: Enter your email and Luna will send you a link to get back in.';
+      'أدخل بريدك الإلكتروني وستُرسل لك لونا رابطاً للعودة';
 
   @override
-  String get forgotPasswordCta => 'TODO_AR: Send reset link';
+  String get forgotPasswordCta => 'إرسال رابط إعادة التعيين';
 
   @override
-  String get forgotPasswordEmailRequired => 'TODO_AR: Please enter your email';
+  String get forgotPasswordEmailRequired => 'الرجاء إدخال بريدك الإلكتروني';
 
   @override
-  String get forgotPasswordSuccessTitle => 'TODO_AR: Check your email';
+  String get forgotPasswordSuccessTitle => 'تحقق من بريدك الإلكتروني';
 
   @override
   String get forgotPasswordSuccessSubtitle =>
-      'TODO_AR: We sent a password reset link to your email. Follow it to set a new password.';
+      'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. اتبعه لتعيين كلمة مرور جديدة';
 
   @override
-  String get forgotPasswordBackToLogin => 'TODO_AR: Back to login';
+  String get forgotPasswordBackToLogin => 'العودة لتسجيل الدخول';
 
   @override
-  String get authContinueWithGoogle => 'TODO_AR: Continue with Google';
+  String get authContinueWithGoogle => 'المتابعة عبر جوجل';
 
   @override
-  String get authSignUpWithGoogle => 'TODO_AR: Sign up with Google';
+  String get authSignUpWithGoogle => 'التسجيل عبر جوجل';
 
   @override
-  String get passwordStrengthTooShort => 'TODO_AR: Too short';
+  String get passwordStrengthTooShort => 'قصيرة جداً';
 
   @override
-  String get passwordStrengthGettingThere => 'TODO_AR: Getting there';
+  String get passwordStrengthGettingThere => 'على الطريق الصحيح';
 
   @override
-  String get passwordStrengthStrong => 'TODO_AR: Strong';
+  String get passwordStrengthStrong => 'قوية';
 
   @override
-  String get homeMoodGalleryTitle => 'TODO_AR: EXPLORE MOODS';
+  String get homeMoodGalleryTitle => 'استكشف المشاعر';
 
   @override
-  String get moodLabelHappy => 'TODO_AR: Happy';
+  String get moodLabelHappy => 'سعيد';
 
   @override
-  String get moodLabelSad => 'TODO_AR: Sad';
+  String get moodLabelSad => 'حزين';
 
   @override
-  String get moodLabelAngry => 'TODO_AR: Angry';
+  String get moodLabelAngry => 'غاضب';
 
   @override
-  String get moodLabelAnxious => 'TODO_AR: Anxious';
+  String get moodLabelAnxious => 'قلق';
 
   @override
-  String get moodLabelCalm => 'TODO_AR: Calm';
+  String get moodLabelCalm => 'هادئ';
 
   @override
-  String get moodLabelExcited => 'TODO_AR: Excited';
+  String get moodLabelExcited => 'متحمس';
 
   @override
-  String get moodLabelGrateful => 'TODO_AR: Grateful';
+  String get moodLabelGrateful => 'ممتن';
 
   @override
-  String get moodLabelHopeful => 'TODO_AR: Hopeful';
+  String get moodLabelHopeful => 'متفائل';
 
   @override
-  String get moodLabelLonely => 'TODO_AR: Lonely';
+  String get moodLabelLonely => 'وحيد';
 
   @override
-  String get moodLabelNeutral => 'TODO_AR: Neutral';
+  String get moodLabelNeutral => 'عادي';
 
   @override
-  String get moodLabelScared => 'TODO_AR: Scared';
+  String get moodLabelScared => 'خائف';
 
   @override
-  String get moodLabelBurnout => 'TODO_AR: Burnt out';
+  String get moodLabelBurnout => 'منهك';
 
   @override
-  String get moodLabelContentPeaceful => 'TODO_AR: Content & Peaceful';
+  String get moodLabelContentPeaceful => 'مرتاح وهادئ';
 
   @override
-  String get commonCancel => 'TODO_AR: Cancel';
+  String get commonCancel => 'إلغاء';
 
   @override
-  String get commonDelete => 'TODO_AR: Delete';
+  String get commonDelete => 'حذف';
 
   @override
-  String get commonTalkToLuna => 'TODO_AR: Talk to Luna';
+  String get commonTalkToLuna => 'تحدث مع لونا';
 
   @override
-  String get commonThisWeekLabel => 'TODO_AR: This week';
+  String get commonThisWeekLabel => 'هذا الأسبوع';
 
   @override
-  String get commonSavedToQuotesSnack => 'TODO_AR: Saved to quotes 🌿';
+  String get commonSavedToQuotesSnack => 'تم الحفظ في الاقتباسات 🌿';
 
   @override
-  String get commonDismissBarrierLabel => 'TODO_AR: Dismiss';
+  String get commonDismissBarrierLabel => 'إغلاق';
 
   @override
-  String get commonToday => 'TODO_AR: Today';
+  String get commonToday => 'اليوم';
 
   @override
-  String get commonYesterday => 'TODO_AR: Yesterday';
+  String get commonYesterday => 'أمس';
 
   @override
-  String get lunaName => 'TODO_AR: Luna';
+  String get lunaName => 'لونا';
 
   @override
-  String get navHomeLabel => 'TODO_AR: Home';
+  String get navHomeLabel => 'الرئيسية';
 
   @override
-  String get navJournalLabel => 'TODO_AR: Journal';
+  String get navJournalLabel => 'يومياتي';
 
   @override
-  String get navProfileLabel => 'TODO_AR: Profile';
+  String get navProfileLabel => 'حسابي';
 
   @override
-  String get moodEntryDeleteAllTitle => 'TODO_AR: Delete all entries?';
+  String get moodEntryDeleteAllTitle => 'حذف جميع المدخلات؟';
 
   @override
   String get moodEntryDeleteAllMessage =>
-      'TODO_AR: This will permanently remove all journal entries from your device.';
+      'سيتم حذف جميع مدخلات اليوميات من جهازك نهائياً';
 
   @override
-  String get moodEntryDeleteAllConfirm => 'TODO_AR: Delete all';
+  String get moodEntryDeleteAllConfirm => 'حذف الكل';
 
   @override
-  String get moodEntryEmptyStateTitle => 'TODO_AR: Your story starts here';
+  String get moodEntryEmptyStateTitle => 'قصتك تبدأ من هنا';
 
   @override
-  String get moodEntryListEmptyMessage => 'TODO_AR: No mood entries yet';
+  String get moodEntryListEmptyMessage => 'لا توجد مدخلات بعد';
 
   @override
-  String get homeMoodPromptLabel => 'TODO_AR: How are you feeling today?';
+  String get homeMoodPromptLabel => 'كيف تشعر اليوم؟';
 
   @override
-  String get homeThoughtsLabelSad => 'TODO_AR: What\'s weighing on you?';
+  String get homeThoughtsLabelSad => 'ما الذي يثقل عليك؟';
 
   @override
-  String get homeThoughtsLabelLonely => 'TODO_AR: What\'s been on your mind?';
+  String get homeThoughtsLabelLonely => 'ما الذي يشغل بالك؟';
 
   @override
-  String get homeThoughtsLabelAngry => 'TODO_AR: What set this off?';
+  String get homeThoughtsLabelAngry => 'ما الذي أثار هذا الشعور؟';
 
   @override
-  String get homeThoughtsLabelWorried => 'TODO_AR: What\'s worrying you?';
+  String get homeThoughtsLabelWorried => 'ما الذي يقلقك؟';
 
   @override
-  String get homeThoughtsLabelBurnout => 'TODO_AR: What\'s been draining you?';
+  String get homeThoughtsLabelBurnout => 'ما الذي يستنزفك؟';
 
   @override
-  String get homeThoughtsLabelNeutralGood => 'TODO_AR: What\'s going on today?';
+  String get homeThoughtsLabelNeutralGood => 'ما الذي يحدث معك اليوم؟';
 
   @override
-  String get homeThoughtsLabelFeelGood =>
-      'TODO_AR: What\'s making you feel good?';
+  String get homeThoughtsLabelFeelGood => 'ما الذي يجعلك تشعر بالرضا؟';
 
   @override
-  String get homeThoughtsLabelGrateful => 'TODO_AR: What are you grateful for?';
+  String get homeThoughtsLabelGrateful => 'علام أنت ممتن؟';
 
   @override
-  String get homeThoughtsLabelHopeful =>
-      'TODO_AR: What are you looking forward to?';
+  String get homeThoughtsLabelHopeful => 'ما الذي تتطلع إليه؟';
 
   @override
-  String get homeThoughtsLabelDefault => 'TODO_AR: Tell me what\'s going on...';
+  String get homeThoughtsLabelDefault => 'أخبرني بما يجول في خاطرك...';
 
   @override
-  String get homeMoodRequiredSnack => 'TODO_AR: Please select your mood first';
+  String get homeMoodRequiredSnack => 'الرجاء اختيار شعورك أولاً';
 
   @override
-  String get homeThoughtsRequiredSnack => 'TODO_AR: Please share your thoughts';
+  String get homeThoughtsRequiredSnack => 'الرجاء مشاركة أفكارك';
 
   @override
-  String get homeThoughtsRequiredSnackFirst =>
-      'TODO_AR: Please share your thoughts first';
+  String get homeThoughtsRequiredSnackFirst => 'الرجاء مشاركة أفكارك أولاً';
 
   @override
-  String get homeShareThoughtsSectionLabel => 'TODO_AR: SHARE YOUR THOUGHTS';
+  String get homeShareThoughtsSectionLabel => 'شارك أفكارك';
 
   @override
-  String get homeTalkToLunaWithSparkle => 'TODO_AR: Talk to Luna ✨';
+  String get homeTalkToLunaWithSparkle => 'تحدث مع لونا ✨';
 
   @override
-  String get homeThoughtsHint => 'TODO_AR: What\'s on your mind today...';
+  String get homeThoughtsHint => 'ما الذي يشغل بالك اليوم...';
 
   @override
-  String get homeThoughtsEncouragementStart =>
-      'TODO_AR: What\'s on your mind... 🌱';
+  String get homeThoughtsEncouragementStart => 'ما الذي يشغل بالك... 🌱';
 
   @override
-  String get homeThoughtsEncouragementContinue => 'TODO_AR: Keep going...';
+  String get homeThoughtsEncouragementContinue => 'أكمل...';
 
   @override
-  String get homeThoughtsEncouragementOpeningUp =>
-      'TODO_AR: You\'re opening up 🌿';
+  String get homeThoughtsEncouragementOpeningUp => 'أنت تفتح قلبك 🌿';
 
   @override
-  String get homeThoughtsEncouragementBeautiful =>
-      'TODO_AR: Beautiful reflection 🌸';
+  String get homeThoughtsEncouragementBeautiful => 'تأمل جميل 🌸';
 
   @override
-  String get homeThoughtsEncouragementListening =>
-      'TODO_AR: Luna is listening 💜';
+  String get homeThoughtsEncouragementListening => 'لونا تستمع إليك 💜';
 
   @override
-  String get homeRecentEntriesLabel => 'TODO_AR: RECENT ENTRIES';
+  String get homeRecentEntriesLabel => 'أحدث المدخلات';
 
   @override
-  String get homeSeeAllLabel => 'TODO_AR: See all';
+  String get homeSeeAllLabel => 'عرض الكل';
 
   @override
-  String get homeEmptyStateSubtitle =>
-      'TODO_AR: Share a thought and tap Talk to Luna';
+  String get homeEmptyStateSubtitle => 'شارك فكرة واضغط على تحدث مع لونا';
 
   @override
-  String get homeFirstSeedCelebration =>
-      'TODO_AR: You just planted your first seed 🌱';
+  String get homeFirstSeedCelebration => 'لقد زرعت بذرتك الأولى 🌱';
 
   @override
-  String get homeFirstSeedCelebrationSubtitle =>
-      'TODO_AR: Luna is so happy you\'re here!';
+  String get homeFirstSeedCelebrationSubtitle => 'لونا سعيدة جداً بوجودك هنا!';
 
   @override
-  String get weeklyLetterBannerTitle => 'TODO_AR: Your weekly letter';
+  String get weeklyLetterBannerTitle => 'رسالتك الأسبوعية';
 
   @override
-  String get weeklyLetterScreenTitle => 'TODO_AR: Weekly letter';
+  String get weeklyLetterScreenTitle => 'الرسالة الأسبوعية';
 
   @override
   String get weeklyLetterWaitingMessage =>
-      'TODO_AR: Keep journaling — your letter will be ready at the end of the week.';
+      'استمر في الكتابة — ستكون رسالتك جاهزة في نهاية الأسبوع';
 
   @override
-  String get weeklyLetterShowLess => 'TODO_AR: Show less';
+  String get weeklyLetterShowLess => 'عرض أقل';
 
   @override
-  String get weeklyLetterReadMore => 'TODO_AR: Read more';
+  String get weeklyLetterReadMore => 'قراءة المزيد';
 
   @override
-  String get journalTitle => 'TODO_AR: My Journal';
+  String get journalTitle => 'يومياتي';
 
   @override
-  String get journalEmptyStateSubtitle =>
-      'TODO_AR: What\'s on your mind today?';
+  String get journalEmptyStateSubtitle => 'ما الذي يشغل بالك اليوم؟';
 
   @override
-  String get journalStartJournalingButton => 'TODO_AR: Start journaling';
+  String get journalStartJournalingButton => 'ابدأ الكتابة';
 
   @override
-  String get journalEntryDeleteTitle => 'TODO_AR: Delete entry?';
+  String get journalEntryDeleteTitle => 'حذف هذا المدخل؟';
 
   @override
-  String get journalEntryDeleteMessage =>
-      'TODO_AR: This will permanently remove this journal entry.';
+  String get journalEntryDeleteMessage => 'سيتم حذف هذا المدخل نهائياً';
 
   @override
-  String get journalSearchHint => 'TODO_AR: Search entries...';
+  String get journalSearchHint => 'ابحث في المدخلات...';
 
   @override
-  String get journalCardOptionsColorLabel => 'TODO_AR: card color';
+  String get journalCardOptionsColorLabel => 'لون البطاقة';
 
   @override
-  String get journalCardOptionsPinLabel => 'TODO_AR: pin this entry';
+  String get journalCardOptionsPinLabel => 'تثبيت هذا المدخل';
 
   @override
-  String get journalCardOptionsDeleteLabel => 'TODO_AR: delete entry';
+  String get journalCardOptionsDeleteLabel => 'حذف المدخل';
 
   @override
-  String get journalCardOptionsDeleteTitle => 'TODO_AR: Delete this entry?';
+  String get journalCardOptionsDeleteTitle => 'حذف هذا المدخل؟';
 
   @override
   String get journalCardOptionsDeleteMessage =>
-      'TODO_AR: This will remove it from your journal for good.';
+      'سيتم إزالته من يومياتك نهائياً';
 
   @override
-  String get journalGridTitle => 'TODO_AR: your journal';
+  String get journalGridTitle => 'يومياتك';
 
   @override
-  String get journalGridSubtitle => 'TODO_AR: a little collection of your days';
+  String get journalGridSubtitle => 'مجموعة صغيرة من أيامك';
 
   @override
   String get journalGridEmptyMessage =>
-      'TODO_AR: nothing here yet — your days will show up as you go';
+      'لا يوجد شيء هنا بعد — ستظهر أيامك هنا مع الوقت';
 
   @override
   String get journalTodayNoEntriesMessage =>
-      'TODO_AR: No entries yet · Start with one gentle thought';
+      'لا توجد مدخلات بعد · ابدأ بفكرة بسيطة';
 
   @override
-  String get journalMoodFallbackLabel => 'TODO_AR: Okay';
+  String get journalMoodFallbackLabel => 'عادي';
 
   @override
-  String get quotesScreenTitle => 'TODO_AR: Saved quotes';
+  String get quotesScreenTitle => 'الاقتباسات المحفوظة';
 
   @override
-  String get quotesLoadingMessage => 'TODO_AR: Loading saved quotes...';
+  String get quotesLoadingMessage => 'جارٍ تحميل الاقتباسات المحفوظة...';
 
   @override
-  String get quotesEmptyTitle => 'TODO_AR: No saved quotes yet';
+  String get quotesEmptyTitle => 'لا توجد اقتباسات محفوظة بعد';
 
   @override
-  String get quotesEmptySubtitle =>
-      'TODO_AR: Save Luna’s words to collect them here';
+  String get quotesEmptySubtitle => 'احفظ كلمات لونا لتجدها هنا';
 
   @override
-  String get quotesDeleteTitle => 'TODO_AR: Delete quote?';
+  String get quotesDeleteTitle => 'حذف الاقتباس؟';
 
   @override
-  String get quotesDeleteMessage =>
-      'TODO_AR: This will remove the saved quote.';
+  String get quotesDeleteMessage => 'سيتم حذف الاقتباس المحفوظ';
 
   @override
-  String get quotesDeletedSnack => 'TODO_AR: Quote deleted';
+  String get quotesDeletedSnack => 'تم حذف الاقتباس';
 
   @override
-  String get quotesUndoAction => 'TODO_AR: Undo';
+  String get quotesUndoAction => 'تراجع';
 
   @override
-  String get responseTryAgainButton => 'TODO_AR: Try again';
+  String get responseTryAgainButton => 'حاول مرة أخرى';
 
   @override
-  String get responseShareButton => 'TODO_AR: Share';
+  String get responseShareButton => 'مشاركة';
 
   @override
-  String get responseDoneLabel => 'TODO_AR: Done';
+  String get responseDoneLabel => 'تم';
 
   @override
-  String get responseKeepChattingLabel => 'TODO_AR: Keep chatting';
+  String get responseKeepChattingLabel => 'أكمل الحديث';
 
   @override
-  String get responseMoodTagExpressing => 'TODO_AR: Expressing';
+  String get responseMoodTagExpressing => 'تعبير';
 
   @override
-  String get responseMoodTagReflecting => 'TODO_AR: Reflecting';
+  String get responseMoodTagReflecting => 'تأمل';
 
   @override
-  String get responseMoodTagGrowing => 'TODO_AR: Growing';
+  String get responseMoodTagGrowing => 'نمو';
 
   @override
-  String get responseThinkingLabel => 'TODO_AR: Luna is thinking';
+  String get responseThinkingLabel => 'لونا تفكر';
 
   @override
-  String get responseShareCardHeading => 'TODO_AR: Luna says';
+  String get responseShareCardHeading => 'تقول لونا';
 
   @override
-  String get responseYourMoodLabel => 'TODO_AR: YOUR MOOD';
+  String get responseYourMoodLabel => 'شعورك';
 
   @override
-  String get responseLunaSaysLabel => 'TODO_AR: LUNA SAYS';
+  String get responseLunaSaysLabel => 'تقول لونا';
 
   @override
-  String get responseSaveQuoteTooltip => 'TODO_AR: Save quote';
+  String get responseSaveQuoteTooltip => 'حفظ الاقتباس';
 
   @override
-  String get responseCopiedToClipboardSnack =>
-      'TODO_AR: Copied to clipboard 🌿';
+  String get responseCopiedToClipboardSnack => 'تم النسخ 🌿';
 
   @override
-  String get lunaSubtitle => 'TODO_AR: Your companion · Always here for you';
+  String get lunaSubtitle => 'رفيقتك · دائماً هنا من أجلك';
 
   @override
-  String get afterFeelingPromptLabel =>
-      'TODO_AR: How are you feeling after this?';
+  String get afterFeelingPromptLabel => 'كيف تشعر بعد ذلك؟';
 
   @override
-  String get afterFeelingCalmLabel => 'TODO_AR: Calm';
+  String get afterFeelingCalmLabel => 'هادئ';
 
   @override
-  String get afterFeelingCalmMessage =>
-      'TODO_AR: Feeling calm is a beautiful shift. You did great.';
+  String get afterFeelingCalmMessage => 'الشعور بالهدوء تحوّل جميل. أحسنت';
 
   @override
-  String get afterFeelingLovedLabel => 'TODO_AR: Loved';
+  String get afterFeelingLovedLabel => 'محبوب';
 
   @override
-  String get afterFeelingLovedMessage =>
-      'TODO_AR: You deserve every bit of that love. Hold onto it.';
+  String get afterFeelingLovedMessage => 'تستحق كل هذا الحب. تمسّك به';
 
   @override
-  String get afterFeelingBetterLabel => 'TODO_AR: Better';
+  String get afterFeelingBetterLabel => 'أفضل';
 
   @override
   String get afterFeelingBetterMessage =>
-      'TODO_AR: Every small step forward counts. You are making progress.';
+      'كل خطوة صغيرة إلى الأمام تُحسب. أنت تتقدم';
 
   @override
-  String get afterFeelingStillSadLabel => 'TODO_AR: Still sad';
+  String get afterFeelingStillSadLabel => 'لا زلت حزيناً';
 
   @override
   String get afterFeelingStillSadMessage =>
-      'TODO_AR: It\'s okay to still feel this way. Luna is always here whenever you need to talk again.';
+      'لا بأس أن تشعر بهذا حتى الآن. لونا هنا دائماً كلما احتجت للحديث مرة أخرى';
 
   @override
-  String get afterFeelingTakeYourTime => 'TODO_AR: Take your time';
+  String get afterFeelingTakeYourTime => 'خذ وقتك';
 
   @override
-  String get afterFeelingTalkToLunaAgain => 'TODO_AR: Talk to Luna again';
+  String get afterFeelingTalkToLunaAgain => 'تحدث مع لونا مرة أخرى';
 
   @override
-  String get afterFeelingThankYouLuna => 'TODO_AR: Thank you, Luna';
+  String get afterFeelingThankYouLuna => 'شكراً لك يا لونا';
 
   @override
-  String get afterFeelingImOkay => 'TODO_AR: I\'ll be okay';
+  String get afterFeelingImOkay => 'سأكون بخير';
 
   @override
-  String get moodChoicePrompt => 'TODO_AR: rough day, huh?';
+  String get moodChoicePrompt => 'يوم صعب، صح؟';
 
   @override
-  String get moodChoiceSubPrompt => 'TODO_AR: whatever feels right right now';
+  String get moodChoiceSubPrompt => 'أياً كان ما يناسبك الآن';
 
   @override
-  String get moodChoiceTalkSubtitle => 'TODO_AR: share what\'s on your mind';
+  String get moodChoiceTalkSubtitle => 'شارك ما يدور في ذهنك';
 
   @override
-  String get moodChoiceBreatheTitle => 'TODO_AR: Breathe with Luna';
+  String get moodChoiceBreatheTitle => 'تنفس مع لونا';
 
   @override
-  String get moodChoiceBreatheSubtitle => 'TODO_AR: a slow, guided breath';
+  String get moodChoiceBreatheSubtitle => 'نفس بطيء وموجّه';
 
   @override
-  String get moodChoiceDrawTitle => 'TODO_AR: Free Draw';
+  String get moodChoiceDrawTitle => 'ارسم بحرية';
 
   @override
-  String get moodChoiceDrawSubtitle => 'TODO_AR: no pressure, just color';
+  String get moodChoiceDrawSubtitle => 'بلا ضغط، فقط ألوان';
 
   @override
-  String get moodChoiceSudokuTitle => 'TODO_AR: Sudoku';
+  String get moodChoiceSudokuTitle => 'سودوكو';
 
   @override
-  String get moodChoiceSudokuSubtitle => 'TODO_AR: a small, calm puzzle';
+  String get moodChoiceSudokuSubtitle => 'لغز صغير وهادئ';
 
   @override
-  String get chatInputHint => 'TODO_AR: Share what\'s on your mind...';
+  String get chatInputHint => 'شارك ما يدور في ذهنك...';
 
   @override
-  String get chatEmptyStateMessage =>
-      'TODO_AR: Hi, I\'m Luna 💜\nTell me how you\'re feeling.';
+  String get chatEmptyStateMessage => 'مرحباً، أنا لونا 💜\nأخبريني كيف تشعر';
 
   @override
-  String get chatTypingLabel => 'TODO_AR: Luna is typing';
+  String get chatTypingLabel => 'لونا تكتب';
 
   @override
-  String get chatSessionEndGladMessage =>
-      'TODO_AR: I\'m glad you\'re feeling better 💜';
+  String get chatSessionEndGladMessage => 'يسعدني أنك تشعر بتحسن 💜';
 
   @override
-  String get chatSessionEndSavedMessage =>
-      'TODO_AR: This session has been saved to your journal.';
+  String get chatSessionEndSavedMessage => 'تم حفظ هذه الجلسة في يومياتك';
 
   @override
-  String get chatBackToHomeButton => 'TODO_AR: Back to Home';
+  String get chatBackToHomeButton => 'العودة للرئيسية';
 
   @override
-  String get sudokuHowToPlayTitle => 'TODO_AR: How to play';
+  String get sudokuHowToPlayTitle => 'كيف تلعب';
 
   @override
   String get sudokuHowToPlayMessage =>
-      'TODO_AR: Fill every row, column, and 3x3 box with the digits 1-9, no repeats. Switch to Candidate mode to pencil in notes, and turn on Auto Candidate Mode to have Luna clear out notes for you as you go.';
+      'املأ كل صف وعمود ومربع 3×3 بالأرقام من 1 إلى 9 بدون تكرار. بدّل إلى وضع الاحتمالات لتدوين ملاحظاتك، وفعّل الوضع التلقائي لتترك للونا مسح الاحتمالات نيابة عنك تدريجياً';
 
   @override
-  String get sudokuGotIt => 'TODO_AR: Got it';
+  String get sudokuGotIt => 'فهمت';
 
   @override
-  String get sudokuNewGameMenuItem => 'TODO_AR: New game';
+  String get sudokuNewGameMenuItem => 'لعبة جديدة';
 
   @override
-  String get sudokuDifficultyEasy => 'TODO_AR: Easy';
+  String get sudokuDifficultyEasy => 'سهل';
 
   @override
   String sudokuMistakesLabel(int mistakes, int max) {
-    return 'TODO_AR: Mistakes: $mistakes/$max';
+    return 'الأخطاء: $mistakes/$max';
   }
 
   @override
-  String get sudokuPausedLabel => 'TODO_AR: paused';
+  String get sudokuPausedLabel => 'متوقف مؤقتاً';
 
   @override
-  String get sudokuWonMessage => 'TODO_AR: you solved it! 🌸';
+  String get sudokuWonMessage => 'لقد حللتها! 🌸';
 
   @override
-  String get sudokuDoneButton => 'TODO_AR: done';
+  String get sudokuDoneButton => 'تم';
 
   @override
-  String get sudokuPlayAgainButton => 'TODO_AR: play again';
+  String get sudokuPlayAgainButton => 'العب مرة أخرى';
 
   @override
-  String get sudokuLostMessage => 'TODO_AR: out of tries — take a breath 🌱';
+  String get sudokuLostMessage => 'نفدت المحاولات — خذ نفساً 🌱';
 
   @override
-  String get sudokuTryAgainButton => 'TODO_AR: try again';
+  String get sudokuTryAgainButton => 'حاول مرة أخرى';
 
   @override
-  String get sudokuAutoCandidateModeLabel => 'TODO_AR: Auto Candidate Mode';
+  String get sudokuAutoCandidateModeLabel => 'الوضع التلقائي للاحتمالات';
 
   @override
-  String get sudokuNormalModeLabel => 'TODO_AR: Normal';
+  String get sudokuNormalModeLabel => 'عادي';
 
   @override
-  String get sudokuCandidateModeLabel => 'TODO_AR: Candidate';
+  String get sudokuCandidateModeLabel => 'احتمالات';
 
   @override
-  String get drawTopBarTitle => 'TODO_AR: free draw';
+  String get drawTopBarTitle => 'الرسم الحر';
 
   @override
-  String get drawClearButton => 'TODO_AR: clear';
+  String get drawClearButton => 'مسح';
 
   @override
-  String get drawSavedSnack => 'TODO_AR: Drawing saved to your profile';
+  String get drawSavedSnack => 'تم حفظ الرسمة في حسابك';
 
   @override
-  String get drawTalkToLunaLink => 'TODO_AR: feel like talking to luna now?';
+  String get drawTalkToLunaLink => 'تشعر برغبة في التحدث مع لونا الآن؟';
 
   @override
-  String get drawViewerTitle => 'TODO_AR: your drawing';
+  String get drawViewerTitle => 'رسمتك';
 
   @override
-  String get profileTitle => 'TODO_AR: My Profile';
+  String get profileTitle => 'حسابي';
 
   @override
-  String get profileSubtitle => 'TODO_AR: Lueur member';
+  String get profileSubtitle => 'عضو في Lueur';
 
   @override
-  String get profileFallbackName => 'TODO_AR: Friend';
+  String get profileFallbackName => 'صديق';
 
   @override
-  String get profileQuotesEmptySubtitle =>
-      'TODO_AR: Your saved Luna moments will appear here';
+  String get profileQuotesEmptySubtitle => 'ستظهر هنا لحظاتك المحفوظة مع لونا';
 
   @override
-  String get profileStatsTotalEntries => 'TODO_AR: Total entries';
+  String get profileStatsTotalEntries => 'إجمالي المدخلات';
 
   @override
-  String get profileStatsDayStreak => 'TODO_AR: Day streak';
+  String get profileStatsDayStreak => 'أيام متتالية';
 
   @override
-  String get profileQuickLinkWeeklyLetter => 'TODO_AR: Weekly Letter';
+  String get profileQuickLinkWeeklyLetter => 'الرسالة الأسبوعية';
 
   @override
-  String get profileQuickLinkMoodBoard => 'TODO_AR: Mood Board';
+  String get profileQuickLinkMoodBoard => 'لوحة المشاعر';
 
   @override
-  String get profileSettingsSectionLabel => 'TODO_AR: SETTINGS';
+  String get profileSettingsSectionLabel => 'الإعدادات';
 
   @override
-  String get profileSettingsAppearance => 'TODO_AR: Appearance';
+  String get profileSettingsAppearance => 'المظهر';
 
   @override
-  String get profileSettingsLanguage => 'TODO_AR: Language';
+  String get profileSettingsLanguage => 'اللغة';
 
   @override
-  String get profileDrawingsTitle => 'TODO_AR: My Drawings';
+  String get profileDrawingsTitle => 'رسوماتي';
 
   @override
   String get profileDrawingsErrorSubtitle =>
-      'TODO_AR: Couldn\'t load your drawings — pull to refresh and try again';
+      'تعذر تحميل رسوماتك — اسحب للتحديث وحاول مرة أخرى';
 
   @override
   String get profileDrawingsEmptySubtitle =>
-      'TODO_AR: Drawings you save from Free Draw will appear here';
+      'ستظهر هنا الرسومات التي تحفظها من الرسم الحر';
 
   @override
-  String get profileSudokuHistoryTitle => 'TODO_AR: Sudoku History';
+  String get profileSudokuHistoryTitle => 'سجل السودوكو';
 
   @override
   String get profileSudokuHistoryErrorSubtitle =>
-      'TODO_AR: Couldn\'t load your Sudoku history — pull to refresh and try again';
+      'تعذر تحميل سجل السودوكو — اسحب للتحديث وحاول مرة أخرى';
 
   @override
   String get profileSudokuHistoryEmptySubtitle =>
-      'TODO_AR: Play a round of Sudoku to see your results here';
+      'العب جولة سودوكو لترى نتائجك هنا';
 
   @override
-  String get profileSudokuRelativeToday => 'TODO_AR: Today';
+  String get profileSudokuRelativeToday => 'اليوم';
 
   @override
-  String get profileSudokuRelativeYesterday => 'TODO_AR: Yesterday';
+  String get profileSudokuRelativeYesterday => 'أمس';
 
   @override
-  String get profileSudokuSolvedIt => 'TODO_AR: Solved it';
+  String get profileSudokuSolvedIt => 'حلّها';
 
   @override
-  String get profileSudokuGaveItAGo => 'TODO_AR: Gave it a go';
+  String get profileSudokuGaveItAGo => 'حاول حلّها';
 
   @override
-  String get breathingHeaderLabel => 'TODO_AR: guided breathing';
+  String get breathingHeaderLabel => 'تمرين التنفس الموجه';
 
   @override
-  String get breathingPhaseIn => 'TODO_AR: Breathe in';
+  String get breathingPhaseIn => 'شهيق';
 
   @override
-  String get breathingPhaseOut => 'TODO_AR: Breathe out';
+  String get breathingPhaseOut => 'زفير';
 
   @override
-  String get affirmationHeader => 'TODO_AR: A word from Luna 💙';
+  String get affirmationHeader => 'كلمة من لونا 💙';
 
   @override
-  String get affirmationSubheader =>
-      'TODO_AR: A personalized card just for you';
+  String get affirmationSubheader => 'بطاقة خاصة بك أنت';
 
   @override
-  String get affirmationSignature => 'TODO_AR: — Luna 🌿';
+  String get affirmationSignature => '— لونا 🌿';
 
   @override
-  String get affirmationNextCardButton => 'TODO_AR: Next card ↻';
+  String get affirmationNextCardButton => 'البطاقة التالية ↻';
 
   @override
-  String get affirmationPrimaryStartBreathing => 'TODO_AR: Start breathing';
+  String get affirmationPrimaryStartBreathing => 'ابدأ التنفس';
 
   @override
-  String get affirmationPrimaryStartDrawing => 'TODO_AR: Start drawing';
+  String get affirmationPrimaryStartDrawing => 'ابدأ الرسم';
 
   @override
-  String get affirmationPrimaryPlaySudoku => 'TODO_AR: Play Sudoku';
+  String get affirmationPrimaryPlaySudoku => 'العب سودوكو';
 
   @override
-  String get lunaCheckInTitle => 'TODO_AR: Feel a little lighter?';
+  String get lunaCheckInTitle => 'تشعر بتحسن الآن؟';
 
   @override
-  String get lunaCheckInSubtitle =>
-      'TODO_AR: I\'m here if you want to talk more.';
+  String get lunaCheckInSubtitle => 'أنا هنا إذا أردت التحدث أكثر';
 
   @override
-  String get lunaCheckInDismiss => 'TODO_AR: I\'m good for now';
+  String get lunaCheckInDismiss => 'أنا بخير الآن';
 
   @override
-  String get streakCelebrationKeepGoingButton => 'TODO_AR: keep going';
+  String get streakCelebrationKeepGoingButton => 'استمر';
 
   @override
-  String get chatSendFailedMessages0 =>
-      'TODO_AR: hmm that didn\'t send, try again?';
+  String get chatSendFailedMessages0 => 'حممم لم تُرسل، حاول مرة أخرى؟';
 
   @override
   String get chatSendFailedMessages1 =>
-      'TODO_AR: ugh my signal\'s being weird, say that again?';
+      'أوه إشارتي غريبة قليلاً، أعد المحاولة؟';
 
   @override
-  String get chatSendFailedMessages2 =>
-      'TODO_AR: wait that got cut off, one more time?';
+  String get chatSendFailedMessages2 => 'انتظر، انقطعت الرسالة، مرة أخرى؟';
 
   @override
   String get chatSendFailedMessages3 =>
-      'TODO_AR: hold on, didn\'t catch that — try sending again';
+      'لحظة، لم أستقبلها — حاول الإرسال مرة أخرى';
 
   @override
   String get chatSendFailedMessages4 =>
-      'TODO_AR: hmm something glitched, can you resend that?';
+      'حممم حدث خلل ما، هل يمكنك إعادة إرسالها؟';
 
   @override
   String get streakCelebrationAffirmations0 =>
-      'TODO_AR: A whole week of showing up for yourself. Luna noticed 🌸';
+      'أسبوع كامل من الحضور لنفسك. لونا لاحظت ذلك 🌸';
 
   @override
   String get streakCelebrationAffirmations1 =>
-      'TODO_AR: Seven days of choosing yourself, one thought at a time.';
+      'سبعة أيام من اختيار نفسك، فكرة تلو الأخرى';
 
   @override
   String get streakCelebrationAffirmations2 =>
-      'TODO_AR: You kept coming back — that\'s the whole secret, really.';
+      'استمررت في العودة — هذا هو السر كله في الحقيقة';
 
   @override
   String get streakCelebrationAffirmations3 =>
-      'TODO_AR: Luna is so glad you\'re still here, day after day.';
+      'لونا سعيدة جداً أنك لا تزال هنا، يوماً بعد يوم';
 
   @override
   String get streakCelebrationAffirmations4 =>
-      'TODO_AR: This is what taking care of you looks like. Keep it up.';
+      'هذا ما تبدو عليه العناية بنفسك. استمر';
 
   @override
   String get streakCelebrationAffirmations5 =>
-      'TODO_AR: A full week, gently and honestly. That\'s worth celebrating.';
+      'أسبوع كامل، برفق وصدق. يستحق الاحتفال';
 }

@@ -68,7 +68,13 @@
       "Bash(bash /Users/r/StudioProjects/lueur/.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks 2>&1)",
       "Bash(python3 -c \"import json; json.load\\(open\\('lib/l10n/app_en.arb'\\)\\)\")",
       "Bash(python3 -c \"import json; json.load\\(open\\('lib/l10n/app_ar.arb'\\)\\)\")",
-      "Bash(flutter gen-l10n *)"
+      "Bash(flutter gen-l10n *)",
+      "Read(//dev/**)",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('lib/l10n/app_ar.arb'\\)\\); print\\(len\\([k for k in d if not k.startswith\\('@'\\)]\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('lib/l10n/app_ar.arb'\\)\\); print\\('total keys:', len\\([k for k in d if not k.startswith\\('@'\\)]\\)\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/r/StudioProjects/lueur/lib/l10n/app_ar.arb'\\)\\)\")",
+      "Bash(python3 *)",
+      "Bash(echo \"started in background, pid $!\")"
     ]
   }
 }
