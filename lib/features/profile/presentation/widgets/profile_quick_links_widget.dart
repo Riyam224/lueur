@@ -5,7 +5,7 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Shortcuts to the Weekly Letter and the mood board (the existing Journal
 /// feature, reused rather than duplicated).
@@ -21,7 +21,7 @@ class ProfileQuickLinksWidget extends StatelessWidget {
           icon: Icons.mail_outline_rounded,
           iconColor: context.extra.settingsAboutIconColor!,
           iconBgColor: context.extra.settingsAboutIconBg!,
-          label: AppStrings.profileQuickLinkWeeklyLetter,
+          label: AppLocalizations.of(context)!.profileQuickLinkWeeklyLetter,
           onTap: () => context.push(AppRoutes.weeklyLetter),
         ),
         Divider(height: 1, thickness: 0.5, color: context.extra.borderColor),
@@ -29,7 +29,7 @@ class ProfileQuickLinksWidget extends StatelessWidget {
           icon: Icons.grid_view_rounded,
           iconColor: context.extra.settingsPrivacyIconColor!,
           iconBgColor: context.extra.settingsPrivacyIconBg!,
-          label: AppStrings.profileQuickLinkMoodBoard,
+          label: AppLocalizations.of(context)!.profileQuickLinkMoodBoard,
           onTap: () => context.go(AppRoutes.journal),
         ),
       ],

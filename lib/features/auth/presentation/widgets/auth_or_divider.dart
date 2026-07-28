@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// "── or ──" divider between the primary CTA and social sign-in.
 class AuthOrDivider extends StatelessWidget {
@@ -30,7 +30,7 @@ class AuthOrDivider extends StatelessWidget {
             horizontal: AppSpacing.horizontalPaddingSm,
           ),
           child: Text(
-            AppStrings.authOrDivider,
+            AppLocalizations.of(context)!.authOrDivider,
             style: AppTextStyles.captionSmall(context)
                 .copyWith(color: textColor),
           ),

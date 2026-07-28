@@ -10,6 +10,7 @@ import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart'
 import 'package:lueur/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
 import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_datasource.dart';
 import 'package:lueur/firebase_options.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +24,9 @@ void main() async {
   await Hive.openBox<String>(SudokuResultsLocalDatasource.boxName);
   await Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName);
   await Hive.openBox<bool>(ThemeCubit.boxName);
+  final sharedPreferences = await SharedPreferences.getInstance();
 
-  setupInjection();
+  setupInjection(sharedPreferences: sharedPreferences);
 
   await GoogleFonts.pendingFonts([
     GoogleFonts.dmSans(),

@@ -8,11 +8,11 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_state.dart';
 import 'package:lueur/features/draw/presentation/widgets/saved_drawing_thumbnail.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// "My Drawings" — saved free-draw sketches, tap to reopen, tap the corner
 /// icon to delete. Mirrors the Saved Quotes section's card styling.
@@ -24,26 +24,26 @@ class ProfileSavedDrawingsSectionWidget extends StatelessWidget {
     return BlocBuilder<SavedDrawingsCubit, SavedDrawingsState>(
       builder: (context, state) {
         if (state is SavedDrawingsError) {
-          return const _EmptyCard(
+          return _EmptyCard(
             emoji: '🎨',
-            title: AppStrings.profileDrawingsTitle,
-            subtitle: AppStrings.profileDrawingsErrorSubtitle,
+            title: AppLocalizations.of(context)!.profileDrawingsTitle,
+            subtitle: AppLocalizations.of(context)!.profileDrawingsErrorSubtitle,
           );
         }
         if (state is! SavedDrawingsLoaded) return const SizedBox.shrink();
 
         if (state.drawings.isEmpty) {
-          return const _EmptyCard(
+          return _EmptyCard(
             emoji: '🎨',
-            title: AppStrings.profileDrawingsTitle,
-            subtitle: AppStrings.profileDrawingsEmptySubtitle,
+            title: AppLocalizations.of(context)!.profileDrawingsTitle,
+            subtitle: AppLocalizations.of(context)!.profileDrawingsEmptySubtitle,
           );
         }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppStrings.profileDrawingsTitle, style: ThemeTextStyles.headlineSmall(context)),
+            Text(AppLocalizations.of(context)!.profileDrawingsTitle, style: ThemeTextStyles.headlineSmall(context)),
             SizedBox(height: AppSpacing.spaceSm),
             SizedBox(
               height: 96.h,

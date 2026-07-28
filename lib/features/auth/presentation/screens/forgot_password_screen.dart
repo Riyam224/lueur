@@ -7,7 +7,6 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_cubit.dart';
@@ -15,6 +14,7 @@ import 'package:lueur/features/auth/presentation/cubit/forgot_password_state.dar
 import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -42,9 +42,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(AppStrings.forgotPasswordEmailRequired),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.forgotPasswordEmailRequired),
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -136,7 +136,7 @@ class _FormContent extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: Text(
-            AppStrings.forgotPasswordTitle,
+            AppLocalizations.of(context)!.forgotPasswordTitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.headlineItalic(context),
           ),
@@ -145,7 +145,7 @@ class _FormContent extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: Text(
-            AppStrings.forgotPasswordSubtitle,
+            AppLocalizations.of(context)!.forgotPasswordSubtitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium(context)
                 .copyWith(color: AppColors.onboardingSubtitle),
@@ -154,14 +154,14 @@ class _FormContent extends StatelessWidget {
         SizedBox(height: AppSpacing.sectionSpacingLg),
         AuthTextField(
           controller: emailController,
-          label: AppStrings.authEmailLabel,
-          hint: AppStrings.authEmailHint,
+          label: AppLocalizations.of(context)!.authEmailLabel,
+          hint: AppLocalizations.of(context)!.authEmailHint,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.done,
         ),
         SizedBox(height: AppSpacing.verticalPaddingXl),
         AuthPrimaryButton(
-          label: AppStrings.forgotPasswordCta,
+          label: AppLocalizations.of(context)!.forgotPasswordCta,
           isLoading: isLoading,
           onPressed: onSubmit,
         ),
@@ -197,7 +197,7 @@ class _SuccessContent extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: Text(
-            AppStrings.forgotPasswordSuccessTitle,
+            AppLocalizations.of(context)!.forgotPasswordSuccessTitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.headlineItalic(context),
           ),
@@ -206,7 +206,7 @@ class _SuccessContent extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: Text(
-            AppStrings.forgotPasswordSuccessSubtitle,
+            AppLocalizations.of(context)!.forgotPasswordSuccessSubtitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium(context)
                 .copyWith(color: AppColors.onboardingSubtitle),
@@ -214,7 +214,7 @@ class _SuccessContent extends StatelessWidget {
         ),
         SizedBox(height: AppSpacing.sectionSpacingLg),
         AuthPrimaryButton(
-          label: AppStrings.forgotPasswordBackToLogin,
+          label: AppLocalizations.of(context)!.forgotPasswordBackToLogin,
           isLoading: false,
           onPressed: () => context.go(AppRoutes.loginScreen),
         ),

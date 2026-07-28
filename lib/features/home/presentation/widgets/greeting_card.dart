@@ -11,6 +11,7 @@ import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 import 'package:lueur/features/plant/presentation/widgets/streak_growth_widget.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Greeting card displaying Luna's contextual message with dynamic plant animation.
 class GreetingCard extends StatefulWidget {
@@ -30,26 +31,33 @@ class GreetingCard extends StatefulWidget {
 class _GreetingCardState extends State<GreetingCard> {
   PlantStage? _lastStage;
 
-  String _lunaMessage(String name, int hour, int streak, bool hasEntries) {
+  String _lunaMessage(
+    BuildContext context,
+    String name,
+    int hour,
+    int streak,
+    bool hasEntries,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
     if (!hasEntries) {
-      return 'Hey $name, I\'m Luna. I\'m here whenever you\'re ready to talk 🌱';
+      return l10n.homeGreetingNoEntries(name);
     }
     if (hour >= 5 && hour < 12) {
       if (streak > 0) {
-        return 'Good morning, $name! $streak-day streak — that\'s beautiful 🌸';
+        return l10n.homeGreetingMorningStreak(name, streak);
       }
-      return 'Good morning, $name ☀️ What\'s on your heart today?';
+      return l10n.homeGreetingMorning(name);
     }
     if (hour >= 12 && hour < 17) {
-      return 'Hey $name 🌤️ How\'s your day going so far?';
+      return l10n.homeGreetingAfternoon(name);
     }
     if (hour >= 17 && hour < 21) {
       if (streak > 0) {
-        return 'Good evening, $name 🌙 $streak days strong — I\'m proud of you.';
+        return l10n.homeGreetingMessage(name, streak);
       }
-      return 'Good evening, $name 🌙 I\'m here if you want to talk.';
+      return l10n.homeGreetingEveningNoStreak(name);
     }
-    return 'Hey $name ⭐ Still up? I\'m listening.';
+    return l10n.homeGreetingLateNight(name);
   }
 
   @override
@@ -79,8 +87,13 @@ class _GreetingCardState extends State<GreetingCard> {
 
           _lastStage ??= stage;
 
-          final message =
-              _lunaMessage(widget.userName, hour, streak, widget.hasEntries);
+          final message = _lunaMessage(
+            context,
+            widget.userName,
+            hour,
+            streak,
+            widget.hasEntries,
+          );
 
           return Container(
             width: double.infinity,

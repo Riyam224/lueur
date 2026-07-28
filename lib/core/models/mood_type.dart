@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// The set of mood illustrations available in assets/illustrations/.
 enum MoodType {
@@ -96,19 +96,20 @@ extension MoodTypeDetails on MoodType {
         _ => false,
       };
 
-  String get label => switch (this) {
-        MoodType.happy => AppStrings.moodLabelHappy,
-        MoodType.sad => AppStrings.moodLabelSad,
-        MoodType.angry => AppStrings.moodLabelAngry,
-        MoodType.anxious => AppStrings.moodLabelAnxious,
-        MoodType.calm => AppStrings.moodLabelCalm,
-        MoodType.excited => AppStrings.moodLabelExcited,
-        MoodType.grateful => AppStrings.moodLabelGrateful,
-        MoodType.hopeful => AppStrings.moodLabelHopeful,
-        MoodType.lonely => AppStrings.moodLabelLonely,
-        MoodType.neutral => AppStrings.moodLabelNeutral,
-        MoodType.scared => AppStrings.moodLabelScared,
-        MoodType.burnout => AppStrings.moodLabelBurnout,
-        MoodType.contentPeaceful => AppStrings.moodLabelContentPeaceful,
+  String label(BuildContext context) => switch (this) {
+        MoodType.happy => AppLocalizations.of(context)!.moodLabelHappy,
+        MoodType.sad => AppLocalizations.of(context)!.moodLabelSad,
+        MoodType.angry => AppLocalizations.of(context)!.moodLabelAngry,
+        MoodType.anxious => AppLocalizations.of(context)!.moodLabelAnxious,
+        MoodType.calm => AppLocalizations.of(context)!.moodLabelCalm,
+        MoodType.excited => AppLocalizations.of(context)!.moodLabelExcited,
+        MoodType.grateful => AppLocalizations.of(context)!.moodLabelGrateful,
+        MoodType.hopeful => AppLocalizations.of(context)!.moodLabelHopeful,
+        MoodType.lonely => AppLocalizations.of(context)!.moodLabelLonely,
+        MoodType.neutral => AppLocalizations.of(context)!.moodLabelNeutral,
+        MoodType.scared => AppLocalizations.of(context)!.moodLabelScared,
+        MoodType.burnout => AppLocalizations.of(context)!.moodLabelBurnout,
+        MoodType.contentPeaceful =>
+          AppLocalizations.of(context)!.moodLabelContentPeaceful,
       };
 }

@@ -4,7 +4,7 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Thoughts input field with submit button
 class ThoughtsInputWidget extends StatelessWidget {
@@ -32,7 +32,7 @@ class ThoughtsInputWidget extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: extraColors.cardBackgroundColor,
-            hintText: AppStrings.homeThoughtsHint,
+            hintText: AppLocalizations.of(context)!.homeThoughtsHint,
             hintStyle: ThemeTextStyles.bodySmall(context),
             counterText: '',
             border: OutlineInputBorder(
@@ -65,7 +65,7 @@ class ThoughtsInputWidget extends StatelessWidget {
           builder: (context, value, child) {
             final count = value.text.trim().length;
             return Text(
-              _encouragementForCount(count),
+              _encouragementForCount(context, count),
               style: ThemeTextStyles.bodySmall(context).copyWith(
                 color: extraColors.secondaryTextColor,
               ),
@@ -92,7 +92,7 @@ class ThoughtsInputWidget extends StatelessWidget {
               elevation: 0,
             ),
             child: Text(
-              AppStrings.commonTalkToLuna,
+              AppLocalizations.of(context)!.commonTalkToLuna,
               style: ThemeTextStyles.whiteButton(context),
             ),
           ),
@@ -102,11 +102,12 @@ class ThoughtsInputWidget extends StatelessWidget {
     );
   }
 
-  String _encouragementForCount(int count) {
-    if (count < 50) return AppStrings.homeThoughtsEncouragementStart;
-    if (count < 150) return AppStrings.homeThoughtsEncouragementContinue;
-    if (count < 300) return AppStrings.homeThoughtsEncouragementOpeningUp;
-    if (count < 450) return AppStrings.homeThoughtsEncouragementBeautiful;
-    return AppStrings.homeThoughtsEncouragementListening;
+  String _encouragementForCount(BuildContext context, int count) {
+    final l10n = AppLocalizations.of(context)!;
+    if (count < 50) return l10n.homeThoughtsEncouragementStart;
+    if (count < 150) return l10n.homeThoughtsEncouragementContinue;
+    if (count < 300) return l10n.homeThoughtsEncouragementOpeningUp;
+    if (count < 450) return l10n.homeThoughtsEncouragementBeautiful;
+    return l10n.homeThoughtsEncouragementListening;
   }
 }

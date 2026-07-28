@@ -7,11 +7,11 @@ import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/widgets/mood_selector_widget.dart';
 import 'package:lueur/features/home/presentation/widgets/thoughts_input_widget.dart';
 import 'package:lueur/features/mood_choice/presentation/widgets/mood_choice_dialog.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Combined section for mood selection and thoughts input
 class MoodInputSection extends StatefulWidget {
@@ -27,32 +27,33 @@ class _MoodInputSectionState extends State<MoodInputSection> {
 
   static const List<MoodType> _moods = MoodType.values;
 
-  String _thoughtsLabel(MoodType? mood) {
+  String _thoughtsLabel(BuildContext context, MoodType? mood) {
+    final l10n = AppLocalizations.of(context)!;
     switch (mood) {
       case MoodType.sad:
-        return AppStrings.homeThoughtsLabelSad;
+        return l10n.homeThoughtsLabelSad;
       case MoodType.lonely:
-        return AppStrings.homeThoughtsLabelLonely;
+        return l10n.homeThoughtsLabelLonely;
       case MoodType.angry:
-        return AppStrings.homeThoughtsLabelAngry;
+        return l10n.homeThoughtsLabelAngry;
       case MoodType.anxious:
       case MoodType.scared:
-        return AppStrings.homeThoughtsLabelWorried;
+        return l10n.homeThoughtsLabelWorried;
       case MoodType.burnout:
-        return AppStrings.homeThoughtsLabelBurnout;
+        return l10n.homeThoughtsLabelBurnout;
       case MoodType.calm:
       case MoodType.contentPeaceful:
-        return AppStrings.homeThoughtsLabelNeutralGood;
+        return l10n.homeThoughtsLabelNeutralGood;
       case MoodType.happy:
       case MoodType.excited:
-        return AppStrings.homeThoughtsLabelFeelGood;
+        return l10n.homeThoughtsLabelFeelGood;
       case MoodType.grateful:
-        return AppStrings.homeThoughtsLabelGrateful;
+        return l10n.homeThoughtsLabelGrateful;
       case MoodType.hopeful:
-        return AppStrings.homeThoughtsLabelHopeful;
+        return l10n.homeThoughtsLabelHopeful;
       case MoodType.neutral:
       case null:
-        return AppStrings.homeThoughtsLabelDefault;
+        return l10n.homeThoughtsLabelDefault;
     }
   }
 
@@ -79,9 +80,9 @@ class _MoodInputSectionState extends State<MoodInputSection> {
 
     if (_selectedMood == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(AppStrings.homeMoodRequiredSnack),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.homeMoodRequiredSnack),
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -89,9 +90,10 @@ class _MoodInputSectionState extends State<MoodInputSection> {
 
     if (thoughts.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(AppStrings.homeThoughtsRequiredSnack),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content:
+              Text(AppLocalizations.of(context)!.homeThoughtsRequiredSnack),
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -130,7 +132,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppStrings.homeMoodPromptLabel,
+          AppLocalizations.of(context)!.homeMoodPromptLabel,
           style: ThemeTextStyles.bodyMedium(context).copyWith(
             color: extra.secondaryTextColor,
             fontWeight: FontWeight.w600,
@@ -144,7 +146,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
           moodColors: _moods.map((mood) => mood.color).toList(),
           moodBgColors: _moods.map((mood) => mood.bgColor).toList(),
           illustrationPaths: _moods.map((mood) => mood.assetPath).toList(),
-          selectedLabel: _selectedMood?.label,
+          selectedLabel: _selectedMood?.label(context),
         ),
         SizedBox(height: AppSpacing.sectionSpacingMd),
         AnimatedSwitcher(
@@ -152,7 +154,7 @@ class _MoodInputSectionState extends State<MoodInputSection> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              _thoughtsLabel(_selectedMood),
+              _thoughtsLabel(context, _selectedMood),
               key: ValueKey(_selectedMood),
               style: ThemeTextStyles.bodyMedium(context).copyWith(
                 color: extra.secondaryTextColor,

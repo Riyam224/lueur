@@ -7,9 +7,9 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/home/data/models/weekly_letter_model.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Floating dismissible weekly-letter card shown at the top of the home screen.
 /// The user swipes it away (or taps ×) to hide it for this session.
@@ -163,7 +163,7 @@ class _LetterContentState extends State<_LetterContent> {
               SizedBox(width: AppSpacing.spaceSm),
               Expanded(
                 child: Text(
-                  AppStrings.weeklyLetterBannerTitle,
+                  AppLocalizations.of(context)!.weeklyLetterBannerTitle,
                   style: ThemeTextStyles.labelMedium(context).copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -185,19 +185,25 @@ class _LetterContentState extends State<_LetterContent> {
           // ── Stats row ─────────────────────────────────────────
           Row(
             children: [
-              _StatChip(
-                label: '${stats.entryCount} entries',
-                icon: Icons.edit_note_rounded,
+              Flexible(
+                child: _StatChip(
+                  label: '${stats.entryCount} entries',
+                  icon: Icons.edit_note_rounded,
+                ),
               ),
               SizedBox(width: AppSpacing.spaceSm),
-              _StatChip(
-                label: '🔥 ${stats.streak} day streak',
-                isEmoji: true,
+              Flexible(
+                child: _StatChip(
+                  label: '🔥 ${stats.streak} day streak',
+                  isEmoji: true,
+                ),
               ),
               SizedBox(width: AppSpacing.spaceSm),
-              _StatChip(
-                label: stats.dominantEmoji,
-                isEmoji: true,
+              Flexible(
+                child: _StatChip(
+                  label: stats.dominantEmoji,
+                  isEmoji: true,
+                ),
               ),
             ],
           ),
@@ -226,8 +232,8 @@ class _LetterContentState extends State<_LetterContent> {
               onTap: () => setState(() => _expanded = !_expanded),
               child: Text(
                 _expanded
-                    ? AppStrings.weeklyLetterShowLess
-                    : AppStrings.weeklyLetterReadMore,
+                    ? AppLocalizations.of(context)!.weeklyLetterShowLess
+                    : AppLocalizations.of(context)!.weeklyLetterReadMore,
                 style: ThemeTextStyles.labelSmall(context).copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,
@@ -237,7 +243,7 @@ class _LetterContentState extends State<_LetterContent> {
           ] else ...[
             SizedBox(height: AppSpacing.spaceSm),
             Text(
-              AppStrings.weeklyLetterWaitingMessage,
+              AppLocalizations.of(context)!.weeklyLetterWaitingMessage,
               style: ThemeTextStyles.bodySmall(context).copyWith(
                 color: context.extra.secondaryTextColor,
               ),
@@ -282,19 +288,23 @@ class _StatChip extends StatelessWidget {
             Icon(icon, size: 12.sp, color: AppColors.primary),
             SizedBox(width: AppSpacing.spaceXs),
           ],
-          Text(
-            label,
-            style: isEmoji
-                ? const TextStyle(
-                    fontSize: 13,
-                    fontFamilyFallback: [
-                      'Apple Color Emoji',
-                      'Noto Color Emoji',
-                    ],
-                  )
-                : ThemeTextStyles.labelSmall(context).copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: isEmoji
+                  ? const TextStyle(
+                      fontSize: 13,
+                      fontFamilyFallback: [
+                        'Apple Color Emoji',
+                        'Noto Color Emoji',
+                      ],
+                    )
+                  : ThemeTextStyles.labelSmall(context).copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+            ),
           ),
         ],
       ),

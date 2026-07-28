@@ -14,7 +14,6 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
@@ -30,14 +29,16 @@ import 'package:lueur/features/home/presentation/widgets/weekly_letter_banner.da
 import 'package:lueur/features/plant/domain/entities/streak_growth_stage.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Home screen — main entry point of the app
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  static String _displayName(AuthState state) => state is AuthAuthenticated
-      ? state.user.displayName
-      : AppStrings.profileFallbackName;
+  static String _displayName(BuildContext context, AuthState state) =>
+      state is AuthAuthenticated
+          ? state.user.displayName
+          : AppLocalizations.of(context)!.profileFallbackName;
 
   static String? _userSeed(AuthState state) =>
       state is AuthAuthenticated ? state.user.id : null;
@@ -61,7 +62,7 @@ class HomeScreen extends StatelessWidget {
       ],
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) => _HomeScreenBody(
-          userName: _displayName(state),
+          userName: _displayName(context, state),
           userSeed: _userSeed(state),
         ),
       ),
@@ -158,21 +159,22 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text(AppStrings.moodEntryDeleteAllTitle),
-        content: const Text(AppStrings.moodEntryDeleteAllMessage),
+        title: Text(AppLocalizations.of(dialogContext)!.moodEntryDeleteAllTitle),
+        content:
+            Text(AppLocalizations.of(dialogContext)!.moodEntryDeleteAllMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text(AppStrings.commonCancel),
+            child: Text(AppLocalizations.of(dialogContext)!.commonCancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
               context.read<MoodCubit>().deleteAllEntries();
             },
-            child: const Text(
-              AppStrings.moodEntryDeleteAllConfirm,
-              style: TextStyle(color: AppColors.errorColor),
+            child: Text(
+              AppLocalizations.of(dialogContext)!.moodEntryDeleteAllConfirm,
+              style: const TextStyle(color: AppColors.errorColor),
             ),
           ),
         ],
@@ -341,13 +343,13 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                         const Text('🌱', style: TextStyle(fontSize: 44)),
                         SizedBox(height: AppSpacing.spaceMd),
                         Text(
-                          AppStrings.moodEntryEmptyStateTitle,
+                          AppLocalizations.of(context)!.moodEntryEmptyStateTitle,
                           style: ThemeTextStyles.headlineSmall(context),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: AppSpacing.spaceSm),
                         Text(
-                          AppStrings.homeEmptyStateSubtitle,
+                          AppLocalizations.of(context)!.homeEmptyStateSubtitle,
                           style: ThemeTextStyles.bodyMedium(context).copyWith(
                             color: context.extra.secondaryTextColor,
                           ),
@@ -406,13 +408,14 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                           ),
                           SizedBox(height: AppSpacing.spaceMd),
                           Text(
-                            AppStrings.homeFirstSeedCelebration,
+                            AppLocalizations.of(context)!.homeFirstSeedCelebration,
                             style: ThemeTextStyles.headlineSmall(context),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: AppSpacing.spaceSm),
                           Text(
-                            AppStrings.homeFirstSeedCelebrationSubtitle,
+                            AppLocalizations.of(context)!
+                                .homeFirstSeedCelebrationSubtitle,
                             style: ThemeTextStyles.bodyMedium(context).copyWith(
                               color: context.extra.secondaryTextColor,
                             ),

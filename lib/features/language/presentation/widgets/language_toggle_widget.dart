@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/features/language/domain/entities/app_language.dart';
+import 'package:lueur/features/language/presentation/cubit/language_cubit.dart';
+
+/// Two-option English / Arabic segmented toggle for the Settings screen.
+class LanguageToggleWidget extends StatelessWidget {
+  const LanguageToggleWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final currentLanguage = AppLanguage.fromCode(
+      context.watch<LanguageCubit>().state.languageCode,
+    );
+
+    return Container(
+      padding: EdgeInsets.all(4.r),
+      decoration: BoxDecoration(
+        color: AppColors.creamBackground,
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _LanguageOption(
+            label: 'English',
+            selected: currentLanguage == AppLanguage.en,
+            onTap: () =>
+                context.read<LanguageCubit>().changeLanguage(AppLanguage.en),
+          ),
+          _LanguageOption(
+            label: 'العربي',
+            selected: currentLanguage == AppLanguage.ar,
+            onTap: () =>
+                context.read<LanguageCubit>().changeLanguage(AppLanguage.ar),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LanguageOption extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _LanguageOption({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: selected ? AppColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
+        ),
+        child: Text(
+          label,
+          style: ThemeTextStyles.bodyMedium(context).copyWith(
+            color: selected ? Colors.white : null,
+            fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
+      ),
+    );
+  }
+}

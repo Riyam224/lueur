@@ -7,7 +7,6 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
@@ -19,6 +18,7 @@ import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dar
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:lueur/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:lueur/features/auth/presentation/widgets/password_strength_indicator.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: secondaryText,
                     ),
                     label: Text(
-                      AppStrings.authLogOut,
+                      AppLocalizations.of(context)!.authLogOut,
                       style: AppTextStyles.captionSmall(context)
                           .copyWith(color: secondaryText),
                     ),
@@ -114,7 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    AppStrings.registerTitle,
+                    AppLocalizations.of(context)!.registerTitle,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.headlineItalic(context),
                   ),
@@ -123,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    AppStrings.registerSubtitle,
+                    AppLocalizations.of(context)!.registerSubtitle,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.bodyMedium(context)
                         .copyWith(color: AppColors.onboardingSubtitle),
@@ -132,8 +132,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: AppSpacing.sectionSpacingLg),
                 AuthTextField(
                   controller: _nameController,
-                  label: AppStrings.authFullNameLabel,
-                  hint: AppStrings.authFullNameHint,
+                  label: AppLocalizations.of(context)!.authFullNameLabel,
+                  hint: AppLocalizations.of(context)!.authFullNameHint,
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
@@ -141,16 +141,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 AuthTextField(
                   controller: _emailController,
-                  label: AppStrings.authEmailLabel,
-                  hint: AppStrings.authEmailHint,
+                  label: AppLocalizations.of(context)!.authEmailLabel,
+                  hint: AppLocalizations.of(context)!.authEmailHint,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 AuthTextField(
                   controller: _passwordController,
-                  label: AppStrings.authPasswordLabel,
-                  hint: AppStrings.authPasswordHint,
+                  label: AppLocalizations.of(context)!.authPasswordLabel,
+                  hint: AppLocalizations.of(context)!.authPasswordHint,
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   onChanged: _onPasswordChanged,
@@ -173,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: AppSpacing.verticalPaddingXl),
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) => AuthPrimaryButton(
-                    label: AppStrings.registerCta,
+                    label: AppLocalizations.of(context)!.registerCta,
                     isLoading: state is AuthLoading,
                     onPressed: () => context.read<AuthCubit>().register(
                           email: _emailController.text.trim(),
@@ -189,15 +189,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 GoogleSignInButton(
-                  label: AppStrings.authSignUpWithGoogle,
+                  label: AppLocalizations.of(context)!.authSignUpWithGoogle,
                   borderColor: borderColor,
                   foregroundColor: textPrimary,
                   onPressed: () => context.read<AuthCubit>().signInWithGoogle(),
                 ),
                 SizedBox(height: AuthConstants.googleToFooterSpacing),
                 AuthFooterLink(
-                  prompt: AppStrings.registerSignInPrompt,
-                  action: AppStrings.registerSignInAction,
+                  prompt: AppLocalizations.of(context)!.registerSignInPrompt,
+                  action: AppLocalizations.of(context)!.registerSignInAction,
                   promptColor: secondaryText,
                   actionColor: AppColors.onboardingAccent,
                   onTap: () => context.go(AppRoutes.loginScreen),
@@ -215,7 +215,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     child: Text(
-                      AppStrings.authContinueAsGuest,
+                      AppLocalizations.of(context)!.authContinueAsGuest,
                       style: AppTextStyles.caption(context).copyWith(
                         color: secondaryText,
                         decoration: TextDecoration.underline,

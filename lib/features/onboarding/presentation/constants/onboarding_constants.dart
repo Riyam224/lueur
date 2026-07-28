@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/onboarding/presentation/models/onboarding_page_data.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Layout, timing and content constants for the onboarding flow.
 class OnboardingConstants {
@@ -43,27 +43,30 @@ class OnboardingConstants {
   static const double navRowHorizontalPadding = 32;
   static const Duration navArrowScaleDuration = Duration(milliseconds: 150);
 
-  static const List<OnboardingPageData> pages = [
-    OnboardingPageData(
-      title: AppStrings.onboardingTitle1,
-      subtitle: AppStrings.onboardingSubtitle1,
-      badgeIcon: Icons.self_improvement_rounded,
-      cardColor: AppColors.pastelBlush,
-      circleColor: AppColors.pastelCoral,
-    ),
-    OnboardingPageData(
-      title: AppStrings.onboardingTitle2,
-      subtitle: AppStrings.onboardingSubtitle2,
-      badgeIcon: Icons.chat_bubble_rounded,
-      cardColor: AppColors.pastelPeriwinkle,
-      circleColor: AppColors.pastelPurple,
-    ),
-    OnboardingPageData(
-      title: AppStrings.onboardingTitle3,
-      subtitle: AppStrings.onboardingSubtitle3,
-      badgeIcon: Icons.eco_rounded,
-      cardColor: AppColors.pastelLavenderWhite,
-      circleColor: AppColors.pastelOrchid,
-    ),
-  ];
+  static List<OnboardingPageData> pages(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return [
+      OnboardingPageData(
+        title: l10n.onboardingTitle1,
+        subtitle: l10n.onboardingSubtitle1,
+        badgeIcon: Icons.self_improvement_rounded,
+        cardColor: AppColors.pastelBlush,
+        circleColor: AppColors.pastelCoral,
+      ),
+      OnboardingPageData(
+        title: l10n.onboardingTitle2,
+        subtitle: l10n.onboardingSubtitle2,
+        badgeIcon: Icons.chat_bubble_rounded,
+        cardColor: AppColors.pastelPeriwinkle,
+        circleColor: AppColors.pastelPurple,
+      ),
+      OnboardingPageData(
+        title: l10n.onboardingTitle3,
+        subtitle: l10n.onboardingSubtitle3,
+        badgeIcon: Icons.eco_rounded,
+        cardColor: AppColors.pastelLavenderWhite,
+        circleColor: AppColors.pastelOrchid,
+      ),
+    ];
+  }
 }

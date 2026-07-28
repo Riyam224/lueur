@@ -6,10 +6,10 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/splash/presentation/constants/splash_constants.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// The in-app splash — Luna's illustration centered on a solid background,
 /// with the app name and tagline beneath, fading in once. Native splash can
@@ -100,7 +100,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               const SizedBox(height: SplashConstants.lunaToTitleGap),
               Text(
-                AppStrings.appName,
+                AppLocalizations.of(context)!.appName,
                 style: AppTextStyles.headlineLarge(context).copyWith(
                   fontSize: SplashConstants.titleFontSize,
                   fontWeight: FontWeight.w800,
@@ -109,7 +109,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               const SizedBox(height: SplashConstants.titleToTaglineGap),
               Text(
-                AppStrings.appTagline,
+                AppLocalizations.of(context)!.appTagline,
                 style: AppTextStyles.bodyMedium(context).copyWith(
                   fontSize: SplashConstants.taglineFontSize,
                   fontWeight: FontWeight.w500,

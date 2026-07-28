@@ -75,9 +75,12 @@ class JournalStreakBarWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                streakDays == 1 ? '1 day streak' : '$streakDays day streak',
-                style: ThemeTextStyles.titleMedium(context),
+              Flexible(
+                child: Text(
+                  streakDays == 1 ? '1 day streak' : '$streakDays day streak',
+                  overflow: TextOverflow.ellipsis,
+                  style: ThemeTextStyles.titleMedium(context),
+                ),
               ),
               // Same growth-stage plant as the home screen — grown from the
               // same streak count passed into this widget, so it's always

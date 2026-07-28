@@ -5,8 +5,8 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/spacing_widgets.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Section for users to share their thoughts and talk to Luna
 class ShareThoughtsSection extends StatefulWidget {
@@ -29,8 +29,10 @@ class _ShareThoughtsSectionState extends State<ShareThoughtsSection> {
     final thoughts = _thoughtsController.text.trim();
     if (thoughts.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(AppStrings.homeThoughtsRequiredSnackFirst),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.homeThoughtsRequiredSnackFirst,
+          ),
         ),
       );
       return;
@@ -49,7 +51,7 @@ class _ShareThoughtsSectionState extends State<ShareThoughtsSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppStrings.homeShareThoughtsSectionLabel,
+          AppLocalizations.of(context)!.homeShareThoughtsSectionLabel,
           style: ThemeTextStyles.labelLarge(context),
         ),
         HeightSpace(AppSpacing.spaceLg),
@@ -61,7 +63,7 @@ class _ShareThoughtsSectionState extends State<ShareThoughtsSection> {
           maxLength: 500,
           style: ThemeTextStyles.bodyMedium(context),
           decoration: InputDecoration(
-            hintText: AppStrings.homeThoughtsHint,
+            hintText: AppLocalizations.of(context)!.homeThoughtsHint,
             hintStyle: ThemeTextStyles.bodySmall(context),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
@@ -105,7 +107,7 @@ class _ShareThoughtsSectionState extends State<ShareThoughtsSection> {
               ),
             ),
             child: Text(
-              AppStrings.homeTalkToLunaWithSparkle,
+              AppLocalizations.of(context)!.homeTalkToLunaWithSparkle,
               style: ThemeTextStyles.whiteButton(context),
             ),
           ),

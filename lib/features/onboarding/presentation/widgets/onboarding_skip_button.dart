@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Pill-shaped "Skip intro" button shown in the bottom nav row on every
 /// page except the last.
@@ -25,7 +25,7 @@ class OnboardingSkipButton extends StatelessWidget {
         ),
       ),
       child: Text(
-        AppStrings.onboardingSkip,
+        AppLocalizations.of(context)!.onboardingSkip,
         style: GoogleFonts.dmSans(
           fontSize: OnboardingConstants.skipButtonFontSize,
           fontWeight: FontWeight.w500,

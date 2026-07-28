@@ -9,7 +9,7 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_fonts.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// After-feeling selector — tapping any emoji shows a floating modal.
 class AfterFeelingSelectorWidget extends StatefulWidget {
@@ -26,29 +26,31 @@ class _AfterFeelingSelectorWidgetState
 
   static const int _negativeIndex = 3;
 
-  static final List<({String asset, String label, String message})> _feelings =
-      [
-    (
-      asset: MoodType.calm.assetPath,
-      label: AppStrings.afterFeelingCalmLabel,
-      message: AppStrings.afterFeelingCalmMessage,
-    ),
-    (
-      asset: MoodType.grateful.assetPath,
-      label: AppStrings.afterFeelingLovedLabel,
-      message: AppStrings.afterFeelingLovedMessage,
-    ),
-    (
-      asset: MoodType.hopeful.assetPath,
-      label: AppStrings.afterFeelingBetterLabel,
-      message: AppStrings.afterFeelingBetterMessage,
-    ),
-    (
-      asset: MoodType.sad.assetPath,
-      label: AppStrings.afterFeelingStillSadLabel,
-      message: AppStrings.afterFeelingStillSadMessage,
-    ),
-  ];
+  List<({String asset, String label, String message})> get _feelings {
+    final l10n = AppLocalizations.of(context)!;
+    return [
+      (
+        asset: MoodType.calm.assetPath,
+        label: l10n.afterFeelingCalmLabel,
+        message: l10n.afterFeelingCalmMessage,
+      ),
+      (
+        asset: MoodType.grateful.assetPath,
+        label: l10n.afterFeelingLovedLabel,
+        message: l10n.afterFeelingLovedMessage,
+      ),
+      (
+        asset: MoodType.hopeful.assetPath,
+        label: l10n.afterFeelingBetterLabel,
+        message: l10n.afterFeelingBetterMessage,
+      ),
+      (
+        asset: MoodType.sad.assetPath,
+        label: l10n.afterFeelingStillSadLabel,
+        message: l10n.afterFeelingStillSadMessage,
+      ),
+    ];
+  }
 
   void _onSelect(int index) {
     final wasAlreadySelected = _selectedIndex == index;
@@ -64,7 +66,7 @@ class _AfterFeelingSelectorWidgetState
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      barrierLabel: AppStrings.commonDismissBarrierLabel,
+      barrierLabel: AppLocalizations.of(context)!.commonDismissBarrierLabel,
       barrierColor: AppColors.overlayBlack.withValues(alpha: 0.4),
       transitionDuration: const Duration(milliseconds: 300),
       transitionBuilder: (_, anim, __, child) {
@@ -106,7 +108,7 @@ class _AfterFeelingSelectorWidgetState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppStrings.afterFeelingPromptLabel,
+            AppLocalizations.of(context)!.afterFeelingPromptLabel,
             style: ThemeTextStyles.titleSmall(context).copyWith(
               color: AppColors.primary,
             ),
@@ -193,7 +195,7 @@ class _MoodModal extends StatelessWidget {
               // Feeling label
               Text(
                 isNegative
-                    ? AppStrings.afterFeelingTakeYourTime
+                    ? AppLocalizations.of(context)!.afterFeelingTakeYourTime
                     : 'You are feeling $label',
                 style: ThemeTextStyles.titleLarge(context),
                 textAlign: TextAlign.center,
@@ -227,8 +229,8 @@ class _MoodModal extends StatelessWidget {
                   ),
                   child: Text(
                     isNegative
-                        ? AppStrings.afterFeelingTalkToLunaAgain
-                        : AppStrings.afterFeelingThankYouLuna,
+                        ? AppLocalizations.of(context)!.afterFeelingTalkToLunaAgain
+                        : AppLocalizations.of(context)!.afterFeelingThankYouLuna,
                     style: ThemeTextStyles.labelMedium(context).copyWith(
                       color: AppColors.whiteTextColor,
                     ),
@@ -241,7 +243,7 @@ class _MoodModal extends StatelessWidget {
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
-                    AppStrings.afterFeelingImOkay,
+                    AppLocalizations.of(context)!.afterFeelingImOkay,
                     style: ThemeTextStyles.bodySmall(context),
                   ),
                 ),

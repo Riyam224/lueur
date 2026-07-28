@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Glassy, floating pill-shaped bottom navigation bar
 class AppBottomNavBar extends StatelessWidget {
@@ -20,9 +20,9 @@ class AppBottomNavBar extends StatelessWidget {
   });
 
   static const _items = [
-    (icon: Icons.home_outlined,   activeIcon: Icons.home_rounded,    label: AppStrings.navHomeLabel),
-    (icon: Icons.book_outlined,   activeIcon: Icons.book_rounded,    label: AppStrings.navJournalLabel),
-    (icon: Icons.person_outlined, activeIcon: Icons.person_rounded,  label: AppStrings.navProfileLabel),
+    (icon: Icons.home_outlined,   activeIcon: Icons.home_rounded),
+    (icon: Icons.book_outlined,   activeIcon: Icons.book_rounded),
+    (icon: Icons.person_outlined, activeIcon: Icons.person_rounded),
   ];
 
   @override
@@ -33,6 +33,12 @@ class AppBottomNavBar extends StatelessWidget {
     final secondaryText = extra.secondaryTextColor!;
     final cardBackground = extra.cardBackgroundColor!;
     final borderColor = extra.borderColor!;
+    final l10n = AppLocalizations.of(context)!;
+    final labels = [
+      l10n.navHomeLabel,
+      l10n.navJournalLabel,
+      l10n.navProfileLabel,
+    ];
 
     return SafeArea(
       top: false,
@@ -68,17 +74,18 @@ class AppBottomNavBar extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: List.generate(
                     _items.length,
-                    (i) => _NavItem(
-                      icon: _items[i].icon,
-                      activeIcon: _items[i].activeIcon,
-                      label: _items[i].label,
-                      isActive: currentIndex == i,
-                      activeColor: primary,
-                      inactiveColor: secondaryText,
-                      onTap: () => onTap(i),
+                    (i) => Expanded(
+                      child: _NavItem(
+                        icon: _items[i].icon,
+                        activeIcon: _items[i].activeIcon,
+                        label: labels[i],
+                        isActive: currentIndex == i,
+                        activeColor: primary,
+                        inactiveColor: secondaryText,
+                        onTap: () => onTap(i),
+                      ),
                     ),
                   ),
                 ),
@@ -143,12 +150,17 @@ class _NavItem extends StatelessWidget {
               ),
             ),
             SizedBox(height: 3.h),
-            Text(
-              label,
-              style: ThemeTextStyles.navLabel(
-                context,
-                isActive: isActive,
-                color: isActive ? activeColor : inactiveColor,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                style: ThemeTextStyles.navLabel(
+                  context,
+                  isActive: isActive,
+                  color: isActive ? activeColor : inactiveColor,
+                ),
               ),
             ),
             SizedBox(height: 3.h),

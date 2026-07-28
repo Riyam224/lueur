@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Password strength bucket derived from raw password length.
 enum PasswordStrength { none, weak, medium, strong }
@@ -15,11 +15,14 @@ extension PasswordStrengthX on PasswordStrength {
         PasswordStrength.strong => AuthConstants.passwordStrengthStrong,
       };
 
-  String get label => switch (this) {
+  String label(BuildContext context) => switch (this) {
         PasswordStrength.none => '',
-        PasswordStrength.weak => AppStrings.passwordStrengthTooShort,
-        PasswordStrength.medium => AppStrings.passwordStrengthGettingThere,
-        PasswordStrength.strong => AppStrings.passwordStrengthStrong,
+        PasswordStrength.weak =>
+          AppLocalizations.of(context)!.passwordStrengthTooShort,
+        PasswordStrength.medium =>
+          AppLocalizations.of(context)!.passwordStrengthGettingThere,
+        PasswordStrength.strong =>
+          AppLocalizations.of(context)!.passwordStrengthStrong,
       };
 
   static PasswordStrength fromPassword(String value) {
@@ -75,7 +78,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
         ),
         SizedBox(height: AuthConstants.strengthBarToLabelSpacing),
         Text(
-          strength.label,
+          strength.label(context),
           style: AppTextStyles.strengthLabel(context).copyWith(color: color),
         ),
       ],

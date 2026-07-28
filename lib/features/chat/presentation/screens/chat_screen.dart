@@ -9,12 +9,27 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
+import 'package:lueur/l10n/app_localizations.dart';
+
+/// Resolves a chat message's displayed text, mapping `ChatCubit`'s
+/// send-failure sentinel (see [ChatMessage.sendFailedSentinelPrefix]) to the
+/// matching localized string here, where a [BuildContext] is available.
+String _resolveMessageContent(BuildContext context, ChatMessage message) {
+  if (!message.isSendFailedSentinel) return message.content;
+  final l10n = AppLocalizations.of(context)!;
+  return switch (message.sendFailedSentinelIndex) {
+    0 => l10n.chatSendFailedMessages0,
+    1 => l10n.chatSendFailedMessages1,
+    2 => l10n.chatSendFailedMessages2,
+    3 => l10n.chatSendFailedMessages3,
+    _ => l10n.chatSendFailedMessages4,
+  };
+}
 
 class ChatScreen extends StatefulWidget {
   final String emoji;
@@ -114,6 +129,7 @@ class _ChatScreenState extends State<ChatScreen> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final extra = context.extra;
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -145,7 +161,7 @@ class _ChatScreenState extends State<ChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppStrings.lunaName,
+                l10n.lunaName,
                 style: ThemeTextStyles.labelMedium(context).copyWith(
                   color: cs.primary,
                   fontWeight: FontWeight.w600,
@@ -153,7 +169,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               Text(
-                AppStrings.lunaName,
+                l10n.lunaName,
                 style: ThemeTextStyles.labelSmall(context).copyWith(
                   color: extra.secondaryTextColor,
                   fontSize: 11.sp,
@@ -184,7 +200,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
         return _buildMessageBubble(
           context: context,
-          content: message.content,
+          content: _resolveMessageContent(context, message),
           isUser: isUser,
           isFirst: index == 0,
           isPreviousSameRole: isPreviousSameRole,
@@ -211,7 +227,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           SizedBox(height: AppSpacing.verticalPaddingSm),
           Text(
-            AppStrings.chatEmptyStateMessage,
+            AppLocalizations.of(context)!.chatEmptyStateMessage,
             textAlign: TextAlign.center,
             style: ThemeTextStyles.bodyMedium(context).copyWith(
               color: extra.secondaryTextColor,
@@ -238,7 +254,9 @@ class _ChatScreenState extends State<ChatScreen> {
           thoughts: precedingThoughts,
         );
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text(AppStrings.commonSavedToQuotesSnack)),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.commonSavedToQuotesSnack),
+      ),
     );
   }
 
@@ -330,7 +348,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              AppStrings.chatTypingLabel,
+              AppLocalizations.of(context)!.chatTypingLabel,
               style: ThemeTextStyles.labelSmall(context).copyWith(
                 color: cs.primary,
                 fontSize: 13.sp,
@@ -381,7 +399,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 color: extra.primaryTextColor,
               ),
               decoration: InputDecoration(
-                hintText: AppStrings.chatInputHint,
+                hintText: AppLocalizations.of(context)!.chatInputHint,
                 hintStyle: ThemeTextStyles.bodySmall(context).copyWith(
                   color: extra.secondaryTextColor,
                 ),
@@ -435,6 +453,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildSessionEndCard(BuildContext context) {
     final extra = context.extra;
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: EdgeInsets.all(AppSpacing.spaceLg),
@@ -464,7 +483,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           SizedBox(height: AppSpacing.spaceSm),
           Text(
-            AppStrings.chatSessionEndGladMessage,
+            l10n.chatSessionEndGladMessage,
             textAlign: TextAlign.center,
             style: ThemeTextStyles.headlineSmall(context).copyWith(
               color: cs.primary,
@@ -472,7 +491,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           SizedBox(height: 4.h),
           Text(
-            AppStrings.chatSessionEndSavedMessage,
+            l10n.chatSessionEndSavedMessage,
             textAlign: TextAlign.center,
             style: ThemeTextStyles.bodySmall(context).copyWith(
               color: extra.secondaryTextColor,
@@ -496,7 +515,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: EdgeInsets.symmetric(vertical: 14.h),
               ),
               child: Text(
-                AppStrings.chatBackToHomeButton,
+                l10n.chatBackToHomeButton,
                 style: ThemeTextStyles.labelMedium(context).copyWith(
                   color: AppColors.whiteTextColor,
                   fontWeight: FontWeight.w600,

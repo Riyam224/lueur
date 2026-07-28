@@ -9,6 +9,7 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/core/widgets/cozy_card.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class MoodEntryCard extends StatelessWidget {
   final String emoji;
@@ -50,12 +51,16 @@ class MoodEntryCard extends StatelessWidget {
     return RichText(text: TextSpan(text: emoji, style: TextStyle(fontSize: 24.sp)));
   }
 
-  String _formatDate(DateTime date) {
+  String _formatDate(BuildContext context, DateTime date) {
     final now = DateTime.now();
     final yesterday = now.subtract(const Duration(days: 1));
 
-    if (DateUtils.isSameDay(date, now)) return 'Today';
-    if (DateUtils.isSameDay(date, yesterday)) return 'Yesterday';
+    if (DateUtils.isSameDay(date, now)) {
+      return AppLocalizations.of(context)!.commonToday;
+    }
+    if (DateUtils.isSameDay(date, yesterday)) {
+      return AppLocalizations.of(context)!.commonYesterday;
+    }
     return DateFormat('MMM d').format(date);
   }
 
@@ -118,7 +123,7 @@ class MoodEntryCard extends StatelessWidget {
                   ),
                   SizedBox(height: AppSpacing.spaceXs),
                   Text(
-                    "${_formatDate(date)} · ${DateFormat('h:mm a').format(date)}",
+                    "${_formatDate(context, date)} · ${DateFormat('h:mm a').format(date)}",
                     style: ThemeTextStyles.captionSmall(context),
                   ),
                 ],

@@ -13,11 +13,11 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/app_strings.dart';
 import 'package:lueur/core/widgets/luna_check_in_prompt.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_phase.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class BreathingScreen extends StatelessWidget {
   final String emoji;
@@ -179,8 +179,9 @@ class _BreathingViewState extends State<_BreathingView>
     Color inkColor,
   ) {
     final isBreatheIn = state.phase == BreathingPhase.breatheIn;
-    final phaseLabel =
-        isBreatheIn ? AppStrings.breathingPhaseIn : AppStrings.breathingPhaseOut;
+    final phaseLabel = isBreatheIn
+        ? AppLocalizations.of(context)!.breathingPhaseIn
+        : AppLocalizations.of(context)!.breathingPhaseOut;
     final ringColor = isBreatheIn
         ? AppColors.breathingGradientLavender
         : AppColors.breathingGradientPeach;
@@ -193,7 +194,7 @@ class _BreathingViewState extends State<_BreathingView>
         children: [
           SizedBox(height: AppSpacing.space3Xl),
           Text(
-            AppStrings.breathingHeaderLabel,
+            AppLocalizations.of(context)!.breathingHeaderLabel,
             style: ThemeTextStyles.bodyMedium(context).copyWith(
               color: inkColor.withValues(alpha: 0.7),
               fontWeight: FontWeight.w600,
