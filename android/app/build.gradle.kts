@@ -30,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.ai_therapist_app"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
