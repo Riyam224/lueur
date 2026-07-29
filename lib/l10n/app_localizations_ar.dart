@@ -393,6 +393,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get journalEmptyStateSubtitle => 'ما الذي يشغل بالك اليوم؟';
 
   @override
+  String journalDayStreakLabel(int count) {
+    return '$count يوم متتالي';
+  }
+
+  @override
   String get journalStartJournalingButton => 'ابدأ الكتابة';
 
   @override

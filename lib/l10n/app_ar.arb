@@ -119,6 +119,7 @@
   "weeklyLetterStreakChip": "🔥 {count} يوم متتالي",
   "journalTitle": "يومياتي",
   "journalEmptyStateSubtitle": "ما الذي يشغل بالك اليوم؟",
+  "journalDayStreakLabel": "{count} يوم متتالي",
   "journalStartJournalingButton": "ابدأ الكتابة",
   "journalEntryDeleteTitle": "حذف هذا المدخل؟",
   "journalEntryDeleteMessage": "سيتم حذف هذا المدخل نهائياً",

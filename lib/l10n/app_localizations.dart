@@ -812,6 +812,12 @@ abstract class AppLocalizations {
   /// **'What\'s on your mind today?'**
   String get journalEmptyStateSubtitle;
 
+  /// No description provided for @journalDayStreakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} day streak'**
+  String journalDayStreakLabel(int count);
+
   /// No description provided for @journalStartJournalingButton.
   ///
   /// In en, this message translates to:

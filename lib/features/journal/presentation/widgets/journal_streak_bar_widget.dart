@@ -9,6 +9,7 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// A 7-day activity strip, plus the current streak count pulled from
 /// [PlantCubit]/[StreakRepository] — this widget never recomputes the
@@ -77,7 +78,8 @@ class JournalStreakBarWidget extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  streakDays == 1 ? '1 day streak' : '$streakDays day streak',
+                  AppLocalizations.of(context)!
+                      .journalDayStreakLabel(streakDays),
                   overflow: TextOverflow.ellipsis,
                   style: ThemeTextStyles.titleMedium(context),
                 ),

@@ -397,6 +397,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalEmptyStateSubtitle => 'What\'s on your mind today?';
 
   @override
+  String journalDayStreakLabel(int count) {
+    return '$count day streak';
+  }
+
+  @override
   String get journalStartJournalingButton => 'Start journaling';
 
   @override

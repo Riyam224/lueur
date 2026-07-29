@@ -176,6 +176,12 @@
   },
   "journalTitle": "My Journal",
   "journalEmptyStateSubtitle": "What's on your mind today?",
+  "journalDayStreakLabel": "{count} day streak",
+  "@journalDayStreakLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "journalStartJournalingButton": "Start journaling",
   "journalEntryDeleteTitle": "Delete entry?",
   "journalEntryDeleteMessage": "This will permanently remove this journal entry.",
