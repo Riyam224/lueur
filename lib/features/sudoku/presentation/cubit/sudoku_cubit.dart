@@ -123,7 +123,12 @@ class SudokuCubit extends Cubit<SudokuState> {
 
   void toggleAutoCandidateMode(bool enabled) {
     if (!enabled) {
-      emit(state.copyWith(autoCandidateMode: false));
+      emit(
+        state.copyWith(
+          autoCandidateMode: false,
+          candidates: _emptyCandidateGrid(),
+        ),
+      );
       return;
     }
 
