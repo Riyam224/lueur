@@ -9,6 +9,7 @@ import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/splash/presentation/constants/splash_constants.dart';
+import 'package:lueur/features/splash/presentation/widgets/splash_shader_warmup.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// The in-app splash — Luna's illustration centered on a solid background,
@@ -84,41 +85,53 @@ class _SplashScreenState extends State<SplashScreen>
     final taglineColor =
         isDark ? AppColors.darkSecondaryText : AppColors.lightSecondaryText;
 
+    final backgroundColor =
+        isDark ? AppColors.darkBackground : AppColors.creamBackground;
+
     return Scaffold(
-      backgroundColor:
-          isDark ? AppColors.darkBackground : AppColors.creamBackground,
-      body: Center(
-        child: FadeTransition(
-          opacity: _fade,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                AppAssets.lunaCharacter,
-                width: size.width * SplashConstants.lunaSizeFraction,
-                fit: BoxFit.contain,
+      backgroundColor: backgroundColor,
+      body: Stack(
+        children: [
+          // Painted first, then fully covered by the opaque background
+          // below — never visible, but still rasterized so the GPU
+          // compiles onboarding's shader pipelines now instead of during
+          // the first onboarding swipe.
+          const Positioned.fill(child: SplashShaderWarmup()),
+          Positioned.fill(child: ColoredBox(color: backgroundColor)),
+          Center(
+            child: FadeTransition(
+              opacity: _fade,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    AppAssets.lunaCharacter,
+                    width: size.width * SplashConstants.lunaSizeFraction,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(height: SplashConstants.lunaToTitleGap),
+                  Text(
+                    AppLocalizations.of(context)!.appName,
+                    style: AppTextStyles.headlineLarge(context).copyWith(
+                      fontSize: SplashConstants.titleFontSize,
+                      fontWeight: FontWeight.w800,
+                      color: titleColor,
+                    ),
+                  ),
+                  const SizedBox(height: SplashConstants.titleToTaglineGap),
+                  Text(
+                    AppLocalizations.of(context)!.appTagline,
+                    style: AppTextStyles.bodyMedium(context).copyWith(
+                      fontSize: SplashConstants.taglineFontSize,
+                      fontWeight: FontWeight.w500,
+                      color: taglineColor,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: SplashConstants.lunaToTitleGap),
-              Text(
-                AppLocalizations.of(context)!.appName,
-                style: AppTextStyles.headlineLarge(context).copyWith(
-                  fontSize: SplashConstants.titleFontSize,
-                  fontWeight: FontWeight.w800,
-                  color: titleColor,
-                ),
-              ),
-              const SizedBox(height: SplashConstants.titleToTaglineGap),
-              Text(
-                AppLocalizations.of(context)!.appTagline,
-                style: AppTextStyles.bodyMedium(context).copyWith(
-                  fontSize: SplashConstants.taglineFontSize,
-                  fontWeight: FontWeight.w500,
-                  color: taglineColor,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

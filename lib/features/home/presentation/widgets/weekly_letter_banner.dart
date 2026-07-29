@@ -203,7 +203,7 @@ class _LetterContentState extends State<_LetterContent> {
               SizedBox(width: AppSpacing.spaceSm),
               Flexible(
                 child: _StatChip(
-                  label: stats.dominantEmoji,
+                  label: _cuteWeeklyEmoji(stats.dominantEmoji),
                   isEmoji: true,
                 ),
               ),
@@ -255,6 +255,13 @@ class _LetterContentState extends State<_LetterContent> {
       ),
     );
   }
+}
+
+String _cuteWeeklyEmoji(String emoji) {
+  return switch (emoji) {
+    '😠' || '😡' => '🥰',
+    _ => emoji,
+  };
 }
 
 class _StatChip extends StatelessWidget {
