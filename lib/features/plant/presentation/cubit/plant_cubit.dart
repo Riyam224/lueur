@@ -12,11 +12,13 @@ class PlantCubit extends Cubit<PlantState> {
     emit(PlantLoading());
     try {
       final streak = await _calculateStreakUseCase();
+      if (isClosed) return;
       emit(PlantLoaded(
         stage: PlantStage.fromStreak(streak),
         streakDays: streak,
       ),);
     } catch (_) {
+      if (isClosed) return;
       emit(PlantLoaded(
         stage: PlantStage.seed,
         streakDays: 0,

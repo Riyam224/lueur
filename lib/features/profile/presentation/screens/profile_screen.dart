@@ -8,6 +8,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/streak_calculator.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
@@ -42,30 +43,6 @@ class ProfileScreen extends StatelessWidget {
     final weekStart = now.subtract(Duration(days: now.weekday - 1));
     final start = DateTime(weekStart.year, weekStart.month, weekStart.day);
     return entries.where((e) => !e.createdAt.isBefore(start)).length;
-  }
-
-  static int _calculateStreak(List<MoodEntryEntity> entries) {
-    if (entries.isEmpty) return 0;
-    final dates = entries
-        .map((e) =>
-            DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day),)
-        .toSet()
-        .toList()
-      ..sort((a, b) => b.compareTo(a));
-    int streak = 0;
-    DateTime day = DateTime.now();
-    day = DateTime(day.year, day.month, day.day);
-    for (final date in dates) {
-      if (DateUtils.isSameDay(date, day)) {
-        streak++;
-        day = day.subtract(const Duration(days: 1));
-      } else if (date.isAfter(day)) {
-        continue;
-      } else {
-        break;
-      }
-    }
-    return streak;
   }
 
   @override
@@ -121,7 +98,9 @@ class ProfileScreen extends StatelessWidget {
                 return ProfileStatsWidget(
                   totalEntries: entries.length,
                   thisWeek: _thisWeekCount(entries),
-                  dayStreak: _calculateStreak(entries),
+                  dayStreak: StreakCalculator.calculateConsecutiveStreak(
+                    entries.map((e) => e.createdAt).toList(),
+                  ),
                 );
               },
             ),
