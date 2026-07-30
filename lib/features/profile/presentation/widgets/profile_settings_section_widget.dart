@@ -44,6 +44,13 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
             onChanged: (_) => context.read<ThemeCubit>().toggleTheme(),
             activeThumbColor: AppColors.primary,
             activeTrackColor: AppColors.primary.withValues(alpha: 0.4),
+            // Material 3's Switch track exactly fills switchWidth (52=52) —
+            // the default `padding` (4px each side) is what pushes the
+            // painted track away from the label, unlike the tightly-padded
+            // LanguageToggleWidget beside it. Zeroing it removes that gap
+            // under both LTR and RTL.
+            padding: EdgeInsets.zero,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
         ),
 
