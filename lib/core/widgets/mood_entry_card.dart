@@ -132,7 +132,7 @@ class MoodEntryCard extends StatelessWidget {
                   ),
                   SizedBox(height: AppSpacing.spaceXs),
                   Text(
-                    "${_formatDate(context, date)} · ${_formatTime(context, date)}",
+                    '${_formatDate(context, date)} · ${_formatTime(context, date)}',
                     style: ThemeTextStyles.captionSmall(context),
                   ),
                 ],

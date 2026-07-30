@@ -15,7 +15,6 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
-import 'package:lueur/l10n/app_localizations.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
@@ -26,6 +25,7 @@ import 'package:lueur/features/response/presentation/widgets/luna_avatar_widget.
 import 'package:lueur/features/response/presentation/widgets/luna_info_widget.dart';
 import 'package:lueur/features/response/presentation/widgets/mood_tags_row_widget.dart';
 import 'package:lueur/features/response/presentation/widgets/user_mood_card_widget.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 

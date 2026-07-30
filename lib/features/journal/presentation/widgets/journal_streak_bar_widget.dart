@@ -18,6 +18,33 @@ class JournalStreakBarWidget extends StatelessWidget {
   static const double _minBarHeight = 12;
   static const double _maxBarHeight = 44;
 
+  /// Root-letter Arabic day abbreviations, keyed by [DateTime.weekday]
+  /// (1=Monday … 7=Sunday). Most Arabic weekday names share the "ال"
+  /// definite-article prefix, so slicing the first character like the
+  /// English `DateFormat('E')` path would collapse most days to "ا" —
+  /// these are hand-picked distinguishing root letters instead.
+  static const Map<int, String> _arabicDayAbbreviations = {
+    DateTime.monday: 'ن',
+    DateTime.tuesday: 'ث',
+    DateTime.wednesday: 'ر',
+    DateTime.thursday: 'خ',
+    DateTime.friday: 'ج',
+    DateTime.saturday: 'س',
+    DateTime.sunday: 'ح',
+  };
+
+  // `DateFormat('E', locale)` requires locale data initialized via
+  // `initializeDateFormatting()` — currently safe because `en` needs no
+  // init and `ar` is handled above, but a future added locale must be
+  // initialized before reaching this fallback.
+  static String _dayLabel(BuildContext context, DateTime day) {
+    final locale = Localizations.localeOf(context);
+    if (locale.languageCode == 'ar') {
+      return _arabicDayAbbreviations[day.weekday]!;
+    }
+    return DateFormat('E', locale.toString()).format(day).substring(0, 1);
+  }
+
   final List<MoodEntryEntity> entries;
   final int streakDays;
 
@@ -133,7 +160,7 @@ class JournalStreakBarWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    DateFormat('E').format(day).substring(0, 1),
+                    _dayLabel(context, day),
                     style: ThemeTextStyles.captionSmall(context),
                   ),
                 ],
