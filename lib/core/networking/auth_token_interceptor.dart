@@ -18,6 +18,7 @@ class AuthTokenInterceptor extends Interceptor {
     if (user != null) {
       try {
         final token = await user.getIdToken(true); // force refresh
+
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
