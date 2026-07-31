@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
+import 'package:lueur/features/auth/domain/usecases/sync_preferred_language_usecase.dart';
 import 'package:lueur/features/language/domain/entities/app_language.dart';
 import 'package:lueur/features/language/domain/usecases/get_language_preference_usecase.dart';
 import 'package:lueur/features/language/domain/usecases/set_language_preference_usecase.dart';
@@ -9,12 +11,16 @@ import 'package:lueur/features/language/domain/usecases/set_language_preference_
 class LanguageCubit extends Cubit<Locale> {
   final GetLanguagePreferenceUseCase _getLanguagePreferenceUseCase;
   final SetLanguagePreferenceUseCase _setLanguagePreferenceUseCase;
+  final SyncPreferredLanguageUseCase _syncPreferredLanguageUseCase;
+  final Logger _logger = Logger();
 
   LanguageCubit({
     required GetLanguagePreferenceUseCase getLanguagePreferenceUseCase,
     required SetLanguagePreferenceUseCase setLanguagePreferenceUseCase,
+    required SyncPreferredLanguageUseCase syncPreferredLanguageUseCase,
   })  : _getLanguagePreferenceUseCase = getLanguagePreferenceUseCase,
         _setLanguagePreferenceUseCase = setLanguagePreferenceUseCase,
+        _syncPreferredLanguageUseCase = syncPreferredLanguageUseCase,
         super(const Locale('en')) {
     unawaited(_loadInitial());
   }
@@ -35,7 +41,24 @@ class LanguageCubit extends Cubit<Locale> {
     if (isClosed) return;
     result.fold(
       (_) {}, // persistence failed — leave the UI on the current language
-      (_) => emit(_toLocale(language)),
+      (_) {
+        emit(_toLocale(language));
+        unawaited(_syncPreferredLanguage(language));
+      },
+    );
+  }
+
+  /// Optimistic, fire-and-forget backend sync — never blocks the local
+  /// language switch and never surfaces an error to the user. A failure
+  /// (offline, etc.) is simply retried on the next language change or the
+  /// next app open.
+  Future<void> _syncPreferredLanguage(AppLanguage language) async {
+    final result = await _syncPreferredLanguageUseCase(language.code);
+    result.fold(
+      (failure) => _logger.w(
+        'Failed to sync preferred language with backend: ${failure.message}',
+      ),
+      (_) {},
     );
   }
 }

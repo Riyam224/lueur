@@ -2,6 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/features/auth/domain/entities/user_entity.dart';
+import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
+import 'package:lueur/features/auth/domain/usecases/sync_preferred_language_usecase.dart';
 import 'package:lueur/features/language/domain/entities/app_language.dart';
 import 'package:lueur/features/language/domain/repositories/language_repository.dart';
 import 'package:lueur/features/language/domain/usecases/get_language_preference_usecase.dart';
@@ -20,10 +23,57 @@ class FakeLanguageRepository implements LanguageRepository {
       setResult;
 }
 
-LanguageCubit buildCubit(FakeLanguageRepository repo) {
+class FakeAuthRepository implements AuthRepository {
+  Either<Failure, void> syncResult = const Right(null);
+
+  @override
+  Future<Either<Failure, void>> syncPreferredLanguage(
+    String languageCode,
+  ) async =>
+      syncResult;
+
+  @override
+  Future<Either<Failure, UserEntity>> login({
+    required String email,
+    required String password,
+  }) async =>
+      throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, UserEntity>> register({
+    required String email,
+    required String password,
+    required String name,
+  }) async =>
+      throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, void>> logout() async => throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, UserEntity>> signInWithGoogle() async =>
+      throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, UserEntity?>> checkSession() async =>
+      throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, void>> sendPasswordResetEmail({
+    required String email,
+  }) async =>
+      throw UnimplementedError();
+}
+
+LanguageCubit buildCubit(
+  FakeLanguageRepository repo, {
+  FakeAuthRepository? authRepo,
+}) {
   return LanguageCubit(
     getLanguagePreferenceUseCase: GetLanguagePreferenceUseCase(repo),
     setLanguagePreferenceUseCase: SetLanguagePreferenceUseCase(repo),
+    syncPreferredLanguageUseCase:
+        SyncPreferredLanguageUseCase(authRepo ?? FakeAuthRepository()),
   );
 }
 

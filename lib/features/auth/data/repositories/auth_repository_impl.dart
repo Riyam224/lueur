@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/auth/data/datasources/auth_django_datasource.dart';
 import 'package:lueur/features/auth/data/datasources/auth_firebase_datasource.dart';
+import 'package:lueur/features/auth/data/models/django_user_model.dart';
 import 'package:lueur/features/auth/domain/entities/user_entity.dart';
 import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
 
@@ -14,6 +18,21 @@ class AuthRepositoryImpl implements AuthRepository {
   final Logger _logger = Logger();
 
   AuthRepositoryImpl(this._firebaseDataSource, this._djangoDataSource);
+
+  /// Verifies the Firebase token with the backend and, only the first time
+  /// this account is ever created, optimistically syncs an Arabic device
+  /// locale so a new Arabic-speaking user isn't stuck on the "en" default
+  /// until they find language settings. Fire-and-forget — never blocks
+  /// sign-in/registration and never surfaces a sync failure to the user.
+  Future<DjangoUserModel> _verifyTokenAndSyncInitialLanguage(
+    String idToken,
+  ) async {
+    final result = await _djangoDataSource.verifyToken(idToken);
+    if (result.isNewUser && Platform.localeName.startsWith('ar')) {
+      unawaited(syncPreferredLanguage('ar'));
+    }
+    return result.user;
+  }
 
   @override
   Future<Either<Failure, UserEntity>> login({
@@ -25,7 +44,7 @@ class AuthRepositoryImpl implements AuthRepository {
         email: email,
         password: password,
       );
-      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
       return Right(djangoUser);
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
@@ -46,7 +65,7 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
         name: name,
       );
-      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
       return Right(djangoUser);
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
@@ -69,7 +88,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     try {
       final (:user, :idToken) = await _firebaseDataSource.signInWithGoogle();
-      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
       return Right(djangoUser);
     } on GoogleSignInCancelledException {
       return const Left(CancellationFailure());
@@ -98,7 +117,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
     try {
       final idToken = await _firebaseDataSource.refreshIdToken();
-      final djangoUser = await _djangoDataSource.verifyToken(idToken);
+      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
       return Right(djangoUser);
     } catch (e, st) {
       _logger.e(
@@ -123,6 +142,20 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (_) {
       return const Left(
         ServerFailure('Could not send reset email. Please try again.'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> syncPreferredLanguage(
+    String languageCode,
+  ) async {
+    try {
+      await _djangoDataSource.updatePreferredLanguage(languageCode);
+      return const Right(null);
+    } catch (e) {
+      return const Left(
+        ServerFailure('Failed to sync preferred language.'),
       );
     }
   }

@@ -14,6 +14,7 @@ import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/register_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
+import 'package:lueur/features/auth/domain/usecases/sync_preferred_language_usecase.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_cubit.dart';
 import 'package:lueur/features/breathing/data/datasources/breathing_local_datasource.dart';
@@ -90,6 +91,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     () => LanguageCubit(
       getLanguagePreferenceUseCase: sl(),
       setLanguagePreferenceUseCase: sl(),
+      syncPreferredLanguageUseCase: sl(),
     ),
   );
 
@@ -122,6 +124,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton(() => SignInWithGoogleUseCase(sl()));
   sl.registerLazySingleton(() => CheckSessionUseCase(sl()));
   sl.registerLazySingleton(() => ForgotPasswordUseCase(sl()));
+  sl.registerLazySingleton(() => SyncPreferredLanguageUseCase(sl()));
 
   // ── Auth Cubit — singleton shared across all routes ────────────────────────
   sl.registerLazySingleton(

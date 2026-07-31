@@ -4,6 +4,9 @@ class ApiEndpoints {
   // ── Auth ─────────────────────────────────────────────────────────────────
   static const String authVerify = '/api/auth/verify/';
 
+  // ── Accounts ─────────────────────────────────────────────────────────────
+  static const String accountsMe = '/api/accounts/me/';
+
   // ── Companion ────────────────────────────────────────────────────────────
   static const String generate = '/api/companion/generate/';
   static const String history = '/api/companion/history/';

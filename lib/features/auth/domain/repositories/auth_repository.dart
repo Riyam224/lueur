@@ -27,4 +27,9 @@ abstract class AuthRepository {
   Future<Either<Failure, void>> sendPasswordResetEmail({
     required String email,
   });
+
+  /// Syncs the signed-in user's preferred language to the backend.
+  /// Intended to be called optimistically/fire-and-forget — a [Left] here
+  /// should be logged and swallowed by the caller, not surfaced to the user.
+  Future<Either<Failure, void>> syncPreferredLanguage(String languageCode);
 }
