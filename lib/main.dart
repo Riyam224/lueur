@@ -76,7 +76,7 @@ Future<void> main() async {
 
       Future.delayed(const Duration(seconds: 5), () {
         Sentry.captureException(
-          Exception('Hotspot test — Sentry Flutter verification'),
+          Exception('Real device test — Sentry Flutter verification'),
           stackTrace: StackTrace.current,
         );
       });
