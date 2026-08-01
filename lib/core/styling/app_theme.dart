@@ -68,7 +68,7 @@ class AppTheme {
         settingsAboutIconBg: AppColors.settingsAboutIconBgLight,
         settingsPrivacyIconColor: AppColors.settingsPrivacyIconColorLight,
         settingsPrivacyIconBg: AppColors.settingsPrivacyIconBgLight,
-        blobColorOne: AppColors.lavender,
+        blobColorOne: AppColors.sunriseCoral,
         blobColorTwo: AppColors.primaryContainer,
         blobColorThree: AppColors.softLavender,
       ),

@@ -26,7 +26,7 @@ import 'package:lueur/features/home/presentation/widgets/mood_input_section.dart
 import 'package:lueur/features/home/presentation/widgets/recent_entries_header.dart';
 import 'package:lueur/features/home/presentation/widgets/recent_entries_list.dart';
 import 'package:lueur/features/home/presentation/widgets/weekly_letter_banner.dart';
-import 'package:lueur/features/plant/domain/entities/streak_growth_stage.dart';
+import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
@@ -89,7 +89,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
   bool _checkingCelebration = false;
 
   Future<void> _maybeCelebrateStreak(int streakDays) async {
-    if (!StreakGrowthStage.isCelebrationDay(streakDays)) return;
+    if (!StreakMilestone.isMilestone(streakDays)) return;
     if (_checkingCelebration) return;
     _checkingCelebration = true;
     try {
@@ -187,7 +187,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     return BlocListener<PlantCubit, PlantState>(
       listenWhen: (previous, current) =>
           current is PlantLoaded &&
-          StreakGrowthStage.isCelebrationDay(current.streakDays),
+          StreakMilestone.isMilestone(current.streakDays),
       listener: (context, state) {
         if (state is PlantLoaded) {
           unawaited(_maybeCelebrateStreak(state.streakDays));

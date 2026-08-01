@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
         isDark ? AppColors.darkSecondaryText : AppColors.lightSecondaryText;
 
     final backgroundColor =
-        isDark ? AppColors.darkBackground : AppColors.creamBackground;
+        isDark ? AppColors.darkBackground : AppColors.lightBackground;
 
     return Scaffold(
       backgroundColor: backgroundColor,

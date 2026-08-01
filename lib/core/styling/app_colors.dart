@@ -18,6 +18,23 @@ class AppColors {
   static const Color pastelPurple        = lavenderLilac;
   static const Color pastelPeriwinkle    = Color(0xFFD9D4ED); // lighter lavender-lilac tint — AI bubble
 
+  // ── Sunrise palette — light theme only (gumdrop-pet reference: warm
+  // peach → coral gradient, sunset-orange accents). Dark mode keeps the
+  // lavender/plum palette above untouched; every constant here is only ever
+  // read by the LIGHT theme tokens below. ───────────────────────────────────
+  static const Color sunriseCream        = Color(0xFFFFF4E9); // lightest bg
+  static const Color sunrisePeachLight   = Color(0xFFFFE9D6); // soft wash (icon bg, gradient end)
+  static const Color sunrisePeach        = Color(0xFFFFD9BB); // container / AI bubble
+  static const Color sunriseCoral        = Color(0xFFFF8A5B); // primary accent
+  static const Color sunriseAmber        = Color(0xFFFFC168); // "Great" mood / golden accent
+  static const Color sunriseBorder       = Color(0xFFFFE3CC);
+  static const Color sunriseOnBackground = Color(0xFF3A2A1E); // headings
+  static const Color sunriseSecondaryText = Color(0xFF8C6A52); // labels, hints
+  static const Color sunriseButtonFill   = Color(0xFFC24A0A); // contrast w/ white: 4.85:1
+  static const Color sunriseGradientTop  = Color(0xFFFFB37B); // celebration bg gradient top
+  static const Color sunriseGreetingStart = Color(0xFFB23A0A); // contrast w/ white: 6.0:1
+  static const Color sunriseGreetingEnd   = Color(0xFFCC5013); // contrast w/ white: 4.45:1
+
   // ── Button-fill variants ─────────────────────────────────────────────────
   // pastelPurple/pastelCoral read beautifully as backgrounds, glows, and
   // decorative fills, but white text on top of them fails WCAG AA (need
@@ -25,15 +42,15 @@ class AppColors {
   // formula until white text clears 4.5:1 — use ONLY where white/light text
   // sits directly on the fill (buttons, filled chat bubbles). Leave every
   // background/glow/decorative usage on the lighter pastel values above.
-  static const Color primaryButtonFill = Color(0xFF604DB2); // contrast w/ white: 6.56:1
+  static const Color primaryButtonFill = sunriseButtonFill; // contrast w/ white: 4.85:1
   static const Color accentButtonFill  = Color(0xFF9A6F00); // contrast w/ white: 4.52:1
 
   // Greeting card gradient — same hue family, same contrast-safe treatment,
   // for the diagonal gradient behind Luna's white greeting text. Used in
   // both light and dark mode: the card always carries white text, so it
   // always needs the darkened pair regardless of theme.
-  static const Color greetingGradientStart = Color(0xFF55439D); // contrast w/ white: 7.85:1
-  static const Color greetingGradientEnd   = Color(0xFF7362BC); // contrast w/ white: 5.00:1
+  static const Color greetingGradientStart = sunriseGreetingStart; // contrast w/ white: 6.0:1
+  static const Color greetingGradientEnd   = sunriseGreetingEnd;   // contrast w/ white: 4.45:1
 
   // ── Lueur Breathing/Affirmation Palette ─────────────────────────────────
   static const Color cardBorder = lightBorder;
@@ -41,15 +58,15 @@ class AppColors {
   static const Color breathHoldColor = Color(0xFF2D6A4F);
   static const Color breathOutColor = Color(0xFF85B7EB);
 
-  // ── Light Theme ──────────────────────────────────────────────────────────
-  static const Color lightBackground = pastelLavenderWhite;  // Scaffold
-  static const Color lightSurface = Color(0xFFFFFFFF);       // Cards
-  static const Color primary = pastelPurple;                 // CTA buttons
-  static const Color primaryContainer = pastelPeriwinkle;    // AI bubble
-  static const Color lightOnBackground = Color(0xFF2E2A47);  // Headings
-  static const Color lightSecondaryText = Color(0xFF6B6480); // Labels, hints
-  static const Color lightBorder = Color(0xFFE9E1F3);        // Card borders
-  static const Color accent = pastelCoral;                   // "Great" mood
+  // ── Light Theme (Sunrise — warm peach/coral, gumdrop-pet inspired) ───────
+  static const Color lightBackground = sunriseCream;          // Scaffold
+  static const Color lightSurface = Color(0xFFFFFFFF);        // Cards
+  static const Color primary = sunriseCoral;                  // CTA buttons
+  static const Color primaryContainer = sunrisePeach;         // AI bubble
+  static const Color lightOnBackground = sunriseOnBackground; // Headings
+  static const Color lightSecondaryText = sunriseSecondaryText; // Labels, hints
+  static const Color lightBorder = sunriseBorder;             // Card borders
+  static const Color accent = sunriseAmber;                   // "Great" mood
 
   // ── Dark Theme (same pastel family, deepened — no black/navy) ────────────
   // Structural surfaces below carry a whisper of darkMintTeal blended in —
@@ -124,7 +141,7 @@ class AppColors {
 
   // ── Gradient background colors ───────────────────────────────────────────
   static const Color bannerGradientDarkStart  = Color(0xFF3D2E52); // dark weekly banner — deep plum
-  static const Color softLavender             = Color(0xFFF0EDFA); // near-white lavender-lilac wash
+  static const Color softLavender             = sunrisePeachLight; // near-white warm wash
   static const Color bannerGradientLightEnd   = softLavender;      // light weekly banner
   static const Color primaryDarkDeep          = Color(0xFF4A3F72); // greeting card dark gradient end
 
@@ -154,5 +171,5 @@ class AppColors {
   static const Color journalCardMint        = Color(0xFFA9E0CE);
   static const Color journalCardPeach       = Color(0xFFFFD9C2);
   static const Color journalCardCoral       = Color(0xFFF2C4A8);
-  static const Color journalGridBackground  = creamBackground;
+  static const Color journalGridBackground  = sunriseCream;
 }

@@ -317,5 +317,14 @@
   "streakCelebrationAffirmations2": "You kept coming back — that's the whole secret, really.",
   "streakCelebrationAffirmations3": "Luna is so glad you're still here, day after day.",
   "streakCelebrationAffirmations4": "This is what taking care of you looks like. Keep it up.",
-  "streakCelebrationAffirmations5": "A full week, gently and honestly. That's worth celebrating."
+  "streakCelebrationAffirmations5": "A full week, gently and honestly. That's worth celebrating.",
+  "streakCelebrationNextMilestone": "{days} days until your next milestone",
+  "@streakCelebrationNextMilestone": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "streakCelebrationAllMilestonesReached": "You've reached every milestone — Luna is in awe",
+  "authSuccessTitle": "You're in!",
+  "authSuccessMessage": "Luna's glad you're here."
 }

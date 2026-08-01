@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +17,7 @@ import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_footer_link.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_or_divider.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dart';
+import 'package:lueur/features/auth/presentation/widgets/auth_success_dialog.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:lueur/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:lueur/features/auth/presentation/widgets/password_strength_indicator.dart';
@@ -50,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthAuthenticated) {
-      context.go(AppRoutes.home);
+      unawaited(_showSuccessThenNavigate(context));
     } else if (state is AuthError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -63,6 +66,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
     }
+  }
+
+  Future<void> _showSuccessThenNavigate(BuildContext context) async {
+    await AuthSuccessDialog.show(context);
+    if (!context.mounted) return;
+    context.go(AppRoutes.home);
   }
 
   @override

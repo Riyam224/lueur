@@ -1597,6 +1597,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A full week, gently and honestly. That\'s worth celebrating.'**
   String get streakCelebrationAffirmations5;
+
+  /// No description provided for @streakCelebrationNextMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days until your next milestone'**
+  String streakCelebrationNextMilestone(int days);
+
+  /// No description provided for @streakCelebrationAllMilestonesReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached every milestone — Luna is in awe'**
+  String get streakCelebrationAllMilestonesReached;
+
+  /// No description provided for @authSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in!'**
+  String get authSuccessTitle;
+
+  /// No description provided for @authSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Luna\'s glad you\'re here.'**
+  String get authSuccessMessage;
 }
 
 class _AppLocalizationsDelegate

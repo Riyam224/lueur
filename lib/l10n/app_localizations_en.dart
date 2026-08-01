@@ -817,4 +817,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get streakCelebrationAffirmations5 =>
       'A full week, gently and honestly. That\'s worth celebrating.';
+
+  @override
+  String streakCelebrationNextMilestone(int days) {
+    return '$days days until your next milestone';
+  }
+
+  @override
+  String get streakCelebrationAllMilestonesReached =>
+      'You\'ve reached every milestone — Luna is in awe';
+
+  @override
+  String get authSuccessTitle => 'You\'re in!';
+
+  @override
+  String get authSuccessMessage => 'Luna\'s glad you\'re here.';
 }

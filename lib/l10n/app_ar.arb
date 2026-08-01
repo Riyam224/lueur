@@ -249,5 +249,9 @@
   "streakCelebrationAffirmations2": "استمررت في العودة — هذا هو السر كله في الحقيقة",
   "streakCelebrationAffirmations3": "لونا سعيدة جداً أنك لا تزال هنا، يوماً بعد يوم",
   "streakCelebrationAffirmations4": "هذا ما تبدو عليه العناية بنفسك. استمر",
-  "streakCelebrationAffirmations5": "أسبوع كامل، برفق وصدق. يستحق الاحتفال"
+  "streakCelebrationAffirmations5": "أسبوع كامل، برفق وصدق. يستحق الاحتفال",
+  "streakCelebrationNextMilestone": "{days} يوم حتى معلمك التالي",
+  "streakCelebrationAllMilestonesReached": "لقد وصلت إلى كل معلم — لونا مندهشة بك",
+  "authSuccessTitle": "أهلاً بك!",
+  "authSuccessMessage": "لونا سعيدة بوجودك هنا"
 }

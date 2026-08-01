@@ -807,4 +807,19 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get streakCelebrationAffirmations5 =>
       'أسبوع كامل، برفق وصدق. يستحق الاحتفال';
+
+  @override
+  String streakCelebrationNextMilestone(int days) {
+    return '$days يوم حتى معلمك التالي';
+  }
+
+  @override
+  String get streakCelebrationAllMilestonesReached =>
+      'لقد وصلت إلى كل معلم — لونا مندهشة بك';
+
+  @override
+  String get authSuccessTitle => 'أهلاً بك!';
+
+  @override
+  String get authSuccessMessage => 'لونا سعيدة بوجودك هنا';
 }
