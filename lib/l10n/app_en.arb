@@ -325,6 +325,12 @@
     }
   },
   "streakCelebrationAllMilestonesReached": "You've reached every milestone — Luna is in awe",
+  "streakCelebrationEyebrowLabel": "Streak days",
+  "streakCelebrationProgressSemanticLabel": "Progress toward your next milestone",
+  "streakGrowthStageSeedLabel": "Seed 🌱",
+  "streakGrowthStageSproutLabel": "Sprout 🌿",
+  "streakGrowthStagePlantLabel": "Growing 🪴",
+  "streakGrowthStageBloomingLabel": "Blooming 🌸",
   "authSuccessTitle": "You're in!",
   "authSuccessMessage": "Luna's glad you're here."
 }

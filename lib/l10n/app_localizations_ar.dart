@@ -818,6 +818,25 @@ class AppLocalizationsAr extends AppLocalizations {
       'لقد وصلت إلى كل معلم — لونا مندهشة بك';
 
   @override
+  String get streakCelebrationEyebrowLabel => 'أيام التتابع';
+
+  @override
+  String get streakCelebrationProgressSemanticLabel =>
+      'التقدم نحو معلمك التالي';
+
+  @override
+  String get streakGrowthStageSeedLabel => 'بذرة 🌱';
+
+  @override
+  String get streakGrowthStageSproutLabel => 'براعم 🌿';
+
+  @override
+  String get streakGrowthStagePlantLabel => 'تنمو 🪴';
+
+  @override
+  String get streakGrowthStageBloomingLabel => 'تتفتح 🌸';
+
+  @override
   String get authSuccessTitle => 'أهلاً بك!';
 
   @override

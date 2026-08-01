@@ -37,6 +37,7 @@ import 'package:lueur/features/splash/presentation/screens/splash_screen.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/screens/sudoku_screen.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class RouterGenerationConfig {
   static CustomTransitionPage _buildTransitionPage({
@@ -74,7 +75,8 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.streakCelebration,
+    observers: [SentryNavigatorObserver()],
     onException: (context, state, router) {
       router.go(AppRoutes.splash);
     },
@@ -196,12 +198,10 @@ class RouterGenerationConfig {
                         create: (_) => sl<SavedQuotesCubit>()..loadQuotes(),
                       ),
                       BlocProvider(
-                        create: (_) =>
-                            sl<SavedDrawingsCubit>()..loadDrawings(),
+                        create: (_) => sl<SavedDrawingsCubit>()..loadDrawings(),
                       ),
                       BlocProvider(
-                        create: (_) =>
-                            sl<SudokuResultsCubit>()..loadResults(),
+                        create: (_) => sl<SudokuResultsCubit>()..loadResults(),
                       ),
                     ],
                     child: const ProfileScreen(),

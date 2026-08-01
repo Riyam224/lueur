@@ -172,4 +172,15 @@ class AppColors {
   static const Color journalCardPeach       = Color(0xFFFFD9C2);
   static const Color journalCardCoral       = Color(0xFFF2C4A8);
   static const Color journalGridBackground  = sunriseCream;
+
+  // ── Streak celebration gradient (festive violet, both themes) ───────────
+  static const Color celebrationGradientLightStart = Color(0xFFB6A9F2); // soft lavender-violet
+  static const Color celebrationGradientLightEnd   = Color(0xFF6E5CD9); // deep periwinkle-violet
+  static const Color celebrationGradientDarkStart  = Color(0xFF362A55); // deep plum-violet
+  static const Color celebrationGradientDarkEnd    = Color(0xFF1F1830); // near-black violet
+  static const Color celebrationGlowLight          = Color(0x66FFFFFF); // Luna halo, light mode
+  static const Color celebrationGlowDark           = Color(0x4DCFB9F8); // Luna halo, dark mode
+  static const Color celebrationSparkle            = buttermilkYellow; // twinkle accent
+  static const Color celebrationProgressTrackLight = Color(0x33FFFFFF);
+  static const Color celebrationProgressTrackDark  = Color(0x33000000);
 }

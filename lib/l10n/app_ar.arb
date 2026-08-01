@@ -252,6 +252,12 @@
   "streakCelebrationAffirmations5": "أسبوع كامل، برفق وصدق. يستحق الاحتفال",
   "streakCelebrationNextMilestone": "{days} يوم حتى معلمك التالي",
   "streakCelebrationAllMilestonesReached": "لقد وصلت إلى كل معلم — لونا مندهشة بك",
+  "streakCelebrationEyebrowLabel": "أيام التتابع",
+  "streakCelebrationProgressSemanticLabel": "التقدم نحو معلمك التالي",
+  "streakGrowthStageSeedLabel": "بذرة 🌱",
+  "streakGrowthStageSproutLabel": "براعم 🌿",
+  "streakGrowthStagePlantLabel": "تنمو 🪴",
+  "streakGrowthStageBloomingLabel": "تتفتح 🌸",
   "authSuccessTitle": "أهلاً بك!",
   "authSuccessMessage": "لونا سعيدة بوجودك هنا"
 }

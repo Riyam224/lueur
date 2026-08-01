@@ -1610,6 +1610,42 @@ abstract class AppLocalizations {
   /// **'You\'ve reached every milestone — Luna is in awe'**
   String get streakCelebrationAllMilestonesReached;
 
+  /// No description provided for @streakCelebrationEyebrowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak days'**
+  String get streakCelebrationEyebrowLabel;
+
+  /// No description provided for @streakCelebrationProgressSemanticLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress toward your next milestone'**
+  String get streakCelebrationProgressSemanticLabel;
+
+  /// No description provided for @streakGrowthStageSeedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Seed 🌱'**
+  String get streakGrowthStageSeedLabel;
+
+  /// No description provided for @streakGrowthStageSproutLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sprout 🌿'**
+  String get streakGrowthStageSproutLabel;
+
+  /// No description provided for @streakGrowthStagePlantLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Growing 🪴'**
+  String get streakGrowthStagePlantLabel;
+
+  /// No description provided for @streakGrowthStageBloomingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Blooming 🌸'**
+  String get streakGrowthStageBloomingLabel;
+
   /// No description provided for @authSuccessTitle.
   ///
   /// In en, this message translates to:

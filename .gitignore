@@ -64,3 +64,5 @@ android/key.properties
 android/lueur-release.jks
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
+
+sentry.properties

@@ -828,6 +828,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'You\'ve reached every milestone — Luna is in awe';
 
   @override
+  String get streakCelebrationEyebrowLabel => 'Streak days';
+
+  @override
+  String get streakCelebrationProgressSemanticLabel =>
+      'Progress toward your next milestone';
+
+  @override
+  String get streakGrowthStageSeedLabel => 'Seed 🌱';
+
+  @override
+  String get streakGrowthStageSproutLabel => 'Sprout 🌿';
+
+  @override
+  String get streakGrowthStagePlantLabel => 'Growing 🪴';
+
+  @override
+  String get streakGrowthStageBloomingLabel => 'Blooming 🌸';
+
+  @override
   String get authSuccessTitle => 'You\'re in!';
 
   @override
