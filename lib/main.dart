@@ -77,12 +77,7 @@ Future<void> main() async {
 
       runApp(const Lueur());
 
-      Future.delayed(const Duration(seconds: 5), () {
-        Sentry.captureException(
-          Exception('Real device test — Sentry Flutter verification'),
-          stackTrace: StackTrace.current,
-        );
-      });
+      
     },
   );
 }
