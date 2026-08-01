@@ -75,7 +75,7 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.streakCelebration,
+    initialLocation: AppRoutes.splash,
     observers: [SentryNavigatorObserver()],
     onException: (context, state, router) {
       router.go(AppRoutes.splash);
