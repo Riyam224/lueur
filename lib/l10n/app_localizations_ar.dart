@@ -116,6 +116,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authContinueAsGuest => 'المتابعة كضيف';
 
   @override
+  String get guestWarningTitle => 'تنبيه بسيط';
+
+  @override
+  String get guestWarningMessage =>
+      'عند المتابعة كضيف، لن تتذكر لونا مدخلاتك بعد إغلاق التطبيق. هل تريد الحفاظ على أيامك المتتالية؟ يمكنك التسجيل في أي وقت.';
+
+  @override
+  String get guestWarningRegisterInstead => 'التسجيل بدلاً من ذلك';
+
+  @override
   String get authLogOut => 'تسجيل الخروج';
 
   @override
@@ -662,6 +672,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get drawTopBarTitle => 'الرسم الحر';
+
+  @override
+  String get drawUndoButton => 'تراجع';
 
   @override
   String get drawClearButton => 'مسح';

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -22,6 +23,7 @@ class FakeAuthRepository implements AuthRepository {
       const Right(UserEntity(id: 'uid-1', email: 'user@example.com'));
   Either<Failure, UserEntity> googleResult =
       const Right(UserEntity(id: 'uid-1', email: 'user@example.com'));
+  Future<Either<Failure, void>> Function()? logoutHandler;
 
   @override
   Future<Either<Failure, UserEntity>> login({
@@ -42,17 +44,24 @@ class FakeAuthRepository implements AuthRepository {
   Future<Either<Failure, UserEntity>> signInWithGoogle() async => googleResult;
 
   @override
-  Future<Either<Failure, void>> logout() async => const Right(null);
+  Future<Either<Failure, void>> logout() async {
+    final handler = logoutHandler;
+    if (handler != null) return handler();
+    return const Right(null);
+  }
 
   @override
-  Future<Either<Failure, UserEntity?>> checkSession() async => const Right(null);
-
-  @override
-  Future<Either<Failure, void>> sendPasswordResetEmail({required String email}) async =>
+  Future<Either<Failure, UserEntity?>> checkSession() async =>
       const Right(null);
 
   @override
-  Future<Either<Failure, void>> syncPreferredLanguage(String languageCode) async =>
+  Future<Either<Failure, void>> sendPasswordResetEmail(
+          {required String email,}) async =>
+      const Right(null);
+
+  @override
+  Future<Either<Failure, void>> syncPreferredLanguage(
+          String languageCode,) async =>
       const Right(null);
 }
 
@@ -72,7 +81,7 @@ void main() {
       logoutUseCase: LogoutUseCase(repository),
       signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
       checkSessionUseCase: CheckSessionUseCase(repository),
-      onLogout: () {},
+      onSessionCleared: () async {},
     );
   });
 
@@ -83,7 +92,8 @@ void main() {
   });
 
   group('AuthCubit marks the device as having authenticated', () {
-    test('login success persists the hasEverAuthenticated flag before emitting', () async {
+    test('login success persists the hasEverAuthenticated flag before emitting',
+        () async {
       expect(await AuthPrefs.hasEverAuthenticated(), isFalse);
 
       await cubit.login(email: 'user@example.com', password: 'password123');
@@ -102,7 +112,8 @@ void main() {
     });
 
     test('register success persists the flag', () async {
-      await cubit.register(email: 'user@example.com', password: 'password123', name: 'User');
+      await cubit.register(
+          email: 'user@example.com', password: 'password123', name: 'User',);
 
       expect(cubit.state, isA<AuthAuthenticated>());
       expect(await AuthPrefs.hasEverAuthenticated(), isTrue);
@@ -122,6 +133,57 @@ void main() {
 
       expect(cubit.state, isA<AuthInitial>());
       expect(await AuthPrefs.hasEverAuthenticated(), isFalse);
+    });
+  });
+
+  group('session clearing', () {
+    test('logout waits for Firebase sign-out before clearing feature state',
+        () async {
+      final signOut = Completer<Either<Failure, void>>();
+      repository.logoutHandler = () => signOut.future;
+      var cleared = false;
+      await cubit.close();
+      cubit = AuthCubit(
+        loginUseCase: LoginUseCase(repository),
+        registerUseCase: RegisterUseCase(repository),
+        logoutUseCase: LogoutUseCase(repository),
+        signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
+        checkSessionUseCase: CheckSessionUseCase(repository),
+        onSessionCleared: () async => cleared = true,
+      );
+
+      final logout = cubit.logout();
+      await Future<void>.delayed(Duration.zero);
+      expect(cleared, isFalse);
+
+      signOut.complete(const Right(null));
+      await logout;
+
+      expect(cleared, isTrue);
+      expect(cubit.state, isA<AuthUnauthenticated>());
+    });
+
+    test('guest entry waits for sign-out and emits an in-memory guest state',
+        () async {
+      final events = <String>[];
+      repository.logoutHandler = () async {
+        events.add('signed-out');
+        return const Right(null);
+      };
+      await cubit.close();
+      cubit = AuthCubit(
+        loginUseCase: LoginUseCase(repository),
+        registerUseCase: RegisterUseCase(repository),
+        logoutUseCase: LogoutUseCase(repository),
+        signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
+        checkSessionUseCase: CheckSessionUseCase(repository),
+        onSessionCleared: () async => events.add('cleared'),
+      );
+
+      await cubit.enterGuestMode();
+
+      expect(events, ['signed-out', 'cleared']);
+      expect(cubit.state, isA<AuthGuest>());
     });
   });
 }

@@ -28,6 +28,12 @@ final class AuthUnauthenticated extends AuthState {
   const AuthUnauthenticated();
 }
 
+/// An explicit, process-local guest session. This state is never persisted,
+/// so a cold app start always returns through normal session checking.
+final class AuthGuest extends AuthState {
+  const AuthGuest();
+}
+
 final class AuthError extends AuthState {
   final String message;
   const AuthError(this.message);

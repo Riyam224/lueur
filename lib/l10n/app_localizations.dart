@@ -278,6 +278,24 @@ abstract class AppLocalizations {
   /// **'Continue as guest'**
   String get authContinueAsGuest;
 
+  /// No description provided for @guestWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A quick heads-up'**
+  String get guestWarningTitle;
+
+  /// No description provided for @guestWarningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'As a guest, Luna won\'t remember your entries once you close the app. Want to keep your streak growing? You can register anytime.'**
+  String get guestWarningMessage;
+
+  /// No description provided for @guestWarningRegisterInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Register instead'**
+  String get guestWarningRegisterInstead;
+
   /// No description provided for @authLogOut.
   ///
   /// In en, this message translates to:
@@ -1333,6 +1351,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'free draw'**
   String get drawTopBarTitle;
+
+  /// No description provided for @drawUndoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'undo'**
+  String get drawUndoButton;
 
   /// No description provided for @drawClearButton.
   ///

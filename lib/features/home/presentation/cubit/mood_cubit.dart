@@ -11,6 +11,7 @@ class MoodCubit extends Cubit<MoodState> {
   final Logger _logger = Logger();
 
   List<MoodEntryEntity> _cachedEntries = [];
+  int _sessionVersion = 0;
 
   MoodCubit(this._repository) : super(const MoodInitial());
 
@@ -21,6 +22,7 @@ class MoodCubit extends Cubit<MoodState> {
   /// Clears in-memory entries and resets state to initial.
   /// Call this when the active user changes so the new user starts fresh.
   void clearEntries() {
+    _sessionVersion++;
     _cachedEntries = [];
     emit(const MoodInitial());
   }
@@ -30,6 +32,7 @@ class MoodCubit extends Cubit<MoodState> {
     required String emoji,
     required String thoughts,
   }) async {
+    final sessionVersion = _sessionVersion;
     emit(const MoodLoading());
     _logger.i('MoodCubit: generating response...');
 
@@ -37,6 +40,7 @@ class MoodCubit extends Cubit<MoodState> {
       emoji: emoji,
       thoughts: thoughts,
     );
+    if (isClosed || sessionVersion != _sessionVersion) return;
 
     result.fold(
       (failure) {
@@ -55,12 +59,14 @@ class MoodCubit extends Cubit<MoodState> {
     required String emoji,
     required String thoughts,
   }) async {
+    final sessionVersion = _sessionVersion;
     _logger.i('MoodCubit: saving local entry...');
 
     final result = await _repository.addLocalEntry(
       emoji: emoji,
       thoughts: thoughts,
     );
+    if (isClosed || sessionVersion != _sessionVersion) return;
 
     result.fold(
       (failure) {
@@ -91,10 +97,12 @@ class MoodCubit extends Cubit<MoodState> {
 
   // Get history
   Future<void> getHistory() async {
+    final sessionVersion = _sessionVersion;
     emit(const MoodLoading());
     _logger.i('MoodCubit: fetching history...');
 
     final result = await _repository.getHistory();
+    if (isClosed || sessionVersion != _sessionVersion) return;
 
     result.fold(
       (failure) {

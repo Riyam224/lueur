@@ -9,17 +9,15 @@ class AppTheme {
     useMaterial3: true,
     scaffoldBackgroundColor: AppColors.lightBackground,
     fontFamily: AppFonts.mainFontName,
-
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
       primaryContainer: AppColors.primaryContainer,
-      secondary: AppColors.primaryContainer,   // mint — AI bubble
-      tertiary: AppColors.accent,              // pink — "Great" mood
+      secondary: AppColors.primaryContainer, // mint — AI bubble
+      tertiary: AppColors.accent, // pink — "Great" mood
       onSecondary: AppColors.whiteTextColor,
       onSurface: AppColors.lightOnBackground,
       outline: AppColors.lightBorder,
     ),
-
     textTheme: const TextTheme(
       displayLarge: TextStyle(color: AppColors.lightOnBackground),
       displayMedium: TextStyle(color: AppColors.lightOnBackground),
@@ -37,11 +35,8 @@ class AppTheme {
       labelMedium: TextStyle(color: AppColors.lightSecondaryText),
       labelSmall: TextStyle(color: AppColors.lightSecondaryText),
     ),
-
     iconTheme: const IconThemeData(color: AppColors.lightOnBackground),
-
     cardColor: AppColors.lightSurface,
-
     extensions: [
       AppExtraColors(
         primaryColor: AppColors.primary,
@@ -71,6 +66,7 @@ class AppTheme {
         blobColorOne: AppColors.sunriseCoral,
         blobColorTwo: AppColors.primaryContainer,
         blobColorThree: AppColors.softLavender,
+        authAvatarCircleBg: AppColors.pastelBlush,
       ),
     ],
   );
@@ -80,7 +76,6 @@ class AppTheme {
     useMaterial3: true,
     scaffoldBackgroundColor: AppColors.darkBackground,
     fontFamily: AppFonts.mainFontName,
-
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryDark,
       primaryContainer: AppColors.darkPrimaryContainer,
@@ -91,7 +86,6 @@ class AppTheme {
       onSurface: AppColors.darkOnBackground,
       outline: AppColors.darkBorder,
     ),
-
     textTheme: const TextTheme(
       displayLarge: TextStyle(color: AppColors.darkOnBackground),
       displayMedium: TextStyle(color: AppColors.darkOnBackground),
@@ -109,11 +103,8 @@ class AppTheme {
       labelMedium: TextStyle(color: AppColors.darkSecondaryText),
       labelSmall: TextStyle(color: AppColors.darkSecondaryText),
     ),
-
     iconTheme: const IconThemeData(color: AppColors.darkOnBackground),
-
     cardColor: AppColors.darkSurface,
-
     extensions: [
       AppExtraColors(
         primaryColor: AppColors.primaryDark,
@@ -143,6 +134,7 @@ class AppTheme {
         blobColorOne: AppColors.primaryDark,
         blobColorTwo: AppColors.darkMintTeal,
         blobColorThree: AppColors.darkCoralPink,
+        authAvatarCircleBg: AppColors.darkPrimaryContainer,
       ),
     ],
   );

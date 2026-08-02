@@ -18,6 +18,7 @@ class MoodRepositoryImpl implements MoodRepository {
   MoodRepositoryImpl(this._remote, this._local, this._firebaseAuth);
 
   String get _currentUserId => _firebaseAuth.currentUser?.uid ?? '';
+  bool get _isGuest => _firebaseAuth.currentUser == null;
 
   @override
   Future<Either<Failure, MoodEntryEntity>> generateResponse({
@@ -27,11 +28,13 @@ class MoodRepositoryImpl implements MoodRepository {
     try {
       _logger.i('Generating response for emoji: $emoji');
 
-      final MoodEntryModel model = await _remote.generateResponse({
-        'user_id': _currentUserId,
+      final body = <String, dynamic>{
         'emoji': emoji,
         'thoughts': thoughts,
-      });
+      };
+      if (!_isGuest) body['user_id'] = _currentUserId;
+
+      final MoodEntryModel model = await _remote.generateResponse(body);
 
       await _local.addEntry(model, userId: _currentUserId);
 
@@ -72,6 +75,13 @@ class MoodRepositoryImpl implements MoodRepository {
 
   @override
   Future<Either<Failure, List<MoodEntryEntity>>> getHistory() async {
+    if (_isGuest) {
+      final cached = _local.getCachedHistory(
+        userId: MoodLocalDatasource.guestUserId,
+      );
+      return Right(cached.map((model) => model.toEntity()).toList());
+    }
+
     try {
       _logger.i('Fetching mood history from API...');
 
@@ -135,7 +145,8 @@ class MoodRepositoryImpl implements MoodRepository {
     return Left(failure);
   }
 
-  List<MoodEntryModel> _mergeLocalOnlyFields(List<MoodEntryModel> remoteModels) {
+  List<MoodEntryModel> _mergeLocalOnlyFields(
+      List<MoodEntryModel> remoteModels,) {
     final cachedById = {
       for (final entry in _local.getCachedHistory(userId: _currentUserId))
         entry.id: entry,
@@ -167,9 +178,11 @@ class MoodRepositoryImpl implements MoodRepository {
   }
 
   @override
-  Future<Either<Failure, MoodEntryEntity>> setPinned(int id, bool pinned) async {
+  Future<Either<Failure, MoodEntryEntity>> setPinned(
+      int id, bool pinned,) async {
     try {
-      final updated = await _local.setPinned(id, pinned, userId: _currentUserId);
+      final updated =
+          await _local.setPinned(id, pinned, userId: _currentUserId);
       if (updated == null) {
         return const Left(NetworkFailure('Entry not found'));
       }

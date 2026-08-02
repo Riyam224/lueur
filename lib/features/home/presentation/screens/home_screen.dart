@@ -45,6 +45,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = sl<AuthCubit>();
+    final isGuest = authCubit.state is AuthGuest;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -53,17 +56,19 @@ class HomeScreen extends StatelessWidget {
         BlocProvider.value(
           value: sl<MoodCubit>(),
         ),
-        BlocProvider(
-          create: (_) => sl<WeeklyLetterCubit>()..load(),
-        ),
+        if (!isGuest)
+          BlocProvider(
+            create: (_) => sl<WeeklyLetterCubit>()..load(),
+          ),
         BlocProvider.value(
-          value: sl<AuthCubit>(),
+          value: authCubit,
         ),
       ],
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) => _HomeScreenBody(
           userName: _displayName(context, state),
           userSeed: _userSeed(state),
+          isGuest: state is AuthGuest,
         ),
       ),
     );
@@ -71,10 +76,15 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _HomeScreenBody extends StatefulWidget {
-  const _HomeScreenBody({required this.userName, this.userSeed});
+  const _HomeScreenBody({
+    required this.userName,
+    required this.isGuest,
+    this.userSeed,
+  });
 
   final String userName;
   final String? userSeed;
+  final bool isGuest;
 
   @override
   State<_HomeScreenBody> createState() => _HomeScreenBodyState();
@@ -159,7 +169,8 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(AppLocalizations.of(dialogContext)!.moodEntryDeleteAllTitle),
+        title:
+            Text(AppLocalizations.of(dialogContext)!.moodEntryDeleteAllTitle),
         content:
             Text(AppLocalizations.of(dialogContext)!.moodEntryDeleteAllMessage),
         actions: [
@@ -243,15 +254,16 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
               ),
 
               // Weekly letter banner
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                  AppSpacing.horizontalPaddingLg,
-                  0,
+              if (!widget.isGuest)
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(
+                    AppSpacing.horizontalPaddingLg,
+                    AppSpacing.sectionSpacingSm,
+                    AppSpacing.horizontalPaddingLg,
+                    0,
+                  ),
+                  sliver: const SliverToBoxAdapter(child: WeeklyLetterBanner()),
                 ),
-                sliver: const SliverToBoxAdapter(child: WeeklyLetterBanner()),
-              ),
 
               // Mood Input Section
               SliverPadding(
@@ -343,7 +355,8 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                         const Text('🌱', style: TextStyle(fontSize: 44)),
                         SizedBox(height: AppSpacing.spaceMd),
                         Text(
-                          AppLocalizations.of(context)!.moodEntryEmptyStateTitle,
+                          AppLocalizations.of(context)!
+                              .moodEntryEmptyStateTitle,
                           style: ThemeTextStyles.headlineSmall(context),
                           textAlign: TextAlign.center,
                         ),
@@ -378,7 +391,8 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                       ),
                       decoration: BoxDecoration(
                         color: context.extra.cardBackgroundColor,
-                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
+                        borderRadius:
+                            BorderRadius.circular(AppSizes.borderRadiusLg),
                         border: Border.all(
                           color:
                               context.extra.borderColor ?? AppColors.cardBorder,
@@ -386,7 +400,8 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: context.extra.shadowColor ?? AppColors.shadowColor,
+                            color: context.extra.shadowColor ??
+                                AppColors.shadowColor,
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -408,7 +423,8 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                           ),
                           SizedBox(height: AppSpacing.spaceMd),
                           Text(
-                            AppLocalizations.of(context)!.homeFirstSeedCelebration,
+                            AppLocalizations.of(context)!
+                                .homeFirstSeedCelebration,
                             style: ThemeTextStyles.headlineSmall(context),
                             textAlign: TextAlign.center,
                           ),

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/core/preferences/auth_prefs.dart';
@@ -15,9 +14,10 @@ class AuthCubit extends Cubit<AuthState> {
   final LogoutUseCase _logoutUseCase;
   final SignInWithGoogleUseCase _signInWithGoogleUseCase;
   final CheckSessionUseCase _checkSessionUseCase;
-  /// Called before the logout use case runs — clears cross-feature state
-  /// without coupling auth to any specific feature.
-  final VoidCallback _onLogout;
+
+  /// Clears guest persistence and cross-feature in-memory state after
+  /// Firebase has fully signed out, preventing an authenticated reload race.
+  final Future<void> Function() _onSessionCleared;
 
   AuthCubit({
     required LoginUseCase loginUseCase,
@@ -25,13 +25,13 @@ class AuthCubit extends Cubit<AuthState> {
     required LogoutUseCase logoutUseCase,
     required SignInWithGoogleUseCase signInWithGoogleUseCase,
     required CheckSessionUseCase checkSessionUseCase,
-    required VoidCallback onLogout,
+    required Future<void> Function() onSessionCleared,
   })  : _loginUseCase = loginUseCase,
         _registerUseCase = registerUseCase,
         _logoutUseCase = logoutUseCase,
         _signInWithGoogleUseCase = signInWithGoogleUseCase,
         _checkSessionUseCase = checkSessionUseCase,
-        _onLogout = onLogout,
+        _onSessionCleared = onSessionCleared,
         super(const AuthInitial());
 
   /// Restores a persisted session on app start (called from splash). Forces
@@ -93,12 +93,28 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> logout() async {
-    _onLogout();
     final result = await _logoutUseCase();
     if (isClosed) return;
-    result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(const AuthUnauthenticated()),
+    await result.fold(
+      (failure) async => emit(AuthError(failure.message)),
+      (_) async {
+        await _onSessionCleared();
+        if (!isClosed) emit(const AuthUnauthenticated());
+      },
+    );
+  }
+
+  /// Starts a fresh guest session only after any Firebase/Google session is
+  /// completely signed out and anonymous local state has been cleared.
+  Future<void> enterGuestMode() async {
+    final result = await _logoutUseCase();
+    if (isClosed) return;
+    await result.fold(
+      (failure) async => emit(AuthError(failure.message)),
+      (_) async {
+        await _onSessionCleared();
+        if (!isClosed) emit(const AuthGuest());
+      },
     );
   }
 }

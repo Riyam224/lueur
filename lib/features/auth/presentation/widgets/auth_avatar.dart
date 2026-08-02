@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_assets.dart';
-import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/app_extra_colors.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 
 /// Luna avatar shown at the top of the login/register screens, sat on a
@@ -40,13 +40,16 @@ class _AuthAvatarState extends State<AuthAvatar>
   Widget build(BuildContext context) {
     final circleSize = AuthConstants.avatarSize * 1.35;
 
+    final circleColor =
+        Theme.of(context).extension<AppExtraColors>()!.authAvatarCircleBg!;
+
     return Center(
       child: Container(
         width: circleSize,
         height: circleSize,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: AppColors.pastelBlush,
+          color: circleColor,
         ),
         alignment: Alignment.center,
         child: AnimatedBuilder(

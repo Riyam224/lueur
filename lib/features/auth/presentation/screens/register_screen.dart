@@ -20,6 +20,7 @@ import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dar
 import 'package:lueur/features/auth/presentation/widgets/auth_success_dialog.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:lueur/features/auth/presentation/widgets/google_sign_in_button.dart';
+import 'package:lueur/features/auth/presentation/widgets/guest_warning_dialog.dart';
 import 'package:lueur/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
@@ -105,8 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _submit(BuildContext context) {
-    final nameError =
-        AuthValidators.required(context, _nameController.text);
+    final nameError = AuthValidators.required(context, _nameController.text);
     final emailError = AuthValidators.email(context, _emailController.text);
     final passwordError =
         AuthValidators.password(context, _passwordController.text);
@@ -135,6 +135,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
   }
 
+  Future<void> _onContinueAsGuest(BuildContext context) async {
+    final choice = await GuestWarningDialog.show(context);
+    if (!context.mounted || choice != GuestWarningChoice.continueAsGuest) {
+      return;
+    }
+
+    await context.read<AuthCubit>().enterGuestMode();
+    if (!context.mounted) return;
+    if (context.read<AuthCubit>().state is AuthGuest) {
+      context.go(AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -148,196 +161,201 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Scaffold(
         body: AppBlobBackground(
           child: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalPaddingXl,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // ── Logout button ────────────────────────────────────────
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton.icon(
-                    onPressed: () => context.read<AuthCubit>().logout(),
-                    icon: Icon(
-                      Icons.logout_rounded,
-                      size: AppSizes.iconSm,
-                      color: secondaryText,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalPaddingXl,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ── Logout button ────────────────────────────────────────
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton.icon(
+                      onPressed: () => context.read<AuthCubit>().logout(),
+                      icon: Icon(
+                        Icons.logout_rounded,
+                        size: AppSizes.iconSm,
+                        color: secondaryText,
+                      ),
+                      label: Text(
+                        AppLocalizations.of(context)!.authLogOut,
+                        style: AppTextStyles.captionSmall(context)
+                            .copyWith(color: secondaryText),
+                      ),
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSpacing.spaceSm,
+                        ),
+                      ),
                     ),
-                    label: Text(
-                      AppLocalizations.of(context)!.authLogOut,
-                      style: AppTextStyles.captionSmall(context)
+                  ),
+                  SizedBox(height: AuthConstants.topSpacing),
+                  const AuthAvatar(),
+                  SizedBox(height: AuthConstants.avatarToTitleSpacing),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      AppLocalizations.of(context)!.registerTitle,
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles.headlineItalic(context),
+                    ),
+                  ),
+                  SizedBox(height: AuthConstants.titleToSubtitleSpacing),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      AppLocalizations.of(context)!.registerSubtitle,
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles.bodyMedium(context)
                           .copyWith(color: secondaryText),
                     ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                        vertical: AppSpacing.spaceSm,
-                      ),
-                    ),
                   ),
-                ),
-                SizedBox(height: AuthConstants.topSpacing),
-                const AuthAvatar(),
-                SizedBox(height: AuthConstants.avatarToTitleSpacing),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    AppLocalizations.of(context)!.registerTitle,
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.headlineItalic(context),
+                  SizedBox(height: AppSpacing.sectionSpacingLg),
+                  AuthTextField(
+                    controller: _nameController,
+                    focusNode: _nameFocus,
+                    label: AppLocalizations.of(context)!.authFullNameLabel,
+                    hint: AppLocalizations.of(context)!.authFullNameHint,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.words,
+                    errorText: _nameError,
+                    onChanged: (_) {
+                      if (_nameError != null) setState(() => _nameError = null);
+                    },
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(_emailFocus),
                   ),
-                ),
-                SizedBox(height: AuthConstants.titleToSubtitleSpacing),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    AppLocalizations.of(context)!.registerSubtitle,
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.bodyMedium(context)
-                        .copyWith(color: secondaryText),
+                  SizedBox(height: AppSpacing.sectionSpacingSm),
+                  AuthTextField(
+                    controller: _emailController,
+                    focusNode: _emailFocus,
+                    label: AppLocalizations.of(context)!.authEmailLabel,
+                    hint: AppLocalizations.of(context)!.authEmailHint,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    errorText: _emailError,
+                    onChanged: (_) {
+                      if (_emailError != null) {
+                        setState(() => _emailError = null);
+                      }
+                    },
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(_passwordFocus),
                   ),
-                ),
-                SizedBox(height: AppSpacing.sectionSpacingLg),
-                AuthTextField(
-                  controller: _nameController,
-                  focusNode: _nameFocus,
-                  label: AppLocalizations.of(context)!.authFullNameLabel,
-                  hint: AppLocalizations.of(context)!.authFullNameHint,
-                  keyboardType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.words,
-                  errorText: _nameError,
-                  onChanged: (_) {
-                    if (_nameError != null) setState(() => _nameError = null);
-                  },
-                  onFieldSubmitted: (_) =>
-                      FocusScope.of(context).requestFocus(_emailFocus),
-                ),
-                SizedBox(height: AppSpacing.sectionSpacingSm),
-                AuthTextField(
-                  controller: _emailController,
-                  focusNode: _emailFocus,
-                  label: AppLocalizations.of(context)!.authEmailLabel,
-                  hint: AppLocalizations.of(context)!.authEmailHint,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  errorText: _emailError,
-                  onChanged: (_) {
-                    if (_emailError != null) setState(() => _emailError = null);
-                  },
-                  onFieldSubmitted: (_) =>
-                      FocusScope.of(context).requestFocus(_passwordFocus),
-                ),
-                SizedBox(height: AppSpacing.sectionSpacingSm),
-                AuthTextField(
-                  controller: _passwordController,
-                  focusNode: _passwordFocus,
-                  label: AppLocalizations.of(context)!.authPasswordLabel,
-                  hint: AppLocalizations.of(context)!.authPasswordHint,
-                  obscureText: _obscurePassword,
-                  textInputAction: TextInputAction.next,
-                  errorText: _passwordError,
-                  onChanged: _onPasswordChanged,
-                  onFieldSubmitted: (_) => FocusScope.of(context)
-                      .requestFocus(_confirmPasswordFocus),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: secondaryText,
-                    ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
-                  ),
-                ),
-                SizedBox(height: AppSpacing.verticalPaddingXs),
-                PasswordStrengthIndicator(
-                  strength: _passwordStrength,
-                  backgroundColor: borderColor,
-                ),
-                SizedBox(height: AppSpacing.sectionSpacingSm),
-                AuthTextField(
-                  controller: _confirmPasswordController,
-                  focusNode: _confirmPasswordFocus,
-                  label: AppLocalizations.of(context)!.authConfirmPasswordLabel,
-                  hint: AppLocalizations.of(context)!.authConfirmPasswordHint,
-                  obscureText: _obscureConfirmPassword,
-                  textInputAction: TextInputAction.done,
-                  errorText: _confirmPasswordError,
-                  onChanged: (_) {
-                    if (_confirmPasswordError != null) {
-                      setState(() => _confirmPasswordError = null);
-                    }
-                  },
-                  onFieldSubmitted: (_) => _submit(context),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureConfirmPassword
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: secondaryText,
-                    ),
-                    onPressed: () => setState(
-                      () => _obscureConfirmPassword = !_obscureConfirmPassword,
-                    ),
-                  ),
-                ),
-                SizedBox(height: AppSpacing.verticalPaddingXl),
-                BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) => AuthPrimaryButton(
-                    label: AppLocalizations.of(context)!.registerCta,
-                    isLoading: state is AuthLoading,
-                    onPressed: () => _submit(context),
-                  ),
-                ),
-                SizedBox(height: AppSpacing.sectionSpacingSm),
-                AuthOrDivider(
-                  lineColor: borderColor,
-                  textColor: secondaryText,
-                ),
-                SizedBox(height: AppSpacing.sectionSpacingSm),
-                GoogleSignInButton(
-                  label: AppLocalizations.of(context)!.authSignUpWithGoogle,
-                  borderColor: borderColor,
-                  foregroundColor: textPrimary,
-                  onPressed: () => context.read<AuthCubit>().signInWithGoogle(),
-                ),
-                SizedBox(height: AuthConstants.googleToFooterSpacing),
-                AuthFooterLink(
-                  prompt: AppLocalizations.of(context)!.registerSignInPrompt,
-                  action: AppLocalizations.of(context)!.registerSignInAction,
-                  promptColor: secondaryText,
-                  actionColor: cs.primary,
-                  onTap: () => context.go(AppRoutes.loginScreen),
-                ),
-                SizedBox(height: AppSpacing.sectionSpacingSm),
-                // ── Guest entry ──────────────────────────────────────────
-                Center(
-                  child: TextButton(
-                    onPressed: () => context.go(AppRoutes.home),
-                    style: TextButton.styleFrom(
-                      foregroundColor: secondaryText,
-                      padding: EdgeInsets.symmetric(
-                        vertical: AppSpacing.spaceSm,
-                        horizontal: AppSpacing.spaceMd,
-                      ),
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.authContinueAsGuest,
-                      style: AppTextStyles.caption(context).copyWith(
+                  SizedBox(height: AppSpacing.sectionSpacingSm),
+                  AuthTextField(
+                    controller: _passwordController,
+                    focusNode: _passwordFocus,
+                    label: AppLocalizations.of(context)!.authPasswordLabel,
+                    hint: AppLocalizations.of(context)!.authPasswordHint,
+                    obscureText: _obscurePassword,
+                    textInputAction: TextInputAction.next,
+                    errorText: _passwordError,
+                    onChanged: _onPasswordChanged,
+                    onFieldSubmitted: (_) => FocusScope.of(context)
+                        .requestFocus(_confirmPasswordFocus),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
                         color: secondaryText,
-                        decoration: TextDecoration.underline,
-                        decorationColor: secondaryText,
+                      ),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
+                    ),
+                  ),
+                  SizedBox(height: AppSpacing.verticalPaddingXs),
+                  PasswordStrengthIndicator(
+                    strength: _passwordStrength,
+                    backgroundColor: borderColor,
+                  ),
+                  SizedBox(height: AppSpacing.sectionSpacingSm),
+                  AuthTextField(
+                    controller: _confirmPasswordController,
+                    focusNode: _confirmPasswordFocus,
+                    label:
+                        AppLocalizations.of(context)!.authConfirmPasswordLabel,
+                    hint: AppLocalizations.of(context)!.authConfirmPasswordHint,
+                    obscureText: _obscureConfirmPassword,
+                    textInputAction: TextInputAction.done,
+                    errorText: _confirmPasswordError,
+                    onChanged: (_) {
+                      if (_confirmPasswordError != null) {
+                        setState(() => _confirmPasswordError = null);
+                      }
+                    },
+                    onFieldSubmitted: (_) => _submit(context),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirmPassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: secondaryText,
+                      ),
+                      onPressed: () => setState(
+                        () =>
+                            _obscureConfirmPassword = !_obscureConfirmPassword,
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: AppSpacing.verticalPaddingXl),
-              ],
+                  SizedBox(height: AppSpacing.verticalPaddingXl),
+                  BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) => AuthPrimaryButton(
+                      label: AppLocalizations.of(context)!.registerCta,
+                      isLoading: state is AuthLoading,
+                      onPressed: () => _submit(context),
+                    ),
+                  ),
+                  SizedBox(height: AppSpacing.sectionSpacingSm),
+                  AuthOrDivider(
+                    lineColor: borderColor,
+                    textColor: secondaryText,
+                  ),
+                  SizedBox(height: AppSpacing.sectionSpacingSm),
+                  GoogleSignInButton(
+                    label: AppLocalizations.of(context)!.authSignUpWithGoogle,
+                    borderColor: borderColor,
+                    foregroundColor: textPrimary,
+                    onPressed: () =>
+                        context.read<AuthCubit>().signInWithGoogle(),
+                  ),
+                  SizedBox(height: AuthConstants.googleToFooterSpacing),
+                  AuthFooterLink(
+                    prompt: AppLocalizations.of(context)!.registerSignInPrompt,
+                    action: AppLocalizations.of(context)!.registerSignInAction,
+                    promptColor: secondaryText,
+                    actionColor: cs.primary,
+                    onTap: () => context.go(AppRoutes.loginScreen),
+                  ),
+                  SizedBox(height: AppSpacing.sectionSpacingSm),
+                  // ── Guest entry ──────────────────────────────────────────
+                  Center(
+                    child: TextButton(
+                      onPressed: () => _onContinueAsGuest(context),
+                      style: TextButton.styleFrom(
+                        foregroundColor: secondaryText,
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSpacing.spaceSm,
+                          horizontal: AppSpacing.spaceMd,
+                        ),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.authContinueAsGuest,
+                        style: AppTextStyles.caption(context).copyWith(
+                          color: secondaryText,
+                          decoration: TextDecoration.underline,
+                          decorationColor: secondaryText,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: AppSpacing.verticalPaddingXl),
+                ],
+              ),
             ),
-          ),
           ),
         ),
       ),

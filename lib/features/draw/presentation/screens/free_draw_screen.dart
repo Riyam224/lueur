@@ -138,6 +138,23 @@ class _FreeDrawView extends StatelessWidget {
               ),
             ),
           ),
+          BlocBuilder<DrawCubit, DrawState>(
+            buildWhen: (previous, current) =>
+                previous.paths.isEmpty != current.paths.isEmpty,
+            builder: (context, state) {
+              final hasStrokes = state.paths.isNotEmpty;
+              return IconButton(
+                onPressed:
+                    hasStrokes ? () => context.read<DrawCubit>().undoLastStroke() : null,
+                tooltip: AppLocalizations.of(context)!.drawUndoButton,
+                icon: Icon(
+                  Icons.undo_rounded,
+                  color: hasStrokes ? extra.primaryTextColor : extra.borderColor,
+                  size: AppSizes.iconSm,
+                ),
+              );
+            },
+          ),
           IconButton(
             onPressed: () => _saveDrawing(context),
             icon: Icon(

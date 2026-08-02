@@ -5,6 +5,7 @@ import 'package:lueur/features/home/data/models/mood_entry_model.dart';
 
 class MoodLocalDatasource {
   static const String boxName = 'mood_cache';
+  static const String guestUserId = '';
 
   Box<String> get _box => Hive.box<String>(boxName);
 
@@ -23,7 +24,9 @@ class MoodLocalDatasource {
 
   /// Cache the entire list of entries for [userId]
   Future<void> cacheHistory(
-      List<MoodEntryModel> entries, {required String userId,}) async {
+    List<MoodEntryModel> entries, {
+    required String userId,
+  }) async {
     final encoded = jsonEncode(entries.map((e) => e.toJson()).toList());
     await _box.put(_key(userId), encoded);
   }
@@ -49,6 +52,10 @@ class MoodLocalDatasource {
   Future<void> deleteAllEntries({required String userId}) async {
     await _box.delete(_key(userId));
   }
+
+  /// Guest history is intentionally session-only. Registered-user keys are
+  /// never touched by this cleanup.
+  Future<void> clearGuestHistory() => deleteAllEntries(userId: guestUserId);
 
   /// Sets the journal grid card color for a single entry. Returns the
   /// updated entry, or null if no entry with [id] is cached.
