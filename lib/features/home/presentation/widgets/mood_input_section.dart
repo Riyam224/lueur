@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_type.dart';
-import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
@@ -69,7 +67,6 @@ class _MoodInputSectionState extends State<MoodInputSection> {
     });
   }
 
- 
   void _clearDraft() {
     _thoughtsController.clear();
     setState(() => _selectedMood = null);
@@ -101,25 +98,13 @@ class _MoodInputSectionState extends State<MoodInputSection> {
 
     HapticFeedback.mediumImpact();
 
-    final selectedMood = _selectedMood!;
-    final emojiUnicode = selectedMood.emoji;
+    final emojiUnicode = _selectedMood!.emoji;
 
-    if (selectedMood.isLowMood) {
-      context.read<MoodCubit>().addLocalEntry(
-        emoji: emojiUnicode,
-        thoughts: thoughts,
-      );
-      showMoodChoiceDialog(context, emoji: emojiUnicode, thoughts: thoughts);
-    } else {
-      context.push(
-        AppRoutes.response,
-        extra: {
-          'emojiPath': null,
-          'emojiUnicode': emojiUnicode,
-          'thoughts': thoughts,
-        },
-      );
-    }
+    context.read<MoodCubit>().addLocalEntry(
+      emoji: emojiUnicode,
+      thoughts: thoughts,
+    );
+    showMoodChoiceDialog(context, emoji: emojiUnicode, thoughts: thoughts);
 
     _clearDraft();
   }

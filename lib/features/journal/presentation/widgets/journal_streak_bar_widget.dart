@@ -145,7 +145,7 @@ class JournalStreakBarWidget extends StatelessWidget {
                   SizedBox(
                     height: 16.h,
                     child: isToday
-                        ? const Text('🌱', style: TextStyle(fontSize: 14))
+                        ? Text('🌱', style: TextStyle(fontSize: 14.sp))
                         : null,
                   ),
                   SizedBox(height: AppSpacing.spaceXs),

@@ -1,6 +1,8 @@
 /// Layout and timing constants specific to the splash screen.
 class SplashConstants {
-  static const Duration navigationDelay = Duration(seconds: 3);
+  // Minimum time the splash stays up — just enough for the fade-in
+  // (500ms) to read as intentional, not an arbitrary multi-second hold.
+  static const Duration navigationDelay = Duration(milliseconds: 1200);
 
   // Luna illustration width as a fraction of screen width.
   static const double lunaSizeFraction = 0.42;

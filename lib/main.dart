@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -30,22 +31,22 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+  unawaited(FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true));
 
-  // local storage _
   await Hive.initFlutter();
-  await Hive.openBox<String>(MoodLocalDatasource.boxName);
-  await Hive.openBox<String>(SavedQuotesLocalDatasource.boxName);
-  await Hive.openBox<String>(SudokuResultsLocalDatasource.boxName);
-  await Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName);
-  await Hive.openBox<bool>(ThemeCubit.boxName);
+  await Future.wait([
+    Hive.openBox<String>(MoodLocalDatasource.boxName),
+    Hive.openBox<String>(SavedQuotesLocalDatasource.boxName),
+    Hive.openBox<String>(SudokuResultsLocalDatasource.boxName),
+    Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName),
+    Hive.openBox<bool>(ThemeCubit.boxName),
+  ]);
   final sharedPreferences = await SharedPreferences.getInstance();
 
   setupInjection(sharedPreferences: sharedPreferences);
 
   await GoogleFonts.pendingFonts([
     GoogleFonts.dmSans(),
-    GoogleFonts.dmSerifDisplay(),
   ]);
 
   await SentryFlutter.init(
@@ -76,8 +77,6 @@ Future<void> main() async {
       };
 
       runApp(const Lueur());
-
-      
     },
   );
 }

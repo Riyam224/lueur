@@ -129,7 +129,7 @@ class _GreetingCardState extends State<GreetingCard> {
                         message,
                         style: ThemeTextStyles.editorialHeadline(
                           context,
-                          fontSize: 19,
+                          fontSize: 19.sp,
                           color: onPrimary,
                         ),
                       ),

@@ -143,9 +143,9 @@ class MoodSelectorWidget extends StatelessWidget {
                           : Center(
                               child: Text(
                                 emoji,
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                  fontFamilyFallback: [
+                                style: TextStyle(
+                                  fontSize: 30.sp,
+                                  fontFamilyFallback: const [
                                     'Apple Color Emoji',
                                     'Noto Color Emoji',
                                   ],

@@ -4,13 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
-import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_state.dart';
+import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
@@ -25,6 +25,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   late final TextEditingController _emailController;
+  String? _emailError;
 
   @override
   void initState() {
@@ -39,25 +40,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   void _onSubmit(BuildContext context) {
-    final email = _emailController.text.trim();
-    if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.forgotPasswordEmailRequired),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-      return;
-    }
-    context.read<ForgotPasswordCubit>().sendResetEmail(email);
+    final emailError = AuthValidators.email(context, _emailController.text);
+    setState(() => _emailError = emailError);
+    if (emailError != null) return;
+    context.read<ForgotPasswordCubit>().sendResetEmail(
+          _emailController.text.trim(),
+        );
   }
 
   void _onStateChanged(BuildContext context, ForgotPasswordState state) {
     if (state is ForgotPasswordError) {
+      final cs = Theme.of(context).colorScheme;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(state.message),
-          backgroundColor: AppColors.onboardingAccent,
+          backgroundColor: cs.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
@@ -103,6 +100,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       : _FormContent(
                           emailController: _emailController,
                           isLoading: state is ForgotPasswordLoading,
+                          errorText: _emailError,
+                          onChanged: () {
+                            if (_emailError != null) {
+                              setState(() => _emailError = null);
+                            }
+                          },
                           onSubmit: () => _onSubmit(context),
                         ),
                 ),
@@ -120,16 +123,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 class _FormContent extends StatelessWidget {
   final TextEditingController emailController;
   final bool isLoading;
+  final String? errorText;
+  final VoidCallback onChanged;
   final VoidCallback onSubmit;
 
   const _FormContent({
     required this.emailController,
     required this.isLoading,
+    required this.errorText,
+    required this.onChanged,
     required this.onSubmit,
   });
 
   @override
   Widget build(BuildContext context) {
+    final extra = context.extra;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -148,7 +157,7 @@ class _FormContent extends StatelessWidget {
             AppLocalizations.of(context)!.forgotPasswordSubtitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium(context)
-                .copyWith(color: AppColors.onboardingSubtitle),
+                .copyWith(color: extra.secondaryTextColor),
           ),
         ),
         SizedBox(height: AppSpacing.sectionSpacingLg),
@@ -158,6 +167,9 @@ class _FormContent extends StatelessWidget {
           hint: AppLocalizations.of(context)!.authEmailHint,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.done,
+          errorText: errorText,
+          onChanged: (_) => onChanged(),
+          onFieldSubmitted: (_) => onSubmit(),
         ),
         SizedBox(height: AppSpacing.verticalPaddingXl),
         AuthPrimaryButton(
@@ -175,20 +187,23 @@ class _SuccessContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final extra = context.extra;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
           child: Container(
-            width: AuthConstants.avatarSize * 0.55,
-            height: AuthConstants.avatarSize * 0.55,
+            width: AuthConstants.successIconContainerSize,
+            height: AuthConstants.successIconContainerSize,
             decoration: BoxDecoration(
-              color: AppColors.onboardingAccent.withValues(alpha: 0.12),
+              color: cs.primary.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.mark_email_read_rounded,
-              color: AppColors.onboardingAccent,
+              color: cs.primary,
               size: AppSizes.iconLg,
             ),
           ),
@@ -209,7 +224,7 @@ class _SuccessContent extends StatelessWidget {
             AppLocalizations.of(context)!.forgotPasswordSuccessSubtitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium(context)
-                .copyWith(color: AppColors.onboardingSubtitle),
+                .copyWith(color: extra.secondaryTextColor),
           ),
         ),
         SizedBox(height: AppSpacing.sectionSpacingLg),

@@ -74,7 +74,10 @@
       "Bash(python3 -c \"import json; d=json.load\\(open\\('lib/l10n/app_ar.arb'\\)\\); print\\('total keys:', len\\([k for k in d if not k.startswith\\('@'\\)]\\)\\)\")",
       "Bash(python3 -c \"import json; json.load\\(open\\('/Users/r/StudioProjects/lueur/lib/l10n/app_ar.arb'\\)\\)\")",
       "Bash(python3 *)",
-      "Bash(echo \"started in background, pid $!\")"
+      "Bash(echo \"started in background, pid $!\")",
+      "Bash(.specify/scripts/bash/setup-plan.sh *)",
+      "Bash(.specify/scripts/bash/setup-tasks.sh *)",
+      "Bash(flutter --version)"
     ]
   }
 }

@@ -183,6 +183,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordStrengthStrong => 'Strong';
 
   @override
+  String get authEmailInvalid => 'Enter a valid email address';
+
+  @override
+  String get authPasswordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get authConfirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get authConfirmPasswordHint => 'Re-enter your password';
+
+  @override
+  String get authConfirmPasswordMismatch => 'Passwords don\'t match';
+
+  @override
+  String get authFieldRequired => 'This field is required';
+
+  @override
   String get homeMoodGalleryTitle => 'EXPLORE MOODS';
 
   @override

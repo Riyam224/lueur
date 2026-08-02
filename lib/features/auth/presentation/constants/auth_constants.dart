@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AuthConstants {
   // ── Avatar ────────────────────────────────────────────────────────────
   static double avatarSize = 132.sp;
+  static double successIconContainerSize = avatarSize * 0.55;
 
   // ── Vertical rhythm (logical pixels, screen-scaled) ──────────────────
   static double topSpacing = 20.h;

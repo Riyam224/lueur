@@ -2,8 +2,8 @@
 
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
@@ -16,6 +16,7 @@ String _randomSendFailedSentinel() =>
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository repository;
   final String userId;
+  final Logger _logger = Logger();
 
   ChatCubit({
     required this.repository,
@@ -71,7 +72,7 @@ class ChatCubit extends Cubit<ChatState> {
         sessionEnded: sessionEnded,
       ),);
     } catch (e) {
-      debugPrint('ChatCubit.sendMessage failed: $e');
+      _logger.e('ChatCubit.sendMessage failed', error: e);
       // Show the fallback as a normal Luna chat bubble, not a system
       // error banner — keeps the "texting a friend" feel intact even
       // when a request fails or gets throttled.

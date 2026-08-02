@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
@@ -17,6 +16,9 @@ class AuthTextField extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final Widget? suffixIcon;
   final ValueChanged<String>? onChanged;
+  final String? errorText;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const AuthTextField({
     super.key,
@@ -29,6 +31,9 @@ class AuthTextField extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.suffixIcon,
     this.onChanged,
+    this.errorText,
+    this.focusNode,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -38,22 +43,24 @@ class AuthTextField extends StatelessWidget {
 
     return TextField(
       controller: controller,
+      focusNode: focusNode,
       obscureText: obscureText,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       textCapitalization: textCapitalization,
       onChanged: onChanged,
+      onSubmitted: onFieldSubmitted,
       style: AppTextStyles.fieldInput(context)
           .copyWith(color: extra.primaryTextColor),
       decoration: InputDecoration(
         label: Text(
           label,
-          style: AppTextStyles.fieldLabel(context)
-              .copyWith(color: AppColors.onboardingAccent),
+          style: AppTextStyles.fieldLabel(context).copyWith(color: cs.primary),
         ),
         hintText: hint,
         hintStyle: AppTextStyles.fieldHint(context)
             .copyWith(color: extra.secondaryTextColor),
+        errorText: errorText,
         filled: true,
         fillColor: cs.surface,
         contentPadding: EdgeInsets.symmetric(
@@ -70,7 +77,7 @@ class AuthTextField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
           borderSide: BorderSide(
-            color: AppColors.onboardingAccent,
+            color: cs.primary,
             width: AuthConstants.fieldBorderWidthFocused,
           ),
         ),

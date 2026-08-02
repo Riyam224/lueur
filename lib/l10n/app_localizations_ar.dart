@@ -181,6 +181,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get passwordStrengthStrong => 'قوية';
 
   @override
+  String get authEmailInvalid => 'أدخل بريداً إلكترونياً صالحاً';
+
+  @override
+  String get authPasswordTooShort => 'يجب ألا تقل كلمة المرور عن 6 أحرف';
+
+  @override
+  String get authConfirmPasswordLabel => 'تأكيد كلمة المرور';
+
+  @override
+  String get authConfirmPasswordHint => 'أعد إدخال كلمة المرور';
+
+  @override
+  String get authConfirmPasswordMismatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get authFieldRequired => 'هذا الحقل مطلوب';
+
+  @override
   String get homeMoodGalleryTitle => 'استكشف المشاعر';
 
   @override

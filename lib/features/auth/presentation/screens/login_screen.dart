@@ -6,13 +6,13 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
-import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_footer_link.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_or_divider.dart';
@@ -30,14 +30,29 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final FocusNode _emailFocus;
+  late final FocusNode _passwordFocus;
   bool _obscurePassword = true;
+  String? _emailError;
+  String? _passwordError;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _emailFocus = FocusNode();
+    _passwordFocus = FocusNode();
+  }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
     super.dispose();
   }
 
@@ -45,10 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is AuthAuthenticated) {
       unawaited(_showSuccessThenNavigate(context));
     } else if (state is AuthError) {
+      final cs = Theme.of(context).colorScheme;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(state.message),
-          backgroundColor: AppColors.onboardingAccent,
+          backgroundColor: cs.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
@@ -62,6 +78,22 @@ class _LoginScreenState extends State<LoginScreen> {
     await AuthSuccessDialog.show(context);
     if (!context.mounted) return;
     context.go(AppRoutes.home);
+  }
+
+  void _submit(BuildContext context) {
+    final emailError = AuthValidators.email(context, _emailController.text);
+    final passwordError =
+        AuthValidators.required(context, _passwordController.text);
+    setState(() {
+      _emailError = emailError;
+      _passwordError = passwordError;
+    });
+    if (emailError != null || passwordError != null) return;
+
+    context.read<AuthCubit>().login(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
   }
 
   @override
@@ -103,7 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: EdgeInsets.symmetric(
                         vertical: AppSpacing.spaceSm,
                       ),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                   ),
                 ),
@@ -125,24 +156,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     AppLocalizations.of(context)!.loginSubtitle,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.bodyMedium(context)
-                        .copyWith(color: AppColors.onboardingSubtitle),
+                        .copyWith(color: secondaryText),
                   ),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingLg),
                 AuthTextField(
                   controller: _emailController,
+                  focusNode: _emailFocus,
                   label: AppLocalizations.of(context)!.authEmailLabel,
                   hint: AppLocalizations.of(context)!.authEmailHint,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
+                  errorText: _emailError,
+                  onChanged: (_) {
+                    if (_emailError != null) setState(() => _emailError = null);
+                  },
+                  onFieldSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(_passwordFocus),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 AuthTextField(
                   controller: _passwordController,
+                  focusNode: _passwordFocus,
                   label: AppLocalizations.of(context)!.authPasswordLabel,
                   hint: AppLocalizations.of(context)!.authPasswordHint,
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
+                  errorText: _passwordError,
+                  onChanged: (_) {
+                    if (_passwordError != null) {
+                      setState(() => _passwordError = null);
+                    }
+                  },
+                  onFieldSubmitted: (_) => _submit(context),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
@@ -168,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       AppLocalizations.of(context)!.authForgotPassword,
                       style: AppTextStyles.captionSmall(context)
-                          .copyWith(color: AppColors.onboardingAccent),
+                          .copyWith(color: cs.primary),
                     ),
                   ),
                 ),
@@ -177,10 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context, state) => AuthPrimaryButton(
                     label: AppLocalizations.of(context)!.loginCta,
                     isLoading: state is AuthLoading,
-                    onPressed: () => context.read<AuthCubit>().login(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text,
-                        ),
+                    onPressed: () => _submit(context),
                   ),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
@@ -200,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   prompt: AppLocalizations.of(context)!.loginSignUpPrompt,
                   action: AppLocalizations.of(context)!.loginSignUpAction,
                   promptColor: secondaryText,
-                  actionColor: AppColors.onboardingAccent,
+                  actionColor: cs.primary,
                   onTap: () => context.go(AppRoutes.registerScreen),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),

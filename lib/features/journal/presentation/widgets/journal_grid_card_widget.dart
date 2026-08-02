@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/models/mood_type.dart';
@@ -204,7 +205,7 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
                                         style: ThemeTextStyles.bodySmall(context)
                                             .copyWith(
                                           color: AppColors.lightOnBackground,
-                                          fontSize: 10,
+                                          fontSize: 10.sp,
                                         ),
                                       ),
                                     ),

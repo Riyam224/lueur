@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
-import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/language/domain/entities/app_language.dart';
 import 'package:lueur/features/language/presentation/cubit/language_cubit.dart';
@@ -20,7 +20,7 @@ class LanguageToggleWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(4.r),
       decoration: BoxDecoration(
-        color: AppColors.creamBackground,
+        color: context.extra.cardBackgroundColor,
         borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
       ),
       child: Row(
@@ -57,6 +57,8 @@ class _LanguageOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return InkWell(
       borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
       onTap: onTap,
@@ -64,13 +66,13 @@ class _LanguageOption extends StatelessWidget {
         duration: const Duration(milliseconds: 150),
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary : Colors.transparent,
+          color: selected ? cs.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
         ),
         child: Text(
           label,
           style: ThemeTextStyles.bodyMedium(context).copyWith(
-            color: selected ? Colors.white : null,
+            color: selected ? cs.onPrimary : null,
             fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
           ),
         ),

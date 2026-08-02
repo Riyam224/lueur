@@ -6,13 +6,13 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
-import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_footer_link.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_or_divider.dart';
@@ -31,23 +31,52 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
+  late final FocusNode _nameFocus;
+  late final FocusNode _emailFocus;
+  late final FocusNode _passwordFocus;
+  late final FocusNode _confirmPasswordFocus;
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
   PasswordStrength _passwordStrength = PasswordStrength.none;
+  String? _nameError;
+  String? _emailError;
+  String? _passwordError;
+  String? _confirmPasswordError;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+    _nameFocus = FocusNode();
+    _emailFocus = FocusNode();
+    _passwordFocus = FocusNode();
+    _confirmPasswordFocus = FocusNode();
+  }
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _nameFocus.dispose();
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    _confirmPasswordFocus.dispose();
     super.dispose();
   }
 
   void _onPasswordChanged(String value) {
     setState(() {
       _passwordStrength = PasswordStrengthX.fromPassword(value);
+      if (_passwordError != null) _passwordError = null;
     });
   }
 
@@ -55,10 +84,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (state is AuthAuthenticated) {
       unawaited(_showSuccessThenNavigate(context));
     } else if (state is AuthError) {
+      final cs = Theme.of(context).colorScheme;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(state.message),
-          backgroundColor: AppColors.onboardingAccent,
+          backgroundColor: cs.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.borderRadiusSm),
@@ -72,6 +102,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
     await AuthSuccessDialog.show(context);
     if (!context.mounted) return;
     context.go(AppRoutes.home);
+  }
+
+  void _submit(BuildContext context) {
+    final nameError =
+        AuthValidators.required(context, _nameController.text);
+    final emailError = AuthValidators.email(context, _emailController.text);
+    final passwordError =
+        AuthValidators.password(context, _passwordController.text);
+    final confirmError = AuthValidators.confirmPassword(
+      context,
+      _passwordController.text,
+      _confirmPasswordController.text,
+    );
+    setState(() {
+      _nameError = nameError;
+      _emailError = emailError;
+      _passwordError = passwordError;
+      _confirmPasswordError = confirmError;
+    });
+    if (nameError != null ||
+        emailError != null ||
+        passwordError != null ||
+        confirmError != null) {
+      return;
+    }
+
+    context.read<AuthCubit>().register(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          name: _nameController.text.trim(),
+        );
   }
 
   @override
@@ -113,7 +174,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: EdgeInsets.symmetric(
                         vertical: AppSpacing.spaceSm,
                       ),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                   ),
                 ),
@@ -135,34 +195,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     AppLocalizations.of(context)!.registerSubtitle,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.bodyMedium(context)
-                        .copyWith(color: AppColors.onboardingSubtitle),
+                        .copyWith(color: secondaryText),
                   ),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingLg),
                 AuthTextField(
                   controller: _nameController,
+                  focusNode: _nameFocus,
                   label: AppLocalizations.of(context)!.authFullNameLabel,
                   hint: AppLocalizations.of(context)!.authFullNameHint,
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
+                  errorText: _nameError,
+                  onChanged: (_) {
+                    if (_nameError != null) setState(() => _nameError = null);
+                  },
+                  onFieldSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(_emailFocus),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 AuthTextField(
                   controller: _emailController,
+                  focusNode: _emailFocus,
                   label: AppLocalizations.of(context)!.authEmailLabel,
                   hint: AppLocalizations.of(context)!.authEmailHint,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
+                  errorText: _emailError,
+                  onChanged: (_) {
+                    if (_emailError != null) setState(() => _emailError = null);
+                  },
+                  onFieldSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(_passwordFocus),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
                 AuthTextField(
                   controller: _passwordController,
+                  focusNode: _passwordFocus,
                   label: AppLocalizations.of(context)!.authPasswordLabel,
                   hint: AppLocalizations.of(context)!.authPasswordHint,
                   obscureText: _obscurePassword,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.next,
+                  errorText: _passwordError,
                   onChanged: _onPasswordChanged,
+                  onFieldSubmitted: (_) => FocusScope.of(context)
+                      .requestFocus(_confirmPasswordFocus),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
@@ -179,16 +257,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   strength: _passwordStrength,
                   backgroundColor: borderColor,
                 ),
+                SizedBox(height: AppSpacing.sectionSpacingSm),
+                AuthTextField(
+                  controller: _confirmPasswordController,
+                  focusNode: _confirmPasswordFocus,
+                  label: AppLocalizations.of(context)!.authConfirmPasswordLabel,
+                  hint: AppLocalizations.of(context)!.authConfirmPasswordHint,
+                  obscureText: _obscureConfirmPassword,
+                  textInputAction: TextInputAction.done,
+                  errorText: _confirmPasswordError,
+                  onChanged: (_) {
+                    if (_confirmPasswordError != null) {
+                      setState(() => _confirmPasswordError = null);
+                    }
+                  },
+                  onFieldSubmitted: (_) => _submit(context),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureConfirmPassword
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: secondaryText,
+                    ),
+                    onPressed: () => setState(
+                      () => _obscureConfirmPassword = !_obscureConfirmPassword,
+                    ),
+                  ),
+                ),
                 SizedBox(height: AppSpacing.verticalPaddingXl),
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) => AuthPrimaryButton(
                     label: AppLocalizations.of(context)!.registerCta,
                     isLoading: state is AuthLoading,
-                    onPressed: () => context.read<AuthCubit>().register(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text,
-                          name: _nameController.text.trim(),
-                        ),
+                    onPressed: () => _submit(context),
                   ),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),
@@ -208,7 +309,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   prompt: AppLocalizations.of(context)!.registerSignInPrompt,
                   action: AppLocalizations.of(context)!.registerSignInAction,
                   promptColor: secondaryText,
-                  actionColor: AppColors.onboardingAccent,
+                  actionColor: cs.primary,
                   onTap: () => context.go(AppRoutes.loginScreen),
                 ),
                 SizedBox(height: AppSpacing.sectionSpacingSm),

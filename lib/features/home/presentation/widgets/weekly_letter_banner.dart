@@ -153,11 +153,14 @@ class _LetterContentState extends State<_LetterContent> {
           // ── Top row: title + dismiss ──────────────────────────
           Row(
             children: [
-              const Text(
+              Text(
                 '✉️',
                 style: TextStyle(
-                  fontSize: 18,
-                  fontFamilyFallback: ['Apple Color Emoji', 'Noto Color Emoji'],
+                  fontSize: 18.sp,
+                  fontFamilyFallback: const [
+                    'Apple Color Emoji',
+                    'Noto Color Emoji',
+                  ],
                 ),
               ),
               SizedBox(width: AppSpacing.spaceSm),
@@ -303,9 +306,9 @@ class _StatChip extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: isEmoji
-                  ? const TextStyle(
-                      fontSize: 13,
-                      fontFamilyFallback: [
+                  ? TextStyle(
+                      fontSize: 13.sp,
+                      fontFamilyFallback: const [
                         'Apple Color Emoji',
                         'Noto Color Emoji',
                       ],
