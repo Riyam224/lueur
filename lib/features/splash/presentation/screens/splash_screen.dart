@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/preferences/auth_prefs.dart';
 import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_assets.dart';
@@ -71,10 +72,20 @@ class _SplashScreenState extends State<SplashScreen>
     await authCubit.checkSession();
     if (!mounted) return;
 
+    if (authCubit.state is AuthAuthenticated) {
+      context.go(AppRoutes.home);
+      return;
+    }
+
+    // A device that has never had a successful login/register/Google
+    // sign-in is a first-ever install — land on Register instead of Login
+    // since there's no account to log into yet. Once any sign-in ever
+    // succeeds, this flag stays true, so a later logout still returns to
+    // Login as before.
+    final hasEverAuthenticated = await AuthPrefs.hasEverAuthenticated();
+    if (!mounted) return;
     context.go(
-      authCubit.state is AuthAuthenticated
-          ? AppRoutes.home
-          : AppRoutes.loginScreen,
+      hasEverAuthenticated ? AppRoutes.loginScreen : AppRoutes.registerScreen,
     );
   }
 

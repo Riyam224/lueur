@@ -9,6 +9,7 @@ import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/auth/data/datasources/auth_django_datasource.dart';
 import 'package:lueur/features/auth/data/datasources/auth_firebase_datasource.dart';
 import 'package:lueur/features/auth/data/models/django_user_model.dart';
+import 'package:lueur/features/auth/data/models/user_model.dart';
 import 'package:lueur/features/auth/domain/entities/user_entity.dart';
 import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
 
@@ -119,15 +120,58 @@ class AuthRepositoryImpl implements AuthRepository {
       final idToken = await _firebaseDataSource.refreshIdToken();
       final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
       return Right(djangoUser);
+    } on FirebaseAuthException catch (e, st) {
+      // Only a genuine "this session is no longer valid" response from
+      // Firebase should sign the user out. Anything else (network error,
+      // backend hiccup) must not — we can't tell "no internet" apart from
+      // "no valid session" here, so default to trusting the locally cached
+      // session and let the user keep using the app.
+      if (_isInvalidSessionError(e)) {
+        _logger.e(
+          'Session invalid, signing out',
+          error: e,
+          stackTrace: st,
+        );
+        await _firebaseDataSource.logout();
+        return const Right(null);
+      }
+      _logger.w('Session restore failed (non-fatal): ${e.code}');
+      return Right(UserModel.fromFirebaseUser(user));
+    } on DioException catch (e, st) {
+      // The backend explicitly rejecting the token (banned/deleted account,
+      // revoked access) is a genuine "no longer valid" signal, unlike a
+      // timeout or connection failure — only the latter should be trusted
+      // as "probably just offline."
+      final status = e.response?.statusCode;
+      if (status == 401 || status == 403) {
+        _logger.e(
+          'Backend rejected session, signing out',
+          error: e,
+          stackTrace: st,
+        );
+        await _firebaseDataSource.logout();
+        return const Right(null);
+      }
+      _logger.w('Session restore failed (non-fatal, likely network): ${e.message}');
+      return Right(UserModel.fromFirebaseUser(user));
     } catch (e, st) {
-      _logger.e(
-        'Session restore failed, signing out',
+      _logger.w(
+        'Session restore failed (non-fatal, likely network)',
         error: e,
         stackTrace: st,
       );
-      await _firebaseDataSource.logout();
-      return const Right(null);
+      return Right(UserModel.fromFirebaseUser(user));
     }
+  }
+
+  bool _isInvalidSessionError(FirebaseAuthException e) {
+    return const {
+      'invalid-user-token',
+      'user-disabled',
+      'user-token-expired',
+      'user-not-found',
+      'invalid-credential',
+    }.contains(e.code);
   }
 
   @override
