@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/core/preferences/auth_prefs.dart';
 import 'package:lueur/features/auth/domain/usecases/check_session_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
@@ -54,7 +57,10 @@ class AuthCubit extends Cubit<AuthState> {
     if (isClosed) return;
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (user) {
+        unawaited(AuthPrefs.markAuthenticated());
+        emit(AuthAuthenticated(user));
+      },
     );
   }
 
@@ -72,7 +78,10 @@ class AuthCubit extends Cubit<AuthState> {
     if (isClosed) return;
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (user) {
+        unawaited(AuthPrefs.markAuthenticated());
+        emit(AuthAuthenticated(user));
+      },
     );
   }
 
@@ -84,7 +93,10 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) => failure is CancellationFailure
           ? emit(const AuthInitial())
           : emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (user) {
+        unawaited(AuthPrefs.markAuthenticated());
+        emit(AuthAuthenticated(user));
+      },
     );
   }
 
