@@ -137,6 +137,23 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       _logger.w('Session restore failed (non-fatal): ${e.code}');
       return Right(UserModel.fromFirebaseUser(user));
+    } on DioException catch (e, st) {
+      // The backend explicitly rejecting the token (banned/deleted account,
+      // revoked access) is a genuine "no longer valid" signal, unlike a
+      // timeout or connection failure — only the latter should be trusted
+      // as "probably just offline."
+      final status = e.response?.statusCode;
+      if (status == 401 || status == 403) {
+        _logger.e(
+          'Backend rejected session, signing out',
+          error: e,
+          stackTrace: st,
+        );
+        await _firebaseDataSource.logout();
+        return const Right(null);
+      }
+      _logger.w('Session restore failed (non-fatal, likely network): ${e.message}');
+      return Right(UserModel.fromFirebaseUser(user));
     } catch (e, st) {
       _logger.w(
         'Session restore failed (non-fatal, likely network)',
