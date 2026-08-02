@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/errors/failures.dart';
@@ -54,13 +52,11 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login({required String email, required String password}) async {
     emit(const AuthLoading());
     final result = await _loginUseCase(email: email, password: password);
+    if (result.isRight()) await AuthPrefs.markAuthenticated();
     if (isClosed) return;
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (user) {
-        unawaited(AuthPrefs.markAuthenticated());
-        emit(AuthAuthenticated(user));
-      },
+      (user) => emit(AuthAuthenticated(user)),
     );
   }
 
@@ -75,28 +71,24 @@ class AuthCubit extends Cubit<AuthState> {
       password: password,
       name: name,
     );
+    if (result.isRight()) await AuthPrefs.markAuthenticated();
     if (isClosed) return;
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (user) {
-        unawaited(AuthPrefs.markAuthenticated());
-        emit(AuthAuthenticated(user));
-      },
+      (user) => emit(AuthAuthenticated(user)),
     );
   }
 
   Future<void> signInWithGoogle() async {
     emit(const AuthLoading());
     final result = await _signInWithGoogleUseCase();
+    if (result.isRight()) await AuthPrefs.markAuthenticated();
     if (isClosed) return;
     result.fold(
       (failure) => failure is CancellationFailure
           ? emit(const AuthInitial())
           : emit(AuthError(failure.message)),
-      (user) {
-        unawaited(AuthPrefs.markAuthenticated());
-        emit(AuthAuthenticated(user));
-      },
+      (user) => emit(AuthAuthenticated(user)),
     );
   }
 
