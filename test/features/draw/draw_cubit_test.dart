@@ -54,6 +54,28 @@ void main() {
       cubit.close();
     });
 
+    test('undoLastStroke removes only the most recent path', () {
+      final cubit = DrawCubit();
+      cubit.startStroke(const Offset(0, 0));
+      cubit.startStroke(const Offset(5, 5));
+      expect(cubit.state.paths.length, 2);
+
+      cubit.undoLastStroke();
+
+      expect(cubit.state.paths.length, 1);
+      expect(cubit.state.paths.first.points, [const Offset(0, 0)]);
+      cubit.close();
+    });
+
+    test('undoLastStroke is a no-op when there are no strokes', () {
+      final cubit = DrawCubit();
+
+      cubit.undoLastStroke();
+
+      expect(cubit.state.paths, isEmpty);
+      cubit.close();
+    });
+
     test('clear resets paths back to empty', () {
       final cubit = DrawCubit();
       cubit.startStroke(const Offset(0, 0));
@@ -73,6 +95,7 @@ void main() {
       cubit.startStroke(const Offset(0, 0));
       cubit.extendStroke(const Offset(1, 1));
       cubit.selectColor(CalmModeColors.peachGlow);
+      cubit.undoLastStroke();
       cubit.clear();
 
       expect(cubit.isClosed, isTrue);

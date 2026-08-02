@@ -683,6 +683,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawTopBarTitle => 'free draw';
 
   @override
+  String get drawUndoButton => 'undo';
+
+  @override
   String get drawClearButton => 'clear';
 
   @override

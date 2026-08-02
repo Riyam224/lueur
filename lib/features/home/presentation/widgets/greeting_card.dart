@@ -80,6 +80,7 @@ class _GreetingCardState extends State<GreetingCard> {
       child: BlocBuilder<PlantCubit, PlantState>(
         builder: (context, state) {
           final extra = context.extra;
+          final isDark = Theme.of(context).brightness == Brightness.dark;
           final onPrimary = extra.onPrimaryTextColor!;
           final primary = extra.primaryColor!;
           final stage = state is PlantLoaded ? state.stage : PlantStage.seed;
@@ -99,14 +100,13 @@ class _GreetingCardState extends State<GreetingCard> {
             width: double.infinity,
             padding: EdgeInsets.all(AppSpacing.horizontalPaddingLg),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                // Contrast-verified against the white greeting text (see
-                // AppColors.greetingGradientStart/End) — same pair in both
-                // themes, since this card always carries white text.
-                colors: [
-                  AppColors.greetingGradientStart,
-                  AppColors.greetingGradientEnd,
-                ],
+              gradient: LinearGradient(
+                colors: isDark
+                    ? [AppColors.pastelOrchid, AppColors.primaryDarkDeep]
+                    : [
+                        AppColors.greetingGradientStart,
+                        AppColors.greetingGradientEnd,
+                      ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -142,7 +142,8 @@ class _GreetingCardState extends State<GreetingCard> {
                           ),
                           decoration: BoxDecoration(
                             color: onPrimary.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
+                            borderRadius:
+                                BorderRadius.circular(AppSizes.borderRadiusLg),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

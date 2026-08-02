@@ -674,6 +674,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get drawTopBarTitle => 'الرسم الحر';
 
   @override
+  String get drawUndoButton => 'تراجع';
+
+  @override
   String get drawClearButton => 'مسح';
 
   @override

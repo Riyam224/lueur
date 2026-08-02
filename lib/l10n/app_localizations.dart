@@ -1352,6 +1352,12 @@ abstract class AppLocalizations {
   /// **'free draw'**
   String get drawTopBarTitle;
 
+  /// No description provided for @drawUndoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'undo'**
+  String get drawUndoButton;
+
   /// No description provided for @drawClearButton.
   ///
   /// In en, this message translates to:

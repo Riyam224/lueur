@@ -209,6 +209,7 @@
   "sudokuNormalModeLabel": "عادي",
   "sudokuCandidateModeLabel": "احتمالات",
   "drawTopBarTitle": "الرسم الحر",
+  "drawUndoButton": "تراجع",
   "drawClearButton": "مسح",
   "drawSavedSnack": "تم حفظ الرسمة في حسابك",
   "drawTalkToLunaLink": "تشعر برغبة في التحدث مع لونا الآن؟",

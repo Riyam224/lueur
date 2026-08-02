@@ -42,4 +42,12 @@ class DrawCubit extends Cubit<DrawState> {
     if (isClosed) return;
     emit(state.copyWith(paths: const []));
   }
+
+  /// Removes only the most recent stroke, letting the user step back one
+  /// mistake at a time instead of wiping the whole canvas via [clear].
+  void undoLastStroke() {
+    if (isClosed) return;
+    if (state.paths.isEmpty) return;
+    emit(state.copyWith(paths: state.paths.sublist(0, state.paths.length - 1)));
+  }
 }

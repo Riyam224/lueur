@@ -46,6 +46,10 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
   final Color? blobColorTwo;
   final Color? blobColorThree;
 
+  // Circle backdrop behind Luna on the auth screens (login/register/forgot
+  // password)
+  final Color? authAvatarCircleBg;
+
   AppExtraColors({
     required this.primaryColor,
     required this.primaryLightColor,
@@ -74,6 +78,7 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
     required this.blobColorOne,
     required this.blobColorTwo,
     required this.blobColorThree,
+    required this.authAvatarCircleBg,
   });
 
   @override
@@ -105,6 +110,7 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
     Color? blobColorOne,
     Color? blobColorTwo,
     Color? blobColorThree,
+    Color? authAvatarCircleBg,
   }) {
     return AppExtraColors(
       primaryColor: primaryColor ?? this.primaryColor,
@@ -125,15 +131,20 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
       borderColor: borderColor ?? this.borderColor,
       dividerColor: dividerColor ?? this.dividerColor,
       shadowColor: shadowColor ?? this.shadowColor,
-      settingsModeIconColor: settingsModeIconColor ?? this.settingsModeIconColor,
+      settingsModeIconColor:
+          settingsModeIconColor ?? this.settingsModeIconColor,
       settingsModeIconBg: settingsModeIconBg ?? this.settingsModeIconBg,
-      settingsAboutIconColor: settingsAboutIconColor ?? this.settingsAboutIconColor,
+      settingsAboutIconColor:
+          settingsAboutIconColor ?? this.settingsAboutIconColor,
       settingsAboutIconBg: settingsAboutIconBg ?? this.settingsAboutIconBg,
-      settingsPrivacyIconColor: settingsPrivacyIconColor ?? this.settingsPrivacyIconColor,
-      settingsPrivacyIconBg: settingsPrivacyIconBg ?? this.settingsPrivacyIconBg,
+      settingsPrivacyIconColor:
+          settingsPrivacyIconColor ?? this.settingsPrivacyIconColor,
+      settingsPrivacyIconBg:
+          settingsPrivacyIconBg ?? this.settingsPrivacyIconBg,
       blobColorOne: blobColorOne ?? this.blobColorOne,
       blobColorTwo: blobColorTwo ?? this.blobColorTwo,
       blobColorThree: blobColorThree ?? this.blobColorThree,
+      authAvatarCircleBg: authAvatarCircleBg ?? this.authAvatarCircleBg,
     );
   }
 
@@ -143,14 +154,19 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
 
     return AppExtraColors(
       primaryColor: Color.lerp(primaryColor, other.primaryColor, t),
-      primaryLightColor: Color.lerp(primaryLightColor, other.primaryLightColor, t),
+      primaryLightColor:
+          Color.lerp(primaryLightColor, other.primaryLightColor, t),
       primaryDarkColor: Color.lerp(primaryDarkColor, other.primaryDarkColor, t),
-      cardBackgroundColor: Color.lerp(cardBackgroundColor, other.cardBackgroundColor, t),
+      cardBackgroundColor:
+          Color.lerp(cardBackgroundColor, other.cardBackgroundColor, t),
       surfaceColor: Color.lerp(surfaceColor, other.surfaceColor, t),
       primaryTextColor: Color.lerp(primaryTextColor, other.primaryTextColor, t),
-      secondaryTextColor: Color.lerp(secondaryTextColor, other.secondaryTextColor, t),
-      tertiaryTextColor: Color.lerp(tertiaryTextColor, other.tertiaryTextColor, t),
-      onPrimaryTextColor: Color.lerp(onPrimaryTextColor, other.onPrimaryTextColor, t),
+      secondaryTextColor:
+          Color.lerp(secondaryTextColor, other.secondaryTextColor, t),
+      tertiaryTextColor:
+          Color.lerp(tertiaryTextColor, other.tertiaryTextColor, t),
+      onPrimaryTextColor:
+          Color.lerp(onPrimaryTextColor, other.onPrimaryTextColor, t),
       moodHappy: Color.lerp(moodHappy, other.moodHappy, t),
       moodSad: Color.lerp(moodSad, other.moodSad, t),
       moodCalm: Color.lerp(moodCalm, other.moodCalm, t),
@@ -160,15 +176,26 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
       borderColor: Color.lerp(borderColor, other.borderColor, t),
       dividerColor: Color.lerp(dividerColor, other.dividerColor, t),
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t),
-      settingsModeIconColor: Color.lerp(settingsModeIconColor, other.settingsModeIconColor, t),
-      settingsModeIconBg: Color.lerp(settingsModeIconBg, other.settingsModeIconBg, t),
-      settingsAboutIconColor: Color.lerp(settingsAboutIconColor, other.settingsAboutIconColor, t),
-      settingsAboutIconBg: Color.lerp(settingsAboutIconBg, other.settingsAboutIconBg, t),
-      settingsPrivacyIconColor: Color.lerp(settingsPrivacyIconColor, other.settingsPrivacyIconColor, t),
-      settingsPrivacyIconBg: Color.lerp(settingsPrivacyIconBg, other.settingsPrivacyIconBg, t),
+      settingsModeIconColor:
+          Color.lerp(settingsModeIconColor, other.settingsModeIconColor, t),
+      settingsModeIconBg:
+          Color.lerp(settingsModeIconBg, other.settingsModeIconBg, t),
+      settingsAboutIconColor:
+          Color.lerp(settingsAboutIconColor, other.settingsAboutIconColor, t),
+      settingsAboutIconBg:
+          Color.lerp(settingsAboutIconBg, other.settingsAboutIconBg, t),
+      settingsPrivacyIconColor: Color.lerp(
+        settingsPrivacyIconColor,
+        other.settingsPrivacyIconColor,
+        t,
+      ),
+      settingsPrivacyIconBg:
+          Color.lerp(settingsPrivacyIconBg, other.settingsPrivacyIconBg, t),
       blobColorOne: Color.lerp(blobColorOne, other.blobColorOne, t),
       blobColorTwo: Color.lerp(blobColorTwo, other.blobColorTwo, t),
       blobColorThree: Color.lerp(blobColorThree, other.blobColorThree, t),
+      authAvatarCircleBg:
+          Color.lerp(authAvatarCircleBg, other.authAvatarCircleBg, t),
     );
   }
 }

@@ -277,6 +277,7 @@
   "sudokuNormalModeLabel": "Normal",
   "sudokuCandidateModeLabel": "Candidate",
   "drawTopBarTitle": "free draw",
+  "drawUndoButton": "undo",
   "drawClearButton": "clear",
   "drawSavedSnack": "Drawing saved to your profile",
   "drawTalkToLunaLink": "feel like talking to luna now?",
