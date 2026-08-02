@@ -56,12 +56,12 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> sendPasswordResetEmail(
-          {required String email}) async =>
+          {required String email,}) async =>
       const Right(null);
 
   @override
   Future<Either<Failure, void>> syncPreferredLanguage(
-          String languageCode) async =>
+          String languageCode,) async =>
       const Right(null);
 }
 
@@ -113,7 +113,7 @@ void main() {
 
     test('register success persists the flag', () async {
       await cubit.register(
-          email: 'user@example.com', password: 'password123', name: 'User');
+          email: 'user@example.com', password: 'password123', name: 'User',);
 
       expect(cubit.state, isA<AuthAuthenticated>());
       expect(await AuthPrefs.hasEverAuthenticated(), isTrue);

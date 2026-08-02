@@ -146,7 +146,7 @@ class MoodRepositoryImpl implements MoodRepository {
   }
 
   List<MoodEntryModel> _mergeLocalOnlyFields(
-      List<MoodEntryModel> remoteModels) {
+      List<MoodEntryModel> remoteModels,) {
     final cachedById = {
       for (final entry in _local.getCachedHistory(userId: _currentUserId))
         entry.id: entry,
@@ -179,7 +179,7 @@ class MoodRepositoryImpl implements MoodRepository {
 
   @override
   Future<Either<Failure, MoodEntryEntity>> setPinned(
-      int id, bool pinned) async {
+      int id, bool pinned,) async {
     try {
       final updated =
           await _local.setPinned(id, pinned, userId: _currentUserId);

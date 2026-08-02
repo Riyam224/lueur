@@ -237,8 +237,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     errorText: _emailError,
                     onChanged: (_) {
-                      if (_emailError != null)
+                      if (_emailError != null) {
                         setState(() => _emailError = null);
+                      }
                     },
                     onFieldSubmitted: (_) =>
                         FocusScope.of(context).requestFocus(_passwordFocus),
