@@ -134,7 +134,10 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
       logoutUseCase: sl(),
       signInWithGoogleUseCase: sl(),
       checkSessionUseCase: sl(),
-      onLogout: sl<MoodCubit>().clearEntries,
+      onSessionCleared: () async {
+        await sl<MoodLocalDatasource>().clearGuestHistory();
+        sl<MoodCubit>().clearEntries();
+      },
     ),
   );
 

@@ -41,6 +41,9 @@ Future<void> main() async {
     Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName),
     Hive.openBox<bool>(ThemeCubit.boxName),
   ]);
+  // Guest entries are session-only. Clear only the anonymous key; cached
+  // histories belonging to registered Firebase UIDs remain untouched.
+  await MoodLocalDatasource().clearGuestHistory();
   final sharedPreferences = await SharedPreferences.getInstance();
 
   setupInjection(sharedPreferences: sharedPreferences);
