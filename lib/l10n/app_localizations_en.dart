@@ -118,6 +118,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authContinueAsGuest => 'Continue as guest';
 
   @override
+  String get guestWarningTitle => 'A quick heads-up';
+
+  @override
+  String get guestWarningMessage =>
+      'As a guest, Luna won\'t remember your entries once you close the app. Want to keep your streak growing? You can register anytime.';
+
+  @override
+  String get guestWarningRegisterInstead => 'Register instead';
+
+  @override
   String get authLogOut => 'Log out';
 
   @override
