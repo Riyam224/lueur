@@ -12,9 +12,9 @@ import 'package:lueur/features/plant/domain/entities/plant_stage.dart';
 import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Premium streak card shown on Home — current streak, a 7-day activity
+/// Journal reflection card — current streak, a 7-day activity
 /// graph, the growing plant, and a small motivational line. This is the
-/// daily-motivation surface for the streak/plant feature; it never
+/// progress surface for the streak/plant feature; it never
 /// recomputes the streak itself, only visualizes it.
 class StreakCardWidget extends StatelessWidget {
   static const double _minBarHeight = 12;

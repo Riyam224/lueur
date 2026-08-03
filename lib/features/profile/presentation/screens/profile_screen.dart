@@ -8,18 +8,12 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/core/utils/streak_calculator.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
-import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
-import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
-import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_avatar_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_journal_data_section_widget.dart';
-import 'package:lueur/features/profile/presentation/widgets/profile_quick_links_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_saved_drawings_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_settings_section_widget.dart';
-import 'package:lueur/features/profile/presentation/widgets/profile_stats_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_sudoku_history_section_widget.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
@@ -38,13 +32,6 @@ class ProfileScreen extends StatelessWidget {
 
   static String? _userSeed(AuthState state) =>
       state is AuthAuthenticated ? state.user.id : null;
-
-  static int _thisWeekCount(List<MoodEntryEntity> entries) {
-    final now = DateTime.now();
-    final weekStart = now.subtract(Duration(days: now.weekday - 1));
-    final start = DateTime(weekStart.year, weekStart.month, weekStart.day);
-    return entries.where((e) => !e.createdAt.isBefore(start)).length;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,41 +65,6 @@ class ProfileScreen extends StatelessWidget {
                 subtitle: _subtitle(context),
                 seed: _userSeed(state),
               ),
-            ),
-          ),
-        ),
-
-        // ── Stats row ────────────────────────────────────
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingMd,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingMd,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _SectionLabel(
-                  AppLocalizations.of(context)!.profileStatsSectionLabel,
-                ),
-                SizedBox(height: AppSpacing.verticalPaddingSm),
-                BlocBuilder<MoodCubit, MoodState>(
-                  builder: (context, state) {
-                    final entries = state is MoodHistorySuccess
-                        ? state.entries
-                        : <MoodEntryEntity>[];
-                    return ProfileStatsWidget(
-                      totalEntries: entries.length,
-                      thisWeek: _thisWeekCount(entries),
-                      dayStreak: StreakCalculator.calculateConsecutiveStreak(
-                        entries.map((e) => e.createdAt).toList(),
-                      ),
-                    );
-                  },
-                ),
-              ],
             ),
           ),
         ),
@@ -285,28 +237,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── Weekly Letter / Mood Board quick links ────────
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingLg,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _SectionLabel(
-                  AppLocalizations.of(context)!.profileQuickLinksSectionLabel,
-                ),
-                SizedBox(height: AppSpacing.verticalPaddingSm),
-                const ProfileQuickLinksWidget(),
-              ],
-            ),
-          ),
-        ),
-
         // ── Settings section ─────────────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
@@ -366,27 +296,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-/// Small-caps section header, matching the style already established by
-/// [ProfileSettingsSectionWidget]'s "SETTINGS" label — reused here so every
-/// major group on the profile screen reads consistently.
-class _SectionLabel extends StatelessWidget {
-  const _SectionLabel(this.label);
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: ThemeTextStyles.labelSmall(context).copyWith(
-        color: AppColors.primary,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 1.2,
-      ),
     );
   }
 }

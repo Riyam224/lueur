@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/preferences/streak_celebration_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
@@ -18,18 +19,50 @@ import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:lueur/features/home/presentation/widgets/recent_entries_header.dart';
+import 'package:lueur/features/home/presentation/widgets/streak_card_widget.dart';
 import 'package:lueur/features/home/presentation/widgets/weekly_letter_banner.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
+import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
+import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
+import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Journal is a lightweight entry point into memories — the title, the
 /// weekly letter, and a taste of the most recent days. The full searchable,
 /// filterable browsing experience lives in [AppRoutes.timeline].
-class JournalGridScreen extends StatelessWidget {
+class JournalGridScreen extends StatefulWidget {
   const JournalGridScreen({super.key});
+
+  @override
+  State<JournalGridScreen> createState() => _JournalGridScreenState();
+}
+
+class _JournalGridScreenState extends State<JournalGridScreen> {
+  bool _checkingCelebration = false;
+
+  Future<void> _maybeCelebrateStreak(int streakDays) async {
+    if (!StreakMilestone.isMilestone(streakDays) || _checkingCelebration) {
+      return;
+    }
+    _checkingCelebration = true;
+    try {
+      final lastMilestone = await StreakCelebrationPrefs.lastMilestone();
+      if (streakDays <= lastMilestone) return;
+      await StreakCelebrationPrefs.markCelebrated(streakDays);
+      if (!mounted) return;
+      unawaited(
+        context.push(
+          AppRoutes.streakCelebration,
+          extra: {'streakDays': streakDays},
+        ),
+      );
+    } finally {
+      _checkingCelebration = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +71,33 @@ class JournalGridScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<JournalGridCubit>()..loadEntries()),
+        BlocProvider(create: (_) => sl<PlantCubit>()..loadPlant()),
         if (!isGuest)
           BlocProvider(create: (_) => sl<WeeklyLetterCubit>()..load()),
       ],
-      child: BlocListener<MoodCubit, MoodState>(
-        listenWhen: (previous, current) =>
-            current is MoodHistorySuccess &&
-            current.justGenerated != null &&
-            (previous is! MoodHistorySuccess ||
-                previous.justGenerated != current.justGenerated),
-        listener: (context, state) {
-          unawaited(context.read<JournalGridCubit>().loadEntries());
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<MoodCubit, MoodState>(
+            listenWhen: (previous, current) =>
+                current is MoodHistorySuccess &&
+                current.justGenerated != null &&
+                (previous is! MoodHistorySuccess ||
+                    previous.justGenerated != current.justGenerated),
+            listener: (context, state) {
+              unawaited(context.read<JournalGridCubit>().loadEntries());
+            },
+          ),
+          BlocListener<PlantCubit, PlantState>(
+            listenWhen: (previous, current) =>
+                current is PlantLoaded &&
+                StreakMilestone.isMilestone(current.streakDays),
+            listener: (context, state) {
+              if (state is PlantLoaded) {
+                unawaited(_maybeCelebrateStreak(state.streakDays));
+              }
+            },
+          ),
+        ],
         child: _JournalGridView(isGuest: isGuest),
       ),
     );
@@ -212,7 +260,29 @@ class _JournalGridView extends StatelessWidget {
                         color: subheadingColor,
                       ),
                     ),
-                    if (!isGuest) const WeeklyLetterBanner(),
+                    SizedBox(height: AppSpacing.spaceLg),
+                    BlocBuilder<MoodCubit, MoodState>(
+                      builder: (context, moodState) {
+                        final entries = moodState is MoodHistorySuccess
+                            ? moodState.entries
+                            : <MoodEntryEntity>[];
+                        return BlocBuilder<PlantCubit, PlantState>(
+                          builder: (context, plantState) {
+                            final streakDays = plantState is PlantLoaded
+                                ? plantState.streakDays
+                                : 0;
+                            return StreakCardWidget(
+                              entries: entries,
+                              streakDays: streakDays,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    if (!isGuest) ...[
+                      SizedBox(height: AppSpacing.spaceLg),
+                      const WeeklyLetterBanner(),
+                    ],
                     SizedBox(height: AppSpacing.spaceLg),
                   ],
                 ),

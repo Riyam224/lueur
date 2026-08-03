@@ -1,31 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
-import 'package:lueur/core/models/mood_entry.dart';
-import 'package:lueur/core/preferences/streak_celebration_prefs.dart';
-import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
-import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/home/presentation/widgets/greeting_card.dart';
 import 'package:lueur/features/home/presentation/widgets/home_header.dart';
 import 'package:lueur/features/home/presentation/widgets/mood_input_section.dart';
-import 'package:lueur/features/home/presentation/widgets/streak_card_widget.dart';
-import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
-import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Home screen — main entry point of the app
@@ -66,7 +53,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _HomeScreenBody extends StatefulWidget {
+class _HomeScreenBody extends StatelessWidget {
   const _HomeScreenBody({
     required this.userName,
     this.userSeed,
@@ -76,317 +63,93 @@ class _HomeScreenBody extends StatefulWidget {
   final String? userSeed;
 
   @override
-  State<_HomeScreenBody> createState() => _HomeScreenBodyState();
-}
-
-class _HomeScreenBodyState extends State<_HomeScreenBody> {
-  int _lastEntryCount = 0;
-  bool _confettiShown = false;
-
-  /// Guards against re-checking/re-navigating for the same milestone while
-  /// the async Hive lookup in [_maybeCelebrateStreak] is still in flight.
-  bool _checkingCelebration = false;
-
-  Future<void> _maybeCelebrateStreak(int streakDays) async {
-    if (!StreakMilestone.isMilestone(streakDays)) return;
-    if (_checkingCelebration) return;
-    _checkingCelebration = true;
-    try {
-      final lastMilestone = await StreakCelebrationPrefs.lastMilestone();
-      if (streakDays <= lastMilestone) return;
-      await StreakCelebrationPrefs.markCelebrated(streakDays);
-      if (!mounted) return;
-      unawaited(
-        context.push(
-          AppRoutes.streakCelebration,
-          extra: {'streakDays': streakDays},
-        ),
-      );
-    } finally {
-      _checkingCelebration = false;
-    }
-  }
-
-  /// Maps a MoodEntryEntity (from API) to a MoodEntry (UI model)
-  List<MoodEntry> _toUiEntries(
-    BuildContext context,
-    List<MoodEntryEntity> entities,
-  ) {
-    return entities.map((e) => _entityToUiEntry(context, e)).toList();
-  }
-
-  MoodEntry _entityToUiEntry(BuildContext context, MoodEntryEntity e) {
-    return MoodEntry(
-      id: e.id,
-      emoji: e.emoji,
-      title: _titleFromThoughts(e.thoughts),
-      preview: e.thoughts,
-      sideColor: _emojiColor(e.emoji),
-      date: e.createdAt,
-    );
-  }
-
-  static final RegExp _sentenceSplitter = RegExp(r'[.!?]');
-
-  /// Use the first sentence or first 40 chars of thoughts as the card title
-  String _titleFromThoughts(String thoughts) {
-    final sentence = thoughts.split(_sentenceSplitter).first.trim();
-    if (sentence.isEmpty) return thoughts;
-    return sentence.length > 40 ? '${sentence.substring(0, 40)}…' : sentence;
-  }
-
-  Color _emojiColor(String emoji) {
-    const colors = {
-      '😔': AppColors.primary,
-      '😊': AppColors.moodHappy,
-      '😃': AppColors.moodHappy,
-      '😢': AppColors.moodCalm,
-      '😭': AppColors.moodCalm,
-      '😰': AppColors.moodAnxious,
-      '😩': AppColors.moodAnxious,
-      '😤': AppColors.moodSad,
-      '😌': AppColors.lavender,
-      '🥰': AppColors.blushPink,
-      '🤩': AppColors.moodExcited,
-      '😴': AppColors.lavender,
-      '😡': AppColors.moodAnxious,
-    };
-    return colors[emoji] ?? AppColors.moodNeutral;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocListener<PlantCubit, PlantState>(
-      listenWhen: (previous, current) =>
-          current is PlantLoaded &&
-          StreakMilestone.isMilestone(current.streakDays),
-      listener: (context, state) {
-        if (state is PlantLoaded) {
-          unawaited(_maybeCelebrateStreak(state.streakDays));
-        }
-      },
-      child: BlocBuilder<MoodCubit, MoodState>(
-        builder: (context, state) {
-          final rawEntries = switch (state) {
-            MoodHistorySuccess(:final entries) => entries,
-            _ => const <MoodEntryEntity>[],
-          };
-          final entries = _toUiEntries(context, rawEntries);
-          final hasEntries = state is MoodHistorySuccess && entries.isNotEmpty;
-          final showEmpty = state is MoodHistorySuccess && entries.isEmpty;
-          final shouldShowConfetti = state is MoodHistorySuccess &&
-              entries.length == 1 &&
-              _lastEntryCount == 0 &&
-              !_confettiShown;
+    return BlocBuilder<MoodCubit, MoodState>(
+      builder: (context, state) {
+        final hasEntries =
+            state is MoodHistorySuccess && state.entries.isNotEmpty;
 
-          if (state is MoodHistorySuccess) {
-            _lastEntryCount = entries.length;
-          }
-
-          return CustomScrollView(
-            slivers: [
-              // Header
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.topPaddingSafeArea,
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.verticalPaddingLg,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: HomeHeader(
-                    userName: widget.userName,
-                    userSeed: widget.userSeed,
-                  ),
+        return CustomScrollView(
+          slivers: [
+            // Header
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.horizontalPaddingLg,
+                AppSpacing.topPaddingSafeArea,
+                AppSpacing.horizontalPaddingLg,
+                AppSpacing.verticalPaddingLg,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: HomeHeader(
+                  userName: userName,
+                  userSeed: userSeed,
                 ),
               ),
+            ),
 
-              // Greeting card
-              SliverPadding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSpacing.horizontalPaddingLg,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: GreetingCard(
-                    userName: widget.userName,
-                    hasEntries: hasEntries,
-                  ),
+            // Greeting card
+            SliverPadding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalPaddingLg,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: GreetingCard(
+                  userName: userName,
+                  hasEntries: hasEntries,
                 ),
               ),
+            ),
 
-              // Mood Input Section
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                ),
-                sliver: const SliverToBoxAdapter(child: MoodInputSection()),
+            // Mood Input Section
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.horizontalPaddingLg,
+                AppSpacing.sectionSpacingSm,
+                AppSpacing.horizontalPaddingLg,
+                AppSpacing.sectionSpacingSm,
               ),
+              sliver: const SliverToBoxAdapter(child: MoodInputSection()),
+            ),
 
-              // Streak card — daily motivation, moved here from Journal
-              // since it's a today-facing, gamified surface rather than a
-              // memory-browsing one.
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  0,
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: BlocBuilder<PlantCubit, PlantState>(
-                    builder: (context, plantState) {
-                      final streakDays =
-                          plantState is PlantLoaded ? plantState.streakDays : 0;
-                      return StreakCardWidget(
-                        entries: rawEntries,
-                        streakDays: streakDays,
-                      );
-                    },
-                  ),
-                ),
-              ),
-
-              // Loading indicator
-              if (state is MoodLoading)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSpacing.sectionSpacingMd,
-                    ),
-                    child: Center(
-                      child: Lottie.asset(
-                        'assets/lottie/plant_sprout.json',
-                        width: AppSizes.iconXl,
-                        height: AppSizes.iconXl,
-                        repeat: true,
-                      ),
-                    ),
-                  ),
-                ),
-
-              // Error message
-              if (state is MoodError)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSpacing.horizontalPaddingLg,
-                      vertical: AppSpacing.sectionSpacingSm,
-                    ),
-                    child: Text(
-                      state.message,
-                      style: const TextStyle(color: AppColors.errorColor),
-                    ),
-                  ),
-                ),
-
-              if (showEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      AppSpacing.horizontalPaddingLg,
-                      AppSpacing.sectionSpacingSm,
-                      AppSpacing.horizontalPaddingLg,
-                      AppSpacing.sectionSpacingSm,
-                    ),
-                    child: Column(
-                      children: [
-                        const Text('🌱', style: TextStyle(fontSize: 44)),
-                        SizedBox(height: AppSpacing.spaceMd),
-                        Text(
-                          AppLocalizations.of(context)!
-                              .moodEntryEmptyStateTitle,
-                          style: ThemeTextStyles.headlineSmall(context),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: AppSpacing.spaceSm),
-                        Text(
-                          AppLocalizations.of(context)!.homeEmptyStateSubtitle,
-                          style: ThemeTextStyles.bodyMedium(context).copyWith(
-                            color: context.extra.secondaryTextColor,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
+            // Loading indicator
+            if (state is MoodLoading)
               SliverToBoxAdapter(
-                child: SizedBox(height: AppSpacing.sectionSpacingLg),
-              ),
-
-              if (shouldShowConfetti)
-                SliverFillRemaining(
-                  hasScrollBody: false,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSpacing.sectionSpacingMd,
+                  ),
                   child: Center(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: AppSpacing.horizontalPaddingLg,
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: AppSpacing.horizontalPaddingLg,
-                        vertical: AppSpacing.verticalPaddingLg,
-                      ),
-                      decoration: BoxDecoration(
-                        color: context.extra.cardBackgroundColor,
-                        borderRadius:
-                            BorderRadius.circular(AppSizes.borderRadiusLg),
-                        border: Border.all(
-                          color:
-                              context.extra.borderColor ?? AppColors.cardBorder,
-                          width: 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: context.extra.shadowColor ??
-                                AppColors.shadowColor,
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Lottie.asset(
-                            'assets/lottie/blooming.json',
-                            width: 140.w,
-                            height: 140.h,
-                            repeat: false,
-                            onLoaded: (_) {
-                              if (!_confettiShown) {
-                                setState(() => _confettiShown = true);
-                              }
-                            },
-                          ),
-                          SizedBox(height: AppSpacing.spaceMd),
-                          Text(
-                            AppLocalizations.of(context)!
-                                .homeFirstSeedCelebration,
-                            style: ThemeTextStyles.headlineSmall(context),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: AppSpacing.spaceSm),
-                          Text(
-                            AppLocalizations.of(context)!
-                                .homeFirstSeedCelebrationSubtitle,
-                            style: ThemeTextStyles.bodyMedium(context).copyWith(
-                              color: context.extra.secondaryTextColor,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
+                    child: Lottie.asset(
+                      'assets/lottie/plant_sprout.json',
+                      width: AppSizes.iconXl,
+                      height: AppSizes.iconXl,
+                      repeat: true,
                     ),
                   ),
                 ),
-            ],
-          );
-        },
-      ),
+              ),
+
+            // Error message
+            if (state is MoodError)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.horizontalPaddingLg,
+                    vertical: AppSpacing.sectionSpacingSm,
+                  ),
+                  child: Text(
+                    state.message,
+                    style: const TextStyle(color: AppColors.errorColor),
+                  ),
+                ),
+              ),
+
+            SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.sectionSpacingLg),
+            ),
+          ],
+        );
+      },
     );
   }
 }
