@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/spacing_widgets.dart';
@@ -45,7 +46,7 @@ class RecentEntriesHeader extends StatelessWidget {
               ],
               Flexible(
                 child: GestureDetector(
-                  onTap: () => GoRouter.of(context).push('/journal'),
+                  onTap: () => GoRouter.of(context).push(AppRoutes.timeline),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

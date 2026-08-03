@@ -90,19 +90,28 @@ class ProfileScreen extends StatelessWidget {
             AppSpacing.sectionSpacingMd,
           ),
           sliver: SliverToBoxAdapter(
-            child: BlocBuilder<MoodCubit, MoodState>(
-              builder: (context, state) {
-                final entries = state is MoodHistorySuccess
-                    ? state.entries
-                    : <MoodEntryEntity>[];
-                return ProfileStatsWidget(
-                  totalEntries: entries.length,
-                  thisWeek: _thisWeekCount(entries),
-                  dayStreak: StreakCalculator.calculateConsecutiveStreak(
-                    entries.map((e) => e.createdAt).toList(),
-                  ),
-                );
-              },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _SectionLabel(
+                  AppLocalizations.of(context)!.profileStatsSectionLabel,
+                ),
+                SizedBox(height: AppSpacing.verticalPaddingSm),
+                BlocBuilder<MoodCubit, MoodState>(
+                  builder: (context, state) {
+                    final entries = state is MoodHistorySuccess
+                        ? state.entries
+                        : <MoodEntryEntity>[];
+                    return ProfileStatsWidget(
+                      totalEntries: entries.length,
+                      thisWeek: _thisWeekCount(entries),
+                      dayStreak: StreakCalculator.calculateConsecutiveStreak(
+                        entries.map((e) => e.createdAt).toList(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -125,7 +134,8 @@ class ProfileScreen extends StatelessWidget {
                       padding: EdgeInsets.all(AppSpacing.spaceLg),
                       decoration: BoxDecoration(
                         color: context.extra.cardBackgroundColor,
-                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
+                        borderRadius:
+                            BorderRadius.circular(AppSizes.borderRadiusLg),
                         border: Border.all(
                           color: context.extra.borderColor ??
                               Theme.of(context).colorScheme.outline,
@@ -134,7 +144,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Text('📌', style: TextStyle(fontSize: AppSizes.iconLg)),
+                          Text('📌',
+                              style: TextStyle(fontSize: AppSizes.iconLg)),
                           SizedBox(height: AppSpacing.spaceSm),
                           Text(
                             AppLocalizations.of(context)!.quotesScreenTitle,
@@ -182,7 +193,8 @@ class ProfileScreen extends StatelessWidget {
                               padding: EdgeInsets.all(AppSpacing.spaceLg),
                               decoration: BoxDecoration(
                                 color: context.extra.cardBackgroundColor,
-                                borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
+                                borderRadius: BorderRadius.circular(
+                                    AppSizes.borderRadiusLg),
                                 border: Border.all(
                                   color: context.extra.borderColor ??
                                       Theme.of(context).colorScheme.outline,
@@ -226,8 +238,7 @@ class ProfileScreen extends StatelessWidget {
                                       quote.thoughts!,
                                       style: ThemeTextStyles.bodySmall(context)
                                           .copyWith(
-                                        color:
-                                            context.extra.secondaryTextColor,
+                                        color: context.extra.secondaryTextColor,
                                       ),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
@@ -281,8 +292,17 @@ class ProfileScreen extends StatelessWidget {
             AppSpacing.horizontalPaddingLg,
             AppSpacing.sectionSpacingLg,
           ),
-          sliver: const SliverToBoxAdapter(
-            child: ProfileQuickLinksWidget(),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _SectionLabel(
+                  AppLocalizations.of(context)!.profileQuickLinksSectionLabel,
+                ),
+                SizedBox(height: AppSpacing.verticalPaddingSm),
+                const ProfileQuickLinksWidget(),
+              ],
+            ),
           ),
         ),
 
@@ -324,13 +344,35 @@ class ProfileScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
                   side: BorderSide(
-                      color: AppColors.errorColor.withValues(alpha: 0.3),),
+                    color: AppColors.errorColor.withValues(alpha: 0.3),
+                  ),
                 ),
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Small-caps section header, matching the style already established by
+/// [ProfileSettingsSectionWidget]'s "SETTINGS" label — reused here so every
+/// major group on the profile screen reads consistently.
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel(this.label);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label,
+      style: ThemeTextStyles.labelSmall(context).copyWith(
+        color: AppColors.primary,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1.2,
+      ),
     );
   }
 }

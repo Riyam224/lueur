@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/styling/app_theme.dart';
-import 'package:lueur/features/journal/presentation/widgets/journal_streak_bar_widget.dart';
+import 'package:lueur/features/home/presentation/widgets/streak_card_widget.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 void main() {
@@ -15,7 +15,7 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const Scaffold(
-          body: JournalStreakBarWidget(entries: [], streakDays: 3),
+          body: StreakCardWidget(entries: [], streakDays: 3),
         ),
       ),
     );
@@ -48,9 +48,8 @@ void main() {
     // Every rendered day label must be one of the compact Arabic
     // abbreviations, and none of the raw English weekday initials
     // should leak through.
-    final dayLabels = textWidgets
-        .where((t) => arabicAbbreviations.contains(t))
-        .toList();
+    final dayLabels =
+        textWidgets.where((t) => arabicAbbreviations.contains(t)).toList();
     expect(dayLabels, isNotEmpty);
     expect(
       textWidgets.any((t) => RegExp(r'^[A-Za-z]$').hasMatch(t)),
@@ -64,6 +63,15 @@ void main() {
       find.text(DateFormatFallback.arabicInitial(DateTime.now())),
       findsWidgets,
     );
+  });
+
+  testWidgets('renders a motivational message', (tester) async {
+    await tester.pumpWidget(buildApp(locale: const Locale('en')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+    expect(find.text(l10n.homeStreakMotivationActive), findsOneWidget);
   });
 }
 

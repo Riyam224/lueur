@@ -372,10 +372,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeThoughtsEncouragementListening => 'Luna is listening 💜';
 
   @override
-  String get homeRecentEntriesLabel => 'RECENT ENTRIES';
+  String get homeRecentEntriesLabel => 'RECENT MEMORIES';
 
   @override
-  String get homeSeeAllLabel => 'See all';
+  String get homeSeeAllLabel => 'View full timeline';
+
+  @override
+  String get homeStreakMotivationStart =>
+      'Small moments become meaningful habits.';
+
+  @override
+  String get homeStreakMotivationActive =>
+      'You\'ve shown up for yourself every day.';
+
+  @override
+  String get homeStreakMotivationMilestone =>
+      'One more day and your plant grows.';
 
   @override
   String get homeEmptyStateSubtitle => 'Share a thought and tap Talk to Luna';
@@ -465,12 +477,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalGridSubtitle => 'a little collection of your days';
 
   @override
+  String get journalEmptyStateTitle => 'No journal yet';
+
+  @override
   String get journalGridEmptyMessage =>
-      'nothing here yet — your days will show up as you go';
+      'Every story begins with a single page.';
 
   @override
   String get journalTodayNoEntriesMessage =>
       'No entries yet · Start with one gentle thought';
+
+  @override
+  String get timelineTitle => 'Timeline';
+
+  @override
+  String get timelineFilterAllMoods => 'All moods';
+
+  @override
+  String get timelineFilterAllMonths => 'All months';
+
+  @override
+  String get timelineNoResultsTitle => 'Nothing here yet';
+
+  @override
+  String get timelineNoResultsMessage =>
+      'Try a different mood, month, or search word.';
+
+  @override
+  String get timelineReflection1 => '🌸 Spring brought many hopeful moments.';
+
+  @override
+  String get timelineReflection2 =>
+      '🌙 You\'ve come a long way since these days.';
+
+  @override
+  String get timelineReflection3 =>
+      '🍂 Your calmer days are becoming more frequent.';
+
+  @override
+  String get timelineReflection4 =>
+      '☀️ Every entry here is a small act of showing up.';
 
   @override
   String get journalMoodFallbackLabel => 'Okay';
@@ -485,7 +531,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quotesEmptyTitle => 'No saved quotes yet';
 
   @override
-  String get quotesEmptySubtitle => 'Save Luna’s words to collect them here';
+  String get quotesEmptySubtitle => 'Luna will remember your favorite words.';
 
   @override
   String get quotesDeleteTitle => 'Delete quote?';
@@ -708,13 +754,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileQuotesEmptySubtitle =>
-      'Your saved Luna moments will appear here';
+      'Luna will remember your favorite words.';
 
   @override
   String get profileStatsTotalEntries => 'Total entries';
 
   @override
   String get profileStatsDayStreak => 'Day streak';
+
+  @override
+  String get profileStatsSectionLabel => 'STATISTICS';
+
+  @override
+  String get profileQuickLinksSectionLabel => 'MORE';
 
   @override
   String get profileQuickLinkWeeklyLetter => 'Weekly Letter';
@@ -739,8 +791,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t load your drawings — pull to refresh and try again';
 
   @override
-  String get profileDrawingsEmptySubtitle =>
-      'Drawings you save from Free Draw will appear here';
+  String get profileDrawingsEmptySubtitle => 'Your creativity has a home here.';
 
   @override
   String get profileSudokuHistoryTitle => 'Sudoku History';

@@ -779,14 +779,32 @@ abstract class AppLocalizations {
   /// No description provided for @homeRecentEntriesLabel.
   ///
   /// In en, this message translates to:
-  /// **'RECENT ENTRIES'**
+  /// **'RECENT MEMORIES'**
   String get homeRecentEntriesLabel;
 
   /// No description provided for @homeSeeAllLabel.
   ///
   /// In en, this message translates to:
-  /// **'See all'**
+  /// **'View full timeline'**
   String get homeSeeAllLabel;
+
+  /// No description provided for @homeStreakMotivationStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Small moments become meaningful habits.'**
+  String get homeStreakMotivationStart;
+
+  /// No description provided for @homeStreakMotivationActive.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve shown up for yourself every day.'**
+  String get homeStreakMotivationActive;
+
+  /// No description provided for @homeStreakMotivationMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'One more day and your plant grows.'**
+  String get homeStreakMotivationMilestone;
 
   /// No description provided for @homeEmptyStateSubtitle.
   ///
@@ -938,10 +956,16 @@ abstract class AppLocalizations {
   /// **'a little collection of your days'**
   String get journalGridSubtitle;
 
+  /// No description provided for @journalEmptyStateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No journal yet'**
+  String get journalEmptyStateTitle;
+
   /// No description provided for @journalGridEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'nothing here yet — your days will show up as you go'**
+  /// **'Every story begins with a single page.'**
   String get journalGridEmptyMessage;
 
   /// No description provided for @journalTodayNoEntriesMessage.
@@ -949,6 +973,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No entries yet · Start with one gentle thought'**
   String get journalTodayNoEntriesMessage;
+
+  /// No description provided for @timelineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get timelineTitle;
+
+  /// No description provided for @timelineFilterAllMoods.
+  ///
+  /// In en, this message translates to:
+  /// **'All moods'**
+  String get timelineFilterAllMoods;
+
+  /// No description provided for @timelineFilterAllMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'All months'**
+  String get timelineFilterAllMonths;
+
+  /// No description provided for @timelineNoResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get timelineNoResultsTitle;
+
+  /// No description provided for @timelineNoResultsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different mood, month, or search word.'**
+  String get timelineNoResultsMessage;
+
+  /// No description provided for @timelineReflection1.
+  ///
+  /// In en, this message translates to:
+  /// **'🌸 Spring brought many hopeful moments.'**
+  String get timelineReflection1;
+
+  /// No description provided for @timelineReflection2.
+  ///
+  /// In en, this message translates to:
+  /// **'🌙 You\'ve come a long way since these days.'**
+  String get timelineReflection2;
+
+  /// No description provided for @timelineReflection3.
+  ///
+  /// In en, this message translates to:
+  /// **'🍂 Your calmer days are becoming more frequent.'**
+  String get timelineReflection3;
+
+  /// No description provided for @timelineReflection4.
+  ///
+  /// In en, this message translates to:
+  /// **'☀️ Every entry here is a small act of showing up.'**
+  String get timelineReflection4;
 
   /// No description provided for @journalMoodFallbackLabel.
   ///
@@ -977,7 +1055,7 @@ abstract class AppLocalizations {
   /// No description provided for @quotesEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Save Luna’s words to collect them here'**
+  /// **'Luna will remember your favorite words.'**
   String get quotesEmptySubtitle;
 
   /// No description provided for @quotesDeleteTitle.
@@ -1403,7 +1481,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileQuotesEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Your saved Luna moments will appear here'**
+  /// **'Luna will remember your favorite words.'**
   String get profileQuotesEmptySubtitle;
 
   /// No description provided for @profileStatsTotalEntries.
@@ -1417,6 +1495,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Day streak'**
   String get profileStatsDayStreak;
+
+  /// No description provided for @profileStatsSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'STATISTICS'**
+  String get profileStatsSectionLabel;
+
+  /// No description provided for @profileQuickLinksSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'MORE'**
+  String get profileQuickLinksSectionLabel;
 
   /// No description provided for @profileQuickLinkWeeklyLetter.
   ///
@@ -1463,7 +1553,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileDrawingsEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Drawings you save from Free Draw will appear here'**
+  /// **'Your creativity has a home here.'**
   String get profileDrawingsEmptySubtitle;
 
   /// No description provided for @profileSudokuHistoryTitle.

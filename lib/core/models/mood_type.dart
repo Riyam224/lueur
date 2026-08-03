@@ -85,6 +85,27 @@ extension MoodTypeDetails on MoodType {
   /// Light-mode tile background — a soft tint of [color].
   Color get bgColor => Color.lerp(color, AppColors.lightSurface, 0.85)!;
 
+  /// Pastel journal-bubble background grouped by emotional family, so the
+  /// timeline reads as a recognizable emotional map (e.g. warm colors for
+  /// joy/gratitude, cool colors for sadness/anxiety) rather than an
+  /// arbitrary per-card rotation.
+  Color get journalBubbleColor => switch (this) {
+        MoodType.happy => AppColors.journalCardYellow,
+        MoodType.excited => AppColors.journalCardPeach,
+        MoodType.grateful => AppColors.journalCardPink,
+        MoodType.hopeful => AppColors.journalCardGreen,
+        MoodType.calm ||
+        MoodType.contentPeaceful ||
+        MoodType.neutral =>
+          AppColors.journalCardMint,
+        MoodType.sad ||
+        MoodType.lonely ||
+        MoodType.burnout =>
+          AppColors.journalCardBlue,
+        MoodType.anxious || MoodType.scared => AppColors.journalCardLavender,
+        MoodType.angry => AppColors.journalCardCoral,
+      };
+
   /// Moods distressing enough that "Talk to Luna" should route through the
   /// breathing exercise first instead of straight to the AI response.
   bool get isLowMood => switch (this) {

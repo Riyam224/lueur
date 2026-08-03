@@ -8,6 +8,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String journal = '/journal';
   static const String profile = '/profile';
+  static const String timeline = '/timeline';
 
   static const String response = '/response';
   static const String chat = '/chat';

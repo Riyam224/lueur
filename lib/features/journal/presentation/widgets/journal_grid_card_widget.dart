@@ -22,6 +22,7 @@ class JournalGridCardWidget extends StatefulWidget {
   final MoodEntryEntity entry;
   final int index;
   final double size;
+  final Duration? duration;
   final VoidCallback onTap;
   final VoidCallback onLongPress;
 
@@ -32,6 +33,7 @@ class JournalGridCardWidget extends StatefulWidget {
     required this.size,
     required this.onTap,
     required this.onLongPress,
+    this.duration,
   });
 
   @override
@@ -95,6 +97,17 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
 
   String _formatDate(DateTime date) => DateFormat('MMM d').format(date);
 
+  String _formatDuration(Duration duration) {
+    if (duration.inHours >= 1) {
+      final minutes = duration.inMinutes % 60;
+      return minutes > 0
+          ? '${duration.inHours}h ${minutes}m'
+          : '${duration.inHours}h';
+    }
+    if (duration.inMinutes >= 1) return '${duration.inMinutes}m';
+    return '<1m';
+  }
+
   String _preview(MoodEntryEntity entry, int maxChars) {
     final source =
         entry.aiResponse.isNotEmpty ? entry.aiResponse : entry.thoughts;
@@ -105,11 +118,16 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
 
   @override
   Widget build(BuildContext context) {
-    final cardColor = (JournalCardColor.fromName(widget.entry.cardColor) ??
-            JournalCardColor.fromIndex(widget.index))
-        .color;
-    final stickerColor = JournalCardColor.fromIndex(widget.index + 1).color;
     final moodType = moodTypeFromEmoji(widget.entry.emoji);
+    // A manually-picked color (via the card options sheet) always wins;
+    // otherwise the bubble is colored by its primary emotion so the
+    // timeline reads as a recognizable emotional map instead of a random
+    // per-card rotation.
+    final cardColor =
+        JournalCardColor.fromName(widget.entry.cardColor)?.color ??
+            moodType?.journalBubbleColor ??
+            JournalCardColor.fromIndex(widget.index).color;
+    final stickerColor = JournalCardColor.fromIndex(widget.index + 1).color;
     final showSummary =
         widget.size >= JournalGridCardWidget.summaryVisibilityThreshold;
 
@@ -183,11 +201,11 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
                                   SizedBox(height: widget.size * 0.05),
                                   Text(
                                     _formatDate(widget.entry.createdAt),
-                                    style: ThemeTextStyles.captionSmall(context)
+                                    style: ThemeTextStyles.labelSmall(context)
                                         .copyWith(
                                       color: AppColors.lightOnBackground
-                                          .withValues(alpha: 0.6),
-                                      fontWeight: FontWeight.w600,
+                                          .withValues(alpha: 0.65),
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                   if (showSummary) ...[
@@ -197,18 +215,33 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
                                       child: Text(
                                         _preview(
                                           widget.entry,
-                                          (widget.size / 4).round(),
+                                          (widget.size / 3).round(),
                                         ),
                                         textAlign: TextAlign.center,
-                                        maxLines: 2,
+                                        maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
-                                        style: ThemeTextStyles.bodySmall(context)
-                                            .copyWith(
+                                        style:
+                                            ThemeTextStyles.bodySmall(context)
+                                                .copyWith(
                                           color: AppColors.lightOnBackground,
                                           fontSize: 10.sp,
+                                          height: 1.25,
                                         ),
                                       ),
                                     ),
+                                    if (widget.duration != null) ...[
+                                      SizedBox(height: widget.size * 0.02),
+                                      Text(
+                                        _formatDuration(widget.duration!),
+                                        style: ThemeTextStyles.captionSmall(
+                                          context,
+                                        ).copyWith(
+                                          color: AppColors.lightOnBackground
+                                              .withValues(alpha: 0.5),
+                                          fontSize: 9.sp,
+                                        ),
+                                      ),
+                                    ],
                                   ],
                                 ],
                               ),
@@ -315,7 +348,8 @@ class _StickerSquare extends StatelessWidget {
 class _SmileyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final dotPaint = Paint()..color = AppColors.overlayBlack.withValues(alpha: 0.75);
+    final dotPaint = Paint()
+      ..color = AppColors.overlayBlack.withValues(alpha: 0.75);
     final eyeRadius = size.width * 0.07;
     final eyeY = size.height * 0.42;
     canvas.drawCircle(Offset(size.width * 0.35, eyeY), eyeRadius, dotPaint);

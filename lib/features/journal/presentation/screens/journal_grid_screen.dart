@@ -11,27 +11,35 @@ import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
+import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
+import 'package:lueur/features/home/presentation/widgets/recent_entries_header.dart';
+import 'package:lueur/features/home/presentation/widgets/weekly_letter_banner.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
-import 'package:lueur/features/journal/presentation/widgets/journal_streak_bar_widget.dart';
-import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
-import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
+/// Journal is a lightweight entry point into memories — the title, the
+/// weekly letter, and a taste of the most recent days. The full searchable,
+/// filterable browsing experience lives in [AppRoutes.timeline].
 class JournalGridScreen extends StatelessWidget {
   const JournalGridScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isGuest = sl<AuthCubit>().state is AuthGuest;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<JournalGridCubit>()..loadEntries()),
-        BlocProvider(create: (_) => sl<PlantCubit>()..loadPlant()),
+        if (!isGuest)
+          BlocProvider(create: (_) => sl<WeeklyLetterCubit>()..load()),
       ],
       child: BlocListener<MoodCubit, MoodState>(
         listenWhen: (previous, current) =>
@@ -41,9 +49,8 @@ class JournalGridScreen extends StatelessWidget {
                 previous.justGenerated != current.justGenerated),
         listener: (context, state) {
           unawaited(context.read<JournalGridCubit>().loadEntries());
-          unawaited(context.read<PlantCubit>().loadPlant());
         },
-        child: const _JournalGridView(),
+        child: _JournalGridView(isGuest: isGuest),
       ),
     );
   }
@@ -60,24 +67,23 @@ class _DayGroup {
 
   MoodEntryEntity get representative => entries.last;
 
-  bool get pinned => entries.any((e) => e.pinned);
+  Duration? get conversationDuration => entries.length > 1
+      ? entries.last.createdAt.difference(entries.first.createdAt)
+      : null;
 }
 
 class _JournalGridView extends StatelessWidget {
-  const _JournalGridView();
+  const _JournalGridView({required this.isGuest});
 
-  static const double _maxBubbleSize = 128;
-  static const double _minBubbleSize = 96;
-  static const int _recencySpan = 6;
+  final bool isGuest;
 
-  /// Max jitter (in each direction) applied to every bubble so the grid
-  /// reads as a loose scatter instead of a strict row/column layout.
-  static const double _scatterRange = 14;
+  /// A fixed bubble size for the 3-item preview — consistent heights read
+  /// calmer here than the Timeline's recency-scaled scatter, which fits a
+  /// full page of history rather than a 3-item taste of it.
+  static const double _previewBubbleSize = 116;
+  static const double _scatterRange = 10;
 
-  /// Groups entries by calendar day — one bubble represents a whole day's
-  /// conversation, not a single check-in, since a day can have several
-  /// separate mood entries.
-  List<_DayGroup> _groupByDay(List<MoodEntryEntity> entries) {
+  List<_DayGroup> _latestDayGroups(List<MoodEntryEntity> entries, int limit) {
     final byDay = <DateTime, List<MoodEntryEntity>>{};
     for (final entry in entries) {
       final day = DateTime(
@@ -92,26 +98,15 @@ class _JournalGridView extends StatelessWidget {
       final dayEntries = [...e.value]
         ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
       return _DayGroup(date: e.key, entries: dayEntries);
-    }).toList();
+    }).toList()
+      ..sort((a, b) => b.date.compareTo(a.date));
 
-    groups.sort((a, b) => b.date.compareTo(a.date));
-    return groups;
-  }
-
-  List<_DayGroup> _sorted(List<_DayGroup> groups) {
-    final pinned = groups.where((g) => g.pinned).toList();
-    final rest = groups.where((g) => !g.pinned).toList();
-    return [...pinned, ...rest];
-  }
-
-  double _sizeForRank(int rank) {
-    final t = (rank / _recencySpan).clamp(0.0, 1.0);
-    return _maxBubbleSize - (_maxBubbleSize - _minBubbleSize) * t;
+    return groups.take(limit).toList();
   }
 
   /// Deterministic per-entry jitter — seeded by the entry's own id so a
   /// given bubble always scatters to the same spot instead of reshuffling
-  /// on every rebuild/scroll.
+  /// on every rebuild.
   Offset _scatterFor(int entryId) {
     final random = Random(entryId);
     final dx = (random.nextDouble() * 2 - 1) * _scatterRange;
@@ -140,13 +135,16 @@ class _JournalGridView extends StatelessWidget {
     );
   }
 
-  Widget _buildBubbles(BuildContext context, List<MoodEntryEntity> entries) {
-    final groups = _sorted(_groupByDay(entries));
+  Widget _buildRecentMemories(
+    BuildContext context,
+    List<MoodEntryEntity> entries,
+  ) {
+    final groups = _latestDayGroups(entries, 3);
 
     return SliverPadding(
       padding: EdgeInsets.fromLTRB(
         AppSpacing.horizontalPaddingLg,
-        AppSpacing.space2Xl,
+        AppSpacing.spaceLg,
         AppSpacing.horizontalPaddingLg,
         AppSpacing.space2Xl,
       ),
@@ -162,7 +160,8 @@ class _JournalGridView extends StatelessWidget {
                 child: JournalGridCardWidget(
                   entry: groups[i].representative,
                   index: i,
-                  size: _sizeForRank(i),
+                  size: _previewBubbleSize,
+                  duration: groups[i].conversationDuration,
                   onTap: () => _openDay(context, groups[i]),
                   onLongPress: () => showJournalCardOptionsSheet(
                     context,
@@ -213,25 +212,7 @@ class _JournalGridView extends StatelessWidget {
                         color: subheadingColor,
                       ),
                     ),
-                    SizedBox(height: AppSpacing.spaceLg),
-                    BlocBuilder<PlantCubit, PlantState>(
-                      builder: (context, plantState) {
-                        final streakDays = plantState is PlantLoaded
-                            ? plantState.streakDays
-                            : 0;
-                        return BlocBuilder<JournalGridCubit, JournalGridState>(
-                          builder: (context, state) {
-                            final entries = state is JournalGridLoaded
-                                ? state.entries
-                                : const <MoodEntryEntity>[];
-                            return JournalStreakBarWidget(
-                              entries: entries,
-                              streakDays: streakDays,
-                            );
-                          },
-                        );
-                      },
-                    ),
+                    if (!isGuest) const WeeklyLetterBanner(),
                     SizedBox(height: AppSpacing.spaceLg),
                   ],
                 ),
@@ -267,18 +248,46 @@ class _JournalGridView extends StatelessWidget {
                         child: Padding(
                           padding:
                               EdgeInsets.all(AppSpacing.horizontalPaddingLg),
-                          child: Text(
-                            AppLocalizations.of(context)!.journalGridEmptyMessage,
-                            textAlign: TextAlign.center,
-                            style: ThemeTextStyles.bodyMedium(context).copyWith(
-                              color: subheadingColor,
-                            ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('📖', style: TextStyle(fontSize: 40)),
+                              SizedBox(height: AppSpacing.spaceMd),
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .journalEmptyStateTitle,
+                                style: ThemeTextStyles.headlineSmall(context),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: AppSpacing.spaceSm),
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .journalGridEmptyMessage,
+                                textAlign: TextAlign.center,
+                                style: ThemeTextStyles.bodyMedium(context)
+                                    .copyWith(color: subheadingColor),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  JournalGridLoaded(:final entries) =>
-                    _buildBubbles(context, entries),
+                  JournalGridLoaded(:final entries) => SliverMainAxisGroup(
+                      slivers: [
+                        SliverPadding(
+                          padding: EdgeInsets.fromLTRB(
+                            AppSpacing.horizontalPaddingLg,
+                            0,
+                            AppSpacing.horizontalPaddingLg,
+                            0,
+                          ),
+                          sliver: const SliverToBoxAdapter(
+                            child: RecentEntriesHeader(),
+                          ),
+                        ),
+                        _buildRecentMemories(context, entries),
+                      ],
+                    ),
                 };
               },
             ),

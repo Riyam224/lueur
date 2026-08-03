@@ -28,6 +28,7 @@ import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart'
 import 'package:lueur/features/home/presentation/screens/home_screen.dart';
 import 'package:lueur/features/home/presentation/screens/weekly_letter_screen.dart';
 import 'package:lueur/features/journal/presentation/screens/journal_grid_screen.dart';
+import 'package:lueur/features/journal/presentation/screens/timeline_screen.dart';
 import 'package:lueur/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lueur/features/plant/presentation/screens/streak_celebration_screen.dart';
 import 'package:lueur/features/profile/presentation/screens/profile_screen.dart';
@@ -363,6 +364,14 @@ class RouterGenerationConfig {
             create: (_) => sl<WeeklyLetterCubit>()..load(),
             child: const WeeklyLetterScreen(),
           ),
+        ),
+      ),
+      GoRoute(
+        name: AppRoutes.timeline,
+        path: AppRoutes.timeline,
+        pageBuilder: (context, state) => _buildTransitionPage(
+          state: state,
+          child: const TimelineScreen(),
         ),
       ),
       GoRoute(

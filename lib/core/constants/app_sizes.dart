@@ -44,4 +44,7 @@ class AppSizes {
   // TextField Heights
   static double textFieldHeightSm = 40.h;
   static double textFieldHeightMd = 50.h;
+
+  // Accessibility — minimum interactive touch target (44dp, platform HIG floor)
+  static double minTouchTarget = 44.h;
 }

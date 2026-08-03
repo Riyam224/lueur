@@ -143,9 +143,9 @@ class _LetterContentState extends State<_LetterContent> {
     return Padding(
       padding: EdgeInsets.fromLTRB(
         AppSpacing.spaceLg,
+        AppSpacing.spaceSm,
         AppSpacing.spaceMd,
-        AppSpacing.spaceMd,
-        14.h,
+        AppSpacing.spaceSm,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,21 +169,29 @@ class _LetterContentState extends State<_LetterContent> {
                   AppLocalizations.of(context)!.weeklyLetterBannerTitle,
                   style: ThemeTextStyles.labelMedium(context).copyWith(
                     fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: widget.onDismiss,
-                icon: Icon(Icons.close_rounded, size: 18.sp),
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                color: context.extra.secondaryTextColor,
+              // A visually small icon inside a full 44dp tap target — the
+              // extra hit area is transparent, so it doesn't change the
+              // card's visible height while still meeting the minimum
+              // accessible touch-target size.
+              SizedBox(
+                width: AppSizes.minTouchTarget,
+                height: AppSizes.minTouchTarget,
+                child: IconButton(
+                  onPressed: widget.onDismiss,
+                  icon: Icon(Icons.close_rounded, size: 18.sp),
+                  visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.zero,
+                  color: context.extra.secondaryTextColor,
+                ),
               ),
             ],
           ),
 
-          SizedBox(height: 10.h),
+          SizedBox(height: AppSpacing.spaceSm),
 
           // ── Stats row ─────────────────────────────────────────
           Row(
@@ -215,33 +223,38 @@ class _LetterContentState extends State<_LetterContent> {
 
           // ── Letter body (expandable) ───────────────────────────
           if (hasLetter) ...[
-            SizedBox(height: 10.h),
-            AnimatedCrossFade(
-              duration: const Duration(milliseconds: 250),
-              crossFadeState: _expanded
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              firstChild: Text(
-                widget.data.letter!,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: ThemeTextStyles.bodySmall(context),
-              ),
-              secondChild: Text(
-                widget.data.letter!,
-                style: ThemeTextStyles.bodySmall(context),
+            SizedBox(height: AppSpacing.spaceSm),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOutCubic,
+              alignment: Alignment.topCenter,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 220),
+                child: Text(
+                  widget.data.letter!,
+                  key: ValueKey(_expanded),
+                  maxLines: _expanded ? null : 1,
+                  overflow: _expanded ? null : TextOverflow.ellipsis,
+                  style: ThemeTextStyles.bodySmall(context).copyWith(
+                    fontStyle: FontStyle.italic,
+                    height: 1.4,
+                  ),
+                ),
               ),
             ),
-            SizedBox(height: 6.h),
+            SizedBox(height: AppSpacing.spaceXs),
             GestureDetector(
               onTap: () => setState(() => _expanded = !_expanded),
-              child: Text(
-                _expanded
-                    ? AppLocalizations.of(context)!.weeklyLetterShowLess
-                    : AppLocalizations.of(context)!.weeklyLetterReadMore,
-                style: ThemeTextStyles.labelSmall(context).copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w600,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceXs),
+                child: Text(
+                  _expanded
+                      ? AppLocalizations.of(context)!.weeklyLetterShowLess
+                      : AppLocalizations.of(context)!.weeklyLetterReadMore,
+                  style: ThemeTextStyles.labelSmall(context).copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

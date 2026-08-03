@@ -369,10 +369,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeThoughtsEncouragementListening => 'لونا تستمع إليك 💜';
 
   @override
-  String get homeRecentEntriesLabel => 'أحدث المدخلات';
+  String get homeRecentEntriesLabel => 'ذكريات حديثة';
 
   @override
-  String get homeSeeAllLabel => 'عرض الكل';
+  String get homeSeeAllLabel => 'عرض السجل الكامل';
+
+  @override
+  String get homeStreakMotivationStart =>
+      'اللحظات الصغيرة تصنع عادات ذات معنى 🌱';
+
+  @override
+  String get homeStreakMotivationActive => 'أنت تحضر لنفسك كل يوم — استمر 💜';
+
+  @override
+  String get homeStreakMotivationMilestone => 'يوم واحد فقط ونباتك سينمو 🌿';
 
   @override
   String get homeEmptyStateSubtitle => 'شارك فكرة واضغط على تحدث مع لونا';
@@ -460,12 +470,42 @@ class AppLocalizationsAr extends AppLocalizations {
   String get journalGridSubtitle => 'مجموعة صغيرة من أيامك';
 
   @override
-  String get journalGridEmptyMessage =>
-      'لا يوجد شيء هنا بعد — ستظهر أيامك هنا مع الوقت';
+  String get journalEmptyStateTitle => 'لا توجد يوميات بعد';
+
+  @override
+  String get journalGridEmptyMessage => 'كل قصة تبدأ بصفحة واحدة.';
 
   @override
   String get journalTodayNoEntriesMessage =>
       'لا توجد مدخلات بعد · ابدأ بفكرة بسيطة';
+
+  @override
+  String get timelineTitle => 'الخط الزمني';
+
+  @override
+  String get timelineFilterAllMoods => 'كل المشاعر';
+
+  @override
+  String get timelineFilterAllMonths => 'كل الأشهر';
+
+  @override
+  String get timelineNoResultsTitle => 'لا يوجد شيء هنا بعد';
+
+  @override
+  String get timelineNoResultsMessage =>
+      'جرّب مشاعر أو شهرًا أو كلمة بحث مختلفة.';
+
+  @override
+  String get timelineReflection1 => '🌸 حمل الربيع الكثير من لحظات الأمل.';
+
+  @override
+  String get timelineReflection2 => '🌙 لقد قطعت شوطًا طويلًا منذ هذه الأيام.';
+
+  @override
+  String get timelineReflection3 => '🍂 أصبحت أيامك الهادئة أكثر تكرارًا.';
+
+  @override
+  String get timelineReflection4 => '☀️ كل مدخلة هنا هي خطوة صغيرة نحو نفسك.';
 
   @override
   String get journalMoodFallbackLabel => 'عادي';
@@ -480,7 +520,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quotesEmptyTitle => 'لا توجد اقتباسات محفوظة بعد';
 
   @override
-  String get quotesEmptySubtitle => 'احفظ كلمات لونا لتجدها هنا';
+  String get quotesEmptySubtitle => 'ستتذكر لونا كلماتك المفضلة.';
 
   @override
   String get quotesDeleteTitle => 'حذف الاقتباس؟';
@@ -698,13 +738,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileFallbackName => 'صديق';
 
   @override
-  String get profileQuotesEmptySubtitle => 'ستظهر هنا لحظاتك المحفوظة مع لونا';
+  String get profileQuotesEmptySubtitle => 'ستتذكر لونا كلماتك المفضلة.';
 
   @override
   String get profileStatsTotalEntries => 'إجمالي المدخلات';
 
   @override
   String get profileStatsDayStreak => 'أيام متتالية';
+
+  @override
+  String get profileStatsSectionLabel => 'الإحصائيات';
+
+  @override
+  String get profileQuickLinksSectionLabel => 'المزيد';
 
   @override
   String get profileQuickLinkWeeklyLetter => 'الرسالة الأسبوعية';
@@ -729,8 +775,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'تعذر تحميل رسوماتك — اسحب للتحديث وحاول مرة أخرى';
 
   @override
-  String get profileDrawingsEmptySubtitle =>
-      'ستظهر هنا الرسومات التي تحفظها من الرسم الحر';
+  String get profileDrawingsEmptySubtitle => 'إبداعك له بيت هنا.';
 
   @override
   String get profileSudokuHistoryTitle => 'سجل السودوكو';

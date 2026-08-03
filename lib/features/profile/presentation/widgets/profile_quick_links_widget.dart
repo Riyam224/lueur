@@ -30,7 +30,7 @@ class ProfileQuickLinksWidget extends StatelessWidget {
           iconColor: context.extra.settingsPrivacyIconColor!,
           iconBgColor: context.extra.settingsPrivacyIconBg!,
           label: AppLocalizations.of(context)!.profileQuickLinkMoodBoard,
-          onTap: () => context.go(AppRoutes.journal),
+          onTap: () => context.push(AppRoutes.timeline),
         ),
       ],
     );

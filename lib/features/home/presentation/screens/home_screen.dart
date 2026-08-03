@@ -19,13 +19,12 @@ import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
-import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:lueur/features/home/presentation/widgets/greeting_card.dart';
 import 'package:lueur/features/home/presentation/widgets/home_header.dart';
 import 'package:lueur/features/home/presentation/widgets/mood_input_section.dart';
 import 'package:lueur/features/home/presentation/widgets/recent_entries_header.dart';
 import 'package:lueur/features/home/presentation/widgets/recent_entries_list.dart';
-import 'package:lueur/features/home/presentation/widgets/weekly_letter_banner.dart';
+import 'package:lueur/features/home/presentation/widgets/streak_card_widget.dart';
 import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
@@ -46,7 +45,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authCubit = sl<AuthCubit>();
-    final isGuest = authCubit.state is AuthGuest;
 
     return MultiBlocProvider(
       providers: [
@@ -56,10 +54,6 @@ class HomeScreen extends StatelessWidget {
         BlocProvider.value(
           value: sl<MoodCubit>(),
         ),
-        if (!isGuest)
-          BlocProvider(
-            create: (_) => sl<WeeklyLetterCubit>()..load(),
-          ),
         BlocProvider.value(
           value: authCubit,
         ),
@@ -68,7 +62,6 @@ class HomeScreen extends StatelessWidget {
         builder: (context, state) => _HomeScreenBody(
           userName: _displayName(context, state),
           userSeed: _userSeed(state),
-          isGuest: state is AuthGuest,
         ),
       ),
     );
@@ -78,13 +71,11 @@ class HomeScreen extends StatelessWidget {
 class _HomeScreenBody extends StatefulWidget {
   const _HomeScreenBody({
     required this.userName,
-    required this.isGuest,
     this.userSeed,
   });
 
   final String userName;
   final String? userSeed;
-  final bool isGuest;
 
   @override
   State<_HomeScreenBody> createState() => _HomeScreenBodyState();
@@ -206,11 +197,11 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
       },
       child: BlocBuilder<MoodCubit, MoodState>(
         builder: (context, state) {
-          final entries = switch (state) {
-            MoodHistorySuccess(:final entries) =>
-              _toUiEntries(context, entries),
-            _ => <MoodEntry>[],
+          final rawEntries = switch (state) {
+            MoodHistorySuccess(:final entries) => entries,
+            _ => const <MoodEntryEntity>[],
           };
+          final entries = _toUiEntries(context, rawEntries);
           final hasEntries = state is MoodHistorySuccess && entries.isNotEmpty;
           final showEmpty = state is MoodHistorySuccess && entries.isEmpty;
           final shouldShowConfetti = state is MoodHistorySuccess &&
@@ -221,6 +212,14 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
           if (state is MoodHistorySuccess) {
             _lastEntryCount = entries.length;
           }
+
+          // Home only teases the most recent memories — full browsing lives
+          // in the Journal/Timeline. Sort defensively since the backend
+          // doesn't guarantee ordering (Journal already does its own sort
+          // for the same reason).
+          final recentEntries = [...entries]
+            ..sort((a, b) => b.date.compareTo(a.date));
+          final recentPreview = recentEntries.take(3).toList();
 
           return CustomScrollView(
             slivers: [
@@ -253,18 +252,6 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                 ),
               ),
 
-              // Weekly letter banner
-              if (!widget.isGuest)
-                SliverPadding(
-                  padding: EdgeInsets.fromLTRB(
-                    AppSpacing.horizontalPaddingLg,
-                    AppSpacing.sectionSpacingSm,
-                    AppSpacing.horizontalPaddingLg,
-                    0,
-                  ),
-                  sliver: const SliverToBoxAdapter(child: WeeklyLetterBanner()),
-                ),
-
               // Mood Input Section
               SliverPadding(
                 padding: EdgeInsets.fromLTRB(
@@ -274,6 +261,30 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                   AppSpacing.sectionSpacingSm,
                 ),
                 sliver: const SliverToBoxAdapter(child: MoodInputSection()),
+              ),
+
+              // Streak card — daily motivation, moved here from Journal
+              // since it's a today-facing, gamified surface rather than a
+              // memory-browsing one.
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(
+                  AppSpacing.horizontalPaddingLg,
+                  0,
+                  AppSpacing.horizontalPaddingLg,
+                  AppSpacing.sectionSpacingSm,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: BlocBuilder<PlantCubit, PlantState>(
+                    builder: (context, plantState) {
+                      final streakDays =
+                          plantState is PlantLoaded ? plantState.streakDays : 0;
+                      return StreakCardWidget(
+                        entries: rawEntries,
+                        streakDays: streakDays,
+                      );
+                    },
+                  ),
+                ),
               ),
 
               // Recent entries header
@@ -326,8 +337,9 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                   ),
                 ),
 
-              // Recent entries list
-              if (entries.isNotEmpty)
+              // Recent memories preview — latest 3 only, full history lives
+              // in the Journal/Timeline via "View full timeline" above.
+              if (recentPreview.isNotEmpty)
                 SliverPadding(
                   padding: EdgeInsets.fromLTRB(
                     AppSpacing.horizontalPaddingLg,
@@ -336,7 +348,7 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                     AppSpacing.verticalPaddingLg,
                   ),
                   sliver: RecentEntriesList(
-                    entries: entries,
+                    entries: recentPreview,
                     onDelete: (id) => context.read<MoodCubit>().deleteEntry(id),
                   ),
                 ),
