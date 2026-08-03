@@ -768,6 +768,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileSettingsLanguage => 'اللغة';
 
   @override
+  String get profileJournalDataSectionLabel => 'بيانات اليوميات';
+
+  @override
+  String get profileDeleteAllEntriesLabel => 'حذف كل مدخلات اليوميات';
+
+  @override
   String get profileDrawingsTitle => 'رسوماتي';
 
   @override

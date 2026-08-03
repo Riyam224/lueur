@@ -308,6 +308,8 @@
   "profileSettingsSectionLabel": "SETTINGS",
   "profileSettingsAppearance": "Appearance",
   "profileSettingsLanguage": "Language",
+  "profileJournalDataSectionLabel": "JOURNAL DATA",
+  "profileDeleteAllEntriesLabel": "Delete all journal entries",
   "profileDrawingsTitle": "My Drawings",
   "profileDrawingsErrorSubtitle": "Couldn't load your drawings — pull to refresh and try again",
   "profileDrawingsEmptySubtitle": "Your creativity has a home here.",

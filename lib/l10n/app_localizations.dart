@@ -1538,6 +1538,18 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get profileSettingsLanguage;
 
+  /// No description provided for @profileJournalDataSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'JOURNAL DATA'**
+  String get profileJournalDataSectionLabel;
+
+  /// No description provided for @profileDeleteAllEntriesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all journal entries'**
+  String get profileDeleteAllEntriesLabel;
+
   /// No description provided for @profileDrawingsTitle.
   ///
   /// In en, this message translates to:

@@ -22,8 +22,6 @@ import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/home/presentation/widgets/greeting_card.dart';
 import 'package:lueur/features/home/presentation/widgets/home_header.dart';
 import 'package:lueur/features/home/presentation/widgets/mood_input_section.dart';
-import 'package:lueur/features/home/presentation/widgets/recent_entries_header.dart';
-import 'package:lueur/features/home/presentation/widgets/recent_entries_list.dart';
 import 'package:lueur/features/home/presentation/widgets/streak_card_widget.dart';
 import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
@@ -156,34 +154,6 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     return colors[emoji] ?? AppColors.moodNeutral;
   }
 
-  void _confirmDeleteAll(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title:
-            Text(AppLocalizations.of(dialogContext)!.moodEntryDeleteAllTitle),
-        content:
-            Text(AppLocalizations.of(dialogContext)!.moodEntryDeleteAllMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(AppLocalizations.of(dialogContext)!.commonCancel),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(dialogContext).pop();
-              context.read<MoodCubit>().deleteAllEntries();
-            },
-            child: Text(
-              AppLocalizations.of(dialogContext)!.moodEntryDeleteAllConfirm,
-              style: const TextStyle(color: AppColors.errorColor),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<PlantCubit, PlantState>(
@@ -212,14 +182,6 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
           if (state is MoodHistorySuccess) {
             _lastEntryCount = entries.length;
           }
-
-          // Home only teases the most recent memories — full browsing lives
-          // in the Journal/Timeline. Sort defensively since the backend
-          // doesn't guarantee ordering (Journal already does its own sort
-          // for the same reason).
-          final recentEntries = [...entries]
-            ..sort((a, b) => b.date.compareTo(a.date));
-          final recentPreview = recentEntries.take(3).toList();
 
           return CustomScrollView(
             slivers: [
@@ -287,23 +249,6 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                 ),
               ),
 
-              // Recent entries header
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: RecentEntriesHeader(
-                    onDeleteAll: entries.isEmpty
-                        ? null
-                        : () => _confirmDeleteAll(context),
-                  ),
-                ),
-              ),
-
               // Loading indicator
               if (state is MoodLoading)
                 SliverToBoxAdapter(
@@ -334,22 +279,6 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
                       state.message,
                       style: const TextStyle(color: AppColors.errorColor),
                     ),
-                  ),
-                ),
-
-              // Recent memories preview — latest 3 only, full history lives
-              // in the Journal/Timeline via "View full timeline" above.
-              if (recentPreview.isNotEmpty)
-                SliverPadding(
-                  padding: EdgeInsets.fromLTRB(
-                    AppSpacing.horizontalPaddingLg,
-                    0,
-                    AppSpacing.horizontalPaddingLg,
-                    AppSpacing.verticalPaddingLg,
-                  ),
-                  sliver: RecentEntriesList(
-                    entries: recentPreview,
-                    onDelete: (id) => context.read<MoodCubit>().deleteEntry(id),
                   ),
                 ),
 

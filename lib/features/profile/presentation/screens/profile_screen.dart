@@ -15,6 +15,7 @@ import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_avatar_widget.dart';
+import 'package:lueur/features/profile/presentation/widgets/profile_journal_data_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_quick_links_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_saved_drawings_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_settings_section_widget.dart';
@@ -316,6 +317,19 @@ class ProfileScreen extends StatelessWidget {
           ),
           sliver: const SliverToBoxAdapter(
             child: ProfileSettingsSectionWidget(),
+          ),
+        ),
+
+        // ── Journal Data (destructive) ────────────────────
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.horizontalPaddingLg,
+            0,
+            AppSpacing.horizontalPaddingLg,
+            AppSpacing.sectionSpacingLg,
+          ),
+          sliver: const SliverToBoxAdapter(
+            child: ProfileJournalDataSectionWidget(),
           ),
         ),
 

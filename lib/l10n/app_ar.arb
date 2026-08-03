@@ -240,6 +240,8 @@
   "profileSettingsSectionLabel": "الإعدادات",
   "profileSettingsAppearance": "المظهر",
   "profileSettingsLanguage": "اللغة",
+  "profileJournalDataSectionLabel": "بيانات اليوميات",
+  "profileDeleteAllEntriesLabel": "حذف كل مدخلات اليوميات",
   "profileDrawingsTitle": "رسوماتي",
   "profileDrawingsErrorSubtitle": "تعذر تحميل رسوماتك — اسحب للتحديث وحاول مرة أخرى",
   "profileDrawingsEmptySubtitle": "إبداعك له بيت هنا.",

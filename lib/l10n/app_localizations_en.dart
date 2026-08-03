@@ -784,6 +784,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSettingsLanguage => 'Language';
 
   @override
+  String get profileJournalDataSectionLabel => 'JOURNAL DATA';
+
+  @override
+  String get profileDeleteAllEntriesLabel => 'Delete all journal entries';
+
+  @override
   String get profileDrawingsTitle => 'My Drawings';
 
   @override
