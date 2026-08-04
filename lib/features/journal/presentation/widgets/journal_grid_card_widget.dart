@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/models/mood_type.dart';
-import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/features/journal/presentation/widgets/journal_bubble_visual.dart';
 
 /// A speech-bubble card — a rounded rectangle with a small tail and a
 /// smiley "sticker" accent overlapping one corner, echoing the playful
@@ -95,27 +92,6 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
     _springController.forward(from: 0);
   }
 
-  String _formatDate(DateTime date) => DateFormat('MMM d').format(date);
-
-  String _formatDuration(Duration duration) {
-    if (duration.inHours >= 1) {
-      final minutes = duration.inMinutes % 60;
-      return minutes > 0
-          ? '${duration.inHours}h ${minutes}m'
-          : '${duration.inHours}h';
-    }
-    if (duration.inMinutes >= 1) return '${duration.inMinutes}m';
-    return '<1m';
-  }
-
-  String _preview(MoodEntryEntity entry, int maxChars) {
-    final source =
-        entry.aiResponse.isNotEmpty ? entry.aiResponse : entry.thoughts;
-    final trimmed = source.trim();
-    if (trimmed.length <= maxChars) return trimmed;
-    return '${trimmed.substring(0, maxChars).trimRight()}…';
-  }
-
   @override
   Widget build(BuildContext context) {
     final moodType = moodTypeFromEmoji(widget.entry.emoji);
@@ -153,221 +129,21 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
           child: SizedBox(
             width: bubbleWidth,
             height: bubbleHeight + 10,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  height: bubbleHeight,
-                  child: Container(
-                    padding: EdgeInsets.all(widget.size * 0.1),
-                    decoration: BoxDecoration(
-                      color: cardColor,
-                      borderRadius: BorderRadius.circular(widget.size * 0.24),
-                    ),
-                    child: Stack(
-                      children: [
-                        if (widget.entry.pinned)
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            child: Icon(
-                              Icons.push_pin_rounded,
-                              size: 14,
-                              color: AppColors.lightOnBackground
-                                  .withValues(alpha: 0.55),
-                            ),
-                          ),
-                        Positioned.fill(
-                          child: Center(
-                            // FittedBox absorbs any leftover overflow —
-                            // text-scale settings and long previews would
-                            // otherwise blow past the bubble's fixed bounds.
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (moodType != null)
-                                    Image.asset(
-                                      moodType.assetPath,
-                                      width: widget.size * 0.34,
-                                      height: widget.size * 0.34,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  SizedBox(height: widget.size * 0.05),
-                                  Text(
-                                    _formatDate(widget.entry.createdAt),
-                                    style: ThemeTextStyles.labelSmall(context)
-                                        .copyWith(
-                                      color: AppColors.lightOnBackground
-                                          .withValues(alpha: 0.65),
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  if (showSummary) ...[
-                                    SizedBox(height: widget.size * 0.03),
-                                    SizedBox(
-                                      width: bubbleWidth * 0.82,
-                                      child: Text(
-                                        _preview(
-                                          widget.entry,
-                                          (widget.size / 3).round(),
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            ThemeTextStyles.bodySmall(context)
-                                                .copyWith(
-                                          color: AppColors.lightOnBackground,
-                                          fontSize: 10.sp,
-                                          height: 1.25,
-                                        ),
-                                      ),
-                                    ),
-                                    if (widget.duration != null) ...[
-                                      SizedBox(height: widget.size * 0.02),
-                                      Text(
-                                        _formatDuration(widget.duration!),
-                                        style: ThemeTextStyles.captionSmall(
-                                          context,
-                                        ).copyWith(
-                                          color: AppColors.lightOnBackground
-                                              .withValues(alpha: 0.5),
-                                          fontSize: 9.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ],
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: tailOnLeft ? widget.size * 0.18 : null,
-                  right: tailOnLeft ? null : widget.size * 0.18,
-                  child: CustomPaint(
-                    size: const Size(18, 12),
-                    painter: _BubbleTailPainter(
-                      color: cardColor,
-                      pointLeft: tailOnLeft,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: -widget.size * 0.08,
-                  right: tailOnLeft ? -widget.size * 0.06 : null,
-                  left: tailOnLeft ? null : -widget.size * 0.06,
-                  child: _StickerSquare(
-                    color: stickerColor,
-                    size: widget.size * 0.26,
-                  ),
-                ),
-              ],
+            child: JournalBubbleVisual(
+              entry: widget.entry,
+              moodType: moodType,
+              size: widget.size,
+              duration: widget.duration,
+              showSummary: showSummary,
+              bubbleWidth: bubbleWidth,
+              bubbleHeight: bubbleHeight,
+              tailOnLeft: tailOnLeft,
+              cardColor: cardColor,
+              stickerColor: stickerColor,
             ),
           ),
         ),
       ),
     );
   }
-}
-
-class _BubbleTailPainter extends CustomPainter {
-  final Color color;
-  final bool pointLeft;
-
-  const _BubbleTailPainter({required this.color, required this.pointLeft});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color;
-    final path = Path();
-    if (pointLeft) {
-      path
-        ..moveTo(0, 0)
-        ..lineTo(size.width, 0)
-        ..lineTo(size.width * 0.25, size.height)
-        ..close();
-    } else {
-      path
-        ..moveTo(0, 0)
-        ..lineTo(size.width, 0)
-        ..lineTo(size.width * 0.75, size.height)
-        ..close();
-    }
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _BubbleTailPainter oldDelegate) =>
-      oldDelegate.color != color || oldDelegate.pointLeft != pointLeft;
-}
-
-/// The small rounded, slightly-rotated smiley square that overlaps a
-/// bubble's corner — the poster's signature accent.
-class _StickerSquare extends StatelessWidget {
-  final Color color;
-  final double size;
-
-  const _StickerSquare({required this.color, required this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform.rotate(
-      angle: -0.18,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(size * 0.28),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.overlayBlack.withValues(alpha: 0.08),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: CustomPaint(painter: _SmileyPainter()),
-      ),
-    );
-  }
-}
-
-class _SmileyPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final dotPaint = Paint()
-      ..color = AppColors.overlayBlack.withValues(alpha: 0.75);
-    final eyeRadius = size.width * 0.07;
-    final eyeY = size.height * 0.42;
-    canvas.drawCircle(Offset(size.width * 0.35, eyeY), eyeRadius, dotPaint);
-    canvas.drawCircle(Offset(size.width * 0.65, eyeY), eyeRadius, dotPaint);
-
-    final smilePaint = Paint()
-      ..color = AppColors.overlayBlack.withValues(alpha: 0.75)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.07
-      ..strokeCap = StrokeCap.round;
-    final rect = Rect.fromCenter(
-      center: Offset(size.width * 0.5, size.height * 0.48),
-      width: size.width * 0.34,
-      height: size.height * 0.28,
-    );
-    canvas.drawArc(rect, 0.25 * 3.14159, 0.5 * 3.14159, false, smilePaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

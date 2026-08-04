@@ -56,7 +56,7 @@ class AppColors {
   static const Color accentButtonFill =
       Color(0xFF9A6F00); // contrast w/ white: 4.52:1
 
-  // Greeting card gradient — same hue family, same contrast-safe treatment,
+  // Greeting card gradient — same hue family, same contrast-safe styling,
   // for the diagonal gradient behind Luna's white greeting text. Used in
   // both light and dark mode: the card always carries white text, so it
   // always needs the darkened pair regardless of theme.

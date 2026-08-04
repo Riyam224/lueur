@@ -87,7 +87,7 @@ extension MoodTypeDetails on MoodType {
 
   /// Pastel journal-bubble background grouped by emotional family, so the
   /// timeline reads as a recognizable emotional map (e.g. warm colors for
-  /// joy/gratitude, cool colors for sadness/anxiety) rather than an
+  /// joy/gratitude, cool colors for sadness/unease) rather than an
   /// arbitrary per-card rotation.
   Color get journalBubbleColor => switch (this) {
         MoodType.happy => AppColors.journalCardYellow,

@@ -1,33 +1,22 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lueur/core/constants/app_sizes.dart';
-import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
 import 'package:lueur/core/routing/app_routes.dart';
-import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
-import 'package:lueur/features/response/presentation/widgets/action_buttons_widget.dart';
-import 'package:lueur/features/response/presentation/widgets/after_feeling_selector_widget.dart';
-import 'package:lueur/features/response/presentation/widgets/ai_response_card_widget.dart';
-import 'package:lueur/features/response/presentation/widgets/luna_avatar_widget.dart';
-import 'package:lueur/features/response/presentation/widgets/luna_info_widget.dart';
-import 'package:lueur/features/response/presentation/widgets/mood_tags_row_widget.dart';
-import 'package:lueur/features/response/presentation/widgets/user_mood_card_widget.dart';
+import 'package:lueur/features/response/presentation/utils/response_sharer.dart';
+import 'package:lueur/features/response/presentation/widgets/luna_typing_indicator.dart';
+import 'package:lueur/features/response/presentation/widgets/response_app_bar.dart';
+import 'package:lueur/features/response/presentation/widgets/response_error_state.dart';
+import 'package:lueur/features/response/presentation/widgets/response_success_content.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 
 class ResponseAiScreen extends StatefulWidget {
   const ResponseAiScreen({
@@ -49,14 +38,6 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
   bool _didResponseHaptic = false;
   final ScreenshotController _screenshotController = ScreenshotController();
 
-  // Share-card export is rendered off-screen at a fixed pixel size (it
-  // becomes a PNG, not on-screen UI), so it intentionally does not use
-  // flutter_screenutil scaling like the rest of this screen.
-  static const double _shareCardWidth = 1080;
-  static const double _shareCardPadding = 64;
-  static const double _shareCardHeadingGap = 24;
-  static const double _shareCardBodyGap = 40;
-
   @override
   void initState() {
     super.initState();
@@ -71,6 +52,55 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
       });
     }
   }
+
+  void _goBack() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(AppRoutes.home);
+    }
+  }
+
+  void _retryGenerate() {
+    if (widget.emojiUnicode == null) return;
+    _didResponseHaptic = false;
+    context.read<MoodCubit>().generateResponse(
+          emoji: widget.emojiUnicode!,
+          thoughts: widget.thoughts,
+        );
+  }
+
+  void _bookmarkResponse(String aiResponse, String displayThoughts) {
+    context.read<SavedQuotesCubit>().saveQuote(
+          aiResponse,
+          emoji: widget.emojiImagePath ?? widget.emojiUnicode,
+          thoughts: displayThoughts,
+        );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.commonSavedToQuotesSnack),
+      ),
+    );
+  }
+
+  void _talkAgain(String aiResponse, String displayThoughts) {
+    context.push(
+      AppRoutes.chat,
+      extra: {
+        'userId': sl<FirebaseAuth>().currentUser?.uid ?? '',
+        'emoji': widget.emojiUnicode ?? '😊',
+        'thoughts': displayThoughts,
+        'aiResponse': aiResponse,
+      },
+    );
+  }
+
+  Future<void> _share(String aiResponse) => shareResponseCard(
+        context,
+        screenshotController: _screenshotController,
+        aiResponse: aiResponse,
+        isMounted: () => mounted,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -89,49 +119,10 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              // ── App Bar ─────────────────────────────────────
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSpacing.horizontalPaddingMd,
-                  vertical: AppSpacing.verticalPaddingSm,
-                ),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (context.canPop()) {
-                          context.pop();
-                        } else {
-                          context.go(AppRoutes.home);
-                        }
-                      },
-                      child: Container(
-                        width: 40.w,
-                        height: 40.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: context.extra.cardBackgroundColor,
-                        ),
-                        child: Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          size: 16.sp,
-                          color: context.extra.primaryTextColor,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.of(context)!.responseScreenTitle,
-                        style: ThemeTextStyles.headlineSmall(context),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(width: 40.w),
-                  ],
-                ),
+              ResponseAppBar(
+                title: AppLocalizations.of(context)!.responseScreenTitle,
+                onBack: _goBack,
               ),
-
-              // ── Body ────────────────────────────────────────
               Expanded(
                 child: BlocListener<MoodCubit, MoodState>(
                   listenWhen: (previous, current) {
@@ -151,46 +142,14 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                       }
 
                       if (state is MoodError) {
-                        return Center(
-                          child: Padding(
-                            padding:
-                                EdgeInsets.all(AppSpacing.horizontalPaddingLg),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.error_outline,
-                                  color: AppColors.errorColor,
-                                  size: AppSizes.iconXl,
-                                ),
-                                SizedBox(height: AppSpacing.spaceMd),
-                                Text(
-                                  state.message,
-                                  textAlign: TextAlign.center,
-                                  style: ThemeTextStyles.bodyMedium(context),
-                                ),
-                                SizedBox(height: AppSpacing.spaceLg),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    if (widget.emojiUnicode != null) {
-                                      _didResponseHaptic = false;
-                                      context
-                                          .read<MoodCubit>()
-                                          .generateResponse(
-                                            emoji: widget.emojiUnicode!,
-                                            thoughts: widget.thoughts,
-                                          );
-                                    }
-                                  },
-                                  child: Text(AppLocalizations.of(context)!.responseTryAgainButton),
-                                ),
-                              ],
-                            ),
-                          ),
+                        return ResponseErrorState(
+                          message: state.message,
+                          retryLabel:
+                              AppLocalizations.of(context)!.responseTryAgainButton,
+                          onRetry: _retryGenerate,
                         );
                       }
 
-                      // Success or initial (show content)
                       final generated = state is MoodHistorySuccess
                           ? state.justGenerated
                           : null;
@@ -198,113 +157,18 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                       final displayThoughts =
                           generated?.thoughts ?? widget.thoughts;
 
-                      return SingleChildScrollView(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: AppSpacing.horizontalPaddingLg,
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: AppSpacing.spaceLg),
-                            const LunaAvatarWidget(),
-                            SizedBox(height: AppSpacing.spaceMd),
-                            const LunaInfoWidget(),
-                            SizedBox(height: AppSpacing.sectionSpacingMd),
-                            UserMoodCardWidget(
-                              emoji: widget.emojiImagePath ??
-                                  widget.emojiUnicode ??
-                                  '😔',
-                              thoughts: displayThoughts,
-                              isEmojiImage: widget.emojiImagePath != null,
-                            ),
-                            SizedBox(height: AppSpacing.spaceLg),
-                            if (aiResponse.isNotEmpty) ...[
-                              AiResponseCardWidget(
-                                response: aiResponse,
-                                onBookmark: () {
-                                  context.read<SavedQuotesCubit>().saveQuote(
-                                        aiResponse,
-                                        emoji: widget.emojiImagePath ??
-                                            widget.emojiUnicode,
-                                        thoughts: displayThoughts,
-                                      );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(AppLocalizations.of(context)!.commonSavedToQuotesSnack),
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(height: AppSpacing.spaceLg),
-                              MoodTagsRowWidget(
-                                tags: [
-                                  AppLocalizations.of(context)!.responseMoodTagExpressing,
-                                  AppLocalizations.of(context)!.responseMoodTagReflecting,
-                                  AppLocalizations.of(context)!.responseMoodTagGrowing,
-                                ],
-                              ),
-                              SizedBox(height: AppSpacing.sectionSpacingMd),
-                              ActionButtonsWidget(
-                                saveLabel: AppLocalizations.of(context)!.responseDoneLabel,
-                                talkAgainLabel: AppLocalizations.of(context)!.responseKeepChattingLabel,
-                                onSave: () {
-                                  if (context.canPop()) {
-                                    context.pop();
-                                  } else {
-                                    context.go(AppRoutes.home);
-                                  }
-                                },
-                                onTalkAgain: aiResponse.isNotEmpty
-                                    ? () {
-                                        context.push(
-                                          AppRoutes.chat,
-                                          extra: {
-                                            'userId': sl<FirebaseAuth>()
-                                                    .currentUser
-                                                    ?.uid ??
-                                                '',
-                                            'emoji':
-                                                widget.emojiUnicode ?? '😊',
-                                            'thoughts': displayThoughts,
-                                            'aiResponse': aiResponse,
-                                          },
-                                        );
-                                      }
-                                    : null,
-                              ),
-                              SizedBox(height: AppSpacing.spaceMd),
-                              SizedBox(
-                                width: double.infinity,
-                                child: OutlinedButton(
-                                  onPressed: () => _shareResponse(aiResponse),
-                                  style: OutlinedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: AppSpacing.spaceLg,
-                                    ),
-                                    side: BorderSide(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 1.5,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.r),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    AppLocalizations.of(context)!.responseShareButton,
-                                    style: ThemeTextStyles.labelMedium(context)
-                                        .copyWith(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: AppSpacing.spaceLg),
-                              const AfterFeelingSelectorWidget(),
-                              SizedBox(height: AppSpacing.sectionSpacingMd),
-                            ],
-                          ],
-                        ),
+                      return ResponseSuccessContent(
+                        emojiImagePath: widget.emojiImagePath,
+                        emojiUnicode: widget.emojiUnicode,
+                        displayThoughts: displayThoughts,
+                        aiResponse: aiResponse,
+                        onBookmark: () =>
+                            _bookmarkResponse(aiResponse, displayThoughts),
+                        onDone: _goBack,
+                        onTalkAgain: aiResponse.isNotEmpty
+                            ? () => _talkAgain(aiResponse, displayThoughts)
+                            : null,
+                        onShare: () => _share(aiResponse),
                       );
                     },
                   ),
@@ -314,161 +178,6 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-extension _ShareHelper on _ResponseAiScreenState {
-  Future<void> _shareResponse(String aiResponse) async {
-    if (aiResponse.trim().isEmpty) return;
-
-    // Capture render box and build share card before any awaits
-    final box = context.findRenderObject() as RenderBox?;
-    final origin =
-        box != null ? (box.localToGlobal(Offset.zero) & box.size) : null;
-    final shareCard = _buildShareCard(context, aiResponse);
-
-    final bytes = await _screenshotController.captureFromWidget(
-      shareCard,
-      pixelRatio: 3.0,
-    );
-
-    if (!mounted) return;
-
-    final file = File(
-      '${Directory.systemTemp.path}/luna_share_${DateTime.now().millisecondsSinceEpoch}.png',
-    );
-    await file.writeAsBytes(bytes);
-
-    if (!mounted) return;
-
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      sharePositionOrigin: origin,
-    );
-  }
-
-  Widget _buildShareCard(BuildContext context, String aiResponse) {
-    final theme = Theme.of(context);
-    return Material(
-      color: theme.scaffoldBackgroundColor,
-      child: Container(
-        width: _ResponseAiScreenState._shareCardWidth,
-        padding:
-            const EdgeInsets.all(_ResponseAiScreenState._shareCardPadding),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              theme.colorScheme.primary.withValues(alpha: 0.12),
-              theme.colorScheme.primary.withValues(alpha: 0.02),
-            ],
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.responseShareCardHeading,
-              style: ThemeTextStyles.labelMedium(context).copyWith(
-                color: theme.colorScheme.primary,
-                letterSpacing: 1.2,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: _ResponseAiScreenState._shareCardHeadingGap),
-            Text(
-              '"$aiResponse"',
-              style: ThemeTextStyles.headlineSmall(context).copyWith(
-                color: theme.colorScheme.onSurface,
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: _ResponseAiScreenState._shareCardBodyGap),
-            Text(
-              AppLocalizations.of(context)!.appName,
-              style: ThemeTextStyles.bodySmall(context).copyWith(
-                color: theme.colorScheme.primary.withValues(alpha: 0.7),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class LunaTypingIndicator extends StatefulWidget {
-  const LunaTypingIndicator({super.key});
-
-  @override
-  State<LunaTypingIndicator> createState() => _LunaTypingIndicatorState();
-}
-
-class _LunaTypingIndicatorState extends State<LunaTypingIndicator>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final textStyle = ThemeTextStyles.bodyMedium(context);
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final value = _controller.value;
-        final dot1 = value < 0.33 ? 1.0 : 0.3;
-        final dot2 = value >= 0.33 && value < 0.66 ? 1.0 : 0.3;
-        final dot3 = value >= 0.66 ? 1.0 : 0.3;
-
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(AppLocalizations.of(context)!.responseThinkingLabel, style: textStyle),
-            SizedBox(height: AppSpacing.spaceSm),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _Dot(opacity: dot1),
-                SizedBox(width: AppSpacing.spaceSm),
-                _Dot(opacity: dot2),
-                SizedBox(width: AppSpacing.spaceSm),
-                _Dot(opacity: dot3),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _Dot extends StatelessWidget {
-  const _Dot({required this.opacity});
-
-  final double opacity;
-
-  @override
-  Widget build(BuildContext context) {
-    return Opacity(
-      opacity: opacity,
-      child: const Text('●'),
     );
   }
 }

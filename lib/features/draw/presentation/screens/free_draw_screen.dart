@@ -1,22 +1,17 @@
-// lib/features/draw/presentation/screens/free_draw_screen.dart
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
-import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
-import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
-import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
+import 'package:lueur/features/draw/presentation/widgets/draw_canvas.dart';
+import 'package:lueur/features/draw/presentation/widgets/draw_palette.dart';
+import 'package:lueur/features/draw/presentation/widgets/draw_talk_to_luna_link.dart';
+import 'package:lueur/features/draw/presentation/widgets/draw_top_bar.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 class FreeDrawScreen extends StatelessWidget {
@@ -42,19 +37,6 @@ class FreeDrawScreen extends StatelessWidget {
 }
 
 class _FreeDrawView extends StatelessWidget {
-  static const List<Color> _palette = [
-    AppColors.breathingGradientLavender,
-    AppColors.lavenderLilac,
-    AppColors.darkMintTeal,
-    AppColors.breathingGradientPeach,
-    AppColors.darkSunsetPeach,
-    AppColors.buttermilkYellow,
-    AppColors.darkGoldenYellow,
-    AppColors.darkSkyBlue,
-    AppColors.darkCoralPink,
-    AppColors.lightOnBackground,
-  ];
-
   final String emoji;
   final String thoughts;
 
@@ -101,215 +83,18 @@ class _FreeDrawView extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            _buildTopBar(context),
+            DrawTopBar(
+              onBack: () => context.pop(),
+              onSave: () => _saveDrawing(context),
+            ),
             SizedBox(height: AppSpacing.spaceMd),
-            Expanded(child: _buildCanvas(context)),
+            const Expanded(child: DrawCanvas()),
             SizedBox(height: AppSpacing.spaceLg),
-            _buildPalette(context),
+            const DrawPalette(),
             SizedBox(height: AppSpacing.spaceLg),
-            _buildTalkToLunaLink(context),
+            DrawTalkToLunaLink(onTap: () => _goToTalkToLuna(context)),
             SizedBox(height: AppSpacing.spaceMd),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTopBar(BuildContext context) {
-    final extra = context.extra;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSpacing.horizontalPaddingMd,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            onPressed: () => context.pop(),
-            icon: Icon(
-              Icons.arrow_back_ios_rounded,
-              color: extra.primaryTextColor,
-              size: AppSizes.iconSm,
-            ),
-          ),
-          Flexible(
-            child: Text(
-              AppLocalizations.of(context)!.drawTopBarTitle,
-              overflow: TextOverflow.ellipsis,
-              style: ThemeTextStyles.bodyMedium(context).copyWith(
-                color: extra.secondaryTextColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          BlocBuilder<DrawCubit, DrawState>(
-            buildWhen: (previous, current) =>
-                previous.paths.isEmpty != current.paths.isEmpty,
-            builder: (context, state) {
-              final hasStrokes = state.paths.isNotEmpty;
-              return IconButton(
-                onPressed:
-                    hasStrokes ? () => context.read<DrawCubit>().undoLastStroke() : null,
-                tooltip: AppLocalizations.of(context)!.drawUndoButton,
-                icon: Icon(
-                  Icons.undo_rounded,
-                  color: hasStrokes ? extra.primaryTextColor : extra.borderColor,
-                  size: AppSizes.iconSm,
-                ),
-              );
-            },
-          ),
-          IconButton(
-            onPressed: () => _saveDrawing(context),
-            icon: Icon(
-              Icons.save_alt_rounded,
-              color: extra.primaryColor,
-              size: AppSizes.iconSm,
-            ),
-          ),
-          Flexible(
-            child: TextButton(
-              onPressed: () => context.read<DrawCubit>().clear(),
-              child: Text(
-                AppLocalizations.of(context)!.drawClearButton,
-                overflow: TextOverflow.ellipsis,
-                style: ThemeTextStyles.bodyMedium(context).copyWith(
-                  color: extra.secondaryTextColor,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCanvas(BuildContext context) {
-    final extra = context.extra;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSpacing.horizontalPaddingLg,
-      ),
-      child: BlocBuilder<DrawCubit, DrawState>(
-        builder: (context, state) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(24.r),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: extra.cardBackgroundColor,
-                border: Border.all(
-                  color: extra.borderColor ?? AppColors.cardBorder,
-                ),
-              ),
-              child: GestureDetector(
-                onPanStart: (details) =>
-                    context.read<DrawCubit>().startStroke(details.localPosition),
-                onPanUpdate: (details) =>
-                    context.read<DrawCubit>().extendStroke(details.localPosition),
-                child: CustomPaint(
-                  size: Size.infinite,
-                  painter: DrawPainter(paths: state.paths),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildPalette(BuildContext context) {
-    final extra = context.extra;
-    final ringColor = extra.primaryTextColor ?? AppColors.primaryTextColor;
-
-    return BlocBuilder<DrawCubit, DrawState>(
-      builder: (context, state) {
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.horizontalPaddingLg,
-          ),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: AppSpacing.spaceSm,
-            runSpacing: AppSpacing.spaceSm,
-            children: [
-              for (final color in _palette)
-                _ColorSwatch(
-                  color: color,
-                  isSelected: state.currentColor == color,
-                  ringColor: ringColor,
-                  onTap: () => context.read<DrawCubit>().selectColor(color),
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildTalkToLunaLink(BuildContext context) {
-    final secondaryText = context.extra.secondaryTextColor;
-
-    return TextButton(
-      onPressed: () => _goToTalkToLuna(context),
-      style: TextButton.styleFrom(foregroundColor: secondaryText),
-      child: Text(
-        AppLocalizations.of(context)!.drawTalkToLunaLink,
-        style: ThemeTextStyles.bodySmall(context).copyWith(
-          color: secondaryText,
-        ),
-      ),
-    );
-  }
-}
-
-/// A single tappable palette dot — grows, rings, and glows in its own color
-/// when selected so the active brush color is unmistakable at a glance.
-class _ColorSwatch extends StatelessWidget {
-  final Color color;
-  final bool isSelected;
-  final Color ringColor;
-  final VoidCallback onTap;
-
-  const _ColorSwatch({
-    required this.color,
-    required this.isSelected,
-    required this.ringColor,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final size = isSelected
-        ? AppSizes.paletteSwatchSizeSelected
-        : AppSizes.paletteSwatchSize;
-
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOutBack,
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-          border: Border.all(
-            color: isSelected ? ringColor : AppColors.transparent,
-            width: AppSizes.paletteSwatchBorderWidth,
-          ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: color.withValues(alpha: 0.5),
-                    blurRadius: AppSizes.paletteSwatchGlowBlur,
-                    spreadRadius: AppSizes.paletteSwatchGlowSpread,
-                  ),
-                ]
-              : null,
         ),
       ),
     );

@@ -34,7 +34,7 @@ dart run build_runner watch --delete-conflicting-outputs
 
 # Architecture Overview
 
-LunaTree (root widget: `Lueur`) is a Flutter AI therapy app. It follows Clean Architecture with strict layer separation: **presentation → domain → data**.
+LunaTree (root widget: `Lueur`) is a Flutter journaling and relaxation app with an AI companion. It follows Clean Architecture with strict layer separation: **presentation → domain → data**.
 
 ## Feature inventory
 
@@ -43,7 +43,7 @@ LunaTree (root widget: `Lueur`) is a Flutter AI therapy app. It follows Clean Ar
 | `auth` | Login / register via REST API |
 | `home` | Mood capture — emoji + free-text → AI response |
 | `response` | Displays AI-generated response + save-quote action |
-| `chat` | Follow-up chat with the AI therapist |
+| `chat` | Follow-up chat with the AI journaling companion |
 | `journal` | Browseable mood history with emoji filter + chart |
 | `plant` | Streak tracker visualised as a growing plant |
 | `quotes` | Save/delete/view affirmation quotes (Hive) |
@@ -95,9 +95,9 @@ Base URL: `https://web-production-f8628.up.railway.app`
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/therapist/generate/` | Generate AI response for emoji + thoughts |
-| GET | `/api/therapist/history/?user_id=` | Fetch user's mood history |
-| GET | `/api/therapist/weekly-letter/` | Get AI weekly reflection |
+| POST | `/api/companion/generate/` | Generate AI response for emoji + thoughts |
+| GET | `/api/companion/history/?user_id=` | Fetch user's mood history |
+| GET | `/api/companion/weekly-letter/` | Get AI weekly reflection |
 
 ## Theme & typography
 

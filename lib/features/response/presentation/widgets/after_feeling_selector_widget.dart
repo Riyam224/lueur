@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/styling/app_fonts.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/features/response/presentation/models/after_feeling_option.dart';
+import 'package:lueur/features/response/presentation/widgets/after_feeling_emoji_option.dart';
+import 'package:lueur/features/response/presentation/widgets/after_feeling_mood_modal.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// After-feeling selector — tapping any emoji shows a floating modal.
@@ -26,7 +27,7 @@ class _AfterFeelingSelectorWidgetState
 
   static const int _negativeIndex = 3;
 
-  List<({String asset, String label, String message})> get _feelings {
+  List<AfterFeelingOption> get _feelings {
     final l10n = AppLocalizations.of(context)!;
     return [
       (
@@ -80,7 +81,7 @@ class _AfterFeelingSelectorWidgetState
           ),
         );
       },
-      pageBuilder: (ctx, _, __) => _MoodModal(
+      pageBuilder: (ctx, _, __) => AfterFeelingMoodModal(
         asset: feeling.asset,
         label: feeling.label,
         message: feeling.message,
@@ -118,7 +119,7 @@ class _AfterFeelingSelectorWidgetState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
               _feelings.length,
-              (index) => _EmojiOption(
+              (index) => AfterFeelingEmojiOption(
                 asset: _feelings[index].asset,
                 label: _feelings[index].label,
                 isSelected: _selectedIndex == index,
@@ -127,196 +128,6 @@ class _AfterFeelingSelectorWidgetState
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// ── Floating mood modal ───────────────────────────────────────────────────────
-
-class _MoodModal extends StatelessWidget {
-  final String asset;
-  final String label;
-  final String message;
-  final bool isNegative;
-  final VoidCallback? onTalkAgain;
-
-  const _MoodModal({
-    required this.asset,
-    required this.label,
-    required this.message,
-    required this.isNegative,
-    this.onTalkAgain,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Material(
-        color: AppColors.transparent,
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 28.w),
-          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 32.h),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(28.r),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.overlayBlack.withValues(alpha: 0.1),
-                blurRadius: 32,
-                offset: const Offset(0, 12),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Emoji face — on dark mode wrap in a light circle so SVG fills show up
-              Builder(builder: (context) {
-                final isDark =
-                    Theme.of(context).brightness == Brightness.dark;
-                final img = asset.endsWith('.svg')
-                    ? SvgPicture.asset(asset, width: 72.w, height: 72.h)
-                    : Image.asset(asset, width: 72.w, height: 72.h);
-                if (!isDark) return img;
-                return Container(
-                  width: 88.w,
-                  height: 88.w,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.softLavender,
-                  ),
-                  alignment: Alignment.center,
-                  child: img,
-                );
-              },),
-              SizedBox(height: 16.h),
-
-              // Feeling label
-              Text(
-                isNegative
-                    ? AppLocalizations.of(context)!.afterFeelingTakeYourTime
-                    : 'You are feeling $label',
-                style: ThemeTextStyles.titleLarge(context),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 10.h),
-
-              // Message
-              Text(
-                message,
-                style: ThemeTextStyles.bodySmall(context)
-                    .copyWith(height: 1.6),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 28.h),
-
-              // Primary action
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: isNegative
-                      ? onTalkAgain
-                      : () => Navigator.of(context).pop(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryButtonFill,
-                    foregroundColor: AppColors.whiteTextColor,
-                    elevation: 0,
-                    padding: EdgeInsets.symmetric(vertical: 14.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.r),
-                    ),
-                  ),
-                  child: Text(
-                    isNegative
-                        ? AppLocalizations.of(context)!.afterFeelingTalkToLunaAgain
-                        : AppLocalizations.of(context)!.afterFeelingThankYouLuna,
-                    style: ThemeTextStyles.labelMedium(context).copyWith(
-                      color: AppColors.whiteTextColor,
-                    ),
-                  ),
-                ),
-              ),
-
-              if (isNegative) ...[
-                SizedBox(height: 8.h),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    AppLocalizations.of(context)!.afterFeelingImOkay,
-                    style: ThemeTextStyles.bodySmall(context),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Emoji option button ───────────────────────────────────────────────────────
-
-class _EmojiOption extends StatelessWidget {
-  final String asset;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _EmojiOption({
-    required this.asset,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeInOut,
-        width: 64.w,
-        height: 72.h,
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.1)
-              : AppColors.transparent,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // No colorFilter — render SVG in its original colors
-            asset.endsWith('.svg')
-                ? SvgPicture.asset(
-                    asset,
-                    width: 36.w,
-                    height: 36.h,
-                  )
-                : Image.asset(asset, width: 36.w, height: 36.h,
-                    fit: BoxFit.contain,),
-            SizedBox(height: 4.h),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: AppFonts.mainFontName,
-                fontSize: 10.sp,
-                color: isSelected
-                    ? AppColors.primary
-                    : context.extra.secondaryTextColor!,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
 import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Three-option Light / Dark / System segmented control for the Settings
 /// screen, following the same visual pattern as [LanguageToggleWidget].
@@ -14,6 +15,7 @@ class ThemeSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentMode = context.watch<ThemeCubit>().state;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: EdgeInsets.all(4.r),
@@ -26,7 +28,7 @@ class ThemeSelectorWidget extends StatelessWidget {
         children: [
           _ThemeOption(
             icon: Icons.light_mode_rounded,
-            tooltip: 'Light',
+            tooltip: l10n.themeModeLight,
             selected: currentMode == ThemeModeOption.light,
             onTap: () => context
                 .read<ThemeCubit>()
@@ -34,14 +36,14 @@ class ThemeSelectorWidget extends StatelessWidget {
           ),
           _ThemeOption(
             icon: Icons.dark_mode_rounded,
-            tooltip: 'Dark',
+            tooltip: l10n.themeModeDark,
             selected: currentMode == ThemeModeOption.dark,
             onTap: () =>
                 context.read<ThemeCubit>().setThemeMode(ThemeModeOption.dark),
           ),
           _ThemeOption(
             icon: Icons.brightness_auto_rounded,
-            tooltip: 'System',
+            tooltip: l10n.themeModeSystem,
             selected: currentMode == ThemeModeOption.system,
             onTap: () => context
                 .read<ThemeCubit>()

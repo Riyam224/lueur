@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
-import 'package:lueur/features/home/data/models/weekly_letter_model.dart';
+import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
-import 'package:lueur/l10n/app_localizations.dart';
+import 'package:lueur/features/home/presentation/widgets/weekly_letter_content.dart';
+import 'package:lueur/features/home/presentation/widgets/weekly_letter_shell.dart';
 
 /// Floating dismissible weekly-letter card shown at the top of the home screen.
 /// The user swipes it away (or taps ×) to hide it for this session.
@@ -59,13 +56,14 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
     return BlocBuilder<WeeklyLetterCubit, WeeklyLetterState>(
       builder: (context, state) {
         if (state is WeeklyLetterLoading) {
-          return _shell(
-            context,
+          return WeeklyLetterShell(
+            fadeAnimation: _fadeAnim,
+            onDismissed: () => setState(() => _dismissed = true),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceMd),
               child: Center(
                 child: Lottie.asset(
-                  'assets/lottie/plant_sprout.json',
+                  AppAssets.lottiePlantSprout,
                   width: 24.w,
                   height: 24.h,
                   repeat: true,
@@ -77,262 +75,12 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
 
         if (state is! WeeklyLetterLoaded) return const SizedBox.shrink();
 
-        return _shell(
-          context,
-          child: _LetterContent(data: state.data, onDismiss: _dismiss),
+        return WeeklyLetterShell(
+          fadeAnimation: _fadeAnim,
+          onDismissed: () => setState(() => _dismissed = true),
+          child: WeeklyLetterContent(data: state.data, onDismiss: _dismiss),
         );
       },
-    );
-  }
-
-  Widget _shell(BuildContext context, {required Widget child}) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return FadeTransition(
-      opacity: _fadeAnim,
-      child: Dismissible(
-        key: const ValueKey('weekly_letter_banner'),
-        onDismissed: (_) => setState(() => _dismissed = true),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: isDark
-                  ? [AppColors.bannerGradientDarkStart, AppColors.darkSurface]
-                  : [AppColors.lightSurface, AppColors.bannerGradientLightEnd],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
-            border: Border.all(
-              color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.08),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: child,
-        ),
-      ),
-    );
-  }
-}
-
-class _LetterContent extends StatefulWidget {
-  const _LetterContent({required this.data, required this.onDismiss});
-
-  final WeeklyLetterModel data;
-  final VoidCallback onDismiss;
-
-  @override
-  State<_LetterContent> createState() => _LetterContentState();
-}
-
-class _LetterContentState extends State<_LetterContent> {
-  bool _expanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final stats = widget.data.stats;
-    final hasLetter =
-        widget.data.letter != null && widget.data.letter!.isNotEmpty;
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        AppSpacing.spaceLg,
-        AppSpacing.spaceSm,
-        AppSpacing.spaceMd,
-        AppSpacing.spaceSm,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ── Top row: title + dismiss ──────────────────────────
-          Row(
-            children: [
-              Text(
-                '✉️',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontFamilyFallback: const [
-                    'Apple Color Emoji',
-                    'Noto Color Emoji',
-                  ],
-                ),
-              ),
-              SizedBox(width: AppSpacing.spaceSm),
-              Expanded(
-                child: Text(
-                  AppLocalizations.of(context)!.weeklyLetterBannerTitle,
-                  style: ThemeTextStyles.labelMedium(context).copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-              ),
-              // A visually small icon inside a full 44dp tap target — the
-              // extra hit area is transparent, so it doesn't change the
-              // card's visible height while still meeting the minimum
-              // accessible touch-target size.
-              SizedBox(
-                width: AppSizes.minTouchTarget,
-                height: AppSizes.minTouchTarget,
-                child: IconButton(
-                  onPressed: widget.onDismiss,
-                  icon: Icon(Icons.close_rounded, size: 18.sp),
-                  visualDensity: VisualDensity.compact,
-                  padding: EdgeInsets.zero,
-                  color: context.extra.secondaryTextColor,
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(height: AppSpacing.spaceSm),
-
-          // ── Stats row ─────────────────────────────────────────
-          Row(
-            children: [
-              Flexible(
-                child: _StatChip(
-                  label: AppLocalizations.of(context)!
-                      .weeklyLetterEntriesChip(stats.entryCount),
-                  icon: Icons.edit_note_rounded,
-                ),
-              ),
-              SizedBox(width: AppSpacing.spaceSm),
-              Flexible(
-                child: _StatChip(
-                  label: AppLocalizations.of(context)!
-                      .weeklyLetterStreakChip(stats.streak),
-                  isEmoji: true,
-                ),
-              ),
-              SizedBox(width: AppSpacing.spaceSm),
-              Flexible(
-                child: _StatChip(
-                  label: _cuteWeeklyEmoji(stats.dominantEmoji),
-                  isEmoji: true,
-                ),
-              ),
-            ],
-          ),
-
-          // ── Letter body (expandable) ───────────────────────────
-          if (hasLetter) ...[
-            SizedBox(height: AppSpacing.spaceSm),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOutCubic,
-              alignment: Alignment.topCenter,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 220),
-                child: Text(
-                  widget.data.letter!,
-                  key: ValueKey(_expanded),
-                  maxLines: _expanded ? null : 1,
-                  overflow: _expanded ? null : TextOverflow.ellipsis,
-                  style: ThemeTextStyles.bodySmall(context).copyWith(
-                    fontStyle: FontStyle.italic,
-                    height: 1.4,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: AppSpacing.spaceXs),
-            GestureDetector(
-              onTap: () => setState(() => _expanded = !_expanded),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceXs),
-                child: Text(
-                  _expanded
-                      ? AppLocalizations.of(context)!.weeklyLetterShowLess
-                      : AppLocalizations.of(context)!.weeklyLetterReadMore,
-                  style: ThemeTextStyles.labelSmall(context).copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ] else ...[
-            SizedBox(height: AppSpacing.spaceSm),
-            Text(
-              AppLocalizations.of(context)!.weeklyLetterWaitingMessage,
-              style: ThemeTextStyles.bodySmall(context).copyWith(
-                color: context.extra.secondaryTextColor,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-String _cuteWeeklyEmoji(String emoji) {
-  return switch (emoji) {
-    '😠' || '😡' => '🥰',
-    _ => emoji,
-  };
-}
-
-class _StatChip extends StatelessWidget {
-  const _StatChip({
-    required this.label,
-    this.icon,
-    this.isEmoji = false,
-  });
-
-  final String label;
-  final IconData? icon;
-  final bool isEmoji;
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-      decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.darkBackground.withValues(alpha: 0.5)
-            : AppColors.lightSurface.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(AppSizes.borderRadiusCircle),
-        border: Border.all(
-          color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[
-            Icon(icon, size: 12.sp, color: AppColors.primary),
-            SizedBox(width: AppSpacing.spaceXs),
-          ],
-          Flexible(
-            child: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: isEmoji
-                  ? TextStyle(
-                      fontSize: 13.sp,
-                      fontFamilyFallback: const [
-                        'Apple Color Emoji',
-                        'Noto Color Emoji',
-                      ],
-                    )
-                  : ThemeTextStyles.labelSmall(context).copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,20 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/domain/usecases/generate_sudoku_puzzle_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
-
-class _Move {
-  final int row;
-  final int col;
-  final int prevValue;
-  final Set<int> prevCandidates;
-
-  const _Move(this.row, this.col, this.prevValue, this.prevCandidates);
-}
+import 'package:lueur/features/sudoku/presentation/models/sudoku_move.dart';
+import 'package:lueur/features/sudoku/presentation/utils/sudoku_grid_factory.dart';
+import 'package:lueur/features/sudoku/presentation/utils/sudoku_grid_ops.dart';
 
 /// Drives a single live 9x9 sudoku game — board state, notes ("candidates"),
 /// undo history, and the pausable timer. Ephemeral by design (like
@@ -26,48 +19,20 @@ class SudokuCubit extends Cubit<SudokuState> {
   static const int maxMistakes = 3;
 
   final GenerateSudokuPuzzleUseCase _generatePuzzle;
-  final ValidateSudokuMoveUseCase _validateMove;
   final SaveSudokuResultUseCase _saveResult;
+  final SudokuGridOps _gridOps;
 
   late List<List<int>> _solution;
-  final List<_Move> _history = [];
+  final List<SudokuMove> _history = [];
   Timer? _ticker;
   bool _resultSaved = false;
 
   SudokuCubit(
     this._generatePuzzle,
-    this._validateMove,
+    ValidateSudokuMoveUseCase validateMove,
     this._saveResult,
-  ) : super(
-        SudokuState(
-          values: _emptyGrid(),
-          given: _emptyBoolGrid(),
-          conflicts: _emptyBoolGrid(),
-          candidates: _emptyCandidateGrid(),
-          mode: SudokuInputMode.normal,
-          mistakes: 0,
-          elapsedSeconds: 0,
-          isPaused: false,
-          autoCandidateMode: false,
-          canUndo: false,
-          status: SudokuStatus.playing,
-        ),
-      );
-
-  static List<List<int>> _emptyGrid() => List.generate(
-    SudokuBoardEntity.size,
-    (_) => List.filled(SudokuBoardEntity.size, 0),
-  );
-
-  static List<List<bool>> _emptyBoolGrid() => List.generate(
-    SudokuBoardEntity.size,
-    (_) => List.filled(SudokuBoardEntity.size, false),
-  );
-
-  static List<List<Set<int>>> _emptyCandidateGrid() => List.generate(
-    SudokuBoardEntity.size,
-    (_) => List.generate(SudokuBoardEntity.size, (_) => <int>{}),
-  );
+  )   : _gridOps = SudokuGridOps(validateMove),
+        super(SudokuGridFactory.freshState());
 
   void start() {
     final board = _generatePuzzle();
@@ -75,27 +40,10 @@ class SudokuCubit extends Cubit<SudokuState> {
     _resultSaved = false;
     _history.clear();
 
-    final values = List.generate(
-      SudokuBoardEntity.size,
-      (r) => List.generate(
-        SudokuBoardEntity.size,
-        (c) => board.given[r][c] ? board.solution[r][c] : 0,
-      ),
-    );
-
     emit(
-      SudokuState(
-        values: values,
+      SudokuGridFactory.freshState(
+        values: initialValuesFor(board),
         given: board.given,
-        conflicts: _emptyBoolGrid(),
-        candidates: _emptyCandidateGrid(),
-        mode: SudokuInputMode.normal,
-        mistakes: 0,
-        elapsedSeconds: 0,
-        isPaused: false,
-        autoCandidateMode: false,
-        canUndo: false,
-        status: SudokuStatus.playing,
       ),
     );
 
@@ -126,25 +74,28 @@ class SudokuCubit extends Cubit<SudokuState> {
       emit(
         state.copyWith(
           autoCandidateMode: false,
-          candidates: _emptyCandidateGrid(),
+          candidates: SudokuGridFactory.emptyCandidateGrid(),
         ),
       );
       return;
     }
+    emit(
+      state.copyWith(
+        autoCandidateMode: true,
+        candidates: _gridOps.computeAllCandidates(state.values),
+      ),
+    );
+  }
 
-    final candidates = state.candidates
-        .map((row) => row.map(Set<int>.from).toList())
-        .toList();
-    for (var r = 0; r < SudokuBoardEntity.size; r++) {
-      for (var c = 0; c < SudokuBoardEntity.size; c++) {
-        if (state.values[r][c] != 0) continue;
-        candidates[r][c] = {
-          for (var v = 1; v <= SudokuBoardEntity.size; v++)
-            if (_validateMove(state.values, r, c, v)) v,
-        };
-      }
-    }
-    emit(state.copyWith(autoCandidateMode: true, candidates: candidates));
+  void _recordMove(int row, int col) {
+    _history.add(
+      SudokuMove(
+        row,
+        col,
+        state.values[row][col],
+        Set.from(state.candidates[row][col]),
+      ),
+    );
   }
 
   void inputNumber(int value) {
@@ -153,53 +104,51 @@ class SudokuCubit extends Cubit<SudokuState> {
     final col = state.selectedCol;
     if (row == null || col == null) return;
 
-    _history.add(
-      _Move(row, col, state.values[row][col], Set.from(state.candidates[row][col])),
-    );
+    _recordMove(row, col);
 
     if (state.mode == SudokuInputMode.candidate) {
-      if (state.values[row][col] != 0) return;
-      final candidates = state.candidates
-          .map((r) => r.map(Set<int>.from).toList())
-          .toList();
-      final cell = candidates[row][col];
-      if (!cell.remove(value)) cell.add(value);
-      emit(state.copyWith(candidates: candidates, canUndo: true));
+      if (state.values[row][col] == 0) {
+        emit(
+          state.copyWith(
+            candidates: _gridOps.toggleCandidate(
+              state.candidates,
+              state.values,
+              row,
+              col,
+              value,
+            ),
+            canUndo: true,
+          ),
+        );
+      }
       return;
     }
 
-    final values = state.values.map(List<int>.from).toList();
-    values[row][col] = value;
-    final candidates = state.candidates
-        .map((r) => r.map(Set<int>.from).toList())
-        .toList();
-    candidates[row][col] = {};
+    final result = _gridOps.applyValueEntry(
+      values: state.values,
+      candidates: state.candidates,
+      solution: _solution,
+      row: row,
+      col: col,
+      value: value,
+      currentMistakes: state.mistakes,
+      autoCandidateMode: state.autoCandidateMode,
+      maxMistakes: maxMistakes,
+    );
 
-    if (state.autoCandidateMode) {
-      _eliminatePeerCandidates(candidates, row, col, value);
-    }
-
-    final isWrong = value != _solution[row][col];
-    final mistakes = state.mistakes + (isWrong ? 1 : 0);
-    final conflicts = _recomputeConflicts(values);
-    final isSolved =
-        values.every((r) => r.every((v) => v != 0)) &&
-        conflicts.every((r) => r.every((flag) => !flag));
-    final isOutOfTries = !isSolved && mistakes >= maxMistakes;
-
-    if (isSolved) _saveOnce(won: true, mistakes: mistakes);
-    if (isOutOfTries) _saveOnce(won: false, mistakes: mistakes);
+    if (result.isSolved) _saveOnce(won: true, mistakes: result.mistakes);
+    if (result.isOutOfTries) _saveOnce(won: false, mistakes: result.mistakes);
 
     emit(
       state.copyWith(
-        values: values,
-        candidates: candidates,
-        conflicts: conflicts,
-        mistakes: mistakes,
+        values: result.values,
+        candidates: result.candidates,
+        conflicts: result.conflicts,
+        mistakes: result.mistakes,
         canUndo: true,
-        status: isSolved
+        status: result.isSolved
             ? SudokuStatus.won
-            : (isOutOfTries ? SudokuStatus.lost : SudokuStatus.playing),
+            : (result.isOutOfTries ? SudokuStatus.lost : SudokuStatus.playing),
       ),
     );
   }
@@ -209,22 +158,19 @@ class SudokuCubit extends Cubit<SudokuState> {
     final col = state.selectedCol;
     if (row == null || col == null || state.given[row][col]) return;
 
-    _history.add(
-      _Move(row, col, state.values[row][col], Set.from(state.candidates[row][col])),
+    _recordMove(row, col);
+
+    final result = _gridOps.clearCell(
+      values: state.values,
+      candidates: state.candidates,
+      row: row,
+      col: col,
     );
-
-    final values = state.values.map(List<int>.from).toList();
-    values[row][col] = 0;
-    final candidates = state.candidates
-        .map((r) => r.map(Set<int>.from).toList())
-        .toList();
-    candidates[row][col] = {};
-
     emit(
       state.copyWith(
-        values: values,
-        candidates: candidates,
-        conflicts: _recomputeConflicts(values),
+        values: result.values,
+        candidates: result.candidates,
+        conflicts: result.conflicts,
         canUndo: true,
       ),
     );
@@ -234,18 +180,16 @@ class SudokuCubit extends Cubit<SudokuState> {
     if (_history.isEmpty) return;
     final move = _history.removeLast();
 
-    final values = state.values.map(List<int>.from).toList();
-    values[move.row][move.col] = move.prevValue;
-    final candidates = state.candidates
-        .map((r) => r.map(Set<int>.from).toList())
-        .toList();
-    candidates[move.row][move.col] = Set.from(move.prevCandidates);
-
+    final result = _gridOps.applyUndo(
+      values: state.values,
+      candidates: state.candidates,
+      move: move,
+    );
     emit(
       state.copyWith(
-        values: values,
-        candidates: candidates,
-        conflicts: _recomputeConflicts(values),
+        values: result.values,
+        candidates: result.candidates,
+        conflicts: result.conflicts,
         canUndo: _history.isNotEmpty,
       ),
     );
@@ -258,43 +202,14 @@ class SudokuCubit extends Cubit<SudokuState> {
     _saveOnce(won: false, mistakes: state.mistakes);
   }
 
-  void _eliminatePeerCandidates(
-    List<List<Set<int>>> candidates,
-    int row,
-    int col,
-    int value,
-  ) {
-    const n = SudokuBoardEntity.size;
-    const box = SudokuBoardEntity.boxSize;
-    for (var i = 0; i < n; i++) {
-      candidates[row][i].remove(value);
-      candidates[i][col].remove(value);
-    }
-    final boxRow = (row ~/ box) * box;
-    final boxCol = (col ~/ box) * box;
-    for (var r = boxRow; r < boxRow + box; r++) {
-      for (var c = boxCol; c < boxCol + box; c++) {
-        candidates[r][c].remove(value);
-      }
-    }
-  }
-
-  List<List<bool>> _recomputeConflicts(List<List<int>> values) {
-    const n = SudokuBoardEntity.size;
-    return List.generate(
-      n,
-      (r) => List.generate(n, (c) {
-        final value = values[r][c];
-        if (value == 0) return false;
-        return !_validateMove(values, r, c, value);
-      }),
-    );
-  }
-
   void _saveOnce({required bool won, required int mistakes}) {
     if (_resultSaved) return;
     _resultSaved = true;
-    _saveResult(won: won, mistakes: mistakes, durationSeconds: state.elapsedSeconds);
+    _saveResult(
+      won: won,
+      mistakes: mistakes,
+      durationSeconds: state.elapsedSeconds,
+    );
   }
 
   @override
