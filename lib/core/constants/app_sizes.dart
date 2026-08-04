@@ -47,4 +47,11 @@ class AppSizes {
 
   // Accessibility — minimum interactive touch target (44dp, platform HIG floor)
   static double minTouchTarget = 44.h;
+
+  // Free-draw color palette swatches
+  static double paletteSwatchSize = 34.w;
+  static double paletteSwatchSizeSelected = 42.w;
+  static double paletteSwatchBorderWidth = 3.w;
+  static double paletteSwatchGlowBlur = 10.r;
+  static double paletteSwatchGlowSpread = 1.r;
 }

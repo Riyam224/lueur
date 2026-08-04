@@ -43,10 +43,15 @@ class FreeDrawScreen extends StatelessWidget {
 
 class _FreeDrawView extends StatelessWidget {
   static const List<Color> _palette = [
-    AppColors.lavender,
+    AppColors.breathingGradientLavender,
+    AppColors.lavenderLilac,
     AppColors.darkMintTeal,
     AppColors.breathingGradientPeach,
     AppColors.darkSunsetPeach,
+    AppColors.buttermilkYellow,
+    AppColors.darkGoldenYellow,
+    AppColors.darkSkyBlue,
+    AppColors.darkCoralPink,
     AppColors.lightOnBackground,
   ];
 
@@ -218,34 +223,28 @@ class _FreeDrawView extends StatelessWidget {
 
   Widget _buildPalette(BuildContext context) {
     final extra = context.extra;
+    final ringColor = extra.primaryTextColor ?? AppColors.primaryTextColor;
 
     return BlocBuilder<DrawCubit, DrawState>(
       builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            for (final color in _palette)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6.w),
-                child: GestureDetector(
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.horizontalPaddingLg,
+          ),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: AppSpacing.spaceSm,
+            runSpacing: AppSpacing.spaceSm,
+            children: [
+              for (final color in _palette)
+                _ColorSwatch(
+                  color: color,
+                  isSelected: state.currentColor == color,
+                  ringColor: ringColor,
                   onTap: () => context.read<DrawCubit>().selectColor(color),
-                  child: Container(
-                    width: 36.w,
-                    height: 36.w,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: color,
-                      border: Border.all(
-                        color: state.currentColor == color
-                            ? extra.primaryTextColor!
-                            : AppColors.transparent,
-                        width: 2.w,
-                      ),
-                    ),
-                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         );
       },
     );
@@ -261,6 +260,56 @@ class _FreeDrawView extends StatelessWidget {
         AppLocalizations.of(context)!.drawTalkToLunaLink,
         style: ThemeTextStyles.bodySmall(context).copyWith(
           color: secondaryText,
+        ),
+      ),
+    );
+  }
+}
+
+/// A single tappable palette dot — grows, rings, and glows in its own color
+/// when selected so the active brush color is unmistakable at a glance.
+class _ColorSwatch extends StatelessWidget {
+  final Color color;
+  final bool isSelected;
+  final Color ringColor;
+  final VoidCallback onTap;
+
+  const _ColorSwatch({
+    required this.color,
+    required this.isSelected,
+    required this.ringColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final size = isSelected
+        ? AppSizes.paletteSwatchSizeSelected
+        : AppSizes.paletteSwatchSize;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutBack,
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+          border: Border.all(
+            color: isSelected ? ringColor : AppColors.transparent,
+            width: AppSizes.paletteSwatchBorderWidth,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.5),
+                    blurRadius: AppSizes.paletteSwatchGlowBlur,
+                    spreadRadius: AppSizes.paletteSwatchGlowSpread,
+                  ),
+                ]
+              : null,
         ),
       ),
     );
