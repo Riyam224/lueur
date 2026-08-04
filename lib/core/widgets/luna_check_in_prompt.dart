@@ -103,7 +103,7 @@ class _LunaCheckInPromptState extends State<LunaCheckInPrompt>
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryButtonFill,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                   elevation: 0,
                 ),

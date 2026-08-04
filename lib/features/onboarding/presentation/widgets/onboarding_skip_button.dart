@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:lueur/l10n/app_localizations.dart';
@@ -29,7 +28,7 @@ class OnboardingSkipButton extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: OnboardingConstants.skipButtonFontSize,
           fontWeight: FontWeight.w500,
-          color: AppColors.onboardingAccent,
+          color: context.extra.primaryColor,
         ),
       ),
     );

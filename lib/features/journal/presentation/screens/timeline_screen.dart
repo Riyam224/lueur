@@ -342,7 +342,7 @@ class _TimelineViewState extends State<_TimelineView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('📖', style: TextStyle(fontSize: 40)),
+                  Text('📖', style: TextStyle(fontSize: 40.sp)),
                   SizedBox(height: AppSpacing.spaceMd),
                   Text(
                     l10n.journalEmptyStateTitle,
@@ -376,7 +376,7 @@ class _TimelineViewState extends State<_TimelineView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('🔍', style: TextStyle(fontSize: 40)),
+                  Text('🔍', style: TextStyle(fontSize: 40.sp)),
                   SizedBox(height: AppSpacing.spaceMd),
                   Text(
                     l10n.timelineNoResultsTitle,

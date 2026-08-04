@@ -4,6 +4,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
@@ -127,7 +128,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                     AppColors.primaryContainer,
                   ],
                 ),
-                Padding(
+                SingleChildScrollView(
                   padding: EdgeInsets.symmetric(
                     horizontal: AppSpacing.horizontalPaddingLg,
                   ),
@@ -204,7 +205,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                                 onPressed: () => context.read<SudokuCubit>().togglePause(),
                                 icon: Icon(
                                   isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
-                                  size: 20,
+                                  size: AppSizes.iconSm,
                                 ),
                                 visualDensity: VisualDensity.compact,
                               ),
@@ -239,7 +240,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
                               if (isPaused)
                                 Positioned.fill(
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
                                     child: BackdropFilter(
                                       filter: ui.ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                                       child: Container(

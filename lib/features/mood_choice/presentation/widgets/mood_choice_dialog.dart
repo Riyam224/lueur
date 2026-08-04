@@ -195,7 +195,7 @@ class _MoodChoiceCardState extends State<_MoodChoiceCard> {
           width: double.infinity,
           padding: EdgeInsets.all(AppSpacing.spaceLg),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
             border: Border.all(
               color: context.extra.borderColor ?? AppColors.cardBorder,
             ),

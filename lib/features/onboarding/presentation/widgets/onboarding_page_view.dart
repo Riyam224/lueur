@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:lueur/features/onboarding/presentation/models/onboarding_page_data.dart';
 
@@ -153,7 +154,7 @@ class _OnboardingCard extends StatelessWidget {
                         style: GoogleFonts.nunito(
                           fontSize: OnboardingConstants.pageTitleFontSize,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.onboardingHeadline,
+                          color: context.extra.primaryTextColor,
                           height: 1.25,
                         ),
                       ),
@@ -165,7 +166,7 @@ class _OnboardingCard extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: OnboardingConstants.pageSubtitleFontSize,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.onboardingSubtitle,
+                          color: context.extra.secondaryTextColor,
                           height: 1.6,
                         ),
                       ),
@@ -192,14 +193,14 @@ class _ThemeBadge extends StatelessWidget {
     return Container(
       width: OnboardingConstants.badgeSize,
       height: OnboardingConstants.badgeSize,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.whiteTextColor,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadowColor,
+            color: context.extra.shadowColor!,
             blurRadius: 8,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),

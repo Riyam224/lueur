@@ -77,7 +77,7 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.onBoarding,
     observers: [
       SentryNavigatorObserver(),
       FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),

@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
@@ -321,7 +322,7 @@ class _JournalGridView extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Text('📖', style: TextStyle(fontSize: 40)),
+                              Text('📖', style: TextStyle(fontSize: 40.sp)),
                               SizedBox(height: AppSpacing.spaceMd),
                               Text(
                                 AppLocalizations.of(context)!

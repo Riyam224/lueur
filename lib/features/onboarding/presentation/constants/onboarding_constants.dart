@@ -45,27 +45,29 @@ class OnboardingConstants {
 
   static List<OnboardingPageData> pages(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return [
       OnboardingPageData(
         title: l10n.onboardingTitle1,
         subtitle: l10n.onboardingSubtitle1,
         badgeIcon: Icons.self_improvement_rounded,
-        cardColor: AppColors.pastelBlush,
-        circleColor: AppColors.pastelCoral,
+        cardColor: isDark ? AppColors.darkSurface : AppColors.pastelBlush,
+        circleColor: isDark ? AppColors.darkSunsetPeach : AppColors.pastelCoral,
       ),
       OnboardingPageData(
         title: l10n.onboardingTitle2,
         subtitle: l10n.onboardingSubtitle2,
         badgeIcon: Icons.chat_bubble_rounded,
-        cardColor: AppColors.pastelPeriwinkle,
-        circleColor: AppColors.pastelPurple,
+        cardColor: isDark ? AppColors.darkSurface : AppColors.pastelPeriwinkle,
+        circleColor: isDark ? AppColors.primaryDark : AppColors.pastelPurple,
       ),
       OnboardingPageData(
         title: l10n.onboardingTitle3,
         subtitle: l10n.onboardingSubtitle3,
         badgeIcon: Icons.eco_rounded,
-        cardColor: AppColors.pastelLavenderWhite,
-        circleColor: AppColors.pastelOrchid,
+        cardColor: isDark ? AppColors.darkSurface : AppColors.pastelLavenderWhite,
+        circleColor: isDark ? AppColors.darkMintTeal : AppColors.pastelOrchid,
       ),
     ];
   }

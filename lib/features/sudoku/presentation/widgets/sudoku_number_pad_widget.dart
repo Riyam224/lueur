@@ -62,7 +62,7 @@ class SudokuNumberPadWidget extends StatelessWidget {
             Expanded(
               child: _ModeToggle(mode: mode, onChanged: onModeChanged),
             ),
-            SizedBox(width: 12.w),
+            SizedBox(width: AppSpacing.spaceMd),
             BouncyTap(
               onTap: canUndo ? onUndo : null,
               child: Container(
@@ -89,7 +89,19 @@ class SudokuNumberPadWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            for (var n = 1; n <= SudokuBoardEntity.size; n++)
+            for (var n = 1; n <= 5; n++)
+              _NumberButton(
+                number: n,
+                remaining: remaining[n - 1],
+                onTap: () => onNumberTap(n),
+              ),
+          ],
+        ),
+        SizedBox(height: AppSpacing.verticalPaddingSm),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            for (var n = 6; n <= SudokuBoardEntity.size; n++)
               _NumberButton(
                 number: n,
                 remaining: remaining[n - 1],
@@ -97,20 +109,33 @@ class SudokuNumberPadWidget extends StatelessWidget {
               ),
             BouncyTap(
               onTap: onClearTap,
-              child: Container(
-                width: 36.w,
-                height: 36.w,
-                decoration: BoxDecoration(
-                  color: extra.cardBackgroundColor,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: extra.borderColor!),
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.close_rounded,
-                  size: 18.sp,
-                  color: extra.secondaryTextColor,
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 36.w,
+                    height: 36.w,
+                    decoration: BoxDecoration(
+                      color: extra.cardBackgroundColor,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: extra.borderColor!),
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.close_rounded,
+                      size: 18.sp,
+                      color: extra.secondaryTextColor,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Opacity(
+                    opacity: 0,
+                    child: Text(
+                      '0',
+                      style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

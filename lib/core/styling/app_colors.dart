@@ -191,10 +191,6 @@ class AppColors {
       Color(0xFF4E38A8); // CTA, active dot, skip text — lavender-lilac
   static const Color onboardingDotInactive =
       Color(0xFFD8D3E8); // inactive indicator dot
-  static const Color onboardingHeadline =
-      Color(0xFF2E2A47); // page headline text
-  static const Color onboardingSubtitle =
-      Color(0xFF6B6480); // page subtitle text
   static const Color onboardingLunaDetail =
       Color(0xFFCFC9E8); // Luna eyes + smile (screen 1)
   static const Color onboardingChatDetail =

@@ -38,7 +38,7 @@ class SudokuGridWidget extends StatelessWidget {
       aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: extra.primaryColor!, width: 2.5),
+          border: Border.all(color: extra.primaryColor!, width: 2.5.w),
           borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
         ),
         clipBehavior: Clip.antiAlias,
