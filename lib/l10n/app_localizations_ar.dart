@@ -12,6 +12,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appName => 'Lueur';
 
   @override
+  String get themeModeLight => 'فاتح';
+
+  @override
+  String get themeModeDark => 'داكن';
+
+  @override
+  String get themeModeSystem => 'النظام';
+
+  @override
   String get responseScreenTitle => 'رد لونا';
 
   @override
@@ -73,7 +82,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingTitle2 => 'تعرّف على لونا،\nرفيقتك';
 
   @override
-  String get onboardingSubtitle2 => 'هي هنا لتستمع إليك\nكلما احتجت أن تتحدث';
+  String get onboardingSubtitle2 =>
+      'رفيقة ودودة للكتابة والتأمل،\nوليست بديلاً عن الإرشاد المتخصص';
 
   @override
   String get onboardingTitle3 => 'خطوات صغيرة،\nنمو حقيقي';
@@ -221,7 +231,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get moodLabelAngry => 'غاضب';
 
   @override
-  String get moodLabelAnxious => 'قلق';
+  String get moodLabelAnxious => 'غير مرتاح';
 
   @override
   String get moodLabelCalm => 'هادئ';
@@ -245,7 +255,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get moodLabelScared => 'خائف';
 
   @override
-  String get moodLabelBurnout => 'منهك';
+  String get moodLabelBurnout => 'مستنزف';
 
   @override
   String get moodLabelContentPeaceful => 'مرتاح وهادئ';
@@ -574,7 +584,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get responseCopiedToClipboardSnack => 'تم النسخ 🌿';
 
   @override
-  String get lunaSubtitle => 'رفيقتك · دائماً هنا من أجلك';
+  String get lunaSubtitle => 'رفيقتك في الكتابة والتأمل';
 
   @override
   String get afterFeelingPromptLabel => 'كيف تشعر بعد ذلك؟';
@@ -583,7 +593,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get afterFeelingCalmLabel => 'هادئ';
 
   @override
-  String get afterFeelingCalmMessage => 'الشعور بالهدوء تحوّل جميل. أحسنت';
+  String get afterFeelingCalmMessage => 'شكراً لأنك منحت نفسك لحظة للتأمل';
 
   @override
   String get afterFeelingLovedLabel => 'محبوب';
@@ -595,15 +605,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get afterFeelingBetterLabel => 'أفضل';
 
   @override
-  String get afterFeelingBetterMessage =>
-      'كل خطوة صغيرة إلى الأمام تُحسب. أنت تتقدم';
+  String get afterFeelingBetterMessage => 'شكراً لأنك أخذت لحظة للتأمل';
 
   @override
   String get afterFeelingStillSadLabel => 'لا زلت حزيناً';
 
   @override
   String get afterFeelingStillSadMessage =>
-      'لا بأس أن تشعر بهذا حتى الآن. لونا هنا دائماً كلما احتجت للحديث مرة أخرى';
+      'لا بأس أن يبقى هذا الشعور. خذ وقتك وتحدث مع شخص تثق به إذا رغبت في المساندة';
+
+  @override
+  String afterFeelingYouAreFeeling(String label) {
+    return 'أنت تشعر بـ $label';
+  }
 
   @override
   String get afterFeelingTakeYourTime => 'خذ وقتك';

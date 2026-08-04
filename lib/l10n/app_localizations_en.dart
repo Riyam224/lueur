@@ -12,6 +12,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appName => 'Lueur';
 
   @override
+  String get themeModeLight => 'Light';
+
+  @override
+  String get themeModeDark => 'Dark';
+
+  @override
+  String get themeModeSystem => 'System';
+
+  @override
   String get responseScreenTitle => 'Luna\'s Response';
 
   @override
@@ -75,7 +84,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingSubtitle2 =>
-      'She\'s here to listen whenever\nyou need to talk it out.';
+      'A friendly journaling companion for\nreflection, not professional guidance.';
 
   @override
   String get onboardingTitle3 => 'Small steps,\nreal growth';
@@ -223,7 +232,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moodLabelAngry => 'Angry';
 
   @override
-  String get moodLabelAnxious => 'Anxious';
+  String get moodLabelAnxious => 'Uneasy';
 
   @override
   String get moodLabelCalm => 'Calm';
@@ -247,7 +256,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moodLabelScared => 'Scared';
 
   @override
-  String get moodLabelBurnout => 'Burnt out';
+  String get moodLabelBurnout => 'Drained';
 
   @override
   String get moodLabelContentPeaceful => 'Content & Peaceful';
@@ -585,7 +594,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get responseCopiedToClipboardSnack => 'Copied to clipboard 🌿';
 
   @override
-  String get lunaSubtitle => 'Your companion · Always here for you';
+  String get lunaSubtitle => 'Your journaling companion';
 
   @override
   String get afterFeelingPromptLabel => 'How are you feeling after this?';
@@ -594,8 +603,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get afterFeelingCalmLabel => 'Calm';
 
   @override
-  String get afterFeelingCalmMessage =>
-      'Feeling calm is a beautiful shift. You did great.';
+  String get afterFeelingCalmMessage => 'Thanks for checking in with yourself.';
 
   @override
   String get afterFeelingLovedLabel => 'Loved';
@@ -609,14 +617,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get afterFeelingBetterMessage =>
-      'Every small step forward counts. You are making progress.';
+      'Thanks for taking a moment to reflect.';
 
   @override
   String get afterFeelingStillSadLabel => 'Still sad';
 
   @override
   String get afterFeelingStillSadMessage =>
-      'It\'s okay to still feel this way. Luna is always here whenever you need to talk again.';
+      'It\'s okay to still feel this way. Take your time, and reach out to someone you trust if you want support.';
+
+  @override
+  String afterFeelingYouAreFeeling(String label) {
+    return 'You are feeling $label';
+  }
 
   @override
   String get afterFeelingTakeYourTime => 'Take your time';

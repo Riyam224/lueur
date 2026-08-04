@@ -104,6 +104,24 @@ abstract class AppLocalizations {
   /// **'Lueur'**
   String get appName;
 
+  /// No description provided for @themeModeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeModeLight;
+
+  /// No description provided for @themeModeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeModeDark;
+
+  /// No description provided for @themeModeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeModeSystem;
+
   /// No description provided for @responseScreenTitle.
   ///
   /// In en, this message translates to:
@@ -197,7 +215,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingSubtitle2.
   ///
   /// In en, this message translates to:
-  /// **'She\'s here to listen whenever\nyou need to talk it out.'**
+  /// **'A friendly journaling companion for\nreflection, not professional guidance.'**
   String get onboardingSubtitle2;
 
   /// No description provided for @onboardingTitle3.
@@ -485,7 +503,7 @@ abstract class AppLocalizations {
   /// No description provided for @moodLabelAnxious.
   ///
   /// In en, this message translates to:
-  /// **'Anxious'**
+  /// **'Uneasy'**
   String get moodLabelAnxious;
 
   /// No description provided for @moodLabelCalm.
@@ -533,7 +551,7 @@ abstract class AppLocalizations {
   /// No description provided for @moodLabelBurnout.
   ///
   /// In en, this message translates to:
-  /// **'Burnt out'**
+  /// **'Drained'**
   String get moodLabelBurnout;
 
   /// No description provided for @moodLabelContentPeaceful.
@@ -1163,7 +1181,7 @@ abstract class AppLocalizations {
   /// No description provided for @lunaSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Your companion · Always here for you'**
+  /// **'Your journaling companion'**
   String get lunaSubtitle;
 
   /// No description provided for @afterFeelingPromptLabel.
@@ -1181,7 +1199,7 @@ abstract class AppLocalizations {
   /// No description provided for @afterFeelingCalmMessage.
   ///
   /// In en, this message translates to:
-  /// **'Feeling calm is a beautiful shift. You did great.'**
+  /// **'Thanks for checking in with yourself.'**
   String get afterFeelingCalmMessage;
 
   /// No description provided for @afterFeelingLovedLabel.
@@ -1205,7 +1223,7 @@ abstract class AppLocalizations {
   /// No description provided for @afterFeelingBetterMessage.
   ///
   /// In en, this message translates to:
-  /// **'Every small step forward counts. You are making progress.'**
+  /// **'Thanks for taking a moment to reflect.'**
   String get afterFeelingBetterMessage;
 
   /// No description provided for @afterFeelingStillSadLabel.
@@ -1217,8 +1235,14 @@ abstract class AppLocalizations {
   /// No description provided for @afterFeelingStillSadMessage.
   ///
   /// In en, this message translates to:
-  /// **'It\'s okay to still feel this way. Luna is always here whenever you need to talk again.'**
+  /// **'It\'s okay to still feel this way. Take your time, and reach out to someone you trust if you want support.'**
   String get afterFeelingStillSadMessage;
+
+  /// No description provided for @afterFeelingYouAreFeeling.
+  ///
+  /// In en, this message translates to:
+  /// **'You are feeling {label}'**
+  String afterFeelingYouAreFeeling(String label);
 
   /// No description provided for @afterFeelingTakeYourTime.
   ///
