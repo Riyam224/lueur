@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lueur/core/app.dart';
-import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/monitoring/sentry_privacy_filter.dart';
 import 'package:lueur/features/draw/data/datasources/saved_drawings_local_datasource.dart';
@@ -39,7 +38,6 @@ Future<void> main() async {
     Hive.openBox<String>(SavedQuotesLocalDatasource.boxName),
     Hive.openBox<String>(SudokuResultsLocalDatasource.boxName),
     Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName),
-    Hive.openBox<bool>(ThemeCubit.boxName),
   ]);
   // Guest entries are session-only. Clear only the anonymous key; cached
   // histories belonging to registered Firebase UIDs remain untouched.

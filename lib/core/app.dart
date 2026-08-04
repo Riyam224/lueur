@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/router_generation_config.dart';
 import 'package:lueur/core/styling/app_theme.dart';
 import 'package:lueur/features/language/presentation/cubit/language_cubit.dart';
+import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
+import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 class Lueur extends StatelessWidget {
@@ -24,8 +25,8 @@ class Lueur extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return BlocBuilder<ThemeCubit, ThemeMode>(
-            builder: (context, themeMode) {
+          return BlocBuilder<ThemeCubit, ThemeModeOption>(
+            builder: (context, themeModeOption) {
               return BlocBuilder<LanguageCubit, Locale>(
                 builder: (context, locale) {
                   return MaterialApp.router(
@@ -34,7 +35,7 @@ class Lueur extends StatelessWidget {
                         AppLocalizations.of(context)!.appName,
                     theme: AppTheme.light,
                     darkTheme: AppTheme.dark,
-                    themeMode: themeMode,
+                    themeMode: themeModeOption.toThemeMode(),
                     locale: locale,
                     localizationsDelegates: const [
                       AppLocalizations.delegate,

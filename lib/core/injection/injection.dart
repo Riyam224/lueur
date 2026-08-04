@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/networking/auth_token_interceptor.dart';
 import 'package:lueur/core/networking/dio_helper.dart';
 import 'package:lueur/features/auth/data/datasources/auth_django_datasource.dart';
@@ -69,16 +68,36 @@ import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase
 import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
+import 'package:lueur/features/theme/data/datasources/theme_local_datasource.dart';
+import 'package:lueur/features/theme/data/repositories/theme_repository_impl.dart';
+import 'package:lueur/features/theme/domain/repositories/theme_repository.dart';
+import 'package:lueur/features/theme/domain/usecases/get_theme_mode_usecase.dart';
+import 'package:lueur/features/theme/domain/usecases/set_theme_mode_usecase.dart';
+import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
 void setupInjection({required SharedPreferences sharedPreferences}) {
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+
   // ── Theme ──────────────────────────────────────────────────────────────────
-  sl.registerLazySingleton(ThemeCubit.new);
+  sl.registerLazySingleton(
+    () => ThemeLocalDatasource(sl<SharedPreferences>()),
+  );
+  sl.registerLazySingleton<ThemeRepository>(
+    () => ThemeRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => GetThemeModeUseCase(sl()));
+  sl.registerLazySingleton(() => SetThemeModeUseCase(sl()));
+  sl.registerLazySingleton(
+    () => ThemeCubit(
+      getThemeModeUseCase: sl(),
+      setThemeModeUseCase: sl(),
+    ),
+  );
 
   // ── Language ───────────────────────────────────────────────────────────────
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
   sl.registerLazySingleton(
     () => LanguageLocalDatasource(sl<SharedPreferences>()),
   );

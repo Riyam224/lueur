@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
-import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/initials_avatar.dart';
+import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
+import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Header with user avatar, app title, and theme toggle button
@@ -44,12 +45,19 @@ class HomeHeader extends StatelessWidget {
         ),
 
         // Theme Toggle Button
-        BlocBuilder<ThemeCubit, ThemeMode>(
-          builder: (context, themeMode) {
-            final isDark = themeMode == ThemeMode.dark;
+        BlocBuilder<ThemeCubit, ThemeModeOption>(
+          builder: (context, themeModeOption) {
+            final platformBrightness = MediaQuery.platformBrightnessOf(
+              context,
+            );
+            final isDark = themeModeOption == ThemeModeOption.dark ||
+                (themeModeOption == ThemeModeOption.system &&
+                    platformBrightness == Brightness.dark);
             return IconButton(
               onPressed: () {
-                context.read<ThemeCubit>().toggleTheme();
+                context.read<ThemeCubit>().setThemeMode(
+                      isDark ? ThemeModeOption.light : ThemeModeOption.dark,
+                    );
               },
               icon: Icon(
                 isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/cubits/theme_cubit.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/language/presentation/widgets/language_toggle_widget.dart';
+import 'package:lueur/features/theme/presentation/widgets/theme_selector_widget.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// SETTINGS section with all setting rows
@@ -16,7 +15,6 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.watch<ThemeCubit>().isDark;
     final l10n = AppLocalizations.of(context)!;
 
     return Column(
@@ -39,19 +37,7 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
           iconColor: context.extra.settingsModeIconColor!,
           iconBgColor: context.extra.settingsModeIconBg!,
           label: l10n.profileSettingsAppearance,
-          trailing: Switch(
-            value: isDark,
-            onChanged: (_) => context.read<ThemeCubit>().toggleTheme(),
-            activeThumbColor: AppColors.primary,
-            activeTrackColor: AppColors.primary.withValues(alpha: 0.4),
-            // Material 3's Switch track exactly fills switchWidth (52=52) —
-            // the default `padding` (4px each side) is what pushes the
-            // painted track away from the label, unlike the tightly-padded
-            // LanguageToggleWidget beside it. Zeroing it removes that gap
-            // under both LTR and RTL.
-            padding: EdgeInsets.zero,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
+          trailing: const ThemeSelectorWidget(),
         ),
 
         // Language (English / Arabic toggle)
