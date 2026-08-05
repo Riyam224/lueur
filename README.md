@@ -18,37 +18,37 @@ The app supports English and Arabic (with full RTL layout), light/dark theming, 
 
 <table>
   <tr>
-    <td><img src="screenshots/splash_light.png" width="200" alt="Splash screen"/></td>
-    <td><img src="screenshots/onboarding_2_light.png" width="200" alt="Onboarding"/></td>
-    <td><img src="screenshots/login_light.png" width="200" alt="Login"/></td>
-    <td><img src="screenshots/register_light.png" width="200" alt="Register"/></td>
+    <td><img src="screenshots/splash_dark.png" width="200" alt="Splash screen"/></td>
+    <td><img src="screenshots/onboarding_2_dark.png" width="200" alt="Onboarding"/></td>
+    <td><img src="screenshots/login_dark.png" width="200" alt="Login"/></td>
+    <td><img src="screenshots/register_dark.png" width="200" alt="Register"/></td>
   </tr>
   <tr>
-    <td><img src="screenshots/home_light.png" width="200" alt="Home / mood capture"/></td>
-    <td><img src="screenshots/choose_mood_light.png" width="200" alt="Choosing a mood"/></td>
-    <td><img src="screenshots/luna_responses_light.png" width="200" alt="Luna's AI response"/></td>
-    <td><img src="screenshots/journal_light.png" width="200" alt="Mood journal"/></td>
+    <td><img src="screenshots/home_dark.png" width="200" alt="Home / mood capture"/></td>
+    <td><img src="screenshots/home_screen_dark.png" width="200" alt="Choosing a mood"/></td>
+    <td><img src="screenshots/talk_to_luna_screen_dark.png" width="200" alt="Luna's AI response"/></td>
+    <td><img src="screenshots/journal_dark.png" width="200" alt="Mood journal"/></td>
   </tr>
 </table>
 
-### Dark Mode & Activities
+### Activities & Settings
 
 <table>
   <tr>
-    <td><img src="screenshots/home_dark.png" width="200" alt="Home dark mode"/></td>
     <td><img src="screenshots/chat_with_ai_luna_more_dark.png" width="200" alt="Chat with Luna"/></td>
     <td><img src="screenshots/breathing_out_dark.png" width="200" alt="Breathing exercise"/></td>
     <td><img src="screenshots/free_drawing_screen_dark.png" width="200" alt="Free drawing"/></td>
+    <td><img src="screenshots/sudoku_screen_dark.png" width="200" alt="Sudoku"/></td>
   </tr>
   <tr>
-    <td><img src="screenshots/sudoku_screen_dark.png" width="200" alt="Sudoku"/></td>
     <td><img src="screenshots/profile_with_saved_drawing_dark.png" width="200" alt="Profile"/></td>
-    <td><img src="screenshots/journal_dark.png" width="200" alt="Journal dark mode"/></td>
-    <td><img src="screenshots/profile_with_theming_langs_light.png" width="200" alt="Theme & language settings"/></td>
+    <td><img src="screenshots/profile_with_theming_langs_dark.png" width="200" alt="Theme & language settings"/></td>
+    <td><img src="screenshots/reset_password_dark.png" width="200" alt="Forgot password"/></td>
+    <td><img src="screenshots/continue_chatting_dark.png" width="200" alt="Continue chatting with Luna"/></td>
   </tr>
 </table>
 
-More screenshots covering every screen (both themes) live in [`screenshots/`](screenshots/).
+More screenshots live in [`screenshots/`](screenshots/).
 
 ---
 
