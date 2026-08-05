@@ -14,37 +14,63 @@ The app supports English and Arabic (with full RTL layout), light/dark theming, 
 
 ## Screenshots
 
-### Onboarding, Auth & Home
+The flow below follows the app in order — onboarding → sign in → capture a mood → get Luna's response → journal it → unwind with an activity — shown in both light and dark theme.
 
 <table>
   <tr>
-    <td><img src="screenshots/splash_dark.png" width="200" alt="Splash screen"/></td>
-    <td><img src="screenshots/onboarding_2_dark.png" width="200" alt="Onboarding"/></td>
-    <td><img src="screenshots/login_dark.png" width="200" alt="Login"/></td>
-    <td><img src="screenshots/register_dark.png" width="200" alt="Register"/></td>
+    <th>Screen</th>
+    <th>Light</th>
+    <th>Dark</th>
   </tr>
   <tr>
-    <td><img src="screenshots/home_dark.png" width="200" alt="Home / mood capture"/></td>
-    <td><img src="screenshots/home_screen_dark.png" width="200" alt="Choosing a mood"/></td>
-    <td><img src="screenshots/talk_to_luna_screen_dark.png" width="200" alt="Luna's AI response"/></td>
-    <td><img src="screenshots/journal_dark.png" width="200" alt="Mood journal"/></td>
-  </tr>
-</table>
-
-### Activities & Settings
-
-<table>
-  <tr>
-    <td><img src="screenshots/chat_with_ai_luna_more_dark.png" width="200" alt="Chat with Luna"/></td>
-    <td><img src="screenshots/breathing_out_dark.png" width="200" alt="Breathing exercise"/></td>
-    <td><img src="screenshots/free_drawing_screen_dark.png" width="200" alt="Free drawing"/></td>
-    <td><img src="screenshots/sudoku_screen_dark.png" width="200" alt="Sudoku"/></td>
+    <td>Splash</td>
+    <td><img src="screenshots/splash_light.png" width="180" alt="Splash screen, light theme"/></td>
+    <td><img src="screenshots/splash_dark.png" width="180" alt="Splash screen, dark theme"/></td>
   </tr>
   <tr>
-    <td><img src="screenshots/profile_with_saved_drawing_dark.png" width="200" alt="Profile"/></td>
-    <td><img src="screenshots/profile_with_theming_langs_dark.png" width="200" alt="Theme & language settings"/></td>
-    <td><img src="screenshots/reset_password_dark.png" width="200" alt="Forgot password"/></td>
-    <td><img src="screenshots/continue_chatting_dark.png" width="200" alt="Continue chatting with Luna"/></td>
+    <td>Onboarding</td>
+    <td><img src="screenshots/onboarding_2_light.png" width="180" alt="Onboarding walkthrough, light theme"/></td>
+    <td><img src="screenshots/onboarding_2_dark.png" width="180" alt="Onboarding walkthrough, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Login</td>
+    <td><img src="screenshots/login_light.png" width="180" alt="Login screen, light theme"/></td>
+    <td><img src="screenshots/login_dark.png" width="180" alt="Login screen, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Choose a mood</td>
+    <td><img src="screenshots/choose_mood_light.png" width="180" alt="Choosing a mood, light theme"/></td>
+    <td><img src="screenshots/home_screen_dark.png" width="180" alt="Choosing a mood, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Luna's AI response</td>
+    <td><img src="screenshots/talk_to_luna_light.png" width="180" alt="Luna's AI response, light theme"/></td>
+    <td><img src="screenshots/talk_to_luna_screen_dark.png" width="180" alt="Luna's AI response, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Mood journal</td>
+    <td><img src="screenshots/journal_light.png" width="180" alt="Mood journal, light theme"/></td>
+    <td><img src="screenshots/journal_dark.png" width="180" alt="Mood journal, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Breathing exercise</td>
+    <td><img src="screenshots/breathing_out_light.png" width="180" alt="Breathing exercise, light theme"/></td>
+    <td><img src="screenshots/breathing_out_dark.png" width="180" alt="Breathing exercise, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Free drawing</td>
+    <td><img src="screenshots/freedrawing_light.png" width="180" alt="Free drawing canvas, light theme"/></td>
+    <td><img src="screenshots/free_drawing_screen_dark.png" width="180" alt="Free drawing canvas, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Sudoku</td>
+    <td><img src="screenshots/sudoku_screen_light.png" width="180" alt="Sudoku puzzle, light theme"/></td>
+    <td><img src="screenshots/sudoku_screen_dark.png" width="180" alt="Sudoku puzzle, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Profile & settings</td>
+    <td><img src="screenshots/profile_with_theming_langs_light.png" width="180" alt="Theme & language settings, light theme"/></td>
+    <td><img src="screenshots/profile_with_theming_langs_dark.png" width="180" alt="Theme & language settings, dark theme"/></td>
   </tr>
 </table>
 
