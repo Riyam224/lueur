@@ -930,6 +930,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get streakGrowthStagePlantLabel => 'تنمو 🪴';
 
   @override
+  String get streakGrowthStageBlossomLabel => 'تزهر 🌺';
+
+  @override
   String get streakGrowthStageBloomingLabel => 'تتفتح 🌸';
 
   @override

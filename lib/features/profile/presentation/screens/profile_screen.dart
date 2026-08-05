@@ -37,7 +37,6 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        // ── Header ──────────────────────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,
@@ -53,7 +52,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── Avatar + Name ────────────────────────────────
         SliverPadding(
           padding: EdgeInsets.symmetric(
             horizontal: AppSpacing.horizontalPaddingLg,
@@ -69,7 +67,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── Saved Quotes ─────────────────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,
@@ -211,7 +208,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── My Drawings ──────────────────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,
@@ -224,7 +220,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── Sudoku History ────────────────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,
@@ -237,7 +232,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── Settings section ─────────────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,
@@ -250,7 +244,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── Journal Data (destructive) ────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,
@@ -263,7 +256,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // ── Logout button ─────────────────────────────────
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
             AppSpacing.horizontalPaddingLg,

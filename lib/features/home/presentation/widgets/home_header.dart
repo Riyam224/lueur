@@ -8,7 +8,6 @@ import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
 import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Header with user avatar, app title, and theme toggle button
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     required this.userName,
@@ -28,14 +27,12 @@ class HomeHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // User Avatar
         InitialsAvatar(
           diameter: AppSizes.avatarSm,
           name: userName,
           seed: userSeed,
         ),
 
-        // App Title
         Flexible(
           child: Text(
             AppLocalizations.of(context)!.appName,
@@ -44,7 +41,6 @@ class HomeHeader extends StatelessWidget {
           ),
         ),
 
-        // Theme Toggle Button
         BlocBuilder<ThemeCubit, ThemeModeOption>(
           builder: (context, themeModeOption) {
             final platformBrightness = MediaQuery.platformBrightnessOf(

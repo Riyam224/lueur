@@ -9,7 +9,6 @@ import 'package:lueur/features/language/presentation/widgets/language_toggle_wid
 import 'package:lueur/features/theme/presentation/widgets/theme_selector_widget.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// SETTINGS section with all setting rows
 class ProfileSettingsSectionWidget extends StatelessWidget {
   const ProfileSettingsSectionWidget({super.key});
 
@@ -20,7 +19,6 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section label
         Text(
           l10n.profileSettingsSectionLabel,
           style: ThemeTextStyles.labelSmall(context).copyWith(
@@ -31,7 +29,6 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
         ),
         SizedBox(height: AppSpacing.verticalPaddingSm),
 
-        // Appearance (dark mode toggle)
         _SettingsItem(
           icon: Icons.dark_mode_rounded,
           iconColor: context.extra.settingsModeIconColor!,
@@ -40,7 +37,6 @@ class ProfileSettingsSectionWidget extends StatelessWidget {
           trailing: const ThemeSelectorWidget(),
         ),
 
-        // Language (English / Arabic toggle)
         _SettingsItem(
           icon: Icons.language_rounded,
           iconColor: context.extra.settingsModeIconColor!,
@@ -76,7 +72,6 @@ class _SettingsItem extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 13.h),
         child: Row(
           children: [
-            // Icon in colored soft circle
             Container(
               width: 40.w,
               height: 40.h,
@@ -88,7 +83,6 @@ class _SettingsItem extends StatelessWidget {
             ),
             SizedBox(width: 14.w),
 
-            // Label
             Expanded(
               child: Text(label, style: ThemeTextStyles.bodyLarge(context)),
             ),

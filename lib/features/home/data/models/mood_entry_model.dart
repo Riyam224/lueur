@@ -54,14 +54,17 @@ class MoodEntryModel {
         pinned: pinned ?? this.pinned,
       );
 
-  MoodEntryEntity toEntity() => MoodEntryEntity(
-        id: id,
-        userId: userId,
-        emoji: emoji,
-        thoughts: thoughts,
-        aiResponse: aiResponse,
-        createdAt: createdAt,
-        cardColor: cardColor,
-        pinned: pinned,
-      );
+  MoodEntryEntity toEntity() {
+    final cleanResponse = aiResponse.replaceAll('[SESSION_END]', '').trim();
+    return MoodEntryEntity(
+      id: id,
+      userId: userId,
+      emoji: emoji,
+      thoughts: thoughts,
+      aiResponse: cleanResponse,
+      createdAt: createdAt,
+      cardColor: cardColor,
+      pinned: pinned,
+    );
+  }
 }

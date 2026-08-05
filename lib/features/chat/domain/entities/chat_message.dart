@@ -1,5 +1,3 @@
-// lib/features/chat/domain/entities/chat_message.dart
-
 class ChatMessage {
   final String role;
   final String content;

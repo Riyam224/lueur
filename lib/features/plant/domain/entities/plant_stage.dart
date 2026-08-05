@@ -14,9 +14,9 @@ enum PlantStage {
       case PlantStage.seedling:
         return 'assets/lottie/plant_sprout.json';
       case PlantStage.youngPlant:
-        return 'assets/lottie/plant.json';
+        return 'assets/lottie/blossom.json';
       case PlantStage.blooming:
-        return 'assets/lottie/plant.json';
+        return 'assets/lottie/blooming.json';
     }
   }
 

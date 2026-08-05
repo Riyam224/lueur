@@ -1826,6 +1826,12 @@ abstract class AppLocalizations {
   /// **'Growing 🪴'**
   String get streakGrowthStagePlantLabel;
 
+  /// No description provided for @streakGrowthStageBlossomLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Blossom 🌺'**
+  String get streakGrowthStageBlossomLabel;
+
   /// No description provided for @streakGrowthStageBloomingLabel.
   ///
   /// In en, this message translates to:

@@ -15,7 +15,6 @@ import 'package:lueur/features/home/presentation/widgets/mood_input_section.dart
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Home screen — main entry point of the app
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -71,7 +70,6 @@ class _HomeScreenBody extends StatelessWidget {
 
         return CustomScrollView(
           slivers: [
-            // Header
             SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.horizontalPaddingLg,
@@ -87,7 +85,6 @@ class _HomeScreenBody extends StatelessWidget {
               ),
             ),
 
-            // Greeting card
             SliverPadding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.horizontalPaddingLg,
@@ -100,7 +97,6 @@ class _HomeScreenBody extends StatelessWidget {
               ),
             ),
 
-            // Mood Input Section
             SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.horizontalPaddingLg,
@@ -111,7 +107,6 @@ class _HomeScreenBody extends StatelessWidget {
               sliver: const SliverToBoxAdapter(child: MoodInputSection()),
             ),
 
-            // Loading indicator
             if (state is MoodLoading)
               SliverToBoxAdapter(
                 child: Padding(
@@ -129,7 +124,6 @@ class _HomeScreenBody extends StatelessWidget {
                 ),
               ),
 
-            // Error message
             if (state is MoodError)
               SliverToBoxAdapter(
                 child: Padding(

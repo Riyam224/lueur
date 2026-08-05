@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/features/home/data/datasources/mood_remote_datasource.dart';
 import 'package:lueur/features/home/data/models/weekly_letter_model.dart';
 
-// ── States ─────────────────────────────────────────────────────────────────
-
 abstract class WeeklyLetterState extends Equatable {
   const WeeklyLetterState();
 
@@ -31,8 +29,6 @@ class WeeklyLetterLoaded extends WeeklyLetterState {
 class WeeklyLetterError extends WeeklyLetterState {
   const WeeklyLetterError();
 }
-
-// ── Cubit ──────────────────────────────────────────────────────────────────
 
 class WeeklyLetterCubit extends Cubit<WeeklyLetterState> {
   final MoodRemoteDatasource _remote;

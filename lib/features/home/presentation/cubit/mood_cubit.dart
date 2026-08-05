@@ -1,5 +1,3 @@
-//
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
@@ -27,7 +25,6 @@ class MoodCubit extends Cubit<MoodState> {
     emit(const MoodInitial());
   }
 
-  // Generate AI response and prepend to cached history
   Future<void> generateResponse({
     required String emoji,
     required String thoughts,
@@ -81,21 +78,18 @@ class MoodCubit extends Cubit<MoodState> {
     );
   }
 
-  // Delete a single entry from cache and update state
   Future<void> deleteEntry(int id) async {
     _cachedEntries = _cachedEntries.where((e) => e.id != id).toList();
     emit(MoodHistorySuccess(_cachedEntries));
     await _repository.deleteEntry(id);
   }
 
-  // Delete all entries from cache and update state
   Future<void> deleteAllEntries() async {
     _cachedEntries = [];
     emit(const MoodHistorySuccess([]));
     await _repository.deleteAllEntries();
   }
 
-  // Get history
   Future<void> getHistory() async {
     final sessionVersion = _sessionVersion;
     emit(const MoodLoading());

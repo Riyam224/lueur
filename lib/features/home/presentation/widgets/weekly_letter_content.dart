@@ -45,7 +45,6 @@ class _WeeklyLetterContentState extends State<WeeklyLetterContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Top row: title + dismiss ──────────────────────────
           Row(
             children: [
               Text(
@@ -88,7 +87,6 @@ class _WeeklyLetterContentState extends State<WeeklyLetterContent> {
 
           SizedBox(height: AppSpacing.spaceSm),
 
-          // ── Stats row ─────────────────────────────────────────
           Row(
             children: [
               Flexible(
@@ -114,7 +112,6 @@ class _WeeklyLetterContentState extends State<WeeklyLetterContent> {
             ],
           ),
 
-          // ── Letter body (expandable) ───────────────────────────
           if (hasLetter) ...[
             SizedBox(height: AppSpacing.spaceSm),
             AnimatedSize(

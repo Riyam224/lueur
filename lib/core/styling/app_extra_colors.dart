@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 
-/// Custom theme extension for additional app colors
-/// Provides theme-aware colors that change between light and dark modes
 class AppExtraColors extends ThemeExtension<AppExtraColors> {
-  // Primary colors
   final Color? primaryColor;
   final Color? primaryLightColor;
   final Color? primaryDarkColor;
 
-  // Background colors
   final Color? cardBackgroundColor;
   final Color? surfaceColor;
 
-  // Text colors
   final Color? primaryTextColor;
   final Color? secondaryTextColor;
   final Color? tertiaryTextColor;
   final Color? onPrimaryTextColor;
 
-  // Mood colors
   final Color? moodHappy;
   final Color? moodSad;
   final Color? moodCalm;
@@ -26,14 +20,11 @@ class AppExtraColors extends ThemeExtension<AppExtraColors> {
   final Color? moodAnxious;
   final Color? moodNeutral;
 
-  // Border colors
   final Color? borderColor;
   final Color? dividerColor;
 
-  // Shadow color
   final Color? shadowColor;
 
-  // Settings icon colors (profile settings section)
   final Color? settingsModeIconColor;
   final Color? settingsModeIconBg;
   final Color? settingsAboutIconColor;

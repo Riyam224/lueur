@@ -945,6 +945,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get streakGrowthStagePlantLabel => 'Growing 🪴';
 
   @override
+  String get streakGrowthStageBlossomLabel => 'Blossom 🌺';
+
+  @override
   String get streakGrowthStageBloomingLabel => 'Blooming 🌸';
 
   @override

@@ -5,6 +5,7 @@ enum StreakGrowthStage {
   seed,
   sprout,
   plant,
+  blossom,
   blooming;
 
   String get lottiePath {
@@ -15,6 +16,8 @@ enum StreakGrowthStage {
         return 'assets/lottie/plant_sprout.json';
       case StreakGrowthStage.plant:
         return 'assets/lottie/plant.json';
+      case StreakGrowthStage.blossom:
+        return 'assets/lottie/blossom.json';
       case StreakGrowthStage.blooming:
         return 'assets/lottie/blooming.json';
     }
@@ -31,7 +34,8 @@ enum StreakGrowthStage {
     final cycleDay = cycleDayFor(streakDays);
     if (cycleDay == 1) return StreakGrowthStage.seed;
     if (cycleDay <= 3) return StreakGrowthStage.sprout;
-    if (cycleDay <= 6) return StreakGrowthStage.plant;
+    if (cycleDay <= 5) return StreakGrowthStage.plant;
+    if (cycleDay == 6) return StreakGrowthStage.blossom;
     return StreakGrowthStage.blooming;
   }
 

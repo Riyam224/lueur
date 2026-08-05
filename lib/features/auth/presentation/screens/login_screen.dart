@@ -132,7 +132,6 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Logout button ────────────────────────────────────────
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton.icon(
@@ -266,7 +265,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () => context.go(AppRoutes.registerScreen),
                   ),
                   SizedBox(height: AppSpacing.sectionSpacingSm),
-                  // ── Guest entry ──────────────────────────────────────────
                   Center(
                     child: TextButton(
                       onPressed: () => _onContinueAsGuest(context),

@@ -49,27 +49,19 @@ class RouterGenerationConfig {
     return CustomTransitionPage(
       key: state.pageKey,
       child: child,
-      transitionDuration: const Duration(milliseconds: 380),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final fade = CurvedAnimation(parent: animation, curve: Curves.easeOut);
-        // easeOutBack overshoots past 1.0 — fine for a scale transform (reads
-        // as a cute little "pop"), but must stay off the opacity/slide curves
-        // below to avoid opacity/offset artifacts beyond their valid range.
-        final bounce = CurvedAnimation(
+        final curved = CurvedAnimation(
           parent: animation,
-          curve: Curves.easeOutBack,
+          curve: Curves.easeOutCubic,
         );
         return FadeTransition(
-          opacity: fade,
+          opacity: curved,
           child: SlideTransition(
             position: Tween<Offset>(
-              begin: const Offset(0, 0.05),
+              begin: const Offset(0, 0.04),
               end: Offset.zero,
-            ).animate(fade),
-            child: ScaleTransition(
-              scale: Tween<double>(begin: 0.96, end: 1.0).animate(bounce),
-              child: child,
-            ),
+            ).animate(curved),
+            child: child,
           ),
         );
       },

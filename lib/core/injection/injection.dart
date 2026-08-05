@@ -81,7 +81,6 @@ final sl = GetIt.instance;
 void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
-  // ── Theme ──────────────────────────────────────────────────────────────────
   sl.registerLazySingleton(
     () => ThemeLocalDatasource(sl<SharedPreferences>()),
   );
@@ -97,7 +96,6 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     ),
   );
 
-  // ── Language ───────────────────────────────────────────────────────────────
   sl.registerLazySingleton(
     () => LanguageLocalDatasource(sl<SharedPreferences>()),
   );
@@ -114,15 +112,12 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     ),
   );
 
-  // ── Firebase ───────────────────────────────────────────────────────────────
   sl.registerLazySingleton(() => FirebaseAuth.instance);
   sl.registerLazySingleton(GoogleSignIn.new);
 
-  // ── Networking ─────────────────────────────────────────────────────────────
   sl.registerLazySingleton(() => AuthTokenInterceptor(sl()));
   sl.registerLazySingleton(() => DioHelper(sl()));
 
-  // ── Auth DataSources ───────────────────────────────────────────────────────
   sl.registerLazySingleton(
     () => AuthFirebaseDataSource(
       firebaseAuth: sl(),
@@ -131,12 +126,10 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   );
   sl.registerLazySingleton(() => AuthDjangoDatasource(sl<DioHelper>().dio));
 
-  // ── Auth Repository ────────────────────────────────────────────────────────
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(sl(), sl()),
   );
 
-  // ── Auth UseCases ──────────────────────────────────────────────────────────
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => RegisterUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
@@ -145,7 +138,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton(() => ForgotPasswordUseCase(sl()));
   sl.registerLazySingleton(() => SyncPreferredLanguageUseCase(sl()));
 
-  // ── Auth Cubit — singleton shared across all routes ────────────────────────
+  // singleton — shared across all routes
   sl.registerLazySingleton(
     () => AuthCubit(
       loginUseCase: sl(),
@@ -160,49 +153,41 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     ),
   );
 
-  // ── Forgot Password Cubit — factory, scoped to its own screen ──────────────
+  // factory — scoped to its own screen
   sl.registerFactory(() => ForgotPasswordCubit(sl()));
 
-  // ── Mood DataSources ───────────────────────────────────────────────────────
   sl.registerLazySingleton<MoodRemoteDatasource>(
     () => MoodRemoteDatasource(sl<DioHelper>().dio),
   );
   sl.registerLazySingleton<MoodLocalDatasource>(MoodLocalDatasource.new);
 
-  // ── Saved Quotes DataSource ────────────────────────────────────────────────
   sl.registerLazySingleton<SavedQuotesLocalDatasource>(
     SavedQuotesLocalDatasource.new,
   );
 
-  // ── Mood Repository ────────────────────────────────────────────────────────
   sl.registerLazySingleton<MoodRepository>(
     () => MoodRepositoryImpl(sl(), sl(), sl()),
   );
 
-  // ── Saved Quotes Repository ────────────────────────────────────────────────
   sl.registerLazySingleton<SavedQuotesRepository>(
     () => SavedQuotesRepositoryImpl(sl(), sl()),
   );
 
-  // ── Mood Cubit — singleton shared across all shell tabs ───────────────────
+  // singleton — shared across all shell tabs
   sl.registerLazySingleton(() => MoodCubit(sl()));
 
-  // ── Saved Quotes UseCases ──────────────────────────────────────────────────
   sl.registerLazySingleton(() => GetSavedQuotesUseCase(sl()));
   sl.registerLazySingleton(() => SaveQuoteUseCase(sl()));
   sl.registerLazySingleton(() => DeleteQuoteUseCase(sl()));
 
-  // ── Weekly Letter Cubit — factory ─────────────────────────────────────────
   sl.registerFactory<WeeklyLetterCubit>(
     () => WeeklyLetterCubit(sl<MoodRemoteDatasource>()),
   );
 
-  // ── Saved Quotes Cubit — factory ──────────────────────────────────────────
   sl.registerFactory<SavedQuotesCubit>(
     () => SavedQuotesCubit(sl(), sl(), sl()),
   );
 
-  // ── Plant ──────────────────────────────────────────────────────────────────
   sl.registerLazySingleton<CalculateStreakUseCase>(
     () => CalculateStreakUseCase(sl<MoodRepository>()),
   );
@@ -210,7 +195,6 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     () => PlantCubit(sl<CalculateStreakUseCase>()),
   );
 
-  // ── Chat ───────────────────────────────────────────────────────────────────
   sl.registerLazySingleton<ChatRemoteDataSource>(
     () => ChatRemoteDataSourceImpl(dio: sl<DioHelper>().dio),
   );
@@ -218,7 +202,6 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     () => ChatRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // ── Breathing ────────────────────────────────────────────────────────────
   sl.registerLazySingleton(BreathingLocalDatasource.new);
   sl.registerLazySingleton<BreathingRepository>(
     () => BreathingRepositoryImpl(sl()),
@@ -228,10 +211,10 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     () => BreathingCubit(sl()),
   );
 
-  // ── Free Draw — presentation-only, ephemeral, no persistence ──────────────
+  // presentation-only, ephemeral, no persistence
   sl.registerFactory<DrawCubit>(DrawCubit.new);
 
-  // ── Journal grid — reuses MoodRepository, its own use case layer ──────────
+  // reuses MoodRepository, its own use case layer
   sl.registerLazySingleton(() => GetJournalEntriesUseCase(sl()));
   sl.registerLazySingleton(() => SetJournalCardColorUseCase(sl()));
   sl.registerLazySingleton(() => ToggleJournalPinUseCase(sl()));
@@ -245,7 +228,6 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     ),
   );
 
-  // ── Sudoku ─────────────────────────────────────────────────────────────
   sl.registerLazySingleton<SudokuResultsLocalDatasource>(
     SudokuResultsLocalDatasource.new,
   );
@@ -264,7 +246,6 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     () => SudokuResultsCubit(sl(), sl()),
   );
 
-  // ── Saved Drawings ─────────────────────────────────────────────────────
   sl.registerLazySingleton<SavedDrawingsLocalDatasource>(
     SavedDrawingsLocalDatasource.new,
   );

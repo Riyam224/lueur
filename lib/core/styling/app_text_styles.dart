@@ -3,7 +3,6 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_fonts.dart';
 
 class AppTextStyles {
-  // ── Display (عناوين كبيرة — DM Serif Display italic) ─────────────────
   static TextStyle displayLarge(BuildContext context) => TextStyle(
         fontFamily: 'DMSerifDisplay',
         fontSize: _scale(context, 48),
@@ -22,7 +21,6 @@ class AppTextStyles {
         height: 1.2,
       );
 
-  // ── Headline (عناوين أقسام — Nunito SemiBold) ─────────────────────────
   static TextStyle headlineLarge(BuildContext context) => TextStyle(
         fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 24),
@@ -46,7 +44,6 @@ class AppTextStyles {
         color: _onBg(context),
       );
 
-  // ── Body (نصوص عادية — Nunito Regular) ──────────────────────────────
   static TextStyle bodyLarge(BuildContext context) => TextStyle(
         fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 16),
@@ -71,7 +68,6 @@ class AppTextStyles {
         height: 1.5,
       );
 
-  // ── Label (chips, badges, captions) ───────────────────────────────────
   static TextStyle labelLarge(BuildContext context) => TextStyle(
         fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 14),
@@ -96,7 +92,6 @@ class AppTextStyles {
         color: _secondaryText(context),
       );
 
-  // ── Button ────────────────────────────────────────────────────────────
   static TextStyle button(BuildContext context) => TextStyle(
         fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 16),
@@ -116,7 +111,6 @@ class AppTextStyles {
         fontWeight: FontWeight.w600,
       );
 
-  // ── Form fields ───────────────────────────────────────────────────────
   static TextStyle fieldLabel(BuildContext context) => TextStyle(
         fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 12),
@@ -136,7 +130,6 @@ class AppTextStyles {
         color: _secondaryText(context),
       );
 
-  // ── Caption / link text ───────────────────────────────────────────────
   static TextStyle captionSmall(BuildContext context) => TextStyle(
         fontFamily: AppFonts.mainFontName,
         fontSize: _scale(context, 12),
@@ -165,7 +158,6 @@ class AppTextStyles {
         color: _secondaryText(context),
       );
 
-  // ── Italic headline (auth screens) ────────────────────────────────────
   static TextStyle headlineItalic(BuildContext context) => TextStyle(
         fontFamily: 'DMSerifDisplay',
         fontSize: _scale(context, 26),
@@ -175,7 +167,6 @@ class AppTextStyles {
         height: 1.2,
       );
 
-  // ── Helpers ───────────────────────────────────────────────────────────
   static double _scale(BuildContext context, double size) {
     final width = MediaQuery.sizeOf(context).width;
     return size * (width / 390).clamp(0.85, 1.2);

@@ -1,5 +1,3 @@
-// lib/features/chat/presentation/cubit/chat_cubit.dart
-
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,8 +19,8 @@ class ChatCubit extends Cubit<ChatState> {
   ChatCubit({
     required this.repository,
     required this.userId,
-    List<ChatMessage> initialMessages = const [], // ← pre-load history
-  }) : super(ChatState(messages: initialMessages)); // ← chat opens with context
+    List<ChatMessage> initialMessages = const [],
+  }) : super(ChatState(messages: initialMessages));
 
   Future<void> sendMessage({
     required String emoji,
@@ -30,7 +28,6 @@ class ChatCubit extends Cubit<ChatState> {
   }) async {
     if (state.sessionEnded) return;
 
-    // 1 — add user message to UI immediately
     final userMessage = ChatMessage(role: 'user', content: thoughts);
     final updatedMessages = [...state.messages, userMessage];
 
@@ -40,16 +37,14 @@ class ChatCubit extends Cubit<ChatState> {
     ),);
 
     try {
-      // 2 — history = everything except the last user message
-      // because API adds it via `thoughts` field
-      // Only send the last 10 turns — matches the backend's own window,
-      // keeps the payload small, and avoids ever-growing token usage.
+      // History excludes the last user message — the API adds it via the
+      // `thoughts` field. Only the last 10 turns are sent, matching the
+      // backend's own window and keeping the payload from growing unbounded.
       final fullHistory = updatedMessages.sublist(0, updatedMessages.length - 1);
       final history = fullHistory.length > 10
           ? fullHistory.sublist(fullHistory.length - 10)
           : fullHistory;
 
-      // 3 — call API with userId + history
       final reply = await repository.sendMessage(
         userId: userId,
         emoji: emoji,
@@ -57,7 +52,6 @@ class ChatCubit extends Cubit<ChatState> {
         history: history,
       );
 
-      // 4 — detect session end tag from Luna
       final sessionEnded = reply.contains('[SESSION_END]');
       final cleanReply = reply.replaceAll('[SESSION_END]', '').trim();
 

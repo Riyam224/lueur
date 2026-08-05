@@ -1,5 +1,3 @@
-// lib/features/chat/data/datasources/chat_remote_datasource.dart
-
 import 'package:dio/dio.dart';
 import 'package:lueur/core/networking/api_endpoints.dart';
 import 'package:lueur/features/chat/data/models/chat_message_model.dart';

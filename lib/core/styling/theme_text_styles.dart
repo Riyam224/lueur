@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/styling/app_fonts.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 
-/// Theme-aware text styles that adapt to light and dark modes
-/// Use these styles to ensure text is readable in both themes
 class ThemeTextStyles {
   /// Emoji font fallback so any Text using these styles can render emoji
   /// even though Urbanist (the custom font) has no emoji glyphs.
@@ -14,7 +12,6 @@ class ThemeTextStyles {
     'Segoe UI Emoji',
   ];
 
-  /// Get headline large style (30sp, bold)
   static TextStyle headlineLarge(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -25,7 +22,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get headline medium style (24sp, bold)
   static TextStyle headlineMedium(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -36,7 +32,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get headline small style (20sp, w600)
   static TextStyle headlineSmall(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -47,7 +42,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get title large style (18sp, bold)
   static TextStyle titleLarge(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -58,7 +52,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get title medium style (16sp, w600)
   static TextStyle titleMedium(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -69,7 +62,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get title small style (14sp, w600)
   static TextStyle titleSmall(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -80,7 +72,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get body large style (16sp, w400)
   static TextStyle bodyLarge(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -91,7 +82,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get body medium style (14sp, w400)
   static TextStyle bodyMedium(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -102,7 +92,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get body small style (13sp, w400)
   static TextStyle bodySmall(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -113,7 +102,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get label large style (16sp, w500)
   static TextStyle labelLarge(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -124,7 +112,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get label medium style (14sp, w500)
   static TextStyle labelMedium(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -135,7 +122,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get label small style (12sp, w500)
   static TextStyle labelSmall(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -146,7 +132,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get caption large style (12sp, w400)
   static TextStyle captionLarge(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -157,7 +142,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get caption small style (11sp, w400)
   static TextStyle captionSmall(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -188,9 +172,6 @@ class ThemeTextStyles {
     );
   }
 
-  // White text styles for use on colored backgrounds
-
-  /// Get white headline style (16sp, w500) - for colored backgrounds
   static TextStyle whiteHeadline(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -201,7 +182,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get white body style (14sp, w400) - for colored backgrounds
   static TextStyle whiteBody(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -212,7 +192,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get white caption style (12sp, w400) - for colored backgrounds
   static TextStyle whiteCaption(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -223,7 +202,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get white button style (16sp, w500) - for buttons
   static TextStyle whiteButton(BuildContext context) {
     return TextStyle(
       fontFamily: AppFonts.mainFontName,
@@ -234,7 +212,6 @@ class ThemeTextStyles {
     );
   }
 
-  /// Get bottom nav label style (11sp, w600 active / w400 inactive)
   static TextStyle navLabel(
     BuildContext context, {
     required bool isActive,

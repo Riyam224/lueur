@@ -30,6 +30,7 @@ class StreakCelebrationCopy {
         StreakGrowthStage.seed => l10n.streakGrowthStageSeedLabel,
         StreakGrowthStage.sprout => l10n.streakGrowthStageSproutLabel,
         StreakGrowthStage.plant => l10n.streakGrowthStagePlantLabel,
+        StreakGrowthStage.blossom => l10n.streakGrowthStageBlossomLabel,
         StreakGrowthStage.blooming => l10n.streakGrowthStageBloomingLabel,
       };
 }

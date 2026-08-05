@@ -1,5 +1,3 @@
-// lib/features/chat/presentation/cubit/chat_state.dart
-
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 
 enum ChatStatus { initial, loading, success, error, sessionEnded }

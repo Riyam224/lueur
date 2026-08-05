@@ -1,5 +1,3 @@
-// lib/features/affirmation/data/affirmations_data.dart
-
 const Map<String, List<String>> affirmations = {
   '😔': [
     'You have overcome more than you know. This hard day is proof of your strength, not your weakness.',

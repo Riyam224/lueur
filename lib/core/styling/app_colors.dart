@@ -110,17 +110,14 @@ class AppColors {
   // ── Aliases (keep existing usages compiling) ─────────────────────────────
   static const Color cardBackground = lightSurface;
 
-  // Text
   static const Color primaryTextColor = lightOnBackground;
   static const Color secondaryTextColor = lightSecondaryText;
   static const Color whiteTextColor = Color(0xFFFFFFFF);
   static const Color greyTextColor = Color(0xFF9E9E9E);
 
-  // Accent
   static const Color blushPink = accent;
   static const Color lavender = Color(0xFFCFB9F8); // lighter Luna-purple tint
 
-  // Mood Colors
   static const Color moodHappy = Color(0xFF4CAF50);
   static const Color moodCalm = Color(0xFF2196F3);
   static const Color moodSad = Color(0xFFFF9800);
@@ -128,7 +125,6 @@ class AppColors {
   static const Color moodAnxious = Color(0xFFF44336);
   static const Color moodNeutral = Color(0xFF9E9E9E);
 
-  // Utility
   static const Color shadowColor = Color(0x0D000000);
   static const Color overlayBlack = Color(0xFF000000);
   static const Color errorColor = Color(0xFFF44336);

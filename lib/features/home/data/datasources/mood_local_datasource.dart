@@ -12,7 +12,6 @@ class MoodLocalDatasource {
   /// Per-user Hive key so entries never bleed between accounts on the same device
   String _key(String userId) => 'entries_$userId';
 
-  /// Get cached mood entries for [userId]
   List<MoodEntryModel> getCachedHistory({required String userId}) {
     final jsonStr = _box.get(_key(userId));
     if (jsonStr == null) return [];
@@ -22,7 +21,6 @@ class MoodLocalDatasource {
         .toList();
   }
 
-  /// Cache the entire list of entries for [userId]
   Future<void> cacheHistory(
     List<MoodEntryModel> entries, {
     required String userId,
@@ -31,7 +29,6 @@ class MoodLocalDatasource {
     await _box.put(_key(userId), encoded);
   }
 
-  /// Add a new entry for [userId], avoiding duplicates by id
   Future<void> addEntry(MoodEntryModel entry, {required String userId}) async {
     final existing = getCachedHistory(userId: userId);
     final updated = [
@@ -41,14 +38,12 @@ class MoodLocalDatasource {
     await cacheHistory(updated, userId: userId);
   }
 
-  /// Delete an entry by id for [userId]
   Future<void> deleteEntry(int id, {required String userId}) async {
     final existing = getCachedHistory(userId: userId);
     final updated = existing.where((e) => e.id != id).toList();
     await cacheHistory(updated, userId: userId);
   }
 
-  /// Clears all cached entries for [userId]
   Future<void> deleteAllEntries({required String userId}) async {
     await _box.delete(_key(userId));
   }

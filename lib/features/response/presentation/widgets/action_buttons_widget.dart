@@ -23,7 +23,6 @@ class ActionButtonsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Save to journal button (filled)
         Expanded(
           child: ElevatedButton(
             onPressed: onSave,
@@ -46,7 +45,6 @@ class ActionButtonsWidget extends StatelessWidget {
         ),
         SizedBox(width: AppSpacing.spaceMd),
 
-        // Talk again button (outlined)
         Expanded(
           child: OutlinedButton(
             onPressed: onTalkAgain,

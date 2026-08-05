@@ -3,10 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
 
-/// Main Shell Screen
-///
-/// This screen wraps all main app screens and provides the bottom navigation bar.
-/// It manages the navigation state using GoRouter's StatefulShellRoute.
 class MainShellScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
@@ -31,11 +27,8 @@ class MainShellScreen extends StatelessWidget {
       body: Stack(
         children: [
           navigationShell,
-          // Scrollable content sits behind the floating nav (extendBody).
-          // Without this, whatever happens to rest at that scroll position
-          // shows a hard-edged rectangle poking out from behind the pill.
-          // Fading it into the background here makes that read as
-          // intentional, the way Instagram/Spotify's floating nav bars do.
+          // Fades scrollable content behind the floating nav (extendBody) so
+          // it doesn't poke out with a hard edge behind the pill.
           IgnorePointer(
             child: Align(
               alignment: Alignment.bottomCenter,

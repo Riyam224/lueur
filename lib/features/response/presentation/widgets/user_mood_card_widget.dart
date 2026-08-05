@@ -68,7 +68,6 @@ class UserMoodCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Label
           Text(
             AppLocalizations.of(context)!.responseYourMoodLabel,
             style: ThemeTextStyles.labelSmall(context).copyWith(
@@ -79,15 +78,12 @@ class UserMoodCardWidget extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.spaceMd),
 
-          // Emoji and Thoughts Row
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Emoji
               _buildMoodIcon(),
               SizedBox(width: AppSpacing.spaceMd),
 
-              // Thoughts
               Expanded(
                 child: Text(
                   thoughts,

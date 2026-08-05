@@ -59,7 +59,6 @@ class AiResponseCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Label
           Row(
             children: [
               Expanded(
@@ -85,7 +84,7 @@ class AiResponseCardWidget extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.spaceMd),
 
-          // AI Response — emojis stripped to avoid broken glyph rendering
+          // Emojis stripped to avoid broken glyph rendering
           GestureDetector(
             onLongPress: () {
               Clipboard.setData(ClipboardData(text: cleanedResponse));

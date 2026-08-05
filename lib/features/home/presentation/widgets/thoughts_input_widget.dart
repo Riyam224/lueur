@@ -6,7 +6,6 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Thoughts input field with submit button
 class ThoughtsInputWidget extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onSubmit;
@@ -23,7 +22,6 @@ class ThoughtsInputWidget extends StatelessWidget {
 
     return Column(
       children: [
-        // Thoughts Input Field
         TextField(
           controller: controller,
           maxLines: 5,
@@ -75,7 +73,6 @@ class ThoughtsInputWidget extends StatelessWidget {
         ),
         SizedBox(height: AppSpacing.spaceLg),
 
-        // Talk to Luna Button
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(

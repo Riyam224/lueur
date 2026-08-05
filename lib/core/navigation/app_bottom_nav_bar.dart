@@ -164,7 +164,6 @@ class _NavItem extends StatelessWidget {
               ),
             ),
             SizedBox(height: 3.h),
-            // Active dot
             AnimatedContainer(
               duration: const Duration(milliseconds: 220),
               width: isActive ? 5.w : 0,

@@ -3,7 +3,6 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Luna information widget showing name and subtitle
 class LunaInfoWidget extends StatelessWidget {
   const LunaInfoWidget({super.key});
 

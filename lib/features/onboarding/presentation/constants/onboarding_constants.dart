@@ -5,11 +5,11 @@ import 'package:lueur/l10n/app_localizations.dart';
 
 /// Layout, timing and content constants for the onboarding flow.
 class OnboardingConstants {
-  // ── Animation ─────────────────────────────────────────────────────────────
+  // Animation
   static const Duration pageTransitionDuration = Duration(milliseconds: 350);
   static const Curve pageTransitionCurve = Curves.easeInOut;
 
-  // ── Card (fractions of the page size) ─────────────────────────────────────
+  // Card (fractions of the page size)
   static const double cardHorizontalMarginFraction = 0.06;
   static const double cardTopMarginFraction = 0.04;
   static const double cardBorderRadius = 32;
@@ -19,24 +19,24 @@ class OnboardingConstants {
   static const double lunaSizeFraction = 0.4;
   static const double badgeSize = 44;
 
-  // ── Parallax (how much the off-screen pages scale/fade/slide) ─────────────
+  // Parallax (how much the off-screen pages scale/fade/slide)
   static const double parallaxScaleFalloff = 0.15;
   static const double parallaxOpacityFalloff = 0.5;
   static const double parallaxTextSlide = 30;
 
-  // ── Bottom text block (logical pixels) ─────────────────────────────────────
+  // Bottom text block (logical pixels)
   static const double circleToHeadline = 28;
   static const double headlineToSubtitle = 12;
   static const double pageTextHorizontalPadding = 32;
   static const double pageTitleFontSize = 26;
   static const double pageSubtitleFontSize = 14;
 
-  // ── Skip button (logical pixels) ──────────────────────────────────────────
+  // Skip button (logical pixels)
   static const double skipButtonFontSize = 14;
   static const double skipButtonHorizontalPadding = 16;
   static const double skipButtonVerticalPadding = 8;
 
-  // ── Bottom nav row (back/forward arrows + skip) ────────────────────────────
+  // Bottom nav row (back/forward arrows + skip)
   static const double navArrowButtonSize = 48;
   static const double navArrowGap = 12;
   static const double navRowBottomPadding = 28;
