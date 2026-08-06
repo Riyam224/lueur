@@ -1412,35 +1412,35 @@ abstract class AppLocalizations {
   /// **'paused'**
   String get sudokuPausedLabel;
 
-  /// No description provided for @sudokuWonMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'you solved it! 🌸'**
-  String get sudokuWonMessage;
-
   /// No description provided for @sudokuDoneButton.
   ///
   /// In en, this message translates to:
   /// **'done'**
   String get sudokuDoneButton;
 
-  /// No description provided for @sudokuPlayAgainButton.
+  /// No description provided for @sudokuOutcomeSuccessMessage.
   ///
   /// In en, this message translates to:
-  /// **'play again'**
-  String get sudokuPlayAgainButton;
+  /// **'You did it! 🌟'**
+  String get sudokuOutcomeSuccessMessage;
 
-  /// No description provided for @sudokuLostMessage.
+  /// No description provided for @sudokuOutcomeFailMessage.
   ///
   /// In en, this message translates to:
-  /// **'out of tries — take a breath 🌱'**
-  String get sudokuLostMessage;
+  /// **'No worries, some puzzles are tricky 🌱'**
+  String get sudokuOutcomeFailMessage;
 
-  /// No description provided for @sudokuTryAgainButton.
+  /// No description provided for @sudokuOutcomeNewGameButton.
   ///
   /// In en, this message translates to:
-  /// **'try again'**
-  String get sudokuTryAgainButton;
+  /// **'New Game'**
+  String get sudokuOutcomeNewGameButton;
+
+  /// No description provided for @sudokuOutcomeBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get sudokuOutcomeBackButton;
 
   /// No description provided for @sudokuAutoCandidateModeLabel.
   ///

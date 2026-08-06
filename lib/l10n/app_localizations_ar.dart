@@ -708,19 +708,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sudokuPausedLabel => 'متوقف مؤقتاً';
 
   @override
-  String get sudokuWonMessage => 'لقد حللتها! 🌸';
-
-  @override
   String get sudokuDoneButton => 'تم';
 
   @override
-  String get sudokuPlayAgainButton => 'العب مرة أخرى';
+  String get sudokuOutcomeSuccessMessage => 'برافو! خلصتي اللغز 🌟';
 
   @override
-  String get sudokuLostMessage => 'نفدت المحاولات — خذ نفساً 🌱';
+  String get sudokuOutcomeFailMessage => 'معلش، بعض الألغاز صعبة كده 🌱';
 
   @override
-  String get sudokuTryAgainButton => 'حاول مرة أخرى';
+  String get sudokuOutcomeNewGameButton => 'لعبة جديدة';
+
+  @override
+  String get sudokuOutcomeBackButton => 'رجوع';
 
   @override
   String get sudokuAutoCandidateModeLabel => 'الوضع التلقائي للاحتمالات';

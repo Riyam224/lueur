@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +12,7 @@ import 'package:lueur/features/sudoku/presentation/widgets/sudoku_grid_selector_
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_header_section.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_help_dialog.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_number_pad_section.dart';
-import 'package:lueur/features/sudoku/presentation/widgets/sudoku_result_section.dart';
+import 'package:lueur/features/sudoku/presentation/widgets/sudoku_outcome_dialog.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_toolbar.dart';
 
 /// A calm, simple 9x9 sudoku — one of Luna's offerings for a rough moment.
@@ -57,6 +59,19 @@ class _SudokuScreenState extends State<SudokuScreen> {
             listener: (context, state) {
               if (state.status == SudokuStatus.won) {
                 _confettiController.play();
+                unawaited(
+                  showSudokuOutcomeDialog(
+                    context,
+                    variant: SudokuOutcomeVariant.success,
+                  ),
+                );
+              } else if (state.status == SudokuStatus.lost) {
+                unawaited(
+                  showSudokuOutcomeDialog(
+                    context,
+                    variant: SudokuOutcomeVariant.fail,
+                  ),
+                );
               }
             },
             child: Stack(
@@ -90,7 +105,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
                       const SudokuGridSelectorSection(),
                       SizedBox(height: AppSpacing.space2Xl),
                       const SudokuNumberPadSection(),
-                      const SudokuResultSection(),
                       SizedBox(height: AppSpacing.spaceXl),
                     ],
                   ),

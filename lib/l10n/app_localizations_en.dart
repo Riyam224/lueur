@@ -722,19 +722,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sudokuPausedLabel => 'paused';
 
   @override
-  String get sudokuWonMessage => 'you solved it! 🌸';
-
-  @override
   String get sudokuDoneButton => 'done';
 
   @override
-  String get sudokuPlayAgainButton => 'play again';
+  String get sudokuOutcomeSuccessMessage => 'You did it! 🌟';
 
   @override
-  String get sudokuLostMessage => 'out of tries — take a breath 🌱';
+  String get sudokuOutcomeFailMessage =>
+      'No worries, some puzzles are tricky 🌱';
 
   @override
-  String get sudokuTryAgainButton => 'try again';
+  String get sudokuOutcomeNewGameButton => 'New Game';
+
+  @override
+  String get sudokuOutcomeBackButton => 'Back';
 
   @override
   String get sudokuAutoCandidateModeLabel => 'Auto Candidate Mode';
