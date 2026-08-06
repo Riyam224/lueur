@@ -409,6 +409,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String homeNextMilestoneHint(int days, int milestone) {
+    return 'باقي $days يوم لـ $milestone 🌱';
+  }
+
+  @override
   String get weeklyLetterBannerTitle => 'رسالتك الأسبوعية';
 
   @override

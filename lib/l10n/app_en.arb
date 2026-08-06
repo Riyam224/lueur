@@ -172,6 +172,13 @@
       "streak": {"type": "int"}
     }
   },
+  "homeNextMilestoneHint": "{days} more days to {milestone} 🌱",
+  "@homeNextMilestoneHint": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "milestone": {"type": "int"}
+    }
+  },
   "weeklyLetterBannerTitle": "Your weekly letter",
   "weeklyLetterScreenTitle": "Weekly letter",
   "weeklyLetterWaitingMessage": "Keep journaling — your letter will be ready at the end of the week.",

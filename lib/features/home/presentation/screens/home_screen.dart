@@ -11,6 +11,7 @@ import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/home/presentation/widgets/greeting_card.dart';
 import 'package:lueur/features/home/presentation/widgets/home_header.dart';
+import 'package:lueur/features/home/presentation/widgets/home_streak_widget.dart';
 import 'package:lueur/features/home/presentation/widgets/mood_input_section.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
@@ -95,6 +96,16 @@ class _HomeScreenBody extends StatelessWidget {
                   hasEntries: hasEntries,
                 ),
               ),
+            ),
+
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.horizontalPaddingLg,
+                AppSpacing.sectionSpacingSm,
+                AppSpacing.horizontalPaddingLg,
+                0,
+              ),
+              sliver: const SliverToBoxAdapter(child: HomeStreakWidget()),
             ),
 
             SliverPadding(

@@ -848,6 +848,12 @@ abstract class AppLocalizations {
   /// **'{streak} days streak'**
   String homeDaysStreakChip(int streak);
 
+  /// No description provided for @homeNextMilestoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} more days to {milestone} 🌱'**
+  String homeNextMilestoneHint(int days, int milestone);
+
   /// No description provided for @weeklyLetterBannerTitle.
   ///
   /// In en, this message translates to:

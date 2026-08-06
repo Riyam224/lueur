@@ -125,6 +125,7 @@
   "homeFirstSeedCelebration": "لقد زرعت بذرتك الأولى 🌱",
   "homeFirstSeedCelebrationSubtitle": "لونا سعيدة جداً بوجودك هنا!",
   "homeDaysStreakChip": "{streak} يوم متتالي",
+  "homeNextMilestoneHint": "باقي {days} يوم لـ {milestone} 🌱",
   "weeklyLetterBannerTitle": "رسالتك الأسبوعية",
   "weeklyLetterScreenTitle": "الرسالة الأسبوعية",
   "weeklyLetterWaitingMessage": "استمر في الكتابة — ستكون رسالتك جاهزة في نهاية الأسبوع",
