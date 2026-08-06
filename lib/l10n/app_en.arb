@@ -302,6 +302,7 @@
   "sudokuDoneButton": "done",
   "sudokuOutcomeSuccessMessage": "You did it! 🌟",
   "sudokuOutcomeFailMessage": "No worries, some puzzles are tricky 🌱",
+  "sudokuResultSaveFailedNotice": "Couldn't save this round to your history — no biggie, keep playing!",
   "sudokuOutcomeNewGameButton": "New Game",
   "sudokuOutcomeBackButton": "Back",
   "sudokuAutoCandidateModeLabel": "Auto Candidate Mode",

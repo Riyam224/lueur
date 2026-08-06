@@ -51,6 +51,7 @@ class ChatCubit extends Cubit<ChatState> {
         thoughts: thoughts,
         history: history,
       );
+      if (isClosed) return;
 
       final sessionEnded = reply.contains('[SESSION_END]');
       final cleanReply = reply.replaceAll('[SESSION_END]', '').trim();
@@ -66,6 +67,7 @@ class ChatCubit extends Cubit<ChatState> {
         sessionEnded: sessionEnded,
       ),);
     } catch (e) {
+      if (isClosed) return;
       _logger.e('ChatCubit.sendMessage failed', error: e);
       // Show the fallback as a normal Luna chat bubble, not a system
       // error banner — keeps the "texting a friend" feel intact even

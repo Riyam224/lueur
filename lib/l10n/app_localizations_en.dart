@@ -743,6 +743,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'No worries, some puzzles are tricky 🌱';
 
   @override
+  String get sudokuResultSaveFailedNotice =>
+      'Couldn\'t save this round to your history — no biggie, keep playing!';
+
+  @override
   String get sudokuOutcomeNewGameButton => 'New Game';
 
   @override

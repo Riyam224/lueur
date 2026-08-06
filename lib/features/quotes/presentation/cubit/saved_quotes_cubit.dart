@@ -18,6 +18,7 @@ class SavedQuotesCubit extends Cubit<SavedQuotesState> {
   Future<void> loadQuotes() async {
     emit(const SavedQuotesLoading());
     final result = await _getQuotes();
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SavedQuotesError(failure.message)),
       (quotes) => emit(SavedQuotesLoaded(quotes)),
@@ -26,6 +27,7 @@ class SavedQuotesCubit extends Cubit<SavedQuotesState> {
 
   Future<void> saveQuote(String text, {String? emoji, String? thoughts}) async {
     final result = await _saveQuote(text, emoji: emoji, thoughts: thoughts);
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SavedQuotesError(failure.message)),
       (_) => loadQuotes(),
@@ -34,6 +36,7 @@ class SavedQuotesCubit extends Cubit<SavedQuotesState> {
 
   Future<void> deleteQuote(String id) async {
     final result = await _deleteQuote(id);
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SavedQuotesError(failure.message)),
       (_) => loadQuotes(),

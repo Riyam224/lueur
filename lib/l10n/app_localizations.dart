@@ -1436,6 +1436,12 @@ abstract class AppLocalizations {
   /// **'No worries, some puzzles are tricky 🌱'**
   String get sudokuOutcomeFailMessage;
 
+  /// No description provided for @sudokuResultSaveFailedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save this round to your history — no biggie, keep playing!'**
+  String get sudokuResultSaveFailedNotice;
+
   /// No description provided for @sudokuOutcomeNewGameButton.
   ///
   /// In en, this message translates to:

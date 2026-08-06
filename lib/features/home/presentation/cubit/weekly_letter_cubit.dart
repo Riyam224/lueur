@@ -39,8 +39,10 @@ class WeeklyLetterCubit extends Cubit<WeeklyLetterState> {
     emit(const WeeklyLetterLoading());
     try {
       final data = await _remote.getWeeklyLetter();
+      if (isClosed) return;
       emit(WeeklyLetterLoaded(data));
     } catch (_) {
+      if (isClosed) return;
       emit(const WeeklyLetterError());
     }
   }

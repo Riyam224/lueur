@@ -722,6 +722,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sudokuOutcomeFailMessage => 'معلش، بعض الألغاز صعبة كده 🌱';
 
   @override
+  String get sudokuResultSaveFailedNotice =>
+      'معرفناش نحفظ الجولة دي في السجل — مفيش مشكلة، كمّل لعب!';
+
+  @override
   String get sudokuOutcomeNewGameButton => 'لعبة جديدة';
 
   @override

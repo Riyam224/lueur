@@ -19,6 +19,7 @@ class SavedDrawingsCubit extends Cubit<SavedDrawingsState> {
   Future<void> loadDrawings() async {
     emit(const SavedDrawingsLoading());
     final result = await _getDrawings();
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SavedDrawingsError(failure.message)),
       (drawings) => emit(SavedDrawingsLoaded(drawings)),
@@ -27,6 +28,7 @@ class SavedDrawingsCubit extends Cubit<SavedDrawingsState> {
 
   Future<void> saveCurrent(List<SavedDrawingPathEntity> paths) async {
     final result = await _saveDrawing(paths);
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SavedDrawingsError(failure.message)),
       (_) => loadDrawings(),
@@ -35,6 +37,7 @@ class SavedDrawingsCubit extends Cubit<SavedDrawingsState> {
 
   Future<void> deleteDrawing(String id) async {
     final result = await _deleteDrawing(id);
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SavedDrawingsError(failure.message)),
       (_) => loadDrawings(),

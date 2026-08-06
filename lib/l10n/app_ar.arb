@@ -223,6 +223,7 @@
   "sudokuDoneButton": "تم",
   "sudokuOutcomeSuccessMessage": "برافو! خلصتي اللغز 🌟",
   "sudokuOutcomeFailMessage": "معلش، بعض الألغاز صعبة كده 🌱",
+  "sudokuResultSaveFailedNotice": "معرفناش نحفظ الجولة دي في السجل — مفيش مشكلة، كمّل لعب!",
   "sudokuOutcomeNewGameButton": "لعبة جديدة",
   "sudokuOutcomeBackButton": "رجوع",
   "sudokuAutoCandidateModeLabel": "الوضع التلقائي للاحتمالات",

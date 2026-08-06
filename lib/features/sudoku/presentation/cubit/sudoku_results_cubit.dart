@@ -17,6 +17,7 @@ class SudokuResultsCubit extends Cubit<SudokuResultsState> {
   Future<void> loadResults() async {
     emit(const SudokuResultsLoading());
     final result = await _getResults();
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SudokuResultsError(failure.message)),
       (results) => emit(SudokuResultsLoaded(results)),
@@ -25,6 +26,7 @@ class SudokuResultsCubit extends Cubit<SudokuResultsState> {
 
   Future<void> deleteResult(String id) async {
     final result = await _deleteResult(id);
+    if (isClosed) return;
     result.fold(
       (failure) => emit(SudokuResultsError(failure.message)),
       (_) => loadResults(),

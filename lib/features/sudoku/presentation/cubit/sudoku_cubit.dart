@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:lueur/features/sudoku/domain/usecases/generate_sudoku_puzzle_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
@@ -21,6 +22,7 @@ class SudokuCubit extends Cubit<SudokuState> {
   final GenerateSudokuPuzzleUseCase _generatePuzzle;
   final SaveSudokuResultUseCase _saveResult;
   final SudokuGridOps _gridOps;
+  final Logger _logger = Logger();
 
   late List<List<int>> _solution;
   final List<SudokuMove> _history = [];
@@ -205,10 +207,30 @@ class SudokuCubit extends Cubit<SudokuState> {
   void _saveOnce({required bool won, required int mistakes}) {
     if (_resultSaved) return;
     _resultSaved = true;
-    _saveResult(
+    unawaited(_persistResult(won: won, mistakes: mistakes));
+  }
+
+  /// Persists the round outcome — never blocks the win/loss UI flow. On
+  /// failure the result is lost from history, so it's surfaced via a soft
+  /// [SudokuState.resultSaveFailed] flag (the underlying error is already
+  /// logged by the repository) rather than disrupting the outcome dialog.
+  Future<void> _persistResult({
+    required bool won,
+    required int mistakes,
+  }) async {
+    final result = await _saveResult(
       won: won,
       mistakes: mistakes,
       durationSeconds: state.elapsedSeconds,
+    );
+    if (isClosed) return;
+
+    result.fold(
+      (failure) {
+        _logger.e('SudokuCubit: failed to save result — ${failure.message}');
+        emit(state.copyWith(resultSaveFailed: true));
+      },
+      (_) {},
     );
   }
 

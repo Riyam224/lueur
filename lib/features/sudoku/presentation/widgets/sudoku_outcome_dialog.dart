@@ -9,6 +9,7 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
+import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Which end-of-round outcome [SudokuOutcomeDialog] is showing — controls
@@ -87,6 +88,23 @@ class SudokuOutcomeDialog extends StatelessWidget {
                     : l10n.sudokuOutcomeFailMessage,
                 textAlign: TextAlign.center,
                 style: ThemeTextStyles.titleMedium(context),
+              ),
+              BlocBuilder<SudokuCubit, SudokuState>(
+                buildWhen: (previous, current) =>
+                    previous.resultSaveFailed != current.resultSaveFailed,
+                builder: (context, state) {
+                  if (!state.resultSaveFailed) return const SizedBox.shrink();
+                  return Padding(
+                    padding: EdgeInsets.only(top: AppSpacing.spaceSm),
+                    child: Text(
+                      l10n.sudokuResultSaveFailedNotice,
+                      textAlign: TextAlign.center,
+                      style: ThemeTextStyles.captionSmall(context).copyWith(
+                        color: extra.secondaryTextColor,
+                      ),
+                    ),
+                  );
+                },
               ),
               SizedBox(height: AppSpacing.spaceXl),
               Row(
