@@ -37,6 +37,7 @@ class SudokuGridFactory {
   static SudokuState freshState({
     List<List<int>>? values,
     List<List<bool>>? given,
+    bool isGenerating = false,
   }) {
     return SudokuState(
       values: values ?? emptyGrid(),
@@ -50,6 +51,7 @@ class SudokuGridFactory {
       autoCandidateMode: false,
       canUndo: false,
       status: SudokuStatus.playing,
+      isGenerating: isGenerating,
     );
   }
 }

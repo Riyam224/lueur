@@ -46,12 +46,13 @@ void main() {
   testWidgets('tapping New Game in the outcome dialog starts a fresh puzzle',
       (tester) async {
     final cubit = SudokuCubit(
-      GenerateSudokuPuzzleUseCase(),
+      // Plain synchronous fake — reuses the real (pure, fast) generator
+      // directly rather than the isolate-dispatching async usecase, so
+      // this test never spawns a real isolate.
+      () async => GenerateSudokuPuzzleUseCase()(),
       ValidateSudokuMoveUseCase(),
       SaveSudokuResultUseCase(_FakeSudokuResultsRepository()),
     );
-    cubit.start();
-
     final router = GoRouter(
       initialLocation: '/',
       routes: [
@@ -93,6 +94,9 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+
+    await cubit.start();
+    await tester.pump();
 
     await tester.tap(find.text('open'));
     await tester.pumpAndSettle();

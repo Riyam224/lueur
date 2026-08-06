@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:lueur/features/sudoku/domain/usecases/generate_sudoku_puzzle_usecase.dart';
+import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
@@ -19,7 +19,7 @@ class SudokuCubit extends Cubit<SudokuState> {
   /// stakes rather than letting mistakes pile up indefinitely.
   static const int maxMistakes = 3;
 
-  final GenerateSudokuPuzzleUseCase _generatePuzzle;
+  final Future<SudokuBoardEntity> Function() _generatePuzzle;
   final SaveSudokuResultUseCase _saveResult;
   final SudokuGridOps _gridOps;
   final Logger _logger = Logger();
@@ -36,8 +36,14 @@ class SudokuCubit extends Cubit<SudokuState> {
   )   : _gridOps = SudokuGridOps(validateMove),
         super(SudokuGridFactory.freshState());
 
-  void start() {
-    final board = _generatePuzzle();
+  Future<void> start() async {
+    if (isClosed) return;
+    _ticker?.cancel();
+    emit(SudokuGridFactory.freshState(isGenerating: true));
+
+    final board = await _generatePuzzle();
+    if (isClosed) return;
+
     _solution = board.solution;
     _resultSaved = false;
     _history.clear();
@@ -49,7 +55,6 @@ class SudokuCubit extends Cubit<SudokuState> {
       ),
     );
 
-    _ticker?.cancel();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
       if (state.isPaused || state.status != SudokuStatus.playing) return;
       emit(state.copyWith(elapsedSeconds: state.elapsedSeconds + 1));

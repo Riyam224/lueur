@@ -19,6 +19,7 @@ class SudokuState extends Equatable {
   final bool canUndo;
   final SudokuStatus status;
   final bool resultSaveFailed;
+  final bool isGenerating;
 
   const SudokuState({
     required this.values,
@@ -35,6 +36,7 @@ class SudokuState extends Equatable {
     this.selectedRow,
     this.selectedCol,
     this.resultSaveFailed = false,
+    this.isGenerating = false,
   });
 
   SudokuState copyWith({
@@ -51,6 +53,7 @@ class SudokuState extends Equatable {
     bool? canUndo,
     SudokuStatus? status,
     bool? resultSaveFailed,
+    bool? isGenerating,
   }) {
     return SudokuState(
       values: values ?? this.values,
@@ -67,6 +70,7 @@ class SudokuState extends Equatable {
       canUndo: canUndo ?? this.canUndo,
       status: status ?? this.status,
       resultSaveFailed: resultSaveFailed ?? this.resultSaveFailed,
+      isGenerating: isGenerating ?? this.isGenerating,
     );
   }
 
@@ -86,5 +90,6 @@ class SudokuState extends Equatable {
     canUndo,
     status,
     resultSaveFailed,
+    isGenerating,
   ];
 }

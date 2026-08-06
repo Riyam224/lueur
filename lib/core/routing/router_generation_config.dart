@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -328,7 +330,11 @@ class RouterGenerationConfig {
         pageBuilder: (context, state) => _buildTransitionPage(
           state: state,
           child: BlocProvider(
-            create: (_) => sl<SudokuCubit>()..start(),
+            create: (_) {
+              final cubit = sl<SudokuCubit>();
+              unawaited(cubit.start());
+              return cubit;
+            },
             child: const SudokuScreen(),
           ),
         ),

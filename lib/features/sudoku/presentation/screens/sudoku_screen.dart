@@ -98,11 +98,24 @@ class _SudokuScreenState extends State<SudokuScreen> {
                       SudokuToolbar(
                         onLeave: () => _leave(context),
                         onHelp: () => showSudokuHelpDialog(context),
-                        onNewGame: () => context.read<SudokuCubit>().start(),
+                        onNewGame: () =>
+                            unawaited(context.read<SudokuCubit>().start()),
                       ),
                       const SudokuHeaderSection(),
                       SizedBox(height: AppSpacing.spaceMd),
-                      const SudokuGridSelectorSection(),
+                      BlocSelector<SudokuCubit, SudokuState, bool>(
+                        selector: (state) => state.isGenerating,
+                        builder: (context, isGenerating) => isGenerating
+                            ? const Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 120,
+                                ),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : const SudokuGridSelectorSection(),
+                      ),
                       SizedBox(height: AppSpacing.space2Xl),
                       const SudokuNumberPadSection(),
                       SizedBox(height: AppSpacing.spaceXl),

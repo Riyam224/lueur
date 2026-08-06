@@ -62,7 +62,7 @@ import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_data
 import 'package:lueur/features/sudoku/data/repositories/sudoku_results_repository_impl.dart';
 import 'package:lueur/features/sudoku/domain/repositories/sudoku_results_repository.dart';
 import 'package:lueur/features/sudoku/domain/usecases/delete_sudoku_result_usecase.dart';
-import 'package:lueur/features/sudoku/domain/usecases/generate_sudoku_puzzle_usecase.dart';
+import 'package:lueur/features/sudoku/domain/usecases/generate_sudoku_puzzle_async_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/get_sudoku_results_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
@@ -237,10 +237,10 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton(() => GetSudokuResultsUseCase(sl()));
   sl.registerLazySingleton(() => SaveSudokuResultUseCase(sl()));
   sl.registerLazySingleton(() => DeleteSudokuResultUseCase(sl()));
-  sl.registerLazySingleton(GenerateSudokuPuzzleUseCase.new);
+  sl.registerLazySingleton(GenerateSudokuPuzzleAsyncUseCase.new);
   sl.registerLazySingleton(ValidateSudokuMoveUseCase.new);
   sl.registerFactory<SudokuCubit>(
-    () => SudokuCubit(sl(), sl(), sl()),
+    () => SudokuCubit(sl<GenerateSudokuPuzzleAsyncUseCase>(), sl(), sl()),
   );
   sl.registerFactory<SudokuResultsCubit>(
     () => SudokuResultsCubit(sl(), sl()),
