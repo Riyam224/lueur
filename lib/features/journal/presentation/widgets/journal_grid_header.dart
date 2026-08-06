@@ -49,14 +49,15 @@ class JournalGridHeader extends StatelessWidget {
         ],
         SizedBox(height: AppSpacing.spaceLg),
         BlocBuilder<MoodCubit, MoodState>(
+          buildWhen: (previous, current) =>
+              current is MoodHistorySuccess || current is MoodInitial,
           builder: (context, moodState) {
             final entries = moodState is MoodHistorySuccess
                 ? moodState.entries
-                : <MoodEntryEntity>[];
-            return BlocBuilder<PlantCubit, PlantState>(
-              builder: (context, plantState) {
-                final streakDays =
-                    plantState is PlantLoaded ? plantState.streakDays : 0;
+                : const <MoodEntryEntity>[];
+            return BlocSelector<PlantCubit, PlantState, int>(
+              selector: (state) => state is PlantLoaded ? state.streakDays : 0,
+              builder: (context, streakDays) {
                 return StreakCardWidget(
                   entries: entries,
                   streakDays: streakDays,

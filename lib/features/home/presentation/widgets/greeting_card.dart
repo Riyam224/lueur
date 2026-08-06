@@ -77,14 +77,16 @@ class _GreetingCardState extends State<GreetingCard> {
           _lastStage = state.stage;
         }
       },
-      child: BlocBuilder<PlantCubit, PlantState>(
-        builder: (context, state) {
+      child: BlocSelector<PlantCubit, PlantState, (PlantStage, int)>(
+        selector: (state) => state is PlantLoaded
+            ? (state.stage, state.streakDays)
+            : (PlantStage.seed, 0),
+        builder: (context, plant) {
           final extra = context.extra;
           final isDark = Theme.of(context).brightness == Brightness.dark;
           final onPrimary = extra.onPrimaryTextColor!;
           final primary = extra.primaryColor!;
-          final stage = state is PlantLoaded ? state.stage : PlantStage.seed;
-          final streak = state is PlantLoaded ? state.streakDays : 0;
+          final (stage, streak) = plant;
 
           _lastStage ??= stage;
 

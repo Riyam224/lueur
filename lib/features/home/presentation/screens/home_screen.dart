@@ -16,6 +16,12 @@ import 'package:lueur/features/home/presentation/widgets/mood_input_section.dart
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
+typedef _HomeMoodSlice = (
+  bool isLoading,
+  bool hasEntries,
+  String? errorMessage
+);
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -64,10 +70,14 @@ class _HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MoodCubit, MoodState>(
-      builder: (context, state) {
-        final hasEntries =
-            state is MoodHistorySuccess && state.entries.isNotEmpty;
+    return BlocSelector<MoodCubit, MoodState, _HomeMoodSlice>(
+      selector: (state) => (
+        state is MoodLoading,
+        state is MoodHistorySuccess && state.entries.isNotEmpty,
+        state is MoodError ? state.message : null,
+      ),
+      builder: (context, mood) {
+        final (isLoading, hasEntries, errorMessage) = mood;
 
         return CustomScrollView(
           slivers: [
@@ -85,7 +95,6 @@ class _HomeScreenBody extends StatelessWidget {
                 ),
               ),
             ),
-
             SliverPadding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.horizontalPaddingLg,
@@ -97,7 +106,6 @@ class _HomeScreenBody extends StatelessWidget {
                 ),
               ),
             ),
-
             SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.horizontalPaddingLg,
@@ -107,7 +115,6 @@ class _HomeScreenBody extends StatelessWidget {
               ),
               sliver: const SliverToBoxAdapter(child: HomeStreakWidget()),
             ),
-
             SliverPadding(
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.horizontalPaddingLg,
@@ -117,8 +124,7 @@ class _HomeScreenBody extends StatelessWidget {
               ),
               sliver: const SliverToBoxAdapter(child: MoodInputSection()),
             ),
-
-            if (state is MoodLoading)
+            if (isLoading)
               SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -134,8 +140,7 @@ class _HomeScreenBody extends StatelessWidget {
                   ),
                 ),
               ),
-
-            if (state is MoodError)
+            if (errorMessage != null)
               SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -143,12 +148,11 @@ class _HomeScreenBody extends StatelessWidget {
                     vertical: AppSpacing.sectionSpacingSm,
                   ),
                   child: Text(
-                    state.message,
+                    errorMessage,
                     style: const TextStyle(color: AppColors.errorColor),
                   ),
                 ),
               ),
-
             SliverToBoxAdapter(
               child: SizedBox(height: AppSpacing.sectionSpacingLg),
             ),
