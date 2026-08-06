@@ -100,7 +100,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                       ),
                       const Spacer(),
                       LunaCelebrationStage(
-                        idleController: _animations.idleController,
+                        burstController: _animations.burstController,
                         bloomScale: _animations.bloomScale,
                         lunaFade: _animations.lunaFade,
                       ),

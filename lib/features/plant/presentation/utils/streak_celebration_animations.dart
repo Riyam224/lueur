@@ -5,8 +5,9 @@ import 'package:flutter/animation.dart';
 import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 
 /// Bundles and drives every animation used by the streak celebration
-/// screen's staged entrance (bloom → Luna fade-in → progress fill →
-/// confetti), plus the looping idle animation for Luna's halo/sparkles/bob.
+/// screen's staged entrance: bloom → Luna fade-in → progress fill →
+/// confetti, plus a one-shot burst (halo pulse + sparkle twinkle + Luna
+/// bob) that plays once and settles rather than looping.
 class StreakCelebrationAnimations {
   StreakCelebrationAnimations({
     required TickerProvider vsync,
@@ -17,8 +18,8 @@ class StreakCelebrationAnimations {
             AnimationController(vsync: vsync, duration: lunaDuration),
         progressController =
             AnimationController(vsync: vsync, duration: progressDuration),
-        idleController =
-            AnimationController(vsync: vsync, duration: idleCycleDuration),
+        burstController =
+            AnimationController(vsync: vsync, duration: burstDuration),
         confettiController =
             ConfettiController(duration: const Duration(seconds: 2)) {
     bloomScale = Tween<double>(begin: 0.6, end: 1.0).animate(
@@ -31,9 +32,10 @@ class StreakCelebrationAnimations {
     ).animate(
       CurvedAnimation(parent: progressController, curve: Curves.easeOutCubic),
     );
-    // Loops for the rest of the screen's lifetime — gives Luna a gentle,
-    // festive "alive" idle motion (bob + halo pulse + sparkle twinkle).
-    unawaited(idleController.repeat());
+    // Plays once — one full sine cycle takes the halo pulse, sparkle
+    // twinkle, and Luna bob through a single "alive" flourish and back to
+    // their resting values, then holds there (no repeat()).
+    unawaited(burstController.forward());
   }
 
   static const bloomDuration = Duration(milliseconds: 500);
@@ -41,12 +43,12 @@ class StreakCelebrationAnimations {
   static const lunaDuration = Duration(milliseconds: 500);
   static const progressDuration = Duration(milliseconds: 700);
   static const confettiDelay = Duration(milliseconds: 200);
-  static const idleCycleDuration = Duration(milliseconds: 2400);
+  static const burstDuration = Duration(milliseconds: 2400);
 
   final AnimationController bloomController;
   final AnimationController lunaController;
   final AnimationController progressController;
-  final AnimationController idleController;
+  final AnimationController burstController;
   final ConfettiController confettiController;
   late final Animation<double> bloomScale;
   late final Animation<double> lunaFade;
@@ -69,7 +71,7 @@ class StreakCelebrationAnimations {
     bloomController.dispose();
     lunaController.dispose();
     progressController.dispose();
-    idleController.dispose();
+    burstController.dispose();
     confettiController.dispose();
   }
 }
