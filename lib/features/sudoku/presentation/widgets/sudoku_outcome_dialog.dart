@@ -23,6 +23,12 @@ Future<void> showSudokuOutcomeDialog(
   BuildContext context, {
   required SudokuOutcomeVariant variant,
 }) {
+  // showGeneralDialog pushes on the root navigator, which sits outside the
+  // route-scoped BlocProvider<SudokuCubit> — so the cubit must be captured
+  // here (this context is still a descendant of it) and re-provided into
+  // the dialog's own subtree, or context.read<SudokuCubit>() inside the
+  // dialog throws ProviderNotFoundException.
+  final sudokuCubit = context.read<SudokuCubit>();
   return showGeneralDialog(
     context: context,
     barrierLabel: AppLocalizations.of(context)!.commonDismissBarrierLabel,
@@ -30,8 +36,10 @@ Future<void> showSudokuOutcomeDialog(
     transitionDuration: const Duration(milliseconds: 220),
     transitionBuilder: (_, animation, __, child) =>
         FadeTransition(opacity: animation, child: child),
-    pageBuilder: (dialogContext, _, __) =>
-        SudokuOutcomeDialog(variant: variant),
+    pageBuilder: (dialogContext, _, __) => BlocProvider.value(
+      value: sudokuCubit,
+      child: SudokuOutcomeDialog(variant: variant),
+    ),
   );
 }
 
