@@ -22,7 +22,7 @@ class StreakGrowthWidget extends StatelessWidget {
       width: size,
       height: size,
       fit: BoxFit.contain,
-      repeat: false,
+      repeat: true,
       errorBuilder: (_, __, ___) => SizedBox(width: size, height: size),
     );
   }

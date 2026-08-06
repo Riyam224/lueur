@@ -8,14 +8,13 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/features/plant/presentation/widgets/sparkle_twinkle.dart';
 
 /// Luna's illustration, staged on a soft glowing halo with twinkling
-/// sparkles. [burstController] plays once and drives the halo pulse,
-/// sparkle twinkle, and Luna's gentle bob through a single flourish that
-/// settles back to rest — alongside the one-shot bloom/fade entrance
-/// animations.
+/// sparkles. [idleController] loops for the widget's whole lifetime and
+/// drives the halo pulse, sparkle twinkle, and Luna's gentle idle bob —
+/// independent of the one-shot bloom/fade entrance animations.
 class LunaCelebrationStage extends StatelessWidget {
   const LunaCelebrationStage({
     super.key,
-    required this.burstController,
+    required this.idleController,
     required this.bloomScale,
     required this.lunaFade,
   });
@@ -31,7 +30,7 @@ class LunaCelebrationStage extends StatelessWidget {
     Alignment(0.8, 0.8),
   ];
 
-  final AnimationController burstController;
+  final AnimationController idleController;
   final Animation<double> bloomScale;
   final Animation<double> lunaFade;
 
@@ -48,9 +47,9 @@ class LunaCelebrationStage extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           AnimatedBuilder(
-            animation: burstController,
+            animation: idleController,
             builder: (context, child) {
-              final pulse = 0.9 + 0.1 * sin(burstController.value * 2 * pi);
+              final pulse = 0.9 + 0.1 * sin(idleController.value * 2 * pi);
               return Transform.scale(
                 scale: pulse,
                 child: Container(
@@ -68,7 +67,7 @@ class LunaCelebrationStage extends StatelessWidget {
             Align(
               alignment: position,
               child: SparkleTwinkle(
-                controller: burstController,
+                controller: idleController,
                 phase: _sparklePositions.indexOf(position) * 0.25,
               ),
             ),
@@ -91,10 +90,10 @@ class LunaCelebrationStage extends StatelessWidget {
           FadeTransition(
             opacity: lunaFade,
             child: AnimatedBuilder(
-              animation: burstController,
+              animation: idleController,
               builder: (context, child) {
                 final bob =
-                    _bobAmplitude.h * sin(burstController.value * 2 * pi);
+                    _bobAmplitude.h * sin(idleController.value * 2 * pi);
                 return Transform.translate(
                   offset: Offset(0, bob),
                   child: child,

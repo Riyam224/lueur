@@ -23,7 +23,7 @@ class LunaAvatarWidget extends StatelessWidget {
         child: Lottie.asset(
           'assets/lottie/plant.json',
           fit: BoxFit.cover,
-          repeat: false,
+          repeat: true,
           animate: true,
           errorBuilder: (_, __, ___) => const Icon(Icons.spa_outlined, size: 40),
         ),

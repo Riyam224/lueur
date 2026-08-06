@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/styling/app_theme.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 import 'package:lueur/features/journal/domain/usecases/delete_journal_entry_usecase.dart';
 import 'package:lueur/features/journal/domain/usecases/get_journal_entries_usecase.dart';
 import 'package:lueur/features/journal/domain/usecases/set_journal_card_color_usecase.dart';
@@ -39,6 +40,8 @@ void main() {
       designSize: const Size(390, 844),
       builder: (context, child) => MaterialApp(
         theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: BlocProvider.value(
           value: cubit,
           child: Builder(

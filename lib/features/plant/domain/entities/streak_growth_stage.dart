@@ -34,8 +34,7 @@ enum StreakGrowthStage {
     final cycleDay = cycleDayFor(streakDays);
     if (cycleDay == 1) return StreakGrowthStage.seed;
     if (cycleDay <= 3) return StreakGrowthStage.sprout;
-    if (cycleDay <= 5) return StreakGrowthStage.plant;
-    if (cycleDay == 6) return StreakGrowthStage.blossom;
+    if (cycleDay <= 6) return StreakGrowthStage.plant;
     return StreakGrowthStage.blooming;
   }
 
