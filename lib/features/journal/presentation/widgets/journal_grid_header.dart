@@ -43,6 +43,10 @@ class JournalGridHeader extends StatelessWidget {
           style: ThemeTextStyles.bodyMedium(context)
               .copyWith(color: subheadingColor),
         ),
+        if (!isGuest) ...[
+          SizedBox(height: AppSpacing.spaceLg),
+          const WeeklyLetterBanner(),
+        ],
         SizedBox(height: AppSpacing.spaceLg),
         BlocBuilder<MoodCubit, MoodState>(
           builder: (context, moodState) {
@@ -61,10 +65,6 @@ class JournalGridHeader extends StatelessWidget {
             );
           },
         ),
-        if (!isGuest) ...[
-          SizedBox(height: AppSpacing.spaceLg),
-          const WeeklyLetterBanner(),
-        ],
         SizedBox(height: AppSpacing.spaceLg),
       ],
     );

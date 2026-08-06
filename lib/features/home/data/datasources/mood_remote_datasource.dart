@@ -32,7 +32,7 @@ class MoodRemoteDatasource {
       final List<dynamic> list;
       if (data is List) {
         list = data;
-        nextUrl = null;
+      nextUrl = null;
       } else {
         final map = data as Map<String, dynamic>;
         list = (map['results'] as List<dynamic>?) ?? [];
