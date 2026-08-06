@@ -644,7 +644,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get afterFeelingImOkay => 'سأكون بخير';
 
   @override
-  String get moodChoicePrompt => 'يوم صعب، صح؟';
+  String get moodChoicePrompt => 'يوم صعب، أليس كذلك؟';
 
   @override
   String get moodChoiceSubPrompt => 'أياً كان ما يناسبك الآن';
@@ -674,7 +674,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chatInputHint => 'شارك ما يدور في ذهنك...';
 
   @override
-  String get chatEmptyStateMessage => 'مرحباً، أنا لونا 💜\nأخبريني كيف تشعر';
+  String get chatEmptyStateMessage => 'مرحباً، أنا لونا 💜\nأخبرني كيف تشعر';
 
   @override
   String get chatTypingLabel => 'لونا تكتب';
@@ -716,14 +716,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sudokuDoneButton => 'تم';
 
   @override
-  String get sudokuOutcomeSuccessMessage => 'برافو! خلصتي اللغز 🌟';
+  String get sudokuOutcomeSuccessMessage => 'أحسنت! حللت اللغز 🌟';
 
   @override
-  String get sudokuOutcomeFailMessage => 'معلش، بعض الألغاز صعبة كده 🌱';
+  String get sudokuOutcomeFailMessage => 'لا بأس، بعض الألغاز تكون صعبة 🌱';
 
   @override
   String get sudokuResultSaveFailedNotice =>
-      'معرفناش نحفظ الجولة دي في السجل — مفيش مشكلة، كمّل لعب!';
+      'تعذّر حفظ هذه الجولة في السجل — لا مشكلة، تابع اللعب!';
 
   @override
   String get sudokuOutcomeNewGameButton => 'لعبة جديدة';
