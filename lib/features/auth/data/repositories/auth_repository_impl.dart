@@ -71,7 +71,9 @@ class AuthRepositoryImpl implements AuthRepository {
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
     } catch (_) {
-      return const Left(ServerFailure('Registration failed. Please try again.'));
+      return const Left(
+        ServerFailure('Registration failed. Please try again.'),
+      );
     }
   }
 
@@ -107,7 +109,9 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     } catch (e, st) {
       _logger.e('Google sign-in unexpected error', error: e, stackTrace: st);
-      return const Left(ServerFailure('Google sign-in failed. Please try again.'));
+      return const Left(
+        ServerFailure('Google sign-in failed. Please try again.'),
+      );
     }
   }
 
@@ -117,8 +121,11 @@ class AuthRepositoryImpl implements AuthRepository {
     if (user == null) return const Right(null);
 
     try {
-      final idToken = await _firebaseDataSource.refreshIdToken();
-      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
+      final djangoUser = await (() async {
+        final idToken = await _firebaseDataSource.refreshIdToken();
+        return _verifyTokenAndSyncInitialLanguage(idToken);
+      })()
+          .timeout(const Duration(seconds: 8));
       return Right(djangoUser);
     } on FirebaseAuthException catch (e, st) {
       // Only a genuine "this session is no longer valid" response from
@@ -152,7 +159,9 @@ class AuthRepositoryImpl implements AuthRepository {
         await _firebaseDataSource.logout();
         return const Right(null);
       }
-      _logger.w('Session restore failed (non-fatal, likely network): ${e.message}');
+      _logger.w(
+        'Session restore failed (non-fatal, likely network): ${e.message}',
+      );
       return Right(UserModel.fromFirebaseUser(user));
     } catch (e, st) {
       _logger.w(
@@ -207,13 +216,16 @@ class AuthRepositoryImpl implements AuthRepository {
   String _mapFirebaseError(FirebaseAuthException e) {
     return switch (e.code) {
       'user-not-found' => 'No account found with this email.',
-      'wrong-password' || 'invalid-credential' => 'Incorrect email or password.',
+      'wrong-password' ||
+      'invalid-credential' =>
+        'Incorrect email or password.',
       'email-already-in-use' => 'An account already exists with this email.',
       'invalid-email' => 'Please enter a valid email address.',
       'weak-password' => 'Password is too weak. Use at least 6 characters.',
       'user-disabled' => 'This account has been disabled.',
       'too-many-requests' => 'Too many attempts. Please try again later.',
-      'network-request-failed' => 'No internet connection. Please check your network.',
+      'network-request-failed' =>
+        'No internet connection. Please check your network.',
       _ => e.message ?? 'Authentication failed. Please try again.',
     };
   }

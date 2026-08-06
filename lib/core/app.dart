@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/router_generation_config.dart';
+import 'package:lueur/core/styling/app_assets.dart';
+import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_theme.dart';
 import 'package:lueur/features/language/presentation/cubit/language_cubit.dart';
 import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
@@ -42,10 +44,24 @@ class _AppLoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        backgroundColor: AppColors.lightBackground,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(AppAssets.lunaCharacter, width: 160, height: 160),
+              const SizedBox(height: 24),
+              const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2.5),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

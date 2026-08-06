@@ -12,6 +12,9 @@ class DioHelper {
       BaseOptions(
         baseUrl: ApiEndpoints.baseUrl,
         receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(seconds: 10),
+        sendTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 15),
       ),
     );
     dio.interceptors.addAll([authInterceptor, PrettyDioLogger()]);
