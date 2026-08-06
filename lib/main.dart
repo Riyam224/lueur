@@ -12,7 +12,7 @@ import 'package:lueur/firebase_options.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  SentryWidgetsFlutterBinding.ensureInitialized();
 
   const sentryDsn = String.fromEnvironment('SENTRY_DSN');
   const appEnvironment = String.fromEnvironment(
