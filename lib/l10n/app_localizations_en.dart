@@ -424,6 +424,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Keep journaling — your letter will be ready at the end of the week.';
 
   @override
+  String get weeklyLetterErrorMessage =>
+      'Your letter couldn\'t load. Check your connection and try again.';
+
+  @override
+  String get weeklyLetterRetry => 'Retry weekly letter';
+
+  @override
   String get weeklyLetterShowLess => 'Show less';
 
   @override

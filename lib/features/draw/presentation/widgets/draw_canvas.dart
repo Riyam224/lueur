@@ -33,16 +33,19 @@ class DrawCanvas extends StatelessWidget {
                   color: extra.borderColor ?? AppColors.cardBorder,
                 ),
               ),
-              child: GestureDetector(
-                onPanStart: (details) => context
-                    .read<DrawCubit>()
-                    .startStroke(details.localPosition),
-                onPanUpdate: (details) => context
-                    .read<DrawCubit>()
-                    .extendStroke(details.localPosition),
-                child: CustomPaint(
-                  size: Size.infinite,
-                  painter: DrawPainter(paths: state.paths),
+              child: RepaintBoundary(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onPanStart: (details) => context
+                      .read<DrawCubit>()
+                      .startStroke(details.localPosition),
+                  onPanUpdate: (details) => context
+                      .read<DrawCubit>()
+                      .extendStroke(details.localPosition),
+                  child: CustomPaint(
+                    size: Size.infinite,
+                    painter: DrawPainter(paths: state.paths),
+                  ),
                 ),
               ),
             ),

@@ -24,15 +24,25 @@ void main() {
     test('extendStroke appends points to the last path only', () {
       final cubit = DrawCubit();
       cubit.startStroke(const Offset(0, 0));
-      cubit.extendStroke(const Offset(1, 1));
-      cubit.extendStroke(const Offset(2, 2));
+      cubit.extendStroke(const Offset(3, 0));
+      cubit.extendStroke(const Offset(6, 0));
 
       expect(cubit.state.paths.length, 1);
       expect(cubit.state.paths.first.points, [
         const Offset(0, 0),
-        const Offset(1, 1),
-        const Offset(2, 2),
+        const Offset(3, 0),
+        const Offset(6, 0),
       ]);
+      cubit.close();
+    });
+
+    test('extendStroke ignores pointer noise too close to the last point', () {
+      final cubit = DrawCubit();
+      cubit.startStroke(const Offset(10, 10));
+
+      cubit.extendStroke(const Offset(10.5, 10.5));
+
+      expect(cubit.state.paths.single.points, [const Offset(10, 10)]);
       cubit.close();
     });
 

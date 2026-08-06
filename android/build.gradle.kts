@@ -1,10 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-plugins {
-    id("org.jetbrains.kotlin.android") apply false
-}
-
 buildscript {
     repositories {
         google()
@@ -34,19 +27,6 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(":app")
-}
-
-subprojects {
-    if (name == "sentry_flutter") {
-        afterEvaluate {
-            tasks.withType<KotlinCompile>().configureEach {
-                compilerOptions {
-                    languageVersion.set(KotlinVersion.KOTLIN_1_9)
-                    apiVersion.set(KotlinVersion.KOTLIN_1_9)
-                }
-            }
-        }
-    }
 }
 
 tasks.register<Delete>("clean") {

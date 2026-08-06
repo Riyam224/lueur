@@ -866,6 +866,18 @@ abstract class AppLocalizations {
   /// **'Keep journaling — your letter will be ready at the end of the week.'**
   String get weeklyLetterWaitingMessage;
 
+  /// No description provided for @weeklyLetterErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your letter couldn\'t load. Check your connection and try again.'**
+  String get weeklyLetterErrorMessage;
+
+  /// No description provided for @weeklyLetterRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry weekly letter'**
+  String get weeklyLetterRetry;
+
   /// No description provided for @weeklyLetterShowLess.
   ///
   /// In en, this message translates to:

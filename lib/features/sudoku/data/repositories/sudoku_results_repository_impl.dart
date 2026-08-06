@@ -19,7 +19,7 @@ class SudokuResultsRepositoryImpl implements SudokuResultsRepository {
   @override
   Future<Either<Failure, List<SudokuResultEntity>>> getResults() async {
     try {
-      final results = _local.getResults(userId: _currentUserId);
+      final results = await _local.getResults(userId: _currentUserId);
       return Right(results.map((r) => r.toEntity()).toList());
     } catch (e) {
       _logger.e('Failed to load sudoku results: $e');

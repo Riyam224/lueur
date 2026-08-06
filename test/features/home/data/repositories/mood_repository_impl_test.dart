@@ -31,7 +31,7 @@ void main() {
       () => local.getCachedHistory(
         userId: MoodLocalDatasource.guestUserId,
       ),
-    ).thenReturn([]);
+    ).thenAnswer((_) async => []);
 
     final result = await repository.getHistory();
 

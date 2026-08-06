@@ -175,6 +175,8 @@
   "weeklyLetterBannerTitle": "Your weekly letter",
   "weeklyLetterScreenTitle": "Weekly letter",
   "weeklyLetterWaitingMessage": "Keep journaling — your letter will be ready at the end of the week.",
+  "weeklyLetterErrorMessage": "Your letter couldn't load. Check your connection and try again.",
+  "weeklyLetterRetry": "Retry weekly letter",
   "weeklyLetterShowLess": "Show less",
   "weeklyLetterReadMore": "Read more",
   "weeklyLetterEntriesChip": "{count} entries",

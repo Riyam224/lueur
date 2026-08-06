@@ -1,7 +1,22 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lueur/features/home/data/models/mood_entry_model.dart';
+
+/// A long-time journaler's cache can grow into thousands of entries, so
+/// decoding/encoding runs off the UI isolate via [compute] to avoid
+/// janking/ANRing the app.
+List<MoodEntryModel> _decodeEntries(String jsonStr) {
+  final list = jsonDecode(jsonStr) as List<dynamic>;
+  return list
+      .map((e) => MoodEntryModel.fromJson(e as Map<String, dynamic>))
+      .toList();
+}
+
+String _encodeEntries(List<MoodEntryModel> entries) {
+  return jsonEncode(entries.map((e) => e.toJson()).toList());
+}
 
 class MoodLocalDatasource {
   static const String boxName = 'mood_cache';
@@ -12,25 +27,24 @@ class MoodLocalDatasource {
   /// Per-user Hive key so entries never bleed between accounts on the same device
   String _key(String userId) => 'entries_$userId';
 
-  List<MoodEntryModel> getCachedHistory({required String userId}) {
+  Future<List<MoodEntryModel>> getCachedHistory({
+    required String userId,
+  }) async {
     final jsonStr = _box.get(_key(userId));
     if (jsonStr == null) return [];
-    final list = jsonDecode(jsonStr) as List<dynamic>;
-    return list
-        .map((e) => MoodEntryModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return compute(_decodeEntries, jsonStr);
   }
 
   Future<void> cacheHistory(
     List<MoodEntryModel> entries, {
     required String userId,
   }) async {
-    final encoded = jsonEncode(entries.map((e) => e.toJson()).toList());
+    final encoded = await compute(_encodeEntries, entries);
     await _box.put(_key(userId), encoded);
   }
 
   Future<void> addEntry(MoodEntryModel entry, {required String userId}) async {
-    final existing = getCachedHistory(userId: userId);
+    final existing = await getCachedHistory(userId: userId);
     final updated = [
       entry,
       ...existing.where((e) => e.id != entry.id),
@@ -39,7 +53,7 @@ class MoodLocalDatasource {
   }
 
   Future<void> deleteEntry(int id, {required String userId}) async {
-    final existing = getCachedHistory(userId: userId);
+    final existing = await getCachedHistory(userId: userId);
     final updated = existing.where((e) => e.id != id).toList();
     await cacheHistory(updated, userId: userId);
   }
@@ -59,7 +73,7 @@ class MoodLocalDatasource {
     String cardColor, {
     required String userId,
   }) async {
-    final existing = getCachedHistory(userId: userId);
+    final existing = await getCachedHistory(userId: userId);
     final index = existing.indexWhere((e) => e.id == id);
     if (index == -1) return null;
 
@@ -76,7 +90,7 @@ class MoodLocalDatasource {
     bool pinned, {
     required String userId,
   }) async {
-    final existing = getCachedHistory(userId: userId);
+    final existing = await getCachedHistory(userId: userId);
     final index = existing.indexWhere((e) => e.id == id);
     if (index == -1) return null;
 

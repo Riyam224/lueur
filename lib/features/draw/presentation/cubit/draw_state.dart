@@ -1,8 +1,12 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_path.dart';
 
-class DrawState extends Equatable {
+/// Not [Equatable]: deep-comparing every point of every stroke on each
+/// emit (which [Cubit.emit] does to skip no-op updates) is exactly the
+/// kind of per-point-move cost that must stay off the UI thread here.
+/// Every [copyWith] call already produces a distinct instance, so plain
+/// identity is enough to tell states apart.
+class DrawState {
   final List<DrawPath> paths;
   final Color currentColor;
 
@@ -14,7 +18,4 @@ class DrawState extends Equatable {
       currentColor: currentColor ?? this.currentColor,
     );
   }
-
-  @override
-  List<Object?> get props => [paths, currentColor];
 }

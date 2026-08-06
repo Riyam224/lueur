@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/app_fonts.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:lueur/features/onboarding/presentation/models/onboarding_page_data.dart';
@@ -151,7 +151,8 @@ class _OnboardingCard extends StatelessWidget {
                     children: [
                       Text(
                         data.title,
-                        style: GoogleFonts.nunito(
+                        style: TextStyle(
+                          fontFamily: AppFonts.mainFontName,
                           fontSize: OnboardingConstants.pageTitleFontSize,
                           fontWeight: FontWeight.w800,
                           color: context.extra.primaryTextColor,
@@ -163,7 +164,8 @@ class _OnboardingCard extends StatelessWidget {
                       ),
                       Text(
                         data.subtitle,
-                        style: GoogleFonts.dmSans(
+                        style: TextStyle(
+                          fontFamily: AppFonts.dmSansFontName,
                           fontSize: OnboardingConstants.pageSubtitleFontSize,
                           fontWeight: FontWeight.w400,
                           color: context.extra.secondaryTextColor,

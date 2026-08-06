@@ -19,7 +19,7 @@ class SavedQuotesRepositoryImpl implements SavedQuotesRepository {
   @override
   Future<Either<Failure, List<SavedQuoteEntity>>> getQuotes() async {
     try {
-      final quotes = _local.getQuotes(userId: _currentUserId);
+      final quotes = await _local.getQuotes(userId: _currentUserId);
       return Right(quotes.map((q) => q.toEntity()).toList());
     } catch (e) {
       _logger.e('Failed to load quotes: $e');

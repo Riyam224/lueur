@@ -39,9 +39,9 @@ void main() {
     await datasource.clearGuestHistory();
 
     expect(
-      datasource.getCachedHistory(userId: MoodLocalDatasource.guestUserId),
+      await datasource.getCachedHistory(userId: MoodLocalDatasource.guestUserId),
       isEmpty,
     );
-    expect(datasource.getCachedHistory(userId: 'uid-1'), hasLength(1));
+    expect(await datasource.getCachedHistory(userId: 'uid-1'), hasLength(1));
   });
 }

@@ -29,7 +29,7 @@ dependencies:
   equatable: ^2.0.5
   firebase_auth: ^6.5.4
   firebase_core: ^4.11.0
-  firebase_analytics: ^12.4.5
+  firebase_analytics: ^12.4.6
   google_sign_in: ^6.2.2
   flutter:
     sdk: flutter
@@ -49,10 +49,10 @@ dependencies:
   lottie: ^3.3.2
   pretty_dio_logger: ^1.4.0
   screenshot: ^3.0.0
-  share_plus: ^10.1.4
+  share_plus: ^13.1.0
   shared_preferences: ^2.5.3
-  sentry_flutter: ^8.14.2
-  sentry_dio: ^8.14.2
+  sentry_flutter: ^9.26.0
+  sentry_dio: ^9.26.0
 
 dev_dependencies:
   sentry_dart_plugin: ^3.4.0
@@ -104,6 +104,9 @@ flutter:
         - asset: assets/fonts/DMSerifDisplay-Regular.ttf
         - asset: assets/fonts/DMSerifDisplay-Italic.ttf
           style: italic
+    - family: DMSans
+      fonts:
+        - asset: assets/fonts/DMSans-Variable.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see

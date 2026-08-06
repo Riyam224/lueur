@@ -72,7 +72,7 @@ List<DrawPath> _fitToFrame(
       .toList();
 }
 
-class SavedDrawingThumbnail extends StatelessWidget {
+class SavedDrawingThumbnail extends StatefulWidget {
   final SavedDrawingEntity drawing;
 
   const SavedDrawingThumbnail({super.key, required this.drawing});
@@ -80,18 +80,33 @@ class SavedDrawingThumbnail extends StatelessWidget {
   static const double _frameSize = 400;
 
   @override
-  Widget build(BuildContext context) {
-    final fittedPaths = _fitToFrame(
-      drawPathsFromEntity(drawing),
-      frameSize: _frameSize,
-    );
+  State<SavedDrawingThumbnail> createState() => _SavedDrawingThumbnailState();
+}
 
+class _SavedDrawingThumbnailState extends State<SavedDrawingThumbnail> {
+  late List<DrawPath> _fittedPaths = _compute();
+
+  List<DrawPath> _compute() => _fitToFrame(
+        drawPathsFromEntity(widget.drawing),
+        frameSize: SavedDrawingThumbnail._frameSize,
+      );
+
+  @override
+  void didUpdateWidget(covariant SavedDrawingThumbnail oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.drawing != widget.drawing) {
+      _fittedPaths = _compute();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FittedBox(
       child: ClipRect(
         child: SizedBox(
-          width: _frameSize,
-          height: _frameSize,
-          child: CustomPaint(painter: DrawPainter(paths: fittedPaths)),
+          width: SavedDrawingThumbnail._frameSize,
+          height: SavedDrawingThumbnail._frameSize,
+          child: CustomPaint(painter: DrawPainter(paths: _fittedPaths)),
         ),
       ),
     );

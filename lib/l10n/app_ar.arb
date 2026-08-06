@@ -128,6 +128,8 @@
   "weeklyLetterBannerTitle": "رسالتك الأسبوعية",
   "weeklyLetterScreenTitle": "الرسالة الأسبوعية",
   "weeklyLetterWaitingMessage": "استمر في الكتابة — ستكون رسالتك جاهزة في نهاية الأسبوع",
+  "weeklyLetterErrorMessage": "تعذر تحميل رسالتك. تحقق من الاتصال وحاول مرة أخرى",
+  "weeklyLetterRetry": "إعادة محاولة تحميل الرسالة الأسبوعية",
   "weeklyLetterShowLess": "عرض أقل",
   "weeklyLetterReadMore": "قراءة المزيد",
   "weeklyLetterEntriesChip": "{count} مدخلة",

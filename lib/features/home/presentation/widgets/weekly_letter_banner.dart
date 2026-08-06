@@ -4,9 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_assets.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:lueur/features/home/presentation/widgets/weekly_letter_content.dart';
 import 'package:lueur/features/home/presentation/widgets/weekly_letter_shell.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Floating dismissible weekly-letter card shown at the top of the home screen.
 /// The user swipes it away (or taps ×) to hide it for this session.
@@ -68,6 +71,44 @@ class _WeeklyLetterBannerState extends State<WeeklyLetterBanner>
                   height: 24.h,
                   repeat: true,
                 ),
+              ),
+            ),
+          );
+        }
+
+        if (state is WeeklyLetterError) {
+          final l10n = AppLocalizations.of(context)!;
+          return WeeklyLetterShell(
+            fadeAnimation: _fadeAnim,
+            onDismissed: () => setState(() => _dismissed = true),
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.spaceLg),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.weeklyLetterBannerTitle,
+                          style: ThemeTextStyles.titleMedium(context),
+                        ),
+                        SizedBox(height: AppSpacing.spaceXs),
+                        Text(
+                          l10n.weeklyLetterErrorMessage,
+                          style: ThemeTextStyles.bodySmall(context).copyWith(
+                            color: context.extra.secondaryTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: l10n.weeklyLetterRetry,
+                    onPressed: () => context.read<WeeklyLetterCubit>().load(),
+                    icon: const Icon(Icons.refresh_rounded),
+                  ),
+                ],
               ),
             ),
           );

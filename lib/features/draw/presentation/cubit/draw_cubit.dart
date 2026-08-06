@@ -8,6 +8,9 @@ import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
 /// layers, since there's nothing here to save, sync, or coordinate through
 /// a repository. Mirrors the presentation-only exception used for onboarding.
 class DrawCubit extends Cubit<DrawState> {
+  static const double _minimumPointDistanceSquared = 6.25;
+  static const int _maximumPointsPerStroke = 12000;
+
   DrawCubit()
       : super(const DrawState(currentColor: CalmModeColors.lavenderGlow));
 
@@ -32,10 +35,21 @@ class DrawCubit extends Cubit<DrawState> {
     if (isClosed) return;
     if (state.paths.isEmpty) return;
 
-    final updatedPaths = List<DrawPath>.from(state.paths);
-    updatedPaths[updatedPaths.length - 1] =
-        updatedPaths.last.addPoint(point);
-    emit(state.copyWith(paths: updatedPaths));
+    final activePath = state.paths.last;
+    if (activePath.points.length >= _maximumPointsPerStroke) return;
+
+    final lastPoint = activePath.points.last;
+    if ((point - lastPoint).distanceSquared < _minimumPointDistanceSquared) {
+      return;
+    }
+
+    // Mutate the in-progress stroke's points in place (O(1) amortized)
+    // instead of copying the whole stroke on every pointer-move event.
+    // The outer list is still copied — but that's O(stroke count), not
+    // O(point count), so it stays cheap while still giving DrawPainter a
+    // new list reference to trigger a repaint.
+    activePath.addPoint(point);
+    emit(state.copyWith(paths: List<DrawPath>.of(state.paths)));
   }
 
   void clear() {

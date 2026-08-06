@@ -419,6 +419,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'استمر في الكتابة — ستكون رسالتك جاهزة في نهاية الأسبوع';
 
   @override
+  String get weeklyLetterErrorMessage =>
+      'تعذر تحميل رسالتك. تحقق من الاتصال وحاول مرة أخرى';
+
+  @override
+  String get weeklyLetterRetry => 'إعادة محاولة تحميل الرسالة الأسبوعية';
+
+  @override
   String get weeklyLetterShowLess => 'عرض أقل';
 
   @override

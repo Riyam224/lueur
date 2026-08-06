@@ -19,7 +19,7 @@ class SavedDrawingsRepositoryImpl implements SavedDrawingsRepository {
   @override
   Future<Either<Failure, List<SavedDrawingEntity>>> getDrawings() async {
     try {
-      final drawings = _local.getDrawings(userId: _currentUserId);
+      final drawings = await _local.getDrawings(userId: _currentUserId);
       return Right(drawings.map((d) => d.toEntity()).toList());
     } catch (e) {
       _logger.e('Failed to load saved drawings: $e');

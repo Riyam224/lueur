@@ -27,6 +27,7 @@ class ProfileAvatarWidget extends StatelessWidget {
         SizedBox(height: AppSpacing.spaceXs),
 
         Text(subtitle, style: ThemeTextStyles.bodySmall(context)),
+        SizedBox(height: AppSpacing.sectionSpacingSm),
       ],
     );
   }

@@ -76,7 +76,7 @@ class MoodRepositoryImpl implements MoodRepository {
   @override
   Future<Either<Failure, List<MoodEntryEntity>>> getHistory() async {
     if (_isGuest) {
-      final cached = _local.getCachedHistory(
+      final cached = await _local.getCachedHistory(
         userId: MoodLocalDatasource.guestUserId,
       );
       return Right(cached.map((model) => model.toEntity()).toList());
@@ -95,7 +95,7 @@ class MoodRepositoryImpl implements MoodRepository {
       // The backend doesn't know about cardColor/pinned — carry over the
       // locally cached values so a refresh doesn't wipe journal grid
       // customization back to defaults.
-      final merged = _mergeLocalOnlyFields(models);
+      final merged = await _mergeLocalOnlyFields(models);
 
       await _local.cacheHistory(merged, userId: _currentUserId);
 
@@ -110,6 +110,17 @@ class MoodRepositoryImpl implements MoodRepository {
       _logger.w('Unexpected error, falling back to cache: $e');
       return _fallbackToCache(NetworkFailure('Unexpected error: $e'));
     }
+  }
+
+  Future<Either<Failure, List<MoodEntryEntity>>> _fallbackToCache(
+    Failure failure,
+  ) async {
+    final cached = await _local.getCachedHistory(userId: _currentUserId);
+    if (cached.isNotEmpty) {
+      _logger.i('Returning ${cached.length} cached entries for current user');
+      return Right(cached.map((m) => m.toEntity()).toList());
+    }
+    return Left(failure);
   }
 
   @override
@@ -136,19 +147,10 @@ class MoodRepositoryImpl implements MoodRepository {
     }
   }
 
-  Either<Failure, List<MoodEntryEntity>> _fallbackToCache(Failure failure) {
-    final cached = _local.getCachedHistory(userId: _currentUserId);
-    if (cached.isNotEmpty) {
-      _logger.i('Returning ${cached.length} cached entries for current user');
-      return Right(cached.map((m) => m.toEntity()).toList());
-    }
-    return Left(failure);
-  }
-
-  List<MoodEntryModel> _mergeLocalOnlyFields(
-      List<MoodEntryModel> remoteModels,) {
+  Future<List<MoodEntryModel>> _mergeLocalOnlyFields(
+      List<MoodEntryModel> remoteModels,) async {
     final cachedById = {
-      for (final entry in _local.getCachedHistory(userId: _currentUserId))
+      for (final entry in await _local.getCachedHistory(userId: _currentUserId))
         entry.id: entry,
     };
 

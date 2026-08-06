@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/initials_avatar.dart';
 import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
 import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
-import 'package:lueur/l10n/app_localizations.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -31,14 +29,6 @@ class HomeHeader extends StatelessWidget {
           diameter: AppSizes.avatarSm,
           name: userName,
           seed: userSeed,
-        ),
-
-        Flexible(
-          child: Text(
-            AppLocalizations.of(context)!.appName,
-            overflow: TextOverflow.ellipsis,
-            style: ThemeTextStyles.headlineSmall(context),
-          ),
         ),
 
         BlocBuilder<ThemeCubit, ThemeModeOption>(

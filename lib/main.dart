@@ -5,17 +5,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lueur/core/app.dart';
-import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/bootstrap/app_startup.dart';
 import 'package:lueur/core/monitoring/sentry_privacy_filter.dart';
-import 'package:lueur/features/draw/data/datasources/saved_drawings_local_datasource.dart';
-import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart';
-import 'package:lueur/features/quotes/data/datasources/saved_quotes_local_datasource.dart';
-import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_datasource.dart';
 import 'package:lueur/firebase_options.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,29 +20,16 @@ Future<void> main() async {
     defaultValue: 'development',
   );
 
+  // DM Sans is bundled locally (assets/fonts/DMSans-Variable.ttf) — never
+  // fetch fonts over the network at runtime, which used to block cold
+  // starts on a call to Google's font CDN.
+  GoogleFonts.config.allowRuntimeFetching = false;
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   unawaited(FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true));
-
-  await Hive.initFlutter();
-  await Future.wait([
-    Hive.openBox<String>(MoodLocalDatasource.boxName),
-    Hive.openBox<String>(SavedQuotesLocalDatasource.boxName),
-    Hive.openBox<String>(SudokuResultsLocalDatasource.boxName),
-    Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName),
-  ]);
-  // Guest entries are session-only. Clear only the anonymous key; cached
-  // histories belonging to registered Firebase UIDs remain untouched.
-  await MoodLocalDatasource().clearGuestHistory();
-  final sharedPreferences = await SharedPreferences.getInstance();
-
-  setupInjection(sharedPreferences: sharedPreferences);
-
-  await GoogleFonts.pendingFonts([
-    GoogleFonts.dmSans(),
-  ]);
 
   await SentryFlutter.init(
     (options) {
@@ -77,7 +58,10 @@ Future<void> main() async {
         return true;
       };
 
-      runApp(const Lueur());
+      // Hive, SharedPreferences, and DI setup run in the background —
+      // runApp() draws the first frame immediately instead of waiting on
+      // them. Lueur shows a loading state until this future completes.
+      runApp(Lueur(initialization: initializeAppServices()));
     },
   );
 }
