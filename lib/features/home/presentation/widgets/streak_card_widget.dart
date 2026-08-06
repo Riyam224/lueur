@@ -134,7 +134,7 @@ class StreakCardWidget extends StatelessWidget {
                   width: AppSizes.avatarSm,
                   height: AppSizes.avatarSm,
                   fit: BoxFit.contain,
-                  repeat: true,
+                  repeat: false,
                   errorBuilder: (_, __, ___) => SizedBox(
                     width: AppSizes.avatarSm,
                     height: AppSizes.avatarSm,
