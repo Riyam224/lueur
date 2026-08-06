@@ -172,7 +172,7 @@
       "streak": {"type": "int"}
     }
   },
-  "homeNextMilestoneHint": "{days} more days to {milestone} 🌱",
+  "homeNextMilestoneHint": "{days, plural, one{1 more day to {milestone} 🌱} other{{days} more days to {milestone} 🌱}}",
   "@homeNextMilestoneHint": {
     "placeholders": {
       "days": {"type": "int"},

@@ -415,7 +415,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String homeNextMilestoneHint(int days, int milestone) {
-    return '$days more days to $milestone 🌱';
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days more days to $milestone 🌱',
+      one: '1 more day to $milestone 🌱',
+    );
+    return '$_temp0';
   }
 
   @override

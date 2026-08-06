@@ -851,7 +851,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeNextMilestoneHint.
   ///
   /// In en, this message translates to:
-  /// **'{days} more days to {milestone} 🌱'**
+  /// **'{days, plural, one{1 more day to {milestone} 🌱} other{{days} more days to {milestone} 🌱}}'**
   String homeNextMilestoneHint(int days, int milestone);
 
   /// No description provided for @weeklyLetterBannerTitle.
