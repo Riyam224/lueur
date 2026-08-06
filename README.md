@@ -99,8 +99,13 @@ The flow below follows the app in order — onboarding → sign in → capture a
   </tr>
   <tr>
     <td>Choose a mood</td>
-    <td><img src="screenshots/choose_mood_light.png" width="180" alt="Choosing a mood, light theme"/></td>
+    <td><img src="screenshots/home_screen_light.png" width="180" alt="Choosing a mood, light theme"/></td>
     <td><img src="screenshots/home_screen_dark.png" width="180" alt="Choosing a mood, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Mood choice dialog</td>
+    <td><img src="screenshots/features_lght.png" width="180" alt="Mood choice dialog offering Talk, Breathe, Draw, or Sudoku, light theme"/></td>
+    <td><img src="screenshots/features_dark.png" width="180" alt="Mood choice dialog offering Talk, Breathe, Draw, or Sudoku, dark theme"/></td>
   </tr>
   <tr>
     <td>Luna's AI response</td>
