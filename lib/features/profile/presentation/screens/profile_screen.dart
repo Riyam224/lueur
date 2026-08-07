@@ -95,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Text('📌',
-                              style: TextStyle(fontSize: AppSizes.iconLg)),
+                              style: TextStyle(fontSize: AppSizes.iconLg),),
                           SizedBox(height: AppSpacing.spaceSm),
                           Text(
                             AppLocalizations.of(context)!.quotesScreenTitle,
@@ -144,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: context.extra.cardBackgroundColor,
                                 borderRadius: BorderRadius.circular(
-                                    AppSizes.borderRadiusLg),
+                                    AppSizes.borderRadiusLg,),
                                 border: Border.all(
                                   color: context.extra.borderColor ??
                                       Theme.of(context).colorScheme.outline,
