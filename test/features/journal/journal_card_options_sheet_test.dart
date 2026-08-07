@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/styling/app_theme.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 import 'package:lueur/features/journal/domain/usecases/delete_journal_entry_usecase.dart';
 import 'package:lueur/features/journal/domain/usecases/get_journal_entries_usecase.dart';
 import 'package:lueur/features/journal/domain/usecases/set_journal_card_color_usecase.dart';
@@ -10,7 +11,6 @@ import 'package:lueur/features/journal/domain/usecases/toggle_journal_pin_usecas
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
-import 'package:lueur/l10n/app_localizations.dart';
 
 import 'journal_grid_cubit_test.dart' show FakeMoodRepository, buildTestEntry;
 
