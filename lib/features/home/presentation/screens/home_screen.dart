@@ -101,9 +101,46 @@ class _HomeScreenBody extends StatelessWidget {
                 horizontal: AppSpacing.horizontalPaddingLg,
               ),
               sliver: SliverToBoxAdapter(
-                child: GreetingCard(
-                  userName: userName,
-                  hasEntries: hasEntries,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // Ambient gradient bleed: softens the hard edge between
+                    // the greeting card and the mood picker below it. Purely
+                    // decorative — sized/positioned behind the card, never
+                    // affects the card's or the mood section's layout.
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: -AppSpacing.sectionSpacingLg,
+                      height: AppSpacing.sectionSpacingLg,
+                      child: IgnorePointer(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                (Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? AppColors.pastelOrchid
+                                    : AppColors.greetingGradientStart)
+                                    .withValues(alpha: 0.22),
+                                (Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? AppColors.pastelOrchid
+                                    : AppColors.greetingGradientStart)
+                                    .withValues(alpha: 0.0),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GreetingCard(
+                      userName: userName,
+                      hasEntries: hasEntries,
+                    ),
+                  ],
                 ),
               ),
             ),
