@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
@@ -154,7 +155,11 @@ class _HomeScreenBody extends StatelessWidget {
                 ),
               ),
             SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.sectionSpacingLg),
+              child: SizedBox(
+                height: MediaQuery.of(context).padding.bottom +
+                    kBottomNavBarContentHeight +
+                    AppSpacing.sectionSpacingSm,
+              ),
             ),
           ],
         );

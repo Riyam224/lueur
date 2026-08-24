@@ -8,6 +8,25 @@ import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
+/// Approximate rendered height of [AppBottomNavBar]'s content — the pill
+/// itself plus its internal paddings — excluding the device's bottom
+/// system inset (that's handled separately via [AppBottomNavBar]'s own
+/// [SafeArea] and via [MediaQuery] wherever this constant is consumed).
+///
+/// Used by screens whose scrollable content sits behind the nav bar
+/// (see [MainShellScreen]'s `extendBody: true`) to reserve enough trailing
+/// space that content doesn't end up hidden underneath the pill. Keep this
+/// in sync with the paddings/sizes below if the nav bar's layout changes.
+final double kBottomNavBarContentHeight =
+    8.h * 2 + // outer content Padding (vertical)
+    7.h * 2 + // _NavItem padding (vertical)
+    22.sp + // icon size
+    3.h + // spacing under icon
+    16.sp + // label line height (approx)
+    3.h + // spacing under label
+    5.h + // active-indicator dot
+    12.h; // AppBottomNavBar's own SafeArea `minimum` bottom padding
+
 /// Glassy, floating pill-shaped bottom navigation bar
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;
