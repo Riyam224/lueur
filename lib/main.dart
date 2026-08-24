@@ -16,7 +16,7 @@ Future<void> main() async {
     'APP_ENV',
     defaultValue: 'development',
   );
-//
+
   // DM Sans is bundled locally (assets/fonts/DMSans-Variable.ttf) — never
   // fetch fonts over the network at runtime, which used to block cold
   // starts on a call to Google's font CDN.
