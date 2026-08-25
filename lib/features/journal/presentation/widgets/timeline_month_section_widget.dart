@@ -3,6 +3,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/timeline_layout.dart';
+import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
 import 'package:lueur/features/journal/presentation/widgets/month_separator_widget.dart';
@@ -52,17 +53,23 @@ class TimelineMonthSectionWidget extends StatelessWidget {
                   offset: TimelineLayout.scatterFor(
                     section.groups[i].representative.id,
                   ),
-                  child: JournalGridCardWidget(
-                    entry: section.groups[i].representative,
-                    index: i,
-                    size: TimelineLayout.sizeForRank(i),
-                    duration: section.groups[i].conversationDuration,
-                    onTap: () => onOpenDay(section.groups[i]),
-                    onLongPress: () => showJournalCardOptionsSheet(
-                      context,
-                      entryId: section.groups[i].representative.id,
-                    ),
-                  ),
+                  child: section.groups[i].representative.entryType ==
+                          'mood_chat'
+                      ? JournalGridCardWidget(
+                          entry: section.groups[i].representative,
+                          index: i,
+                          size: TimelineLayout.sizeForRank(i),
+                          duration: section.groups[i].conversationDuration,
+                          onTap: () => onOpenDay(section.groups[i]),
+                          onLongPress: () => showJournalCardOptionsSheet(
+                            context,
+                            entryId: section.groups[i].representative.id,
+                          ),
+                        )
+                      : JournalActivityChoiceCard(
+                          entry: section.groups[i].representative,
+                          size: TimelineLayout.sizeForRank(i),
+                        ),
                 ),
             ],
           ),
