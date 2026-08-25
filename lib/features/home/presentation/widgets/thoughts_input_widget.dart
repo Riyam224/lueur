@@ -16,6 +16,14 @@ class ThoughtsInputWidget extends StatelessWidget {
     required this.onSubmit,
   });
 
+  static const int _maxThoughtsLines = 5;
+  static const int _maxThoughtsLength = 500;
+
+  static const int _encouragementStartThreshold = 50;
+  static const int _encouragementContinueThreshold = 150;
+  static const int _encouragementOpeningUpThreshold = 300;
+  static const int _encouragementBeautifulThreshold = 450;
+
   @override
   Widget build(BuildContext context) {
     final extraColors = context.extra;
@@ -24,8 +32,8 @@ class ThoughtsInputWidget extends StatelessWidget {
       children: [
         TextField(
           controller: controller,
-          maxLines: 5,
-          maxLength: 500,
+          maxLines: _maxThoughtsLines,
+          maxLength: _maxThoughtsLength,
           style: ThemeTextStyles.bodyMedium(context),
           decoration: InputDecoration(
             filled: true,
@@ -72,7 +80,6 @@ class ThoughtsInputWidget extends StatelessWidget {
           },
         ),
         SizedBox(height: AppSpacing.spaceLg),
-
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -94,17 +101,24 @@ class ThoughtsInputWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: AppSpacing.sectionSpacingSm),
       ],
     );
   }
 
   String _encouragementForCount(BuildContext context, int count) {
     final l10n = AppLocalizations.of(context)!;
-    if (count < 50) return l10n.homeThoughtsEncouragementStart;
-    if (count < 150) return l10n.homeThoughtsEncouragementContinue;
-    if (count < 300) return l10n.homeThoughtsEncouragementOpeningUp;
-    if (count < 450) return l10n.homeThoughtsEncouragementBeautiful;
+    if (count < _encouragementStartThreshold) {
+      return l10n.homeThoughtsEncouragementStart;
+    }
+    if (count < _encouragementContinueThreshold) {
+      return l10n.homeThoughtsEncouragementContinue;
+    }
+    if (count < _encouragementOpeningUpThreshold) {
+      return l10n.homeThoughtsEncouragementOpeningUp;
+    }
+    if (count < _encouragementBeautifulThreshold) {
+      return l10n.homeThoughtsEncouragementBeautiful;
+    }
     return l10n.homeThoughtsEncouragementListening;
   }
 }
