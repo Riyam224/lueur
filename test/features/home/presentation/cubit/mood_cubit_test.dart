@@ -46,6 +46,13 @@ class _DelayedMoodRepository implements MoodRepository {
   @override
   Future<Either<Failure, MoodEntryEntity>> setPinned(int id, bool pinned) =>
       throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, MoodEntryEntity>> logActivity({
+    required String entryType,
+    required Map<String, dynamic> payload,
+  }) =>
+      throw UnimplementedError();
 }
 
 void main() {

@@ -60,6 +60,13 @@ class _FakeMoodRepository implements MoodRepository {
     bool pinned,
   ) async =>
       throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, MoodEntryEntity>> logActivity({
+    required String entryType,
+    required Map<String, dynamic> payload,
+  }) async =>
+      throw UnimplementedError();
 }
 
 void main() {

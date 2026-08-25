@@ -211,7 +211,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   );
   sl.registerLazySingleton(() => GetBreathingConfigUseCase(sl()));
   sl.registerFactory<BreathingCubit>(
-    () => BreathingCubit(sl()),
+    () => BreathingCubit(sl(), sl()),
   );
 
   // presentation-only, ephemeral, no persistence
@@ -243,7 +243,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton(GenerateSudokuPuzzleAsyncUseCase.new);
   sl.registerLazySingleton(ValidateSudokuMoveUseCase.new);
   sl.registerFactory<SudokuCubit>(
-    () => SudokuCubit(sl<GenerateSudokuPuzzleAsyncUseCase>(), sl(), sl()),
+    () => SudokuCubit(sl<GenerateSudokuPuzzleAsyncUseCase>(), sl(), sl(), sl()),
   );
   sl.registerFactory<SudokuResultsCubit>(
     () => SudokuResultsCubit(sl(), sl()),

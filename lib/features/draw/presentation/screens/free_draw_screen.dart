@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +14,7 @@ import 'package:lueur/features/draw/presentation/widgets/draw_canvas.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_palette.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_talk_to_luna_link.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_top_bar.dart';
+import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 class FreeDrawScreen extends StatelessWidget {
@@ -56,6 +59,12 @@ class _FreeDrawView extends StatelessWidget {
         .toList();
 
     context.read<SavedDrawingsCubit>().saveCurrent(entities);
+    unawaited(
+      sl<LogActivityUseCase>()(
+        entryType: 'drawing',
+        payload: {'thumbnail_url': ''},
+      ),
+    );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(AppLocalizations.of(context)!.drawSavedSnack),

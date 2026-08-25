@@ -6,6 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/core/styling/app_theme.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
+import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
+import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_result_entity.dart';
 import 'package:lueur/features/sudoku/domain/repositories/sudoku_results_repository.dart';
 import 'package:lueur/features/sudoku/domain/usecases/generate_sudoku_puzzle_usecase.dart';
@@ -42,6 +45,30 @@ class _FakeSudokuResultsRepository implements SudokuResultsRepository {
       const Right(null);
 }
 
+class _FakeMoodRepository implements MoodRepository {
+  @override
+  Future<Either<Failure, MoodEntryEntity>> logActivity({
+    required String entryType,
+    required Map<String, dynamic> payload,
+  }) async {
+    return Right(
+      MoodEntryEntity(
+        id: 1,
+        userId: 'test',
+        emoji: '',
+        thoughts: '',
+        aiResponse: '',
+        createdAt: DateTime.now(),
+        entryType: entryType,
+        payload: payload,
+      ),
+    );
+  }
+
+  @override
+  Never noSuchMethod(Invocation invocation) => throw UnimplementedError();
+}
+
 void main() {
   testWidgets('tapping New Game in the outcome dialog starts a fresh puzzle',
       (tester) async {
@@ -52,6 +79,7 @@ void main() {
       () async => GenerateSudokuPuzzleUseCase()(),
       ValidateSudokuMoveUseCase(),
       SaveSudokuResultUseCase(_FakeSudokuResultsRepository()),
+      LogActivityUseCase(_FakeMoodRepository()),
     );
     final router = GoRouter(
       initialLocation: '/',

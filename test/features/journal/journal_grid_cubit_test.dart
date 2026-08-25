@@ -67,6 +67,14 @@ class FakeMoodRepository implements MoodRepository {
   }) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, MoodEntryEntity>> logActivity({
+    required String entryType,
+    required Map<String, dynamic> payload,
+  }) {
+    throw UnimplementedError();
+  }
 }
 
 MoodEntryEntity buildTestEntry(int id, {String? cardColor, bool pinned = false}) {

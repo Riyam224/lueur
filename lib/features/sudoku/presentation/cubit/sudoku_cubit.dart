@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
 import 'package:lueur/features/sudoku/domain/usecases/validate_sudoku_move_usecase.dart';
@@ -19,8 +20,13 @@ class SudokuCubit extends Cubit<SudokuState> {
   /// stakes rather than letting mistakes pile up indefinitely.
   static const int maxMistakes = 3;
 
+  /// Sudoku has only one difficulty level today — sent as a fixed label
+  /// since the backend's activity payload requires one.
+  static const String _difficulty = 'standard';
+
   final Future<SudokuBoardEntity> Function() _generatePuzzle;
   final SaveSudokuResultUseCase _saveResult;
+  final LogActivityUseCase _logActivityUseCase;
   final SudokuGridOps _gridOps;
   final Logger _logger = Logger();
 
@@ -33,6 +39,7 @@ class SudokuCubit extends Cubit<SudokuState> {
     this._generatePuzzle,
     ValidateSudokuMoveUseCase validateMove,
     this._saveResult,
+    this._logActivityUseCase,
   )   : _gridOps = SudokuGridOps(validateMove),
         super(SudokuGridFactory.freshState());
 
@@ -213,6 +220,16 @@ class SudokuCubit extends Cubit<SudokuState> {
     if (_resultSaved) return;
     _resultSaved = true;
     unawaited(_persistResult(won: won, mistakes: mistakes));
+    unawaited(
+      _logActivityUseCase(
+        entryType: 'sudoku',
+        payload: {
+          'solved': won,
+          'duration_seconds': state.elapsedSeconds,
+          'difficulty': _difficulty,
+        },
+      ),
+    );
   }
 
   /// Persists the round outcome — never blocks the win/loss UI flow. On
