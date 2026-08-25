@@ -27,6 +27,14 @@ class MoodEntryModel {
 
   final bool pinned;
 
+  /// Distinguishes a mood check-in ('mood_chat', the default) from an
+  /// activity log entry ('breathing' | 'sudoku' | 'drawing'). Defaults
+  /// gracefully so older cached entries without this key still parse.
+  @JsonKey(name: 'entry_type')
+  final String entryType;
+
+  final Map<String, dynamic> payload;
+
   const MoodEntryModel({
     required this.id,
     required this.userId,
@@ -36,6 +44,8 @@ class MoodEntryModel {
     required this.createdAt,
     this.cardColor,
     this.pinned = false,
+    this.entryType = 'mood_chat',
+    this.payload = const {},
   });
 
   factory MoodEntryModel.fromJson(Map<String, dynamic> json) =>
@@ -52,6 +62,8 @@ class MoodEntryModel {
         createdAt: createdAt,
         cardColor: cardColor ?? this.cardColor,
         pinned: pinned ?? this.pinned,
+        entryType: entryType,
+        payload: payload,
       );
 
   MoodEntryEntity toEntity() {
@@ -65,6 +77,8 @@ class MoodEntryModel {
       createdAt: createdAt,
       cardColor: cardColor,
       pinned: pinned,
+      entryType: entryType,
+      payload: payload,
     );
   }
 }
