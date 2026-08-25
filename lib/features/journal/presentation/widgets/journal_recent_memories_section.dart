@@ -7,6 +7,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/timeline_layout.dart';
+import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
 
@@ -74,17 +75,22 @@ class JournalRecentMemoriesSection extends StatelessWidget {
             for (var i = 0; i < groups.length; i++)
               Transform.translate(
                 offset: _scatterFor(groups[i].representative.id),
-                child: JournalGridCardWidget(
-                  entry: groups[i].representative,
-                  index: i,
-                  size: _previewBubbleSize,
-                  duration: groups[i].conversationDuration,
-                  onTap: () => _openDay(context, groups[i]),
-                  onLongPress: () => showJournalCardOptionsSheet(
-                    context,
-                    entryId: groups[i].representative.id,
-                  ),
-                ),
+                child: groups[i].representative.entryType == 'mood_chat'
+                    ? JournalGridCardWidget(
+                        entry: groups[i].representative,
+                        index: i,
+                        size: _previewBubbleSize,
+                        duration: groups[i].conversationDuration,
+                        onTap: () => _openDay(context, groups[i]),
+                        onLongPress: () => showJournalCardOptionsSheet(
+                          context,
+                          entryId: groups[i].representative.id,
+                        ),
+                      )
+                    : JournalActivityChoiceCard(
+                        entry: groups[i].representative,
+                        size: _previewBubbleSize,
+                      ),
               ),
           ],
         ),
