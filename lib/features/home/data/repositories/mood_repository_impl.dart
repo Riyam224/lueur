@@ -180,6 +180,28 @@ class MoodRepositoryImpl implements MoodRepository {
   }
 
   @override
+  Future<Either<Failure, MoodEntryEntity>> logActivity({
+    required String entryType,
+    required Map<String, dynamic> payload,
+  }) async {
+    try {
+      final model = await _remote.postActivity(
+        entryType: entryType,
+        payload: payload,
+      );
+      await _local.addEntry(model, userId: _currentUserId);
+      _logger.i('Activity logged and cached: type=$entryType id=${model.id}');
+      return Right(model.toEntity());
+    } on DioException catch (e) {
+      _logger.e('Failed to log activity ($entryType): ${e.message}');
+      return Left(ServerFailure(e.message ?? 'Server error occurred'));
+    } catch (e) {
+      _logger.e('Failed to log activity ($entryType): $e');
+      return Left(NetworkFailure('Unexpected error: $e'));
+    }
+  }
+
+  @override
   Future<Either<Failure, MoodEntryEntity>> setPinned(
       int id, bool pinned,) async {
     try {

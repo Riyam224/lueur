@@ -51,4 +51,15 @@ class MoodRemoteDatasource {
     final response = await _dio.get(ApiEndpoints.weeklyLetter);
     return WeeklyLetterModel.fromJson(response.data as Map<String, dynamic>);
   }
+
+  Future<MoodEntryModel> postActivity({
+    required String entryType,
+    required Map<String, dynamic> payload,
+  }) async {
+    final response = await _dio.post(
+      ApiEndpoints.activity,
+      data: {'entry_type': entryType, 'payload': payload},
+    );
+    return MoodEntryModel.fromJson(response.data as Map<String, dynamic>);
+  }
 }

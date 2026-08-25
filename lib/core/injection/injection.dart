@@ -36,6 +36,7 @@ import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart'
 import 'package:lueur/features/home/data/datasources/mood_remote_datasource.dart';
 import 'package:lueur/features/home/data/repositories/mood_repository_impl.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
+import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:lueur/features/journal/domain/usecases/delete_journal_entry_usecase.dart';
@@ -168,6 +169,8 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton<MoodRepository>(
     () => MoodRepositoryImpl(sl(), sl(), sl()),
   );
+
+  sl.registerLazySingleton(() => LogActivityUseCase(sl()));
 
   sl.registerLazySingleton<SavedQuotesRepository>(
     () => SavedQuotesRepositoryImpl(sl(), sl()),

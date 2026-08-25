@@ -8,4 +8,5 @@ class ApiEndpoints {
   static const String generate = '/api/companion/generate/';
   static const String history = '/api/companion/history/';
   static const String weeklyLetter = '/api/companion/weekly-letter/';
+  static const String activity = '/api/companion/activity/';
 }
