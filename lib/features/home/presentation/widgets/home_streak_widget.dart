@@ -10,12 +10,9 @@ import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Compact, single-line nudge toward the next streak milestone (7/10/15/30
-/// days). Sits directly below [GreetingCard], which already shows the
-/// current streak count and plant animation — this only adds the one thing
-/// not shown there: how close the next milestone is. Renders nothing when
-/// there's no streak in progress or every milestone has already been
-/// reached, rather than forcing a line with nothing meaningful to say.
+/// Nudge toward the next streak milestone (7/10/15/30 days), shown below
+/// [GreetingCard]. Renders nothing when no streak is in progress or every
+/// milestone is already reached.
 class HomeStreakWidget extends StatelessWidget {
   const HomeStreakWidget({super.key});
 

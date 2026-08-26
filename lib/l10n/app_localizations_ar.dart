@@ -837,6 +837,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileSudokuGaveItAGo => 'حاول حلّها';
 
   @override
+  String profileSudokuRelativeDaysAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'قبل $days أيام',
+      one: 'قبل يوم واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String profileSudokuMistakesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أخطاء',
+      one: 'خطأ واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get breathingHeaderLabel => 'تمرين التنفس الموجه';
 
   @override

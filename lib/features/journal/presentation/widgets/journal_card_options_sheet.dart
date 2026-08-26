@@ -49,7 +49,9 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                 onPressed: () => Navigator.of(dialogContext).pop(true),
                 child: Text(
                   AppLocalizations.of(context)!.commonDelete,
-                  style: const TextStyle(color: AppColors.errorColor),
+                  style: ThemeTextStyles.bodyMedium(
+                    context,
+                  ).copyWith(color: AppColors.errorColor),
                 ),
               ),
             ],
@@ -154,7 +156,9 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                     ),
                     title: Text(
                       AppLocalizations.of(context)!.journalCardOptionsDeleteLabel,
-                      style: const TextStyle(color: AppColors.errorColor),
+                      style: ThemeTextStyles.bodyLarge(
+                        context,
+                      ).copyWith(color: AppColors.errorColor),
                     ),
                     onTap: () => _confirmDelete(context),
                   ),

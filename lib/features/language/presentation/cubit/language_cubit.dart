@@ -48,10 +48,8 @@ class LanguageCubit extends Cubit<Locale> {
     );
   }
 
-  /// Optimistic, fire-and-forget backend sync — never blocks the local
-  /// language switch and never surfaces an error to the user. A failure
-  /// (offline, etc.) is simply retried on the next language change or the
-  /// next app open.
+  /// Fire-and-forget: a failure here is silently retried on the next
+  /// language change or app open, never surfaced to the user.
   Future<void> _syncPreferredLanguage(AppLanguage language) async {
     final result = await _syncPreferredLanguageUseCase(language.code);
     result.fold(

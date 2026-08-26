@@ -124,7 +124,7 @@ class AppTheme {
         moodNeutral: AppColors.darkSecondaryText,
         borderColor: AppColors.darkBorder,
         dividerColor: AppColors.darkBorder,
-        shadowColor: const Color(0x1AFFFFFF),
+        shadowColor: AppColors.darkShadowColor,
         settingsModeIconColor: AppColors.settingsModeIconColorDark,
         settingsModeIconBg: AppColors.settingsModeIconBgDark,
         settingsAboutIconColor: AppColors.settingsAboutIconColorDark,

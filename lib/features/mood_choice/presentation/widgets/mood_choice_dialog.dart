@@ -11,9 +11,8 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Floating "rough day, huh?" chooser shown when the user logs a low mood —
-/// lets them pick how they'd like to feel better before Luna sends them on
-/// to an uplifting affirmation card and then their choice.
+/// Shown after a low mood entry; routes to an affirmation card then the
+/// chosen activity.
 Future<void> showMoodChoiceDialog(
   BuildContext context, {
   required String emoji,

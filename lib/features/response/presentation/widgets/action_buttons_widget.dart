@@ -13,10 +13,10 @@ class ActionButtonsWidget extends StatelessWidget {
 
   const ActionButtonsWidget({
     super.key,
+    required this.saveLabel,
+    required this.talkAgainLabel,
     this.onSave,
     this.onTalkAgain,
-    this.saveLabel = 'Save to journal',
-    this.talkAgainLabel = 'Talk again',
   });
 
   @override

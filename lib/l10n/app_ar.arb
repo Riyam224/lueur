@@ -260,6 +260,8 @@
   "profileSudokuRelativeYesterday": "أمس",
   "profileSudokuSolvedIt": "حلّها",
   "profileSudokuGaveItAGo": "حاول حلّها",
+  "profileSudokuRelativeDaysAgo": "{days, plural, one{قبل يوم واحد} other{قبل {days} أيام}}",
+  "profileSudokuMistakesCount": "{count, plural, one{خطأ واحد} other{{count} أخطاء}}",
   "breathingHeaderLabel": "تمرين التنفس الموجه",
   "breathingPhaseIn": "شهيق",
   "breathingPhaseOut": "زفير",

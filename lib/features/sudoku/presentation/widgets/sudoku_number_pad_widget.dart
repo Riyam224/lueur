@@ -132,7 +132,9 @@ class SudokuNumberPadWidget extends StatelessWidget {
                     opacity: 0,
                     child: Text(
                       '0',
-                      style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500),
+                      style: ThemeTextStyles.captionSmall(
+                        context,
+                      ).copyWith(fontSize: 10.sp, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ],
@@ -204,7 +206,7 @@ class _NumberButton extends StatelessWidget {
           SizedBox(height: 2.h),
           Text(
             '$remaining',
-            style: TextStyle(
+            style: ThemeTextStyles.captionSmall(context).copyWith(
               fontSize: 10.sp,
               fontWeight: FontWeight.w500,
               color: extra.tertiaryTextColor,

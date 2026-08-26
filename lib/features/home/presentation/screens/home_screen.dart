@@ -6,6 +6,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
@@ -187,7 +188,8 @@ class _HomeScreenBody extends StatelessWidget {
                   ),
                   child: Text(
                     errorMessage,
-                    style: const TextStyle(color: AppColors.errorColor),
+                    style: ThemeTextStyles.bodyMedium(context)
+                        .copyWith(color: AppColors.errorColor),
                   ),
                 ),
               ),

@@ -158,7 +158,7 @@
   "homeThoughtsEncouragementOpeningUp": "You're opening up 🌿",
   "homeThoughtsEncouragementBeautiful": "Beautiful reflection 🌸",
   "homeThoughtsEncouragementListening": "Luna is listening 💜",
-  "homeRecentEntriesLabel": "RECENT MEMORIES",
+  "homeRecentEntriesLabel": "Recent memories",
   "homeSeeAllLabel": "View full timeline",
   "homeStreakMotivationStart": "Small moments become meaningful habits.",
   "homeStreakMotivationActive": "You've shown up for yourself every day.",
@@ -339,6 +339,18 @@
   "profileSudokuRelativeYesterday": "Yesterday",
   "profileSudokuSolvedIt": "Solved it",
   "profileSudokuGaveItAGo": "Gave it a go",
+  "profileSudokuRelativeDaysAgo": "{days, plural, one{1 day ago} other{{days} days ago}}",
+  "@profileSudokuRelativeDaysAgo": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "profileSudokuMistakesCount": "{count, plural, one{1 mistake} other{{count} mistakes}}",
+  "@profileSudokuMistakesCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "breathingHeaderLabel": "guided breathing",
   "breathingPhaseIn": "Breathe in",
   "breathingPhaseOut": "Breathe out",

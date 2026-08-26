@@ -10,8 +10,7 @@ import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.da
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// "Sudoku History" — past game results (win/lose), swipe to delete. No
-/// reopen: results aren't replayable, just a record of how it went.
+/// Results aren't replayable, so there's no reopen action — just delete.
 class ProfileSudokuHistorySectionWidget extends StatelessWidget {
   const ProfileSudokuHistorySectionWidget({super.key});
 
@@ -19,7 +18,7 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
     final days = DateTime.now().difference(date).inDays;
     if (days <= 0) return AppLocalizations.of(context)!.profileSudokuRelativeToday;
     if (days == 1) return AppLocalizations.of(context)!.profileSudokuRelativeYesterday;
-    return '$days days ago';
+    return AppLocalizations.of(context)!.profileSudokuRelativeDaysAgo(days);
   }
 
   static String _formatDuration(int seconds) {
@@ -155,7 +154,7 @@ class _ResultRow extends StatelessWidget {
                 Text(
                   result.won
                       ? '${ProfileSudokuHistorySectionWidget._formatDuration(result.durationSeconds)} · $dateLabel'
-                      : '${result.mistakes} mistake${result.mistakes == 1 ? '' : 's'} · $dateLabel',
+                      : '${AppLocalizations.of(context)!.profileSudokuMistakesCount(result.mistakes)} · $dateLabel',
                   style: ThemeTextStyles.bodySmall(context)
                       .copyWith(color: extra.secondaryTextColor),
                 ),

@@ -8,15 +8,10 @@ import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Approximate rendered height of [AppBottomNavBar]'s content — the pill
-/// itself plus its internal paddings — excluding the device's bottom
-/// system inset (that's handled separately via [AppBottomNavBar]'s own
-/// [SafeArea] and via [MediaQuery] wherever this constant is consumed).
-///
-/// Used by screens whose scrollable content sits behind the nav bar
-/// (see [MainShellScreen]'s `extendBody: true`) to reserve enough trailing
-/// space that content doesn't end up hidden underneath the pill. Keep this
-/// in sync with the paddings/sizes below if the nav bar's layout changes.
+/// Rendered height of [AppBottomNavBar]'s pill content only, excluding the
+/// device's bottom system inset. Lets screens with `extendBody: true`
+/// reserve enough trailing space to clear the pill. Keep in sync with the
+/// paddings/sizes below if the nav bar's layout changes.
 final double kBottomNavBarContentHeight =
     8.h * 2 + // outer content Padding (vertical)
     7.h * 2 + // _NavItem padding (vertical)

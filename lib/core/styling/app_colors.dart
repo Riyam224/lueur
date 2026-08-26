@@ -126,6 +126,7 @@ class AppColors {
   static const Color moodNeutral = Color(0xFF9E9E9E);
 
   static const Color shadowColor = Color(0x0D000000);
+  static const Color darkShadowColor = Color(0x1AFFFFFF);
   static const Color overlayBlack = Color(0xFF000000);
   static const Color errorColor = Color(0xFFF44336);
   static const Color transparent = Colors.transparent;

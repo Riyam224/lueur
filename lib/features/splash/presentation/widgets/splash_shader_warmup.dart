@@ -3,14 +3,10 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 
-/// Paints one tiny instance of every distinct card/circle color and the
-/// badge shadow used across the onboarding pages, so the GPU backend
-/// compiles those shader pipelines during the splash screen's idle wait
-/// instead of during the first onboarding swipe (where the compile stall
-/// was measured to cost 100-260ms per frame — see splash-jank profiling).
-/// Must actually be painted (not `Offstage`/zero-`Opacity`, both of which
-/// skip painting and therefore skip the GPU submission we're warming up),
-/// so it's placed under an opaque cover in [SplashScreen] instead.
+/// Pre-compiles onboarding's shader pipelines during splash's idle wait
+/// instead of the first onboarding swipe (measured 100-260ms/frame stall).
+/// Must actually be painted — `Offstage`/zero-`Opacity` would skip the GPU
+/// submission this relies on — hence the opaque cover in [SplashScreen].
 class SplashShaderWarmup extends StatelessWidget {
   const SplashShaderWarmup({super.key});
 

@@ -23,9 +23,8 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-/// Bundles the register form's text controllers and focus nodes so the
-/// State class doesn't need eight separate fields plus matching
-/// initState/dispose boilerplate.
+/// Bundles the register form's controllers/focus nodes so the State class
+/// doesn't need eight separate fields plus matching dispose boilerplate.
 class _RegisterFormControllers {
   final name = TextEditingController();
   final email = TextEditingController();

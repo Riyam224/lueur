@@ -797,7 +797,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeRecentEntriesLabel.
   ///
   /// In en, this message translates to:
-  /// **'RECENT MEMORIES'**
+  /// **'Recent memories'**
   String get homeRecentEntriesLabel;
 
   /// No description provided for @homeSeeAllLabel.
@@ -1657,6 +1657,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Gave it a go'**
   String get profileSudokuGaveItAGo;
+
+  /// No description provided for @profileSudokuRelativeDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, one{1 day ago} other{{days} days ago}}'**
+  String profileSudokuRelativeDaysAgo(int days);
+
+  /// No description provided for @profileSudokuMistakesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 mistake} other{{count} mistakes}}'**
+  String profileSudokuMistakesCount(int count);
 
   /// No description provided for @breathingHeaderLabel.
   ///

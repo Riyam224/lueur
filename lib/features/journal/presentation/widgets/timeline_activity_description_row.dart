@@ -5,13 +5,9 @@ import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
 
-/// A friendly one-line-per-activity description of the day's other
-/// activities (breathing/sudoku/drawing), shown inside a Timeline day card
-/// below its main content. Unlike [JournalDayActivityDots] — a compact tap
-/// target for the small Journal preview bubbles — this spells out what
-/// happened in a short warm sentence, since Timeline cards have the
-/// vertical room for it. Reuses [JournalActivityChoiceCard.colorForType]
-/// as the single source of truth for activity-type dot colors.
+/// One-line-per-activity description of the day's other activities, shown
+/// below a Timeline day card's main content — the roomier counterpart to
+/// [JournalDayActivityDots]'s compact tap target on the Journal preview.
 class TimelineActivityDescriptionRow extends StatelessWidget {
   const TimelineActivityDescriptionRow({
     super.key,

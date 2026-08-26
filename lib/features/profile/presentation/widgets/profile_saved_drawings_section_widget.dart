@@ -14,8 +14,6 @@ import 'package:lueur/features/draw/presentation/cubit/saved_drawings_state.dart
 import 'package:lueur/features/draw/presentation/widgets/saved_drawing_thumbnail.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// "My Drawings" — saved free-draw sketches, tap to reopen, tap the corner
-/// icon to delete. Mirrors the Saved Quotes section's card styling.
 class ProfileSavedDrawingsSectionWidget extends StatelessWidget {
   const ProfileSavedDrawingsSectionWidget({super.key});
 

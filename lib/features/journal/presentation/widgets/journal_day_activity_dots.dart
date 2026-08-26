@@ -3,12 +3,8 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
 
-/// A small stack of colored dot + short-label rows surfacing the activity
-/// types present on a day whose card only shows one entry — e.g. a
-/// mood_chat card that also had a breathing session that day gets a blue
-/// dot next to "took a breather". Rendered inside the card's own content
-/// area (passed in as a card's `footer`), not overlaid on top of it.
-/// Purely a tap-reporter: no navigation logic lives here.
+/// Surfaces other activity types that happened the same day as a card
+/// showing only one entry (e.g. a breathing dot next to a mood_chat card).
 class JournalDayActivityDots extends StatelessWidget {
   static const double _dotSize = 7;
 
@@ -68,7 +64,7 @@ class _ActivityLine extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white),
+              border: Border.all(color: AppColors.whiteTextColor),
             ),
           ),
           Flexible(

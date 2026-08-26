@@ -25,7 +25,10 @@ class RecentEntriesHeader extends StatelessWidget {
           child: Text(
             AppLocalizations.of(context)!.homeRecentEntriesLabel,
             overflow: TextOverflow.ellipsis,
-            style: ThemeTextStyles.labelLarge(context),
+            style: ThemeTextStyles.labelMedium(context).copyWith(
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.2,
+            ),
           ),
         ),
         WidthSpace(AppSpacing.spaceSm),

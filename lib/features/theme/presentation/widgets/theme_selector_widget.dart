@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
 import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Three-option Light / Dark / System segmented control for the Settings
-/// screen, following the same visual pattern as [LanguageToggleWidget].
 class ThemeSelectorWidget extends StatelessWidget {
   const ThemeSelectorWidget({super.key});
 
@@ -81,7 +80,7 @@ class _ThemeOption extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: selected ? cs.primary : Colors.transparent,
+            color: selected ? cs.primary : AppColors.transparent,
             borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
           ),
           child: Icon(

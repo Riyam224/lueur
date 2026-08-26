@@ -6,9 +6,8 @@ import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// JOURNAL DATA section — destructive data-management actions live here,
-/// under Profile, rather than on Home or Journal/Timeline, which stay
-/// focused on today's check-in and reflection respectively.
+/// Destructive data actions live under Profile, not Home/Journal, which
+/// stay focused on check-in and reflection.
 class ProfileJournalDataSectionWidget extends StatelessWidget {
   const ProfileJournalDataSectionWidget({super.key});
 

@@ -9,8 +9,7 @@ class ThemeLocalDatasource {
 
   ThemeLocalDatasource(this._prefs);
 
-  /// Returns the stored theme mode value, or `null` if missing or not one
-  /// of the supported values. Absence is never an error.
+  /// Returns `null` if missing or unsupported — absence is never an error.
   String? getThemeModeValue() {
     final stored = _prefs.getString(preferenceKey);
     if (stored == null || !_validValues.contains(stored)) return null;

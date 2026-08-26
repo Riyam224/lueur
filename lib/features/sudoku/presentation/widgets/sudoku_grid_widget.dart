@@ -183,7 +183,9 @@ class _CandidateGrid extends StatelessWidget {
           child: candidates.contains(n)
               ? Text(
                   '$n',
-                  style: TextStyle(fontSize: 8.sp, color: color),
+                  style: ThemeTextStyles.captionSmall(
+                    context,
+                  ).copyWith(fontSize: 8.sp, color: color),
                 )
               : null,
         );

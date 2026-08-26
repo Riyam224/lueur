@@ -118,6 +118,11 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/journal_dark.png" width="180" alt="Mood journal, dark theme"/></td>
   </tr>
   <tr>
+    <td>Timeline</td>
+    <td><img src="screenshots/timeline_light.png" width="180" alt="Full memory timeline with mood/month filters and activity cards, light theme"/></td>
+    <td><img src="screenshots/timeline_dark.png" width="180" alt="Full memory timeline with mood/month filters and activity cards, dark theme"/></td>
+  </tr>
+  <tr>
     <td>Breathing exercise</td>
     <td><img src="screenshots/breathing_out_light.png" width="180" alt="Breathing exercise, light theme"/></td>
     <td><img src="screenshots/breathing_out_dark.png" width="180" alt="Breathing exercise, dark theme"/></td>
@@ -150,6 +155,8 @@ More screenshots live in [`screenshots/`](screenshots/).
 | AI Mood Response | Share an emoji + thoughts → Luna responds with an empathetic, personalized reflection |
 | Follow-up Chat | Continue the conversation with Luna after the initial response |
 | Mood Journal | Grid/history view of all entries with emoji filter, search, pin, and card color |
+| Activity Journal Entries | Completing a breathing session, sudoku puzzle, or drawing logs a journal card for it alongside mood entries |
+| Timeline | Full scrollable/searchable memory history (mood + activity entries) with mood and month filters |
 | Streak & Plant | Daily journaling grows a virtual plant (seed → sprout → blooming), with a streak celebration screen |
 | Weekly Letter | AI-generated weekly emotional reflection with stats |
 | Saved Quotes | Bookmark Luna's responses for later, view and delete them |
@@ -230,7 +237,7 @@ lib/
 │   ├── chat/                — follow-up chat with Luna
 │   ├── draw/                — free drawing canvas + saved drawings gallery
 │   ├── home/                — mood input, AI response trigger, history, weekly letter
-│   ├── journal/             — searchable/filterable mood history grid
+│   ├── journal/             — mood + activity journal grid, and the full searchable/filterable timeline
 │   ├── language/            — language preference (Cubit, local datasource, sync usecase)
 │   ├── mood_choice/         — post-mood-selection activity dialog (presentation-only)
 │   ├── onboarding/          — first-launch walkthrough (presentation-only)

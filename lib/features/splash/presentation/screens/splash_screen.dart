@@ -13,11 +13,9 @@ import 'package:lueur/features/splash/presentation/constants/splash_constants.da
 import 'package:lueur/features/splash/presentation/widgets/splash_shader_warmup.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// The in-app splash — Luna's illustration centered on a solid background,
-/// with the app name and tagline beneath, fading in once. Native splash can
-/// only show a flat background + a single static image, so this simple
-/// scene (same Luna asset, same background) is what takes over the instant
-/// Flutter renders its first frame — no visual jump between the two.
+/// In-app splash shown right after the native splash (same Luna asset and
+/// background) so there's no visual jump when Flutter renders its first
+/// frame — native splash can only show a static image, not this fade-in.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -77,11 +75,8 @@ class _SplashScreenState extends State<SplashScreen>
       return;
     }
 
-    // A device that has never had a successful login/register/Google
-    // sign-in is a first-ever install — land on Register instead of Login
-    // since there's no account to log into yet. Once any sign-in ever
-    // succeeds, this flag stays true, so a later logout still returns to
-    // Login as before.
+    // No prior successful sign-in means a first-ever install — land on
+    // Register instead of Login since there's no account to log into yet.
     final hasEverAuthenticated = await AuthPrefs.hasEverAuthenticated();
     if (!mounted) return;
     context.go(

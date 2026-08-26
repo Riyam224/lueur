@@ -6,9 +6,7 @@ import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
 import 'package:lueur/features/theme/domain/usecases/get_theme_mode_usecase.dart';
 import 'package:lueur/features/theme/domain/usecases/set_theme_mode_usecase.dart';
 
-/// Manages the app's theme mode preference (light/dark/system), persisted
-/// via [ThemeLocalDatasource]. Defaults to [ThemeModeOption.system] so the
-/// app follows the phone's system theme until the user overrides it.
+/// Defaults to [ThemeModeOption.system] until the user overrides it.
 class ThemeCubit extends Cubit<ThemeModeOption> {
   final GetThemeModeUseCase _getThemeModeUseCase;
   final SetThemeModeUseCase _setThemeModeUseCase;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
+import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/language/domain/entities/app_language.dart';
@@ -66,7 +67,7 @@ class _LanguageOption extends StatelessWidget {
         duration: const Duration(milliseconds: 150),
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: selected ? cs.primary : Colors.transparent,
+          color: selected ? cs.primary : AppColors.transparent,
           borderRadius: BorderRadius.circular(AppSizes.borderRadiusXs),
         ),
         child: Text(

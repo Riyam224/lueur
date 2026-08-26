@@ -381,7 +381,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeThoughtsEncouragementListening => 'Luna is listening 💜';
 
   @override
-  String get homeRecentEntriesLabel => 'RECENT MEMORIES';
+  String get homeRecentEntriesLabel => 'Recent memories';
 
   @override
   String get homeSeeAllLabel => 'View full timeline';
@@ -857,6 +857,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSudokuGaveItAGo => 'Gave it a go';
+
+  @override
+  String profileSudokuRelativeDaysAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days ago',
+      one: '1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String profileSudokuMistakesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mistakes',
+      one: '1 mistake',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get breathingHeaderLabel => 'guided breathing';

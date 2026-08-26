@@ -2,17 +2,10 @@ import 'dart:math';
 
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 
-/// Generates an "Easy" 9x9 sudoku puzzle with a verified unique solution.
-///
-/// Two steps, both pure Dart, no external solver package:
-/// 1. Build a valid solved grid via the standard base-grid formula, then
-///    reshuffle it (digit relabeling + row/column band permutations —
-///    symmetries that always preserve row/column/box uniqueness) so every
-///    game starts from a different-looking solution.
-/// 2. "Dig holes": try clearing cells one at a time, keeping the puzzle
-///    Easy by stopping once enough clues are removed, only ever removing a
-///    cell when a backtracking solver confirms the puzzle still has
-///    exactly one solution.
+/// Generates an "Easy" 9x9 sudoku puzzle with a verified unique solution,
+/// pure Dart (no solver package): build a base solved grid, reshuffle it via
+/// symmetries that preserve uniqueness, then dig holes — clearing cells only
+/// when a backtracking solver confirms the puzzle still has one solution.
 class GenerateSudokuPuzzleUseCase {
   /// How many of the 81 cells stay filled for an Easy puzzle.
   static const int easyClueCount = 40;
