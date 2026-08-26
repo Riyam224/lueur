@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/models/mood_entry_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/timeline_layout.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
+import 'package:lueur/features/journal/presentation/widgets/journal_day_activity_dots.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
 
 /// A fixed bubble size for the 3-item preview — consistent heights read
@@ -74,25 +74,38 @@ class JournalRecentMemoriesSection extends StatelessWidget {
           runSpacing: AppSpacing.spaceXl,
           children: [
             for (var i = 0; i < groups.length; i++)
-              Transform.translate(
-                offset: _scatterFor(groups[i].representative.id),
-                child: groups[i].representative.entryType ==
-                        MoodEntryType.moodChat
-                    ? JournalGridCardWidget(
-                        entry: groups[i].representative,
-                        index: i,
-                        size: _previewBubbleSize,
-                        duration: groups[i].conversationDuration,
-                        onTap: () => _openDay(context, groups[i]),
-                        onLongPress: () => showJournalCardOptionsSheet(
-                          context,
-                          entryId: groups[i].representative.id,
-                        ),
-                      )
-                    : JournalActivityChoiceCard(
-                        entry: groups[i].representative,
-                        size: _previewBubbleSize,
-                      ),
+              Builder(
+                builder: (context) {
+                  final group = groups[i];
+                  final footer = JournalDayActivityDots(
+                    activityTypes: group.activityTypes,
+                    excluding: group.primaryEntry.entryType,
+                    onTap: (_) => _openDay(context, group),
+                    maxWidth: _previewBubbleSize * 0.82,
+                  );
+
+                  return Transform.translate(
+                    offset: _scatterFor(group.primaryEntry.id),
+                    child: group.primaryEntry.entryType == 'mood_chat'
+                        ? JournalGridCardWidget(
+                            entry: group.primaryEntry,
+                            index: i,
+                            size: _previewBubbleSize,
+                            duration: group.conversationDuration,
+                            onTap: () => _openDay(context, group),
+                            onLongPress: () => showJournalCardOptionsSheet(
+                              context,
+                              entryId: group.primaryEntry.id,
+                            ),
+                            footer: footer,
+                          )
+                        : JournalActivityChoiceCard(
+                            entry: group.primaryEntry,
+                            size: _previewBubbleSize,
+                            footer: footer,
+                          ),
+                  );
+                },
               ),
           ],
         ),

@@ -23,6 +23,10 @@ class JournalGridCardWidget extends StatefulWidget {
   final VoidCallback onTap;
   final VoidCallback onLongPress;
 
+  /// Extra content shown below the bubble's date/summary — see
+  /// [JournalBubbleContent.footer].
+  final Widget? footer;
+
   const JournalGridCardWidget({
     super.key,
     required this.entry,
@@ -31,6 +35,7 @@ class JournalGridCardWidget extends StatefulWidget {
     required this.onTap,
     required this.onLongPress,
     this.duration,
+    this.footer,
   });
 
   @override
@@ -140,6 +145,7 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
               tailOnLeft: tailOnLeft,
               cardColor: cardColor,
               stickerColor: stickerColor,
+              footer: widget.footer,
             ),
           ),
         ),

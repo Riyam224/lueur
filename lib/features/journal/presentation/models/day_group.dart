@@ -11,6 +11,20 @@ class DayGroup {
 
   MoodEntryEntity get representative => entries.last;
 
+  /// The entry the day's card should render as its main content — the
+  /// most recent mood check-in if this day has one, so a mood_chat entry
+  /// always wins the card face even when a later activity entry exists;
+  /// otherwise falls back to [representative].
+  MoodEntryEntity get primaryEntry => entries.lastWhere(
+        (e) => e.entryType == 'mood_chat',
+        orElse: () => representative,
+      );
+
+  /// Every distinct entry type present this day (e.g. `{'mood_chat',
+  /// 'breathing'}`) — used to surface activity types the card face alone
+  /// wouldn't show.
+  Set<String> get activityTypes => entries.map((e) => e.entryType).toSet();
+
   bool get pinned => entries.any((e) => e.pinned);
 
   Duration? get conversationDuration => entries.length > 1

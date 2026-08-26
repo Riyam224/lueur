@@ -753,15 +753,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get drawSavedSnack => 'تم حفظ الرسمة في حسابك';
 
   @override
-  String get journalActivityCardBreathing => 'أخذت نفسًا عميقًا';
-
-  @override
-  String get journalActivityCardSudoku => 'لعبت لغزًا';
-
-  @override
-  String get journalActivityCardDrawing => 'رسمت رسمة صغيرة';
-
-  @override
   String get drawTalkToLunaLink => 'تشعر برغبة في التحدث مع لونا الآن؟';
 
   @override

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:lueur/core/models/mood_entry_type.dart';
 import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
@@ -21,7 +20,8 @@ class SudokuCubit extends Cubit<SudokuState> {
   /// stakes rather than letting mistakes pile up indefinitely.
   static const int maxMistakes = 3;
 
-  /// Only one difficulty level exists today; the payload still requires one.
+  /// Sudoku has only one difficulty level today — sent as a fixed label
+  /// since the backend's activity payload requires one.
   static const String _difficulty = 'standard';
 
   final Future<SudokuBoardEntity> Function() _generatePuzzle;
@@ -222,7 +222,7 @@ class SudokuCubit extends Cubit<SudokuState> {
     unawaited(_persistResult(won: won, mistakes: mistakes));
     unawaited(
       _logActivityUseCase(
-        entryType: MoodEntryType.sudoku,
+        entryType: 'sudoku',
         payload: {
           'solved': won,
           'duration_seconds': state.elapsedSeconds,

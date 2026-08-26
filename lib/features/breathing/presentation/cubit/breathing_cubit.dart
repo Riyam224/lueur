@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lueur/core/models/mood_entry_type.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_config_entity.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_phase.dart';
 import 'package:lueur/features/breathing/domain/usecases/get_breathing_config_usecase.dart';
@@ -57,7 +56,7 @@ class BreathingCubit extends Cubit<BreathingState> {
       emit(const BreathingFinished());
       unawaited(
         _logActivityUseCase(
-          entryType: MoodEntryType.breathing,
+          entryType: 'breathing',
           payload: {'duration_seconds': _elapsedSeconds},
         ),
       );

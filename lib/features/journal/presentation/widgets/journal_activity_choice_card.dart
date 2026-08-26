@@ -50,10 +50,30 @@ class JournalActivityChoiceCard extends StatelessWidget {
     super.key,
     required this.entry,
     required this.size,
+    this.footer,
   });
 
   final MoodEntryEntity entry;
   final double size;
+
+  /// Extra content shown below the date — see
+  /// [JournalBubbleContent.footer].
+  final Widget? footer;
+
+  /// The dot/card color for a given [MoodEntryEntity.entryType], or null
+  /// for an unrecognized type (e.g. `mood_chat`, which isn't one of the
+  /// pill-card activity types). Single source of truth for activity-type
+  /// colors — reused by [JournalDayActivityDots].
+  static Color? colorForType(String entryType) => _activityCopy[entryType]?.color;
+
+  /// The short "you did this" label for a given entry type, or null for an
+  /// unrecognized type. Single source of truth for activity-type short
+  /// copy — reused by [JournalDayActivityDots].
+  static String? labelForType(String entryType) => _activityCopy[entryType]?.label;
+
+  /// The route to push when an activity-type indicator is tapped, or null
+  /// for an unrecognized type.
+  static String? routeForType(String entryType) => _activityCopy[entryType]?.route;
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +121,10 @@ class JournalActivityChoiceCard extends StatelessWidget {
                 color: AppColors.lightOnBackground.withValues(alpha: 0.6),
               ),
             ),
+            if (footer != null) ...[
+              SizedBox(height: size * 0.05),
+              footer!,
+            ],
           ],
         ),
       ),

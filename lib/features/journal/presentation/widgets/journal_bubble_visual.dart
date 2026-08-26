@@ -22,6 +22,7 @@ class JournalBubbleVisual extends StatelessWidget {
     required this.tailOnLeft,
     required this.cardColor,
     required this.stickerColor,
+    this.footer,
   });
 
   final MoodEntryEntity entry;
@@ -34,6 +35,10 @@ class JournalBubbleVisual extends StatelessWidget {
   final bool tailOnLeft;
   final Color cardColor;
   final Color stickerColor;
+
+  /// Extra content shown below the bubble's date/summary — see
+  /// [JournalBubbleContent.footer].
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +78,7 @@ class JournalBubbleVisual extends StatelessWidget {
                       bubbleWidth: bubbleWidth,
                       showSummary: showSummary,
                       duration: duration,
+                      footer: footer,
                     ),
                   ),
                 ),

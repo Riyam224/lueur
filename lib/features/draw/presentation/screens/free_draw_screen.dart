@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
-import 'package:lueur/core/models/mood_entry_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
@@ -62,7 +61,7 @@ class _FreeDrawView extends StatelessWidget {
     context.read<SavedDrawingsCubit>().saveCurrent(entities);
     unawaited(
       sl<LogActivityUseCase>()(
-        entryType: MoodEntryType.drawing,
+        entryType: 'drawing',
         payload: {'thumbnail_url': ''},
       ),
     );

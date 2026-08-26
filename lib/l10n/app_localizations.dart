@@ -1496,24 +1496,6 @@ abstract class AppLocalizations {
   /// **'Drawing saved to your profile'**
   String get drawSavedSnack;
 
-  /// No description provided for @journalActivityCardBreathing.
-  ///
-  /// In en, this message translates to:
-  /// **'took a breather'**
-  String get journalActivityCardBreathing;
-
-  /// No description provided for @journalActivityCardSudoku.
-  ///
-  /// In en, this message translates to:
-  /// **'played a puzzle'**
-  String get journalActivityCardSudoku;
-
-  /// No description provided for @journalActivityCardDrawing.
-  ///
-  /// In en, this message translates to:
-  /// **'made a little drawing'**
-  String get journalActivityCardDrawing;
-
   /// No description provided for @drawTalkToLunaLink.
   ///
   /// In en, this message translates to:

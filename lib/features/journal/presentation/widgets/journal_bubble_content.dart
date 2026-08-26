@@ -17,6 +17,7 @@ class JournalBubbleContent extends StatelessWidget {
     required this.bubbleWidth,
     required this.showSummary,
     required this.duration,
+    this.footer,
   });
 
   final MoodEntryEntity entry;
@@ -25,6 +26,11 @@ class JournalBubbleContent extends StatelessWidget {
   final double bubbleWidth;
   final bool showSummary;
   final Duration? duration;
+
+  /// Extra content shown below the date/summary/duration — e.g. the
+  /// Timeline day card's other-activities description row. Null for the
+  /// default (Journal preview) rendering.
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +81,10 @@ class JournalBubbleContent extends StatelessWidget {
                 ),
               ),
             ],
+          ],
+          if (footer != null) ...[
+            SizedBox(height: size * 0.03),
+            footer!,
           ],
         ],
       ),

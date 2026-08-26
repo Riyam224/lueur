@@ -25,7 +25,8 @@ abstract class MoodRepository {
   /// Journal grid pinned flag — local-only, never synced to the backend.
   Future<Either<Failure, MoodEntryEntity>> setPinned(int id, bool pinned);
 
-  /// Logs a completed activity — see [MoodEntryType].
+  /// Logs a completed activity (breathing/sudoku/drawing) so it shows up
+  /// in the journal timeline alongside mood_chat entries.
   Future<Either<Failure, MoodEntryEntity>> logActivity({
     required String entryType,
     required Map<String, dynamic> payload,
