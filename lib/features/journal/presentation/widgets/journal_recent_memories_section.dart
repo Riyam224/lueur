@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/models/mood_entry_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
@@ -75,7 +76,8 @@ class JournalRecentMemoriesSection extends StatelessWidget {
             for (var i = 0; i < groups.length; i++)
               Transform.translate(
                 offset: _scatterFor(groups[i].representative.id),
-                child: groups[i].representative.entryType == 'mood_chat'
+                child: groups[i].representative.entryType ==
+                        MoodEntryType.moodChat
                     ? JournalGridCardWidget(
                         entry: groups[i].representative,
                         index: i,

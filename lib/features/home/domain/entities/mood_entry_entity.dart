@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:lueur/core/models/mood_entry_type.dart';
 
 class MoodEntryEntity extends Equatable {
   final int id;
@@ -16,12 +17,10 @@ class MoodEntryEntity extends Equatable {
   /// synced to the backend.
   final bool pinned;
 
-  /// Distinguishes a mood check-in ('mood_chat', the default) from an
-  /// activity log entry ('breathing' | 'sudoku' | 'drawing').
+  /// See [MoodEntryType].
   final String entryType;
 
-  /// Activity-specific data (e.g. `duration_seconds`) for non-mood_chat
-  /// entries. Empty for mood_chat entries.
+  /// Activity-specific data (e.g. `duration_seconds`). Empty for mood_chat.
   final Map<String, dynamic> payload;
 
   const MoodEntryEntity({
@@ -33,7 +32,7 @@ class MoodEntryEntity extends Equatable {
     required this.createdAt,
     this.cardColor,
     this.pinned = false,
-    this.entryType = 'mood_chat',
+    this.entryType = MoodEntryType.moodChat,
     this.payload = const {},
   });
 

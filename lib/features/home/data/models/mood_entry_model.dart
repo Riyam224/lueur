@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lueur/core/models/mood_entry_type.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 
 part 'mood_entry_model.g.dart';
@@ -10,26 +11,25 @@ class MoodEntryModel {
   @JsonKey(name: 'user_id', defaultValue: '')
   final String userId;
 
+  @JsonKey(defaultValue: '')
   final String emoji;
+
+  @JsonKey(defaultValue: '')
   final String thoughts;
 
-  @JsonKey(name: 'ai_response')
+  @JsonKey(name: 'ai_response', defaultValue: '')
   final String aiResponse;
 
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
-  /// Journal grid customization — local-only, never sent to the backend
-  /// (the API request body for /generate is built manually and never
-  /// includes these fields; see [MoodRepositoryImpl]).
+  /// Journal grid customization — local-only, never sent to the backend.
   @JsonKey(name: 'card_color')
   final String? cardColor;
 
   final bool pinned;
 
-  /// Distinguishes a mood check-in ('mood_chat', the default) from an
-  /// activity log entry ('breathing' | 'sudoku' | 'drawing'). Defaults
-  /// gracefully so older cached entries without this key still parse.
+  /// See [MoodEntryType]. Defaults gracefully for older cached entries.
   @JsonKey(name: 'entry_type')
   final String entryType;
 
@@ -44,7 +44,7 @@ class MoodEntryModel {
     required this.createdAt,
     this.cardColor,
     this.pinned = false,
-    this.entryType = 'mood_chat',
+    this.entryType = MoodEntryType.moodChat,
     this.payload = const {},
   });
 

@@ -774,6 +774,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawSavedSnack => 'Drawing saved to your profile';
 
   @override
+  String get journalActivityCardBreathing => 'took a breather';
+
+  @override
+  String get journalActivityCardSudoku => 'played a puzzle';
+
+  @override
+  String get journalActivityCardDrawing => 'made a little drawing';
+
+  @override
   String get drawTalkToLunaLink => 'feel like talking to luna now?';
 
   @override

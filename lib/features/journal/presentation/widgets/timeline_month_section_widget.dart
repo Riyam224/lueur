@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/models/mood_entry_type.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/timeline_layout.dart';
@@ -54,7 +55,7 @@ class TimelineMonthSectionWidget extends StatelessWidget {
                     section.groups[i].representative.id,
                   ),
                   child: section.groups[i].representative.entryType ==
-                          'mood_chat'
+                          MoodEntryType.moodChat
                       ? JournalGridCardWidget(
                           entry: section.groups[i].representative,
                           index: i,

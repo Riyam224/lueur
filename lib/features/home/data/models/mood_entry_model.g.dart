@@ -10,13 +10,13 @@ MoodEntryModel _$MoodEntryModelFromJson(Map<String, dynamic> json) =>
     MoodEntryModel(
       id: (json['id'] as num).toInt(),
       userId: json['user_id'] as String? ?? '',
-      emoji: json['emoji'] as String,
-      thoughts: json['thoughts'] as String,
-      aiResponse: json['ai_response'] as String,
+      emoji: json['emoji'] as String? ?? '',
+      thoughts: json['thoughts'] as String? ?? '',
+      aiResponse: json['ai_response'] as String? ?? '',
       createdAt: DateTime.parse(json['created_at'] as String),
       cardColor: json['card_color'] as String?,
       pinned: json['pinned'] as bool? ?? false,
-      entryType: json['entry_type'] as String? ?? 'mood_chat',
+      entryType: json['entry_type'] as String? ?? MoodEntryType.moodChat,
       payload: json['payload'] as Map<String, dynamic>? ?? const {},
     );
 
