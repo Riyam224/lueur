@@ -9,8 +9,8 @@ import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/timeline_layout.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
-import 'package:lueur/features/journal/presentation/widgets/journal_day_activity_dots.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
+import 'package:lueur/features/journal/presentation/widgets/timeline_activity_description_row.dart';
 
 /// A fixed bubble size for the 3-item preview — consistent heights read
 /// calmer here than the Timeline's recency-scaled scatter, which fits a
@@ -77,10 +77,9 @@ class JournalRecentMemoriesSection extends StatelessWidget {
               Builder(
                 builder: (context) {
                   final group = groups[i];
-                  final footer = JournalDayActivityDots(
-                    activityTypes: group.activityTypes,
-                    excluding: group.primaryEntry.entryType,
-                    onTap: (_) => _openDay(context, group),
+                  final footer = TimelineActivityDescriptionRow(
+                    dayEntries: group.entries,
+                    excludingType: group.primaryEntry.entryType,
                     maxWidth: _previewBubbleSize * 0.82,
                   );
 

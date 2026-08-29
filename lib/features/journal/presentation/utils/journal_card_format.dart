@@ -15,8 +15,11 @@ String formatJournalCardDuration(Duration duration) {
 }
 
 String journalCardPreview(MoodEntryEntity entry, int maxChars) {
+  // The user's own reason for the mood ("why I chose this") is the card's
+  // primary story; the AI reply is only a fallback for entries logged
+  // before this field was reliably populated.
   final source =
-      entry.aiResponse.isNotEmpty ? entry.aiResponse : entry.thoughts;
+      entry.thoughts.isNotEmpty ? entry.thoughts : entry.aiResponse;
   final trimmed = source.trim();
   if (trimmed.length <= maxChars) return trimmed;
   return '${trimmed.substring(0, maxChars).trimRight()}…';
