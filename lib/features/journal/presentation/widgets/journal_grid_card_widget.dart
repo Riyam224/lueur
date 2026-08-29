@@ -108,13 +108,11 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
         JournalCardColor.fromName(widget.entry.cardColor)?.color ??
             moodType?.journalBubbleColor ??
             JournalCardColor.fromIndex(widget.index).color;
-    final stickerColor = JournalCardColor.fromIndex(widget.index + 1).color;
     final showSummary =
         widget.size >= JournalGridCardWidget.summaryVisibilityThreshold;
 
     final bubbleWidth = widget.size * 1.15;
     final bubbleHeight = widget.size * 0.86;
-    final tailOnLeft = widget.index.isEven;
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -133,7 +131,7 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
           curve: _pressed ? Curves.easeOut : _bounceBackCurve,
           child: SizedBox(
             width: bubbleWidth,
-            height: bubbleHeight + 10,
+            height: bubbleHeight,
             child: JournalBubbleVisual(
               entry: widget.entry,
               moodType: moodType,
@@ -142,9 +140,7 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
               showSummary: showSummary,
               bubbleWidth: bubbleWidth,
               bubbleHeight: bubbleHeight,
-              tailOnLeft: tailOnLeft,
               cardColor: cardColor,
-              stickerColor: stickerColor,
               footer: widget.footer,
             ),
           ),

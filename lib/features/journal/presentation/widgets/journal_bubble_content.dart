@@ -64,10 +64,9 @@ class JournalBubbleContent extends StatelessWidget {
     final previewLineHeight = _measuredLineHeight(previewStyle);
     final durationLineHeight = _measuredLineHeight(durationStyle);
 
-    // The footer widgets themselves ([JournalDayActivityDots],
-    // [TimelineActivityDescriptionRow]) reserve their own worst-case
-    // height internally (via an invisible max-content ghost), so a day
-    // with no other activities and one with several report the same
+    // A footer widget (e.g. [JournalDayActivityDots]) reserves its own
+    // worst-case height internally (via an invisible max-content ghost), so
+    // a day with no other activities and one with several report the same
     // intrinsic size here — no guessing needed at this level.
 
     return FittedBox(

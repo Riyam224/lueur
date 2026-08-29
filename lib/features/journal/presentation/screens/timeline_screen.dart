@@ -21,7 +21,12 @@ import 'package:lueur/l10n/app_localizations.dart';
 /// mood or month. Reached from Home's and Journal's "View full timeline"
 /// links; Journal itself only teases the latest 3 entries.
 class TimelineScreen extends StatelessWidget {
-  const TimelineScreen({super.key});
+  const TimelineScreen({super.key, this.initialFocusDate});
+
+  /// When set, the screen scrolls to this day's entry once it's built —
+  /// used when a Journal card is tapped, so the user lands on the same day
+  /// they came from rather than the top of the full history.
+  final DateTime? initialFocusDate;
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +43,16 @@ class TimelineScreen extends StatelessWidget {
         listener: (context, state) {
           unawaited(context.read<JournalGridCubit>().loadEntries());
         },
-        child: const _TimelineView(),
+        child: _TimelineView(initialFocusDate: initialFocusDate),
       ),
     );
   }
 }
 
 class _TimelineView extends StatefulWidget {
-  const _TimelineView();
+  const _TimelineView({this.initialFocusDate});
+
+  final DateTime? initialFocusDate;
 
   @override
   State<_TimelineView> createState() => _TimelineViewState();
@@ -56,11 +63,28 @@ class _TimelineViewState extends State<_TimelineView> {
   String _query = '';
   MoodType? _moodFilter;
   DateTime? _monthFilter;
+  final Map<DateTime, GlobalKey> _dayKeys = {};
+
+  GlobalKey _keyForDay(DateTime date) => _dayKeys.putIfAbsent(date, GlobalKey.new);
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
+    final focusDate = widget.initialFocusDate;
+    if (focusDate != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final context = _dayKeys[focusDate]?.currentContext;
+        if (context == null) return;
+        unawaited(
+          Scrollable.ensureVisible(
+            context,
+            alignment: 0.1,
+            duration: const Duration(milliseconds: 300),
+          ),
+        );
+      });
+    }
   }
 
   @override
@@ -152,6 +176,7 @@ class _TimelineViewState extends State<_TimelineView> {
                   moodFilter: _moodFilter,
                   monthFilter: _monthFilter,
                   query: _query,
+                  keyForDate: _keyForDay,
                   onOpenDay: (group) => _openDay(context, group),
                 ),
               ],

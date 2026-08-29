@@ -234,5 +234,5 @@ You MUST proactively suggest the appropriate agent when the situation matches. D
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-specs/004-mood-choice-for-all-moods/plan.md
+specs/005-journal-card-latest-activity/plan.md
 <!-- SPECKIT END -->

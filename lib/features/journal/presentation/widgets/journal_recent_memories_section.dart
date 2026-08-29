@@ -5,12 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
-import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/timeline_layout.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
-import 'package:lueur/features/journal/presentation/widgets/timeline_activity_description_row.dart';
 
 /// A fixed bubble size for the 3-item preview — consistent heights read
 /// calmer here than the Timeline's recency-scaled scatter, which fits a
@@ -26,27 +24,6 @@ Offset _scatterFor(int entryId) {
   final dx = (random.nextDouble() * 2 - 1) * _scatterRange;
   final dy = (random.nextDouble() * 2 - 1) * _scatterRange;
   return Offset(dx, dy);
-}
-
-void _openDay(BuildContext context, DayGroup group) {
-  final history = <Map<String, String>>[];
-  for (final entry in group.entries) {
-    if (entry.thoughts.isNotEmpty) {
-      history.add({'role': 'user', 'content': entry.thoughts});
-    }
-    if (entry.aiResponse.isNotEmpty) {
-      history.add({'role': 'assistant', 'content': entry.aiResponse});
-    }
-  }
-
-  context.push(
-    AppRoutes.chat,
-    extra: {
-      'userId': group.representative.userId,
-      'emoji': group.representative.emoji,
-      'history': history,
-    },
-  );
 }
 
 /// The most recent (up to 3) day-groups as scattered bubbles — Journal's
@@ -77,31 +54,30 @@ class JournalRecentMemoriesSection extends StatelessWidget {
               Builder(
                 builder: (context) {
                   final group = groups[i];
-                  final footer = TimelineActivityDescriptionRow(
-                    dayEntries: group.entries,
-                    excludingType: group.primaryEntry.entryType,
-                    maxWidth: _previewBubbleSize * 0.82,
-                  );
+
+                  void openTimeline() => context.push(
+                        AppRoutes.timeline,
+                        extra: group.date,
+                      );
 
                   return Transform.translate(
-                    offset: _scatterFor(group.primaryEntry.id),
-                    child: group.primaryEntry.entryType == 'mood_chat'
+                    offset: _scatterFor(group.representative.id),
+                    child: group.representative.entryType == 'mood_chat'
                         ? JournalGridCardWidget(
-                            entry: group.primaryEntry,
+                            entry: group.representative,
                             index: i,
                             size: _previewBubbleSize,
                             duration: group.conversationDuration,
-                            onTap: () => _openDay(context, group),
+                            onTap: openTimeline,
                             onLongPress: () => showJournalCardOptionsSheet(
                               context,
-                              entryId: group.primaryEntry.id,
+                              entryId: group.representative.id,
                             ),
-                            footer: footer,
                           )
                         : JournalActivityChoiceCard(
-                            entry: group.primaryEntry,
+                            entry: group.representative,
                             size: _previewBubbleSize,
-                            footer: footer,
+                            onTap: openTimeline,
                           ),
                   );
                 },

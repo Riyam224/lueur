@@ -369,7 +369,7 @@ class RouterGenerationConfig {
         path: AppRoutes.timeline,
         pageBuilder: (context, state) => _buildTransitionPage(
           state: state,
-          child: const TimelineScreen(),
+          child: TimelineScreen(initialFocusDate: state.extra as DateTime?),
         ),
       ),
       GoRoute(

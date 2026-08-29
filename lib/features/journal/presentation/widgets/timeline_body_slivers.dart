@@ -21,6 +21,7 @@ List<Widget> buildTimelineBodySlivers(
   required DateTime? monthFilter,
   required String query,
   required void Function(DayGroup group) onOpenDay,
+  required Key Function(DateTime date) keyForDate,
 }) {
   if (state is JournalGridInitial || state is JournalGridLoading) {
     return [
@@ -114,6 +115,7 @@ List<Widget> buildTimelineBodySlivers(
             reflection: TimelineLayout.reflectionFor(index, reflectionPool),
             subheadingColor: subheadingColor,
             onOpenDay: onOpenDay,
+            keyForDate: keyForDate,
           ),
           childCount: sections.length,
         ),

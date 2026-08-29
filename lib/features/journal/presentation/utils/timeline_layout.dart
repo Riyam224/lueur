@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
@@ -9,11 +7,6 @@ import 'package:lueur/features/journal/presentation/models/day_group.dart';
 /// of [BuildContext] so it stays unit-testable and reusable outside widgets.
 class TimelineLayout {
   const TimelineLayout._();
-
-  static const double maxBubbleSize = 128;
-  static const double minBubbleSize = 96;
-  static const int recencySpan = 6;
-  static const double scatterRange = 14;
 
   /// Reflection lines shown sparingly between month sections — cycled
   /// deterministically so they don't reshuffle on every rebuild.
@@ -80,21 +73,6 @@ class TimelineLayout {
         .toList()
       ..sort((a, b) => b.month.compareTo(a.month));
     return result;
-  }
-
-  static double sizeForRank(int rank) {
-    final t = (rank / recencySpan).clamp(0.0, 1.0);
-    return maxBubbleSize - (maxBubbleSize - minBubbleSize) * t;
-  }
-
-  /// Deterministic per-entry jitter — seeded by the entry's own id so a
-  /// given bubble always scatters to the same spot instead of reshuffling
-  /// on every rebuild/scroll.
-  static Offset scatterFor(int entryId) {
-    final random = Random(entryId);
-    final dx = (random.nextDouble() * 2 - 1) * scatterRange;
-    final dy = (random.nextDouble() * 2 - 1) * scatterRange;
-    return Offset(dx, dy);
   }
 
   static String? reflectionFor(int sectionIndex, List<String> pool) {
