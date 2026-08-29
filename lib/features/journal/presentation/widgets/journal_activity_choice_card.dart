@@ -75,6 +75,12 @@ class JournalActivityChoiceCard extends StatelessWidget {
   /// for an unrecognized type.
   static String? routeForType(String entryType) => _activityCopy[entryType]?.route;
 
+  /// Every non-mood_chat activity type the app knows about — the full set
+  /// [JournalDayActivityDots]/[TimelineActivityDescriptionRow] can ever
+  /// need to render for a single day, so they can measure their own
+  /// worst-case layout footprint without hardcoding that set themselves.
+  static List<String> get knownActivityTypes => _activityCopy.keys.toList();
+
   @override
   Widget build(BuildContext context) {
     final copy = _activityCopy[entry.entryType];

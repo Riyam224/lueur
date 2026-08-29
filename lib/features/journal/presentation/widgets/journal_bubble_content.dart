@@ -5,6 +5,17 @@ import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/utils/journal_card_format.dart';
 
+/// The exact rendered height of one line of [style], measured from the
+/// font's own metrics rather than approximated from `fontSize` — so
+/// reserved layout slots below match what actually gets painted.
+double _measuredLineHeight(TextStyle style) {
+  final painter = TextPainter(
+    text: TextSpan(text: 'Ag', style: style),
+    textDirection: TextDirection.ltr,
+  )..layout();
+  return painter.height;
+}
+
 /// Mood illustration + date, and (space permitting) an AI-response preview
 /// and conversation duration, scaled to fit inside a journal bubble.
 class JournalBubbleContent extends StatelessWidget {
@@ -50,8 +61,14 @@ class JournalBubbleContent extends StatelessWidget {
     // "same" text style renders at visibly different sizes. Reserving a
     // fixed footprint makes the scale factor depend only on `showSummary`,
     // not on incidental content length.
-    final previewLineHeight = previewStyle.fontSize! * previewStyle.height!;
-    final durationLineHeight = durationStyle.fontSize! * 1.3;
+    final previewLineHeight = _measuredLineHeight(previewStyle);
+    final durationLineHeight = _measuredLineHeight(durationStyle);
+
+    // The footer widgets themselves ([JournalDayActivityDots],
+    // [TimelineActivityDescriptionRow]) reserve their own worst-case
+    // height internally (via an invisible max-content ghost), so a day
+    // with no other activities and one with several report the same
+    // intrinsic size here — no guessing needed at this level.
 
     return FittedBox(
       fit: BoxFit.scaleDown,

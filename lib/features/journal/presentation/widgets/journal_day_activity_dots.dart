@@ -21,22 +21,45 @@ class JournalDayActivityDots extends StatelessWidget {
   final ValueChanged<String> onTap;
   final double? maxWidth;
 
-  @override
-  Widget build(BuildContext context) {
-    final types = activityTypes.where((type) => type != excluding).toList();
-    if (types.isEmpty) return const SizedBox.shrink();
-
-    final column = Column(
+  static Widget _columnFor(List<String> entryTypes, ValueChanged<String> onTap) {
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        for (var i = 0; i < types.length; i++) ...[
+        for (var i = 0; i < entryTypes.length; i++) ...[
           if (i > 0) const SizedBox(height: 2),
-          _ActivityLine(entryType: types[i], onTap: onTap),
+          _ActivityLine(entryType: entryTypes[i], onTap: onTap),
         ],
       ],
     );
+  }
 
-    return maxWidth == null ? column : SizedBox(width: maxWidth, child: column);
+  @override
+  Widget build(BuildContext context) {
+    final types = activityTypes.where((type) => type != excluding).toList();
+
+    // An invisible worst-case column (every known activity type) reserves
+    // this widget's layout height at a constant value, regardless of how
+    // many activity types actually happened that day. Without it, a day
+    // with none of these dots and a day with several take different
+    // amounts of vertical space, which changes how much the ancestor
+    // FittedBox (in JournalBubbleContent) has to shrink its whole bubble
+    // to fit — so the "same" text style would render at different sizes
+    // card to card. This reserves real measured space, not a guessed one.
+    final stacked = Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        Visibility(
+          visible: false,
+          maintainState: true,
+          maintainAnimation: true,
+          maintainSize: true,
+          child: _columnFor(JournalActivityChoiceCard.knownActivityTypes, onTap),
+        ),
+        if (types.isNotEmpty) _columnFor(types, onTap),
+      ],
+    );
+
+    return maxWidth == null ? stacked : SizedBox(width: maxWidth, child: stacked);
   }
 }
 

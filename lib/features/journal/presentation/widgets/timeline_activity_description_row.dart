@@ -41,6 +41,72 @@ class TimelineActivityDescriptionRow extends StatelessWidget {
     }
   }
 
+  static Widget _row(BuildContext context, MoodEntryEntity entry, String phrase) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: GestureDetector(
+        onTap: () {
+          final route = JournalActivityChoiceCard.routeForType(entry.entryType);
+          if (route != null) context.push(route);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 6,
+              height: 6,
+              margin: const EdgeInsets.only(right: 4),
+              decoration: BoxDecoration(
+                color: JournalActivityChoiceCard.colorForType(entry.entryType) ??
+                    AppColors.lightOnBackground,
+                shape: BoxShape.circle,
+              ),
+            ),
+            Flexible(
+              child: Text(
+                phrase,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: ThemeTextStyles.captionSmall(context).copyWith(
+                  color: AppColors.lightOnBackground.withValues(alpha: 0.6),
+                  decoration: TextDecoration.underline,
+                  decorationColor:
+                      AppColors.lightOnBackground.withValues(alpha: 0.3),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _columnFor(BuildContext context, List<MoodEntryEntity> entries) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (final entry in entries)
+          if (_phraseFor(entry) case final phrase?) _row(context, entry, phrase),
+      ],
+    );
+  }
+
+  /// Placeholder entries — one per known activity type — used only to
+  /// measure this widget's worst-case height; never shown (see [build]).
+  static final List<MoodEntryEntity> _ghostEntries = [
+    for (final type in JournalActivityChoiceCard.knownActivityTypes)
+      MoodEntryEntity(
+        id: -1,
+        userId: '',
+        emoji: '',
+        thoughts: '',
+        aiResponse: '',
+        createdAt: DateTime.fromMillisecondsSinceEpoch(0),
+        entryType: type,
+      ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     // Last entry of each non-excluded type present that day, so the
@@ -50,57 +116,25 @@ class TimelineActivityDescriptionRow extends StatelessWidget {
       if (entry.entryType == excludingType) continue;
       byType[entry.entryType] = entry;
     }
-    if (byType.isEmpty) return const SizedBox.shrink();
 
+    // An invisible worst-case column (every known activity type) reserves
+    // this widget's layout height at a constant value regardless of how
+    // many activities actually happened that day — see the matching
+    // comment in JournalDayActivityDots.build for why that consistency
+    // matters to the ancestor FittedBox.
     return SizedBox(
       width: maxWidth,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
+        alignment: Alignment.topCenter,
         children: [
-          for (final entry in byType.values)
-            if (_phraseFor(entry) case final phrase?)
-              Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: GestureDetector(
-                  onTap: () {
-                    final route =
-                        JournalActivityChoiceCard.routeForType(entry.entryType);
-                    if (route != null) context.push(route);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 6,
-                        height: 6,
-                        margin: const EdgeInsets.only(right: 4),
-                        decoration: BoxDecoration(
-                          color: JournalActivityChoiceCard.colorForType(
-                                entry.entryType,
-                              ) ??
-                              AppColors.lightOnBackground,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          phrase,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: ThemeTextStyles.captionSmall(context).copyWith(
-                            color: AppColors.lightOnBackground
-                                .withValues(alpha: 0.6),
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColors.lightOnBackground
-                                .withValues(alpha: 0.3),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+          Visibility(
+            visible: false,
+            maintainState: true,
+            maintainAnimation: true,
+            maintainSize: true,
+            child: _columnFor(context, _ghostEntries),
+          ),
+          if (byType.isNotEmpty) _columnFor(context, byType.values.toList()),
         ],
       ),
     );
