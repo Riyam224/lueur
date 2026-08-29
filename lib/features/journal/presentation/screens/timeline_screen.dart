@@ -5,11 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
-import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
-import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
@@ -30,17 +29,12 @@ class TimelineScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => sl<JournalGridCubit>()..loadEntries()),
         // Standalone top-level route (sibling of the shell), so the shell's
-        // MoodCubit provider isn't in scope here — re-attach the same
-        // singleton, mirroring how the other standalone routes (chat,
-        // response, weeklyLetter) do it.
-        BlocProvider.value(value: sl<MoodCubit>()),
+        // providers aren't in scope here — re-attach the app-wide signal,
+        // mirroring how the other standalone routes (chat, response,
+        // weeklyLetter) re-attach MoodCubit.
+        BlocProvider.value(value: sl<JournalRefreshSignal>()),
       ],
-      child: BlocListener<MoodCubit, MoodState>(
-        listenWhen: (previous, current) =>
-            current is MoodHistorySuccess &&
-            current.justGenerated != null &&
-            (previous is! MoodHistorySuccess ||
-                previous.justGenerated != current.justGenerated),
+      child: BlocListener<JournalRefreshSignal, int>(
         listener: (context, state) {
           unawaited(context.read<JournalGridCubit>().loadEntries());
         },

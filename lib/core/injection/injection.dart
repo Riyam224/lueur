@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/networking/auth_token_interceptor.dart';
 import 'package:lueur/core/networking/dio_helper.dart';
 import 'package:lueur/features/auth/data/datasources/auth_django_datasource.dart';
@@ -172,12 +173,14 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
 
   sl.registerLazySingleton(() => LogActivityUseCase(sl()));
 
+  sl.registerLazySingleton(JournalRefreshSignal.new);
+
   sl.registerLazySingleton<SavedQuotesRepository>(
     () => SavedQuotesRepositoryImpl(sl(), sl()),
   );
 
   // singleton — shared across all shell tabs
-  sl.registerLazySingleton(() => MoodCubit(sl()));
+  sl.registerLazySingleton(() => MoodCubit(sl(), sl()));
 
   sl.registerLazySingleton(() => GetSavedQuotesUseCase(sl()));
   sl.registerLazySingleton(() => SaveQuoteUseCase(sl()));
@@ -211,7 +214,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   );
   sl.registerLazySingleton(() => GetBreathingConfigUseCase(sl()));
   sl.registerFactory<BreathingCubit>(
-    () => BreathingCubit(sl(), sl()),
+    () => BreathingCubit(sl(), sl(), sl()),
   );
 
   // presentation-only, ephemeral, no persistence
@@ -243,7 +246,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton(GenerateSudokuPuzzleAsyncUseCase.new);
   sl.registerLazySingleton(ValidateSudokuMoveUseCase.new);
   sl.registerFactory<SudokuCubit>(
-    () => SudokuCubit(sl<GenerateSudokuPuzzleAsyncUseCase>(), sl(), sl(), sl()),
+    () => SudokuCubit(sl<GenerateSudokuPuzzleAsyncUseCase>(), sl(), sl(), sl(), sl()),
   );
   sl.registerFactory<SudokuResultsCubit>(
     () => SudokuResultsCubit(sl(), sl()),

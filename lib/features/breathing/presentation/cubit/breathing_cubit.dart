@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_config_entity.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_phase.dart';
 import 'package:lueur/features/breathing/domain/usecases/get_breathing_config_usecase.dart';
@@ -14,13 +15,17 @@ import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 class BreathingCubit extends Cubit<BreathingState> {
   final GetBreathingConfigUseCase _getConfigUseCase;
   final LogActivityUseCase _logActivityUseCase;
+  final JournalRefreshSignal _journalRefreshSignal;
 
   Timer? _ticker;
   BreathingConfigEntity? _config;
   int _elapsedSeconds = 0;
 
-  BreathingCubit(this._getConfigUseCase, this._logActivityUseCase)
-      : super(const BreathingLoading());
+  BreathingCubit(
+    this._getConfigUseCase,
+    this._logActivityUseCase,
+    this._journalRefreshSignal,
+  ) : super(const BreathingLoading());
 
   Future<void> start() async {
     _ticker?.cancel();
@@ -58,7 +63,7 @@ class BreathingCubit extends Cubit<BreathingState> {
         _logActivityUseCase(
           entryType: 'breathing',
           payload: {'duration_seconds': _elapsedSeconds},
-        ),
+        ).then((result) => result.fold((_) {}, (_) => _journalRefreshSignal.bump())),
       );
       return;
     }

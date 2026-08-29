@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/styling/app_theme.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
@@ -82,7 +83,7 @@ void main() {
   testWidgets('canceling the confirmation does not delete entries',
       (tester) async {
     final repo = _FakeMoodRepository();
-    final cubit = MoodCubit(repo);
+    final cubit = MoodCubit(repo, JournalRefreshSignal());
     await tester.pumpWidget(buildApp(cubit));
 
     await tester.tap(find.text('Delete all journal entries'));
@@ -98,7 +99,7 @@ void main() {
 
   testWidgets('confirming deletes all entries', (tester) async {
     final repo = _FakeMoodRepository();
-    final cubit = MoodCubit(repo);
+    final cubit = MoodCubit(repo, JournalRefreshSignal());
     await tester.pumpWidget(buildApp(cubit));
 
     await tester.tap(find.text('Delete all journal entries'));

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/styling/app_theme.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
@@ -72,7 +73,7 @@ class _FakeMoodRepository implements MoodRepository {
 void main() {
   late MoodCubit cubit;
 
-  setUp(() => cubit = MoodCubit(_FakeMoodRepository()));
+  setUp(() => cubit = MoodCubit(_FakeMoodRepository(), JournalRefreshSignal()));
   tearDown(() => cubit.close());
 
   Widget buildApp() {

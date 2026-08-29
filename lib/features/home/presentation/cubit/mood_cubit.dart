@@ -1,17 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 
 class MoodCubit extends Cubit<MoodState> {
   final MoodRepository _repository;
+  final JournalRefreshSignal _journalRefreshSignal;
   final Logger _logger = Logger();
 
   List<MoodEntryEntity> _cachedEntries = [];
   int _sessionVersion = 0;
 
-  MoodCubit(this._repository) : super(const MoodInitial());
+  MoodCubit(this._repository, this._journalRefreshSignal)
+      : super(const MoodInitial());
 
   Future<void> loadEntries() async {
     await getHistory();
@@ -48,6 +51,7 @@ class MoodCubit extends Cubit<MoodState> {
         _logger.i('MoodCubit: success — entry id: ${entry.id}');
         _cachedEntries = [entry, ..._cachedEntries];
         emit(MoodHistorySuccess(_cachedEntries, justGenerated: entry));
+        _journalRefreshSignal.bump();
       },
     );
   }
@@ -74,6 +78,7 @@ class MoodCubit extends Cubit<MoodState> {
         _logger.i('MoodCubit local save success — entry id: ${entry.id}');
         _cachedEntries = [entry, ..._cachedEntries];
         emit(MoodHistorySuccess(_cachedEntries, justGenerated: entry));
+        _journalRefreshSignal.bump();
       },
     );
   }

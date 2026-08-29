@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
@@ -59,7 +60,7 @@ void main() {
   test('a history request started before session reset cannot restore old data',
       () async {
     final repository = _DelayedMoodRepository();
-    final cubit = MoodCubit(repository);
+    final cubit = MoodCubit(repository, JournalRefreshSignal());
     final oldAccountEntry = MoodEntryEntity(
       id: 1,
       userId: 'old-user',

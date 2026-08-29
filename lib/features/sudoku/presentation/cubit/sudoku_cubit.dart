@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/domain/usecases/save_sudoku_result_usecase.dart';
@@ -27,6 +28,7 @@ class SudokuCubit extends Cubit<SudokuState> {
   final Future<SudokuBoardEntity> Function() _generatePuzzle;
   final SaveSudokuResultUseCase _saveResult;
   final LogActivityUseCase _logActivityUseCase;
+  final JournalRefreshSignal _journalRefreshSignal;
   final SudokuGridOps _gridOps;
   final Logger _logger = Logger();
 
@@ -40,6 +42,7 @@ class SudokuCubit extends Cubit<SudokuState> {
     ValidateSudokuMoveUseCase validateMove,
     this._saveResult,
     this._logActivityUseCase,
+    this._journalRefreshSignal,
   )   : _gridOps = SudokuGridOps(validateMove),
         super(SudokuGridFactory.freshState());
 
@@ -228,7 +231,7 @@ class SudokuCubit extends Cubit<SudokuState> {
           'duration_seconds': state.elapsedSeconds,
           'difficulty': _difficulty,
         },
-      ),
+      ).then((result) => result.fold((_) {}, (_) => _journalRefreshSignal.bump())),
     );
   }
 

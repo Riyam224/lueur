@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/styling/app_theme.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
@@ -80,6 +81,7 @@ void main() {
       ValidateSudokuMoveUseCase(),
       SaveSudokuResultUseCase(_FakeSudokuResultsRepository()),
       LogActivityUseCase(_FakeMoodRepository()),
+      JournalRefreshSignal(),
     );
     final router = GoRouter(
       initialLocation: '/',
