@@ -34,6 +34,7 @@ class _WeeklyLetterContentState extends State<WeeklyLetterContent> {
     final stats = widget.data.stats;
     final hasLetter =
         widget.data.letter != null && widget.data.letter!.isNotEmpty;
+    final dominantEmoji = cuteWeeklyEmoji(stats.dominantEmoji);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -102,13 +103,15 @@ class _WeeklyLetterContentState extends State<WeeklyLetterContent> {
                   isEmoji: true,
                 ),
               ),
-              SizedBox(width: AppSpacing.spaceSm),
-              Flexible(
-                child: WeeklyLetterStatChip(
-                  label: cuteWeeklyEmoji(stats.dominantEmoji),
-                  isEmoji: true,
+              if (dominantEmoji.isNotEmpty) ...[
+                SizedBox(width: AppSpacing.spaceSm),
+                Flexible(
+                  child: WeeklyLetterStatChip(
+                    label: dominantEmoji,
+                    isEmoji: true,
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
 

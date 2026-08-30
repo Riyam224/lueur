@@ -71,6 +71,7 @@ class RouterGenerationConfig {
   }
 
   static GoRouter goRouter = GoRouter(
+    // todo intial screen  _____
     initialLocation: AppRoutes.splash,
     observers: [
       SentryNavigatorObserver(),

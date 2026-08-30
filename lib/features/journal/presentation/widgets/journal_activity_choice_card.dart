@@ -7,6 +7,8 @@ import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/utils/journal_card_format.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_bubble_visual.dart'
     show noteTiltFor;
+import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
+import 'package:lueur/features/journal/presentation/widgets/journal_pushpin.dart';
 
 class _ActivityCardCopy {
   final String emoji;
@@ -106,51 +108,83 @@ class JournalActivityChoiceCard extends StatelessWidget {
       onTap: onTap ?? () => context.push(copy.route),
       child: Transform.rotate(
         angle: noteTiltFor(entry.id),
-        child: Container(
-          width: size * 1.15,
-          padding: EdgeInsets.symmetric(
-            horizontal: size * 0.14,
-            vertical: size * 0.16,
-          ),
-          decoration: BoxDecoration(
-            color: copy.color,
-            borderRadius: BorderRadius.circular(size * 0.08),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.overlayBlack.withValues(alpha: 0.12),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: size * JournalGridCardWidget.widthRatio,
+              height: size * JournalGridCardWidget.heightRatio,
+              padding: EdgeInsets.symmetric(
+                horizontal: size * 0.14,
+                vertical: size * 0.1,
               ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(copy.emoji, style: TextStyle(fontSize: size * 0.32)),
-              SizedBox(height: size * 0.06),
-              Text(
-                copy.label,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: ThemeTextStyles.labelSmall(context).copyWith(
-                  color: AppColors.lightOnBackground,
-                  fontWeight: FontWeight.w700,
+              decoration: BoxDecoration(
+                color: copy.color,
+                borderRadius: BorderRadius.circular(size * 0.08),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.overlayBlack.withValues(alpha: 0.12),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              // Scales the whole content block down to fit the card's fixed
+              // height (matching JournalBubbleContent's approach) instead of
+              // overflowing — the label can otherwise run to 2 lines.
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(copy.emoji, style: TextStyle(fontSize: size * 0.32)),
+                    SizedBox(height: size * 0.06),
+                    SizedBox(
+                      // Bounds the label's width so it wraps to up to 2
+                      // lines before FittedBox scales the block down —
+                      // otherwise an unconstrained Text lays out on one
+                      // very wide line instead.
+                      width: size * 0.87,
+                      child: Text(
+                        copy.label,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: ThemeTextStyles.labelSmall(context).copyWith(
+                          color: AppColors.lightOnBackground,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size * 0.05),
+                    Text(
+                      formatJournalCardDate(entry.createdAt),
+                      style: ThemeTextStyles.captionSmall(context).copyWith(
+                        color:
+                            AppColors.lightOnBackground.withValues(alpha: 0.6),
+                      ),
+                    ),
+                    if (footer != null) ...[
+                      SizedBox(height: size * 0.05),
+                      footer!,
+                    ],
+                  ],
                 ),
               ),
-              SizedBox(height: size * 0.05),
-              Text(
-                formatJournalCardDate(entry.createdAt),
-                style: ThemeTextStyles.captionSmall(context).copyWith(
-                  color: AppColors.lightOnBackground.withValues(alpha: 0.6),
+            ),
+            Positioned(
+              top: -size * 0.07,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: JournalPushpin(
+                  size: size * 0.16,
+                  cardColor: copy.color,
+                  isFavorite: entry.pinned,
                 ),
               ),
-              if (footer != null) ...[
-                SizedBox(height: size * 0.05),
-                footer!,
-              ],
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -5,7 +5,7 @@ import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_bubble_content.dart';
-import 'package:lueur/features/journal/presentation/widgets/journal_note_tape.dart';
+import 'package:lueur/features/journal/presentation/widgets/journal_pushpin.dart';
 
 /// A deterministic small tilt for a sticky-note card, seeded by the entry's
 /// own id so a given note always leans the same way instead of reshuffling
@@ -68,13 +68,18 @@ class JournalBubbleVisual extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            if (entry.pinned)
-              Positioned(
-                top: -size * 0.1,
-                left: 0,
-                right: 0,
-                child: Center(child: JournalNoteTape(size: size * 0.4)),
+            Positioned(
+              top: -size * 0.07,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: JournalPushpin(
+                  size: size * 0.16,
+                  cardColor: cardColor,
+                  isFavorite: entry.pinned,
+                ),
               ),
+            ),
             Positioned.fill(
               child: Center(
                 child: JournalBubbleContent(

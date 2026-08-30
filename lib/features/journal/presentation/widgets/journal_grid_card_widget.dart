@@ -16,6 +16,13 @@ class JournalGridCardWidget extends StatefulWidget {
   /// clamped — its "limited space" to move around in.
   static const double dragBoundRadius = 42;
 
+  /// The sticky-note card's width/height as a multiple of `size` — the
+  /// single source of truth for note proportions, shared by
+  /// [JournalActivityChoiceCard] and [JournalRecentMemoriesSection] so
+  /// every card type in the Journal scatter lines up.
+  static const double widthRatio = 1.15;
+  static const double heightRatio = 0.86;
+
   final MoodEntryEntity entry;
   final int index;
   final double size;
@@ -111,8 +118,8 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
     final showSummary =
         widget.size >= JournalGridCardWidget.summaryVisibilityThreshold;
 
-    final bubbleWidth = widget.size * 1.15;
-    final bubbleHeight = widget.size * 0.86;
+    final bubbleWidth = widget.size * JournalGridCardWidget.widthRatio;
+    final bubbleHeight = widget.size * JournalGridCardWidget.heightRatio;
 
     return GestureDetector(
       onTap: widget.onTap,
