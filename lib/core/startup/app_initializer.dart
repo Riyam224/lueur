@@ -11,16 +11,23 @@ import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_data
 import 'package:lueur/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Hive box opening, SharedPreferences, and DI registration — kept out of
-/// main() so runApp() can draw the first frame immediately. Called after
-/// runApp(); Lueur (core/app.dart) shows a loading state until this
-/// completes, since `sl<T>()` cubits aren't registered before then.
+/// Runs the app's async startup sequence, kept out of main() so runApp()
+/// can draw the first frame immediately. Called after runApp(); Lueur
+/// (core/app.dart) shows a loading state until this completes, since
+/// `sl<T>()` cubits aren't registered before then.
 Future<void> initializeAppServices() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  unawaited(FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true));
+  await _initializeFirebase();
+  await _openHiveBoxes();
+  await _clearGuestOnlyData();
+  await _initializeDependencyInjection();
+}
 
+Future<void> _initializeFirebase() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  unawaited(FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true));
+}
+
+Future<void> _openHiveBoxes() async {
   await Hive.initFlutter();
   await Future.wait([
     Hive.openBox<String>(MoodLocalDatasource.boxName),
@@ -28,10 +35,15 @@ Future<void> initializeAppServices() async {
     Hive.openBox<String>(SudokuResultsLocalDatasource.boxName),
     Hive.openBox<String>(SavedDrawingsLocalDatasource.boxName),
   ]);
-  // Guest entries are session-only. Clear only the anonymous key; cached
-  // histories belonging to registered Firebase UIDs remain untouched.
-  await MoodLocalDatasource().clearGuestHistory();
+}
 
+/// Guest entries are session-only. Clears only the anonymous key; cached
+/// histories belonging to registered Firebase UIDs remain untouched.
+Future<void> _clearGuestOnlyData() async {
+  await MoodLocalDatasource().clearGuestHistory();
+}
+
+Future<void> _initializeDependencyInjection() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   setupInjection(sharedPreferences: sharedPreferences);
 }

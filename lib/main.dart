@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lueur/core/app.dart';
-import 'package:lueur/core/bootstrap/app_startup.dart';
 import 'package:lueur/core/monitoring/sentry_privacy_filter.dart';
+import 'package:lueur/core/startup/app_initializer.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {

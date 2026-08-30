@@ -10,11 +10,15 @@ import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/journal_card_format.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_activity_choice_card.dart';
+import 'package:lueur/features/journal/presentation/widgets/journal_bubble_visual.dart'
+    show noteTiltFor;
 
 /// One agenda-style card per day — every activity that day (mood check-ins
-/// and activity entries alike) listed as a row, in chronological order.
-/// Replaces the old scattered per-entry-type bubble cards: a day with a
-/// mood check-in and a breathing session now shows both in one place.
+/// and activity entries alike), each shown as a color-tagged rail item
+/// connected by a dashed line to a little pastel note with its exact time —
+/// a scrapbook-style "what happened this day" view. Replaces the old
+/// scattered per-entry-type bubble cards: a day with a mood check-in and a
+/// breathing session now shows both in one place.
 class TimelineDayCard extends StatelessWidget {
   const TimelineDayCard({
     super.key,
@@ -77,13 +81,12 @@ class TimelineDayCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: AppSpacing.spaceMd),
-            for (var i = 0; i < group.entries.length; i++) ...[
-              if (i > 0) SizedBox(height: AppSpacing.spaceSm),
-              _TimelineEntryRow(
+            for (var i = 0; i < group.entries.length; i++)
+              _TimelineActivityItem(
                 entry: group.entries[i],
+                isLast: i == group.entries.length - 1,
                 onTap: () => _openEntry(context, group.entries[i]),
               ),
-            ],
           ],
         ),
       ),
@@ -100,83 +103,197 @@ class TimelineDayCard extends StatelessWidget {
   }
 }
 
-class _TimelineEntryRow extends StatelessWidget {
-  const _TimelineEntryRow({required this.entry, required this.onTap});
+/// One activity's row: a color-tagged rail capsule (mood or activity name)
+/// on the left — connected by a dashed line down to the next item — and a
+/// tilted pastel note on the right with the exact time and a short preview.
+class _TimelineActivityItem extends StatelessWidget {
+  const _TimelineActivityItem({
+    required this.entry,
+    required this.isLast,
+    required this.onTap,
+  });
 
   final MoodEntryEntity entry;
+  final bool isLast;
   final VoidCallback onTap;
+
+  /// The rail tag's short category name for a non-mood activity entry
+  /// (e.g. `breathing` -> `Breathing`) — distinct from the card's fuller
+  /// "took a breather" detail text.
+  static String _shortActivityLabel(String entryType) =>
+      entryType.isEmpty ? entryType : entryType[0].toUpperCase() + entryType.substring(1);
 
   @override
   Widget build(BuildContext context) {
     final moodType = moodTypeFromEmoji(entry.emoji);
     final isMoodEntry = entry.entryType == 'mood_chat';
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = context.extra.primaryTextColor ??
-        (isDark ? AppColors.darkOnBackground : AppColors.lightOnBackground);
-    final timeColor = context.extra.secondaryTextColor ?? textColor;
 
-    final iconColor = isMoodEntry
+    final accentColor = isMoodEntry
         ? (moodType?.journalBubbleColor ?? AppColors.journalCardLavender)
         : (JournalActivityChoiceCard.colorForType(entry.entryType) ??
             AppColors.journalCardLavender);
 
-    final title = isMoodEntry
-        ? journalCardPreview(entry, 42)
+    // The rail tag is a short category name; the card gives the detail —
+    // for an activity entry those would otherwise repeat the exact same
+    // "played a puzzle" text on both sides.
+    final tagLabel = isMoodEntry
+        ? (moodType?.label(context) ?? entry.emoji)
+        : _shortActivityLabel(entry.entryType);
+
+    final preview = isMoodEntry
+        ? journalCardPreview(entry, 60)
         : JournalActivityChoiceCard.labelForType(entry.entryType) ??
             entry.entryType;
 
     final timeLabel = DateFormat('h:mm a').format(entry.createdAt);
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(color: iconColor, shape: BoxShape.circle),
-            child: Center(
-              child: isMoodEntry
-                  ? (moodType != null
-                      ? Image.asset(
-                          moodType.assetPath,
-                          width: 24,
-                          height: 24,
-                          fit: BoxFit.contain,
-                        )
-                      : null)
-                  : Text(
-                      JournalActivityChoiceCard.emojiForType(entry.entryType) ??
-                          '',
-                      style: const TextStyle(fontSize: 18),
+    return Padding(
+      padding: EdgeInsets.only(bottom: isLast ? 0 : AppSpacing.spaceSm),
+      child: GestureDetector(
+        onTap: onTap,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
                     ),
-            ),
-          ),
-          SizedBox(width: AppSpacing.spaceMd),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: ThemeTextStyles.bodyMedium(context).copyWith(
-                    color: textColor,
-                    fontWeight: FontWeight.w600,
+                    decoration: BoxDecoration(
+                      color: accentColor,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      tagLabel,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: ThemeTextStyles.captionSmall(context).copyWith(
+                        color: AppColors.lightOnBackground,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  if (!isLast)
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: _DashedVerticalLine(color: accentColor),
+                      ),
+                    ),
+                ],
+              ),
+              SizedBox(width: AppSpacing.spaceMd),
+              Expanded(
+                child: Transform.rotate(
+                  angle: noteTiltFor(entry.id) * 0.5,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.spaceMd,
+                      vertical: AppSpacing.spaceSm,
+                    ),
+                    decoration: BoxDecoration(
+                      color: accentColor,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.overlayBlack.withValues(alpha: 0.1),
+                          blurRadius: 6,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.access_time_rounded,
+                              size: 12,
+                              color: AppColors.lightOnBackground
+                                  .withValues(alpha: 0.55),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              timeLabel,
+                              style:
+                                  ThemeTextStyles.captionSmall(context).copyWith(
+                                color: AppColors.lightOnBackground
+                                    .withValues(alpha: 0.7),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppSpacing.spaceXs),
+                        Text(
+                          preview,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: ThemeTextStyles.bodySmall(context).copyWith(
+                            color: AppColors.lightOnBackground,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Text(
-                  timeLabel,
-                  style: ThemeTextStyles.captionSmall(context).copyWith(
-                    color: timeColor,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
+}
+
+/// A short dashed line connecting one rail tag to the next.
+class _DashedVerticalLine extends StatelessWidget {
+  const _DashedVerticalLine({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 2,
+      child: CustomPaint(
+        painter: _DashedVerticalPainter(color: color),
+        size: const Size(2, double.infinity),
+      ),
+    );
+  }
+}
+
+class _DashedVerticalPainter extends CustomPainter {
+  const _DashedVerticalPainter({required this.color});
+
+  final Color color;
+
+  static const double _dashLength = 4;
+  static const double _gapLength = 3;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color.withValues(alpha: 0.7)
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round;
+
+    var y = 0.0;
+    while (y < size.height) {
+      final end = (y + _dashLength).clamp(0.0, size.height);
+      canvas.drawLine(Offset(1, y), Offset(1, end), paint);
+      y += _dashLength + _gapLength;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _DashedVerticalPainter oldDelegate) =>
+      oldDelegate.color != color;
 }
