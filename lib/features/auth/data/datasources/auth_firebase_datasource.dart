@@ -34,7 +34,11 @@ class AuthFirebaseDataSource {
       email: email,
       password: password,
     );
-    return _toResult(credential.user!);
+    final user = credential.user;
+    if (user == null) {
+      throw StateError('Firebase login succeeded but returned no user');
+    }
+    return _toResult(user);
   }
 
   Future<FirebaseAuthResult> register({
@@ -46,9 +50,17 @@ class AuthFirebaseDataSource {
       email: email,
       password: password,
     );
-    await credential.user!.updateDisplayName(name);
-    await credential.user!.reload();
-    return _toResult(_firebaseAuth.currentUser!);
+    final createdUser = credential.user;
+    if (createdUser == null) {
+      throw StateError('Firebase registration succeeded but returned no user');
+    }
+    await createdUser.updateDisplayName(name);
+    await createdUser.reload();
+    final refreshedUser = _firebaseAuth.currentUser;
+    if (refreshedUser == null) {
+      throw StateError('Firebase user disappeared after registration reload');
+    }
+    return _toResult(refreshedUser);
   }
 
   Future<void> sendPasswordResetEmail({required String email}) {
@@ -72,7 +84,11 @@ class AuthFirebaseDataSource {
       idToken: googleAuth.idToken,
     );
     final userCredential = await _firebaseAuth.signInWithCredential(credential);
-    return _toResult(userCredential.user!);
+    final googleUserResult = userCredential.user;
+    if (googleUserResult == null) {
+      throw StateError('Firebase Google sign-in succeeded but returned no user');
+    }
+    return _toResult(googleUserResult);
   }
 
   Future<FirebaseAuthResult> _toResult(User user) async {
