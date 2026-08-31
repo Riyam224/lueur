@@ -129,7 +129,7 @@ The flow below follows the app in order — onboarding → sign in → capture a
   </tr>
   <tr>
     <td>Follow-up chat (continued)</td>
-    <td>—</td>
+    <td><img src="screenshots/chat_with_ai_luna_more_light.png" width="180" alt="Extended follow-up chat conversation with Luna, light theme"/></td>
     <td><img src="screenshots/chat_with_ai_luna_more_dark.png" width="180" alt="Extended follow-up chat conversation with Luna, dark theme"/></td>
   </tr>
   <tr>
