@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
+import 'package:lueur/core/widgets/response_error_state.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
@@ -13,7 +14,6 @@ import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart
 import 'package:lueur/features/response/presentation/utils/response_sharer.dart';
 import 'package:lueur/features/response/presentation/widgets/luna_typing_indicator.dart';
 import 'package:lueur/features/response/presentation/widgets/response_app_bar.dart';
-import 'package:lueur/features/response/presentation/widgets/response_error_state.dart';
 import 'package:lueur/features/response/presentation/widgets/response_success_content.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 import 'package:screenshot/screenshot.dart';

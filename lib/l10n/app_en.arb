@@ -257,6 +257,7 @@
   "quotesDeleteMessage": "This will remove the saved quote.",
   "quotesDeletedSnack": "Quote deleted",
   "quotesUndoAction": "Undo",
+  "quotesLoadErrorMessage": "Luna couldn't load your saved quotes just now.",
   "responseTryAgainButton": "Try again",
   "responseShareButton": "Share",
   "responseDoneLabel": "Done",

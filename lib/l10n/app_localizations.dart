@@ -1232,6 +1232,12 @@ abstract class AppLocalizations {
   /// **'Undo'**
   String get quotesUndoAction;
 
+  /// No description provided for @quotesLoadErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Luna couldn\'t load your saved quotes just now.'**
+  String get quotesLoadErrorMessage;
+
   /// No description provided for @responseTryAgainButton.
   ///
   /// In en, this message translates to:

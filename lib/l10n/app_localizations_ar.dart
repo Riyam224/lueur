@@ -622,6 +622,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quotesUndoAction => 'تراجع';
 
   @override
+  String get quotesLoadErrorMessage =>
+      'لم تستطع لونا تحميل اقتباساتك المحفوظة الآن.';
+
+  @override
   String get responseTryAgainButton => 'حاول مرة أخرى';
 
   @override

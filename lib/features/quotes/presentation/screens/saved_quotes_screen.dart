@@ -8,6 +8,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/response_error_state.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
 import 'package:lueur/features/quotes/presentation/widgets/saved_quote_card.dart';
@@ -182,7 +183,27 @@ class SavedQuotesScreen extends StatelessWidget {
                       );
                     }
 
-                    return const SizedBox.shrink();
+                    if (state is SavedQuotesError) {
+                      return ResponseErrorState(
+                        message:
+                            AppLocalizations.of(context)!.quotesLoadErrorMessage,
+                        retryLabel:
+                            AppLocalizations.of(context)!.responseTryAgainButton,
+                        onRetry: () =>
+                            context.read<SavedQuotesCubit>().loadQuotes(),
+                      );
+                    }
+
+                    // SavedQuotesInitial is emitted only for the instant
+                    // between cubit construction and the immediate
+                    // `..loadQuotes()` call that creates it — never actually
+                    // reaches this build.
+                    return Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.quotesLoadingMessage,
+                        style: ThemeTextStyles.bodyMedium(context),
+                      ),
+                    );
                   },
                 ),
               ),

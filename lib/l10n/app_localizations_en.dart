@@ -639,6 +639,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quotesUndoAction => 'Undo';
 
   @override
+  String get quotesLoadErrorMessage =>
+      'Luna couldn\'t load your saved quotes just now.';
+
+  @override
   String get responseTryAgainButton => 'Try again';
 
   @override

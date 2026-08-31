@@ -4,8 +4,8 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 
-/// Error icon + message + retry button shown when generating the AI
-/// response fails.
+/// Error icon + message + retry button shown when a load/generate action
+/// fails — shared by the response screen and saved quotes.
 class ResponseErrorState extends StatelessWidget {
   const ResponseErrorState({
     super.key,

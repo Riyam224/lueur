@@ -189,6 +189,7 @@
   "quotesDeleteMessage": "سيتم حذف الاقتباس المحفوظ",
   "quotesDeletedSnack": "تم حذف الاقتباس",
   "quotesUndoAction": "تراجع",
+  "quotesLoadErrorMessage": "لم تستطع لونا تحميل اقتباساتك المحفوظة الآن.",
   "responseTryAgainButton": "حاول مرة أخرى",
   "responseShareButton": "مشاركة",
   "responseDoneLabel": "تم",
