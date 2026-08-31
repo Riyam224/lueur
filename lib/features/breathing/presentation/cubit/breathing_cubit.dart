@@ -8,10 +8,8 @@ import 'package:lueur/features/breathing/domain/usecases/get_breathing_config_us
 import 'package:lueur/features/breathing/presentation/cubit/breathing_state.dart';
 import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 
-/// Drives the guided-breathing timeline: which phase (in/out) is active and
-/// how far through the exercise the user is. Purely a ticking clock — the
-/// actual scale animation lives in the widget layer, keyed off phase changes
-/// emitted here.
+/// Drives the guided-breathing timeline: which phase is active and how far
+/// through. Purely a ticking clock — the scale animation lives in the widget layer.
 class BreathingCubit extends Cubit<BreathingState> {
   final GetBreathingConfigUseCase _getConfigUseCase;
   final LogActivityUseCase _logActivityUseCase;

@@ -17,10 +17,8 @@ abstract class AuthRepository {
   Future<Either<Failure, void>> logout();
   Future<Either<Failure, UserEntity>> signInWithGoogle();
 
-  /// Restores a locally persisted Firebase session, if any, forcing an ID
-  /// token refresh to catch sessions that are locally present but expired
-  /// or revoked server-side. Returns `Right(null)` when there is no signed-in
-  /// user or the session could not be restored.
+  /// Restores a locally persisted Firebase session, forcing an ID token
+  /// refresh to catch expired/revoked sessions. Returns `Right(null)` when none exists or restore fails.
   Future<Either<Failure, UserEntity?>> checkSession();
 
   /// Sends a Firebase password-reset email to [email].
@@ -28,8 +26,7 @@ abstract class AuthRepository {
     required String email,
   });
 
-  /// Syncs the signed-in user's preferred language to the backend.
-  /// Intended to be called optimistically/fire-and-forget — a [Left] here
-  /// should be logged and swallowed by the caller, not surfaced to the user.
+  /// Syncs the signed-in user's preferred language to the backend, fire-
+  /// and-forget — a [Left] here should be logged and swallowed, not surfaced.
   Future<Either<Failure, void>> syncPreferredLanguage(String languageCode);
 }

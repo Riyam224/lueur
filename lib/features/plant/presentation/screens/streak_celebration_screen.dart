@@ -19,9 +19,7 @@ import 'package:lueur/features/plant/presentation/widgets/streak_celebration_hea
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Celebrates a completed streak milestone with a staged entrance: the
-/// flower blooms, Luna fades in centered and enlarged with a soft glow and
-/// twinkling sparkles, the milestone progress bar fills in, then a
-/// one-time confetti burst.
+/// flower blooms, Luna fades in with a glow and sparkles, the progress bar fills, then confetti.
 class StreakCelebrationScreen extends StatefulWidget {
   const StreakCelebrationScreen({required this.streakDays, super.key});
 

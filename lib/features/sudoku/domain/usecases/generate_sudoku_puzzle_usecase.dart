@@ -2,10 +2,8 @@ import 'dart:math';
 
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 
-/// Generates an "Easy" 9x9 sudoku puzzle with a verified unique solution,
-/// pure Dart (no solver package): build a base solved grid, reshuffle it via
-/// symmetries that preserve uniqueness, then dig holes — clearing cells only
-/// when a backtracking solver confirms the puzzle still has one solution.
+/// Generates an "Easy" 9x9 sudoku with a verified unique solution, pure Dart:
+/// build a base grid, reshuffle via uniqueness-preserving symmetries, then dig holes only when a solver confirms uniqueness.
 class GenerateSudokuPuzzleUseCase {
   /// How many of the 81 cells stay filled for an Easy puzzle.
   static const int easyClueCount = 40;
@@ -142,9 +140,7 @@ class GenerateSudokuPuzzleUseCase {
   }
 
   /// Swaps the order of the row bands (top/middle/bottom thirds). When
-  /// [transposed] is true, the caller has already transposed the grid so
-  /// this effectively swaps column bands instead — result is transposed
-  /// back by the caller.
+  /// [transposed] is true, the grid was pre-transposed, so this swaps column bands instead — caller transposes back.
   List<List<int>> _swapBands(
     List<List<int>> grid,
     Random rng, {

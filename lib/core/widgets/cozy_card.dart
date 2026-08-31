@@ -4,9 +4,8 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/widgets/sketchy_border_painter.dart';
 
-/// The app's standard "cute" card: an asymmetric (hand-drawn-feeling) rounded
-/// rect, a soft ambient shadow, and an optional sketchy outline — built with
-/// [CustomPainter]/[BoxDecoration] only, no illustration assets required.
+/// The app's standard "cute" card: an asymmetric hand-drawn-feeling rounded
+/// rect, soft shadow, and optional sketchy outline — no illustration assets required.
 class CozyCard extends StatelessWidget {
   final Widget child;
   final Color? color;

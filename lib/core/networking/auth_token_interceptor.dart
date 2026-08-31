@@ -2,8 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 /// Attaches a fresh Firebase ID token as a Bearer token to every outgoing
-/// request. Token refresh is handled automatically by the Firebase SDK.
-/// Skips silently when no user is signed in (e.g. the verify call itself).
+/// request; skips silently when no user is signed in.
 class AuthTokenInterceptor extends Interceptor {
   final FirebaseAuth _firebaseAuth;
 
@@ -23,10 +22,8 @@ class AuthTokenInterceptor extends Interceptor {
           options.headers['Authorization'] = 'Bearer $token';
         }
       } catch (e) {
-        // Token refresh failed — let the request continue without auth
-        // rather than silently killing it. Backend will correctly return
-        // 401, which your app can handle explicitly instead of this
-        // failing invisibly before it's even sent.
+        // Token refresh failed — let the request continue without auth rather
+        // than killing it silently; the backend will correctly return 401.
       }
     }
     handler.next(options);

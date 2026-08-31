@@ -5,8 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lueur/features/home/data/models/mood_entry_model.dart';
 
 /// A long-time journaler's cache can grow into thousands of entries, so
-/// decoding/encoding runs off the UI isolate via [compute] to avoid
-/// janking/ANRing the app.
+/// decoding/encoding runs off the UI isolate via [compute] to avoid jank.
 List<MoodEntryModel> _decodeEntries(String jsonStr) {
   final list = jsonDecode(jsonStr) as List<dynamic>;
   return list

@@ -31,9 +31,8 @@ class SudokuGridFactory {
         (_) => List.generate(SudokuBoardEntity.size, (_) => <int>{}),
       );
 
-  /// A fresh "just started" state — used both for [SudokuCubit]'s initial
-  /// state (before any puzzle has been generated) and when a new game
-  /// starts (once [values]/[given] are known).
+  /// A fresh "just started" state — used for [SudokuCubit]'s initial state
+  /// and when a new game starts (once [values]/[given] are known).
   static SudokuState freshState({
     List<List<int>>? values,
     List<List<bool>>? given,

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Resolves a stable, unlocalized auth failure code (as returned by
-/// [AuthRepositoryImpl]) to Luna's localized copy for it. Falls back to a
-/// generic message for any code this switch doesn't recognize.
+/// Resolves a stable, unlocalized auth failure code (from
+/// [AuthRepositoryImpl]) to Luna's localized copy, falling back to a generic message for unrecognized codes.
 String localizeAuthErrorCode(BuildContext context, String code) {
   final l10n = AppLocalizations.of(context)!;
   return switch (code) {

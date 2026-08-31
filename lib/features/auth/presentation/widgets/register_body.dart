@@ -11,10 +11,8 @@ import 'package:lueur/features/auth/presentation/widgets/register_actions_sectio
 import 'package:lueur/features/auth/presentation/widgets/register_form_fields.dart';
 import 'package:lueur/features/auth/presentation/widgets/register_header.dart';
 
-/// Composes the register screen's scrollable content: logout button,
-/// header, form fields, primary/Google actions, and guest entry — kept
-/// separate from [RegisterScreen]'s State so that state class only holds
-/// lifecycle and validation/submit logic.
+/// Composes the register screen's scrollable content — kept separate from
+/// [RegisterScreen]'s State so that class only holds lifecycle/validation logic.
 class RegisterBody extends StatelessWidget {
   const RegisterBody({
     super.key,

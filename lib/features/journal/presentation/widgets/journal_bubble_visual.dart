@@ -8,17 +8,15 @@ import 'package:lueur/features/journal/presentation/widgets/journal_bubble_conte
 import 'package:lueur/features/journal/presentation/widgets/journal_pushpin.dart';
 
 /// A deterministic small tilt for a sticky-note card, seeded by the entry's
-/// own id so a given note always leans the same way instead of reshuffling
-/// on every rebuild.
+/// id, so a note always leans the same way instead of reshuffling on rebuild.
 double noteTiltFor(int entryId) {
   final random = Random(entryId);
   const maxTiltRadians = 0.05; // ~3 degrees
   return (random.nextDouble() * 2 - 1) * maxTiltRadians;
 }
 
-/// The sticky-note container (with tape accent + content) that makes up a
-/// journal card's static visuals — everything except the press/drag
-/// interaction, which stays in [JournalGridCardWidget].
+/// The sticky-note container (tape accent + content) making up a journal
+/// card's static visuals — everything except press/drag, which stays in [JournalGridCardWidget].
 class JournalBubbleVisual extends StatelessWidget {
   const JournalBubbleVisual({
     super.key,

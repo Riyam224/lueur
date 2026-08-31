@@ -11,10 +11,8 @@ import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_data
 import 'package:lueur/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Runs the app's async startup sequence, kept out of main() so runApp()
-/// can draw the first frame immediately. Called after runApp(); Lueur
-/// (core/app.dart) shows a loading state until this completes, since
-/// `sl<T>()` cubits aren't registered before then.
+/// Runs the app's async startup sequence, kept out of main() so runApp() can
+/// draw the first frame immediately; Lueur shows a loading state until this completes.
 Future<void> initializeAppServices() async {
   await _initializeFirebase();
   await _openHiveBoxes();

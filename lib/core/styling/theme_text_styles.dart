@@ -152,10 +152,8 @@ class ThemeTextStyles {
     );
   }
 
-  /// Softer, more personal display style — DM Serif Display italic.
-  /// Reserved for emotional/editorial moments only (Luna's home greeting,
-  /// the streak celebration heading, the mood-choice prompt) — everywhere
-  /// else keep using headlineMedium/headlineSmall's Nunito.
+  /// Softer, more personal display style — DM Serif Display italic. Reserved
+  /// for emotional/editorial moments only (home greeting, streak celebration, mood-choice prompt); use Nunito elsewhere.
   static TextStyle editorialHeadline(
     BuildContext context, {
     double fontSize = 24,

@@ -69,9 +69,7 @@ class _WeeklyLetterContentState extends State<WeeklyLetterContent> {
                 ),
               ),
               // A visually small icon inside a full 44dp tap target — the
-              // extra hit area is transparent, so it doesn't change the
-              // card's visible height while still meeting the minimum
-              // accessible touch-target size.
+              // transparent extra hit area meets the min touch size without changing the card's visible height.
               SizedBox(
                 width: AppSizes.minTouchTarget,
                 height: AppSizes.minTouchTarget,

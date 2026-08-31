@@ -1,10 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-/// Draws a rounded-rect outline with a subtle hand-drawn "wobble" — small,
-/// deterministic per-edge offsets instead of a perfectly straight line.
-/// The seed is derived from the canvas size so the wobble stays stable
-/// across rebuilds instead of jittering every frame.
+/// Draws a rounded-rect outline with a subtle hand-drawn "wobble" — small
+/// deterministic per-edge offsets seeded from canvas size, so it stays stable across rebuilds instead of jittering.
 class SketchyBorderPainter extends CustomPainter {
   final Color color;
   final double strokeWidth;

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 
 /// The 4 pastel options a journal grid card can be customized with.
-/// Persisted on [MoodEntryEntity.cardColor] as this enum's [name] — a plain
-/// string, so the domain layer stays free of Flutter's [Color] type.
+/// Persisted as this enum's [name] so the domain layer stays free of Flutter's [Color].
 enum JournalCardColor {
   lavender,
   mint,

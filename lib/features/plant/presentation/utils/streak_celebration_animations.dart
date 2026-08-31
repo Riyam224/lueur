@@ -4,9 +4,8 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/animation.dart';
 import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 
-/// Bundles and drives every animation used by the streak celebration
-/// screen's staged entrance (bloom → Luna fade-in → progress fill →
-/// confetti), plus the looping idle animation for Luna's halo/sparkles/bob.
+/// Bundles and drives every animation for the streak celebration's staged
+/// entrance (bloom → Luna fade-in → progress fill → confetti) plus Luna's looping idle animation.
 class StreakCelebrationAnimations {
   StreakCelebrationAnimations({
     required TickerProvider vsync,

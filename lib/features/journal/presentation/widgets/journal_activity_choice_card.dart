@@ -41,9 +41,8 @@ const Map<String, _ActivityCardCopy> _activityCopy = {
   ),
 };
 
-/// The localized "you did this" label for a given entry type, or null for
-/// an unrecognized type — single source of truth for activity-type short
-/// copy, reused by [JournalDayActivityDots] and [TimelineDayCard].
+/// The localized "you did this" label for a given entry type, or null if
+/// unrecognized — reused by [JournalDayActivityDots] and [TimelineDayCard].
 String? _labelForType(BuildContext context, String entryType) {
   final l10n = AppLocalizations.of(context)!;
   switch (entryType) {
@@ -58,10 +57,8 @@ String? _labelForType(BuildContext context, String entryType) {
   }
 }
 
-/// A small sticky-note "you did this" card for a non-mood_chat journal
-/// entry (breathing/sudoku/drawing) — deliberately simpler than
-/// [JournalBubbleVisual]: no drag. Tapping it takes the user back into that
-/// activity.
+/// A small sticky-note "you did this" card for a non-mood_chat journal entry
+/// — simpler than [JournalBubbleVisual] (no drag); tapping it re-opens that activity.
 class JournalActivityChoiceCard extends StatelessWidget {
   const JournalActivityChoiceCard({
     super.key,
@@ -78,21 +75,17 @@ class JournalActivityChoiceCard extends StatelessWidget {
   /// [JournalBubbleContent.footer].
   final Widget? footer;
 
-  /// Overrides the default tap behavior (pushing straight to the activity's
-  /// own screen) — e.g. Journal's recent-memories cards route to Timeline
-  /// instead. Null keeps today's direct-to-activity behavior.
+  /// Overrides the default tap behavior (straight to the activity's screen)
+  /// — e.g. recent-memories cards route to Timeline instead. Null keeps the default.
   final VoidCallback? onTap;
 
-  /// The dot/card color for a given [MoodEntryEntity.entryType], or null
-  /// for an unrecognized type (e.g. `mood_chat`, which isn't one of the
-  /// pill-card activity types). Single source of truth for activity-type
-  /// colors — reused by [JournalDayActivityDots].
+  /// The dot/card color for a given entry type, or null for an unrecognized
+  /// one (e.g. `mood_chat`) — reused by [JournalDayActivityDots].
   static Color? colorForType(String entryType) =>
       _activityCopy[entryType]?.color;
 
-  /// The short "you did this" label for a given entry type, or null for an
-  /// unrecognized type. Single source of truth for activity-type short
-  /// copy — reused by [JournalDayActivityDots].
+  /// The short "you did this" label for a given entry type, or null if
+  /// unrecognized — reused by [JournalDayActivityDots].
   static String? labelForType(BuildContext context, String entryType) =>
       _activityCopy.containsKey(entryType)
           ? _labelForType(context, entryType)
@@ -108,10 +101,8 @@ class JournalActivityChoiceCard extends StatelessWidget {
   static String? emojiForType(String entryType) =>
       _activityCopy[entryType]?.emoji;
 
-  /// Every non-mood_chat activity type the app knows about — the full set
-  /// [JournalDayActivityDots] can ever need to render for a single day, so
-  /// it can measure its own worst-case layout footprint without
-  /// hardcoding that set itself.
+  /// Every non-mood_chat activity type the app knows about — lets
+  /// [JournalDayActivityDots] measure its own worst-case layout footprint.
   static List<String> get knownActivityTypes => _activityCopy.keys.toList();
 
   @override
@@ -144,9 +135,8 @@ class JournalActivityChoiceCard extends StatelessWidget {
                   ),
                 ],
               ),
-              // Scales the whole content block down to fit the card's fixed
-              // height (matching JournalBubbleContent's approach) instead of
-              // overflowing — the label can otherwise run to 2 lines.
+              // Scales the whole content block to fit the card's fixed height
+              // (matching JournalBubbleContent) since the label can run to 2 lines.
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Column(
@@ -155,10 +145,8 @@ class JournalActivityChoiceCard extends StatelessWidget {
                     Text(copy.emoji, style: TextStyle(fontSize: size * 0.32)),
                     SizedBox(height: size * 0.06),
                     SizedBox(
-                      // Bounds the label's width so it wraps to up to 2
-                      // lines before FittedBox scales the block down —
-                      // otherwise an unconstrained Text lays out on one
-                      // very wide line instead.
+                      // Bounds the label's width so it wraps to up to 2 lines
+                      // before FittedBox scales down, instead of laying out on one wide line.
                       width: size * 0.87,
                       child: Text(
                         _labelForType(context, entry.entryType) ?? '',

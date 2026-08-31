@@ -15,9 +15,8 @@ import 'package:lueur/l10n/app_localizations.dart';
 class Lueur extends StatelessWidget {
   const Lueur({required this.initialization, super.key});
 
-  /// Hive, SharedPreferences, and DI setup — kicked off after runApp() in
-  /// main.dart. Nothing that resolves via `sl<T>()` may build until this
-  /// completes, so [build] gates the real app behind it.
+  /// Hive/SharedPreferences/DI setup kicked off after runApp(). Nothing
+  /// resolving via `sl<T>()` may build until this completes; [build] gates the real app on it.
   final Future<void> initialization;
 
   @override

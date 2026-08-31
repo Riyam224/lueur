@@ -4,9 +4,8 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/features/breathing/presentation/widgets/breathing_ambient_blob.dart';
 
-/// Concentric "ring" frame around Luna — a fixed colored disc, a fixed
-/// cream padding ring, and a pulsing inner circle scaled by [scale] that
-/// breathes in sync with the current phase.
+/// Concentric "ring" frame around Luna — a fixed disc, a cream padding ring,
+/// and a pulsing inner circle scaled by [scale] in sync with the current phase.
 class BreathingRingVisual extends StatelessWidget {
   const BreathingRingVisual({
     super.key,

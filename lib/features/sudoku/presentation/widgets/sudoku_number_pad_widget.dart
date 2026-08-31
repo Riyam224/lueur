@@ -10,9 +10,8 @@ import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Mode toggle (Normal / Candidate) + Undo, the 1-9 digit pad + clear, and
-/// the Auto Candidate Mode checkbox — mirrors the reference sudoku app's
-/// control layout, themed to the app's own palette.
+/// Mode toggle + Undo, the 1-9 digit pad + clear, and the Auto Candidate
+/// checkbox — mirrors the reference sudoku app's control layout.
 class SudokuNumberPadWidget extends StatelessWidget {
   final SudokuInputMode mode;
   final bool canUndo;
@@ -37,9 +36,8 @@ class SudokuNumberPadWidget extends StatelessWidget {
     required this.onAutoCandidateModeChanged,
   });
 
-  /// How many of each digit are still left to place — every digit fills
-  /// exactly 9 cells in a solved grid, so 9 minus the placed count is what
-  /// remains.
+  /// How many of each digit are still left to place — every digit fills 9
+  /// cells in a solved grid, so 9 minus the placed count remains.
   List<int> _remainingCounts() {
     final placed = List.filled(SudokuBoardEntity.size + 1, 0);
     for (final row in values) {

@@ -13,9 +13,8 @@ import 'package:lueur/features/journal/presentation/widgets/journal_activity_cho
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
 
-/// A fixed bubble size for the 3-item preview — consistent heights read
-/// calmer here than the Timeline's recency-scaled scatter, which fits a
-/// full page of history rather than a 3-item taste of it.
+/// A fixed bubble size for the 3-item preview — reads calmer here than
+/// Timeline's recency-scaled scatter, which fits a full page of history.
 const double _previewBubbleSize = 116;
 const double _scatterRange = 10;
 const double _bubbleWidth =
@@ -24,15 +23,12 @@ const double _bubbleHeight =
     _previewBubbleSize * JournalGridCardWidget.heightRatio;
 const double _rowStep = _bubbleHeight * 0.6;
 
-/// Horizontal anchor (as a fraction of the section's width) for each of the
-/// up-to-3 preview cards, in display order — a gentle zigzag so the dashed
-/// connector reads as a flowing path rather than a straight line, echoing
-/// the reference moodboard's pinned-notes layout.
+/// Horizontal anchor (fraction of section width) for each of the up-to-3
+/// preview cards — a gentle zigzag so the connector reads as a flowing path, not a straight line.
 const List<double> _centerFractions = [0.24, 0.7, 0.32];
 
-/// Deterministic per-entry jitter — seeded by the entry's own id so a given
-/// bubble always scatters to the same spot instead of reshuffling on every
-/// rebuild.
+/// Deterministic per-entry jitter, seeded by the entry's own id, so a given
+/// bubble always scatters to the same spot instead of reshuffling on rebuild.
 Offset _scatterFor(int entryId) {
   final random = Random(entryId);
   final dx = (random.nextDouble() * 2 - 1) * _scatterRange;

@@ -1,8 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-/// Persists the last streak-day milestone (7, 14, 21, ...) the celebration
-/// screen has already been shown for, so it fires once per milestone
-/// instead of every time the user revisits Home that day.
+/// Persists the last streak-day milestone the celebration screen has shown,
+/// so it fires once per milestone instead of every Home revisit.
 class StreakCelebrationPrefs {
   static const _boxName = 'streak_celebration';
   static const _key = 'last_milestone';

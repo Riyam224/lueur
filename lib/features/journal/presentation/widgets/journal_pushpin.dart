@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 
-/// A round, glossy pushpin accent for a sticky-note-style journal card —
-/// pinned literally through the card's top edge. Every card gets one; a
-/// favorited ([isFavorite]) entry gets a brighter gold pin with a soft glow
-/// instead of its usual note-matched color, so the "pinned to top" feature
-/// stays visible under the decorative styling.
+/// A round, glossy pushpin accent through the card's top edge. Every card
+/// gets one; a favorited entry gets a brighter gold pin with a glow instead of its usual note-matched color.
 class JournalPushpin extends StatelessWidget {
   const JournalPushpin({
     super.key,

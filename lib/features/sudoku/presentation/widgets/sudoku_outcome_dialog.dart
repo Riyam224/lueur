@@ -18,18 +18,14 @@ import 'package:lueur/l10n/app_localizations.dart';
 /// copy and the secondary action's label, everything else is shared.
 enum SudokuOutcomeVariant { fail, success }
 
-/// Shown once a round ends (won, or 3 mistakes) — replaces the old inline
-/// result banner with a centered, explicit-choice dialog. Doesn't dismiss on
-/// tap-outside: the player picks a fresh board or steps away on purpose.
+/// Shown once a round ends — a centered, explicit-choice dialog replacing
+/// the old inline banner. Doesn't dismiss on tap-outside.
 Future<void> showSudokuOutcomeDialog(
   BuildContext context, {
   required SudokuOutcomeVariant variant,
 }) {
-  // showGeneralDialog pushes on the root navigator, which sits outside the
-  // route-scoped BlocProvider<SudokuCubit> — so the cubit must be captured
-  // here (this context is still a descendant of it) and re-provided into
-  // the dialog's own subtree, or context.read<SudokuCubit>() inside the
-  // dialog throws ProviderNotFoundException.
+  // showGeneralDialog pushes on the root navigator, outside the route-scoped
+  // BlocProvider<SudokuCubit> — so the cubit must be captured here and re-provided into the dialog's subtree.
   final sudokuCubit = context.read<SudokuCubit>();
   return showGeneralDialog(
     context: context,
@@ -45,9 +41,8 @@ Future<void> showSudokuOutcomeDialog(
   );
 }
 
-/// Custom centered dialog for both the "solved it" and "out of tries"
-/// outcomes — same shape (rounded card, soft shadow, orange primary CTA),
-/// only the message and secondary action differ by [variant].
+/// Custom centered dialog for both "solved it" and "out of tries" outcomes
+/// — same shape, only the message and secondary action differ by [variant].
 class SudokuOutcomeDialog extends StatelessWidget {
   const SudokuOutcomeDialog({super.key, required this.variant});
 

@@ -1,9 +1,7 @@
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-/// Sensitive-data substrings that must never leave the device via Sentry.
-/// Mirrors the redaction rules enforced server-side by the Django backend's
-/// `_sentry_before_send` (core/settings.py) — journal entries and Luna
-/// chat/mood content stay local no matter which side produced the event.
+/// Sensitive-data substrings that must never leave the device via Sentry —
+/// mirrors the Django backend's `_sentry_before_send` redaction rules.
 const List<String> _sensitiveKeySubstrings = [
   'journal',
   'mood',
@@ -67,10 +65,8 @@ SentryRequest _scrubRequest(SentryRequest request) {
   );
 }
 
-/// [SentryFlutterOptions.beforeSend] hook — scrubs breadcrumbs, event
-/// `extra`, and request/response data for keys or text containing journal,
-/// mood, message, luna, chat, or entry (case-insensitive) before the event
-/// ever leaves the device.
+/// [SentryFlutterOptions.beforeSend] hook — scrubs breadcrumbs, extra, and
+/// request/response data for journal/mood/message/luna/chat/entry keys before the event leaves the device.
 SentryEvent scrubSensitiveSentryData(SentryEvent event, Hint hint) {
   return event.copyWith(
     extra: _scrubMap(event.extra),

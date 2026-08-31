@@ -6,8 +6,7 @@ import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/utils/journal_card_format.dart';
 
 /// The exact rendered height of one line of [style], measured from the
-/// font's own metrics rather than approximated from `fontSize` — so
-/// reserved layout slots below match what actually gets painted.
+/// font's own metrics — so reserved layout slots match what actually paints.
 double _measuredLineHeight(TextStyle style) {
   final painter = TextPainter(
     text: TextSpan(text: 'Ag', style: style),
@@ -37,9 +36,8 @@ class JournalBubbleContent extends StatelessWidget {
   final bool showSummary;
   final Duration? duration;
 
-  /// Extra content shown below the date/summary/duration — e.g. the
-  /// Timeline day card's other-activities description row. Null for the
-  /// default (Journal preview) rendering.
+  /// Extra content shown below the date/summary/duration (e.g. Timeline's
+  /// other-activities row) — null for the default Journal preview.
   final Widget? footer;
 
   @override
@@ -52,22 +50,13 @@ class JournalBubbleContent extends StatelessWidget {
       color: AppColors.lightOnBackground.withValues(alpha: 0.5),
     );
 
-    // Both the preview and the duration line reserve their full-content
-    // height (3 lines; one line) regardless of how much text an entry
-    // actually has. Without this, FittedBox scales its whole child down by
-    // however much *this* entry's content overflows the bubble — so a
-    // short entry (1 line, no duration) and a long one (3 lines + duration)
-    // at the same bubble size end up scaled by different factors, and the
-    // "same" text style renders at visibly different sizes. Reserving a
-    // fixed footprint makes the scale factor depend only on `showSummary`,
-    // not on incidental content length.
+    // Both lines reserve their full-content height regardless of actual text
+    // length, so FittedBox scales every card by the same factor — depending only on `showSummary`, not incidental content length.
     final previewLineHeight = _measuredLineHeight(previewStyle);
     final durationLineHeight = _measuredLineHeight(durationStyle);
 
     // A footer widget (e.g. [JournalDayActivityDots]) reserves its own
-    // worst-case height internally (via an invisible max-content ghost), so
-    // a day with no other activities and one with several report the same
-    // intrinsic size here — no guessing needed at this level.
+    // worst-case height internally, so it reports the same intrinsic size regardless of content — no guessing needed here.
 
     return FittedBox(
       fit: BoxFit.scaleDown,

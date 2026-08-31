@@ -1,9 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-/// Tracks whether this device has ever had a successful login, register, or
-/// Google sign-in, independent of whether the user is currently signed in.
-/// Used to distinguish a brand-new install (show Register by default) from a
-/// returning user who logged out (show Login by default).
+/// Tracks whether this device has ever had a successful login/register/Google
+/// sign-in, to show Register by default on a fresh install vs. Login for a returning user who logged out.
 class AuthPrefs {
   static const _boxName = 'auth';
   static const _key = 'hasEverAuthenticated';

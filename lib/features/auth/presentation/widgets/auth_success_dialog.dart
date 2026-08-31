@@ -8,8 +8,7 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// A square confirmation dialog shown right after a successful login or
-/// registration — Luna's illustration plus a short "you're in" message.
-/// Auto-dismisses itself; the caller awaits [show] then navigates on.
+/// registration. Auto-dismisses itself; the caller awaits [show] then navigates on.
 class AuthSuccessDialog extends StatefulWidget {
   const AuthSuccessDialog({super.key});
 

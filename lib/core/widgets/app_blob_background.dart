@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 
-/// Decorative blob background matching the splash / onboarding visual palette.
-/// Wrap any screen body with this widget to apply the soft blob decoration.
-/// Colors are theme-aware — sourced from [AppExtraColors] so light and dark
-/// mode each get their own blob palette without any hardcoded colors here.
+/// Decorative blob background matching the splash/onboarding visual palette.
+/// Colors are theme-aware, sourced from [AppExtraColors] — no hardcoded colors here.
 class AppBlobBackground extends StatelessWidget {
   const AppBlobBackground({super.key, required this.child});
 

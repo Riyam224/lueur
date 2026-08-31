@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/app_fonts.dart';
 
-/// Circular avatar showing the user's first initial. Falls back to a
-/// generic person icon when no name is available. Background color is
-/// picked deterministically from [seed] (ideally the user's id/email) so
-/// the same user always gets the same color across sessions.
+/// Circular avatar showing the user's first initial (falls back to a generic
+/// person icon). Background color is deterministic from [seed], so the same user always gets the same color.
 class InitialsAvatar extends StatelessWidget {
   const InitialsAvatar({
     super.key,

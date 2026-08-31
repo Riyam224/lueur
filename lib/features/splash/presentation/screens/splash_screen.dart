@@ -13,9 +13,8 @@ import 'package:lueur/features/splash/presentation/constants/splash_constants.da
 import 'package:lueur/features/splash/presentation/widgets/splash_shader_warmup.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// In-app splash shown right after the native splash (same Luna asset and
-/// background) so there's no visual jump when Flutter renders its first
-/// frame — native splash can only show a static image, not this fade-in.
+/// In-app splash shown right after the native splash (same asset/background)
+/// so there's no visual jump — native splash can only show a static image.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -49,9 +48,8 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _navigate() async {
     final authCubit = context.read<AuthCubit>();
 
-    // Run the minimum splash hold concurrently with the real session-check
-    // work instead of after it, so total wait is max(delay, work) rather
-    // than delay + work.
+    // Run the minimum splash hold concurrently with the session-check work
+    // so total wait is max(delay, work), not delay + work.
     final results = await Future.wait([
       Future.delayed(SplashConstants.navigationDelay),
       OnboardingPrefs.hasSeen(),
@@ -64,9 +62,8 @@ class _SplashScreenState extends State<SplashScreen>
       return;
     }
 
-    // Force-refreshes the Firebase ID token so a locally persisted session
-    // that has expired or been revoked server-side is caught here, before
-    // Home makes its first authenticated API call.
+    // Force-refreshes the Firebase ID token so an expired/revoked session
+    // is caught here, before Home's first authenticated API call.
     await authCubit.checkSession();
     if (!mounted) return;
 
@@ -89,9 +86,8 @@ class _SplashScreenState extends State<SplashScreen>
     final size = MediaQuery.sizeOf(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Same brand hue in both themes, just the contrast-safe variant for
-    // each background: a deep shade on the light cream backdrop, and the
-    // bright pastel itself (which already pops) on the dark plum backdrop.
+    // Same brand hue in both themes, just the contrast-safe variant per
+    // background — a deep shade on light cream, the bright pastel on dark plum.
     final titleColor =
         isDark ? AppColors.lavenderLilac : AppColors.primaryButtonFill;
     final taglineColor =
@@ -104,10 +100,8 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: backgroundColor,
       body: Stack(
         children: [
-          // Painted first, then fully covered by the opaque background
-          // below — never visible, but still rasterized so the GPU
-          // compiles onboarding's shader pipelines now instead of during
-          // the first onboarding swipe.
+          // Painted first, then fully covered below — never visible, but
+          // still rasterized so the GPU compiles onboarding's shaders now, not during the first swipe.
           const Positioned.fill(child: SplashShaderWarmup()),
           Positioned.fill(child: ColoredBox(color: backgroundColor)),
           Center(

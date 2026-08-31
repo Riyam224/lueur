@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-// Share-card export is rendered off-screen at a fixed pixel size (it
-// becomes a PNG, not on-screen UI), so it intentionally does not use
-// flutter_screenutil scaling like the rest of the response screen.
+// Share-card export is rendered off-screen at a fixed pixel size (it becomes
+// a PNG, not on-screen UI) — intentionally skips flutter_screenutil scaling.
 const double shareCardWidth = 1080;
 const double _shareCardPadding = 64;
 const double _shareCardHeadingGap = 24;

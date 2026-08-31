@@ -5,9 +5,8 @@ import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 
-/// A single chat bubble with a light bounce-scale on tap — purely a tactile
-/// touch, no navigation or side effect, so it stays a tiny self-contained
-/// widget instead of triggering a rebuild of the whole message list.
+/// A single chat bubble with a light bounce-scale on tap — purely tactile,
+/// no side effect, stays self-contained instead of rebuilding the whole list.
 class ChatBubble extends StatefulWidget {
   final String content;
   final bool isUser;

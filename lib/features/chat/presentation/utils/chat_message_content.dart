@@ -3,8 +3,7 @@ import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Resolves a chat message's displayed text, mapping `ChatCubit`'s
-/// send-failure sentinel (see [ChatMessage.sendFailedSentinelPrefix]) to the
-/// matching localized string here, where a [BuildContext] is available.
+/// send-failure sentinel to its localized string, where [BuildContext] is available.
 String resolveChatMessageContent(BuildContext context, ChatMessage message) {
   if (!message.isSendFailedSentinel) return message.content;
   final l10n = AppLocalizations.of(context)!;

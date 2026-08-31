@@ -7,9 +7,8 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// A soft, single fade-in check-in from Luna shown once an exercise
-/// (breathing or affirmations) is fully done. Never shown mid-exercise —
-/// only at the completion moment, offering to keep talking or head home.
+/// A soft, single fade-in check-in from Luna shown once an exercise is fully
+/// done — never mid-exercise, only at completion.
 class LunaCheckInPrompt extends StatefulWidget {
   final VoidCallback onTalkToLuna;
   final VoidCallback onDismiss;

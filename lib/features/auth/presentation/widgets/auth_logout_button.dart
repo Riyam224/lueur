@@ -6,9 +6,8 @@ import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Top-right "log out" affordance shown on the login/register screens for
-/// users who ended up there while already authenticated (e.g. session
-/// expired) and need a way back to a clean slate.
+/// Top-right "log out" affordance on login/register for users who ended up
+/// there while already authenticated (e.g. session expired).
 class AuthLogoutButton extends StatelessWidget {
   const AuthLogoutButton({super.key, required this.secondaryText});
 

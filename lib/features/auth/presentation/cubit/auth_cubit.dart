@@ -34,9 +34,8 @@ class AuthCubit extends Cubit<AuthState> {
         _onSessionCleared = onSessionCleared,
         super(const AuthInitial());
 
-  /// Restores a persisted session on app start (called from splash). Forces
-  /// a Firebase ID token refresh so an expired-but-cached session doesn't
-  /// silently break the first authenticated API call once on Home.
+  /// Restores a persisted session on app start. Forces a Firebase ID token
+  /// refresh so an expired-but-cached session doesn't silently break Home's first API call.
   Future<void> checkSession() async {
     emit(const AuthLoading());
     final result = await _checkSessionUseCase();

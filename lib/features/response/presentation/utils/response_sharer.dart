@@ -6,8 +6,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// Renders Luna's response as a shareable PNG card and opens the native
-/// share sheet. `isMounted` is checked between the two awaits since the
-/// screen may be popped while the screenshot is being captured.
+/// share sheet. `isMounted` is checked between awaits since the screen may pop mid-capture.
 Future<void> shareResponseCard(
   BuildContext context, {
   required ScreenshotController screenshotController,

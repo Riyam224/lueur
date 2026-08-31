@@ -20,9 +20,8 @@ enum MoodType {
   contentPeaceful,
 }
 
-/// Reverse lookup from a persisted [MoodEntry.emoji] unicode value back to
-/// its [MoodType], so any screen displaying a saved mood entry can render
-/// the same illustration used on the home mood picker.
+/// Reverse lookup from a persisted [MoodEntry.emoji] back to its [MoodType],
+/// so a saved entry renders the same illustration as the home mood picker.
 MoodType? moodTypeFromEmoji(String emoji) {
   for (final moodType in MoodType.values) {
     if (moodType.emoji == emoji) return moodType;
@@ -85,10 +84,8 @@ extension MoodTypeDetails on MoodType {
   /// Light-mode tile background — a soft tint of [color].
   Color get bgColor => Color.lerp(color, AppColors.lightSurface, 0.85)!;
 
-  /// Pastel journal-bubble background grouped by emotional family, so the
-  /// timeline reads as a recognizable emotional map (e.g. warm colors for
-  /// joy/gratitude, cool colors for sadness/unease) rather than an
-  /// arbitrary per-card rotation.
+  /// Pastel journal-bubble background grouped by emotional family (warm for
+  /// joy/gratitude, cool for sadness/unease) so the timeline reads as a map, not a random rotation.
   Color get journalBubbleColor => switch (this) {
         MoodType.happy => AppColors.journalCardYellow,
         MoodType.excited => AppColors.journalCardPeach,

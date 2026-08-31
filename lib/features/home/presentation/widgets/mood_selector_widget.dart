@@ -139,9 +139,7 @@ class MoodSelectorWidget extends StatelessWidget {
 }
 
 /// A single mood tile. Owns a one-shot scale-bounce animation that replays
-/// on every tap (including re-tapping an already-selected tile) — separate
-/// from the persistent selected-state styling (border/shadow/bg), which is
-/// still driven entirely by [isSelected].
+/// on every tap, separate from the persistent selected-state styling driven by [isSelected].
 class _MoodTile extends StatefulWidget {
   final String emoji;
   final bool isSelected;

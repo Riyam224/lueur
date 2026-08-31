@@ -1,8 +1,7 @@
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 
 /// Checks whether placing [value] at ([row], [col]) conflicts with another
-/// filled cell in the same row, column, or 2x2 box — used for live "that
-/// clashes with another cell" highlighting as the player types.
+/// cell in the same row, column, or 3x3 box — used for live clash highlighting.
 class ValidateSudokuMoveUseCase {
   bool call(List<List<int>> grid, int row, int col, int value) {
     for (var c = 0; c < SudokuBoardEntity.size; c++) {

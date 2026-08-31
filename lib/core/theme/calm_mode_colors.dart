@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 
-/// Shared "calm mode" dark palette — the deep navy gradient and soft glow
-/// colors used by the guided breathing screen and other low-mood flows.
-/// Pulls from [AppColors] so new calm-mode screens reference this instead
-/// of duplicating hex values.
+/// Shared "calm mode" dark palette — deep navy gradient + soft glow colors
+/// used by breathing and other low-mood flows. Pulls from [AppColors] instead of duplicating hex values.
 class CalmModeColors {
   const CalmModeColors._();
 

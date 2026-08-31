@@ -4,10 +4,8 @@ import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_grid_section.dart';
 
-/// Slice of [SudokuState] the grid actually renders. `values`/`given`/
-/// `conflicts`/`candidates` keep the same list reference from `copyWith`
-/// whenever they aren't the field being updated, so comparing this record by
-/// value skips a grid rebuild on unrelated state changes (e.g. the timer).
+/// Slice of [SudokuState] the grid actually renders. Fields keep the same
+/// list reference from `copyWith` when unchanged, so record comparison skips rebuilds on unrelated changes (e.g. the timer).
 typedef _GridSlice = (
   List<List<int>>,
   List<List<bool>>,

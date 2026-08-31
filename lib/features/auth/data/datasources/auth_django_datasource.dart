@@ -9,9 +9,8 @@ class AuthDjangoDatasource {
 
   const AuthDjangoDatasource(this._dio);
 
-  /// Sends the Firebase ID token to the Django backend for verification.
-  /// Django creates the user if they are new, then returns the profile
-  /// alongside `is_new_user` so callers can react only once, on creation.
+  /// Sends the Firebase ID token to the Django backend for verification;
+  /// Django creates the user if new and returns `is_new_user` so callers react only once.
   Future<VerifyTokenResult> verifyToken(String idToken) async {
     final response = await _dio.post(
       ApiEndpoints.authVerify,
@@ -24,9 +23,8 @@ class AuthDjangoDatasource {
     );
   }
 
-  /// PATCHes the signed-in user's preferred language to the backend.
-  /// Callers treat failures as non-fatal — offline/transient errors are
-  /// expected to be retried on the next language change or app open.
+  /// PATCHes the signed-in user's preferred language to the backend. Callers
+  /// treat failures as non-fatal, retried on the next language change or app open.
   Future<void> updatePreferredLanguage(String languageCode) async {
     await _dio.patch(
       ApiEndpoints.accountsMe,

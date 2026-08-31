@@ -40,9 +40,8 @@ class AppAssets {
   static const String actionChat = '${emojisPath}chat.png';
   static const String actionHistory = '${emojisPath}book.png';
 
-  // Luna character illustration — genuinely transparent PNG (luna_source.png
-  // bakes an opaque checkerboard into its background instead). Use this
-  // everywhere Luna's mascot needs to appear.
+  // Luna character illustration — genuinely transparent PNG (unlike
+  // luna_source.png, which bakes in an opaque checkerboard background).
   static const String lunaCharacter = 'assets/images/luna_splash.png';
 
   static const String googleLogo = 'assets/icons/google_logo.svg';

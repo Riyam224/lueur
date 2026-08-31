@@ -19,9 +19,8 @@ import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
 
-/// Journal is a lightweight entry point into memories — the title, the
-/// weekly letter, and a taste of the most recent days. The full searchable,
-/// filterable browsing experience lives in [AppRoutes.timeline].
+/// Journal is a lightweight entry point into memories — title, weekly letter,
+/// and a taste of recent days. Full searchable browsing lives in [AppRoutes.timeline].
 class JournalGridScreen extends StatefulWidget {
   const JournalGridScreen({super.key});
 

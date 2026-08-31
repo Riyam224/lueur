@@ -22,8 +22,7 @@ typedef SudokuBoardEditResult = ({
 });
 
 /// Pure grid mutation/query helpers used by [SudokuCubit] — kept free of
-/// Cubit/state concerns so the move-validation logic is easy to read and
-/// test in isolation.
+/// Cubit/state concerns so move-validation is easy to read and test.
 class SudokuGridOps {
   const SudokuGridOps(this._validateMove);
 
@@ -123,9 +122,8 @@ class SudokuGridOps {
     );
   }
 
-  /// Removes [value] as a candidate from every peer (row, column, and box)
-  /// of the given cell — called after a real move is placed in
-  /// auto-candidate mode.
+  /// Removes [value] as a candidate from every peer (row/column/box) of the
+  /// given cell — called after a real move in auto-candidate mode.
   void eliminatePeerCandidates(
     List<List<Set<int>>> candidates,
     int row,

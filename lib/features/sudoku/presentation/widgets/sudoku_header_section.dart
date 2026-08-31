@@ -4,10 +4,8 @@ import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_header_stats.dart';
 
-/// Slice of [SudokuState] the mistakes/timer/pause row needs. Scoping the
-/// rebuild to just this record means the ticking timer (`elapsedSeconds`,
-/// emitted once per second) no longer forces the 9x9 grid or number pad to
-/// rebuild.
+/// Slice of [SudokuState] the mistakes/timer/pause row needs — scoping the
+/// rebuild to this record stops the once-per-second timer tick from rebuilding the grid or number pad.
 typedef _HeaderSlice = (int mistakes, int elapsedSeconds, bool isPaused);
 
 /// Rebuilds only when mistakes/elapsedSeconds/isPaused change.

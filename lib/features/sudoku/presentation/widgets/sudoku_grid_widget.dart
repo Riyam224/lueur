@@ -8,10 +8,8 @@ import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_board_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 
-/// Renders the 9x9 grid with a thicker border around each 3x3 box, plus
-/// row/column/box peer highlighting and same-digit highlighting around the
-/// selected cell — the same "which cells relate to my selection" cues
-/// classic sudoku apps use, themed to the app's own palette.
+/// Renders the 9x9 grid with a thicker border per 3x3 box, plus row/column/
+/// box peer and same-digit highlighting — the classic "related cells" cues.
 class SudokuGridWidget extends StatelessWidget {
   final SudokuState state;
   final void Function(int row, int col) onCellTap;

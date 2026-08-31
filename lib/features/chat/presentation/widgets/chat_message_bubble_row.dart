@@ -4,9 +4,8 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/features/chat/presentation/widgets/chat_bubble.dart';
 
-/// One row in the chat transcript: Luna's avatar (only on the first message
-/// of a consecutive group), the message bubble, and an optional bookmark
-/// button for saving Luna's replies as quotes.
+/// One row in the chat transcript: Luna's avatar (first message of a group
+/// only), the message bubble, and an optional bookmark button for saving quotes.
 class ChatMessageBubbleRow extends StatelessWidget {
   const ChatMessageBubbleRow({
     super.key,

@@ -1,7 +1,5 @@
-/// The exact streak-day counts that trigger a full-screen celebration.
-/// Unlike [StreakGrowthStage]'s repeating 7-day visual cycle, these are
-/// fixed, non-repeating milestones — the celebration screen only ever
-/// fires on one of these four days.
+/// The exact streak-day counts that trigger a full-screen celebration —
+/// unlike [StreakGrowthStage]'s repeating cycle, these are fixed, non-repeating milestones.
 enum StreakMilestone {
   day7(7),
   day10(10),
@@ -42,9 +40,8 @@ enum StreakMilestone {
     return result;
   }
 
-  /// Progress (0.0-1.0) toward the next milestone, measured from the
-  /// previously reached milestone (or day 0 if none reached yet). Returns
-  /// 1.0 once every milestone has been reached.
+  /// Progress (0.0-1.0) toward the next milestone, measured from the last
+  /// reached one (or day 0). Returns 1.0 once every milestone is reached.
   static double progressToNext(int streakDays) {
     final upcoming = next(streakDays);
     if (upcoming == null) return 1.0;

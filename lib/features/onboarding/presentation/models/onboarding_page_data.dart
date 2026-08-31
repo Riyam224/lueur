@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Content for a single onboarding page: title, subtitle, the card's
-/// background color, the darker circle color behind Luna, and a small
-/// theme badge icon shown next to her.
+/// Content for a single onboarding page: title, subtitle, card background
+/// color, the circle color behind Luna, and a small theme badge icon.
 class OnboardingPageData {
   final String title;
   final String subtitle;

@@ -105,10 +105,8 @@ class _HomeScreenBody extends StatelessWidget {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    // Ambient gradient bleed: softens the hard edge between
-                    // the greeting card and the mood picker below it. Purely
-                    // decorative — sized/positioned behind the card, never
-                    // affects the card's or the mood section's layout.
+                    // Ambient gradient bleed softening the hard edge between
+                    // the greeting card and mood picker — purely decorative, never affects layout.
                     Positioned(
                       left: 0,
                       right: 0,

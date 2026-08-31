@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Wraps [child] with a cute press-down/spring-back scale animation on tap.
-/// Standardizes the "bouncy" tap feedback used across the app so new
-/// interactive elements don't need to hand-roll an [AnimationController].
+/// Wraps [child] with a press-down/spring-back scale animation on tap —
+/// standardizes "bouncy" tap feedback so new elements don't hand-roll an [AnimationController].
 class BouncyTap extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;

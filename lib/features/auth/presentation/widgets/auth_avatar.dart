@@ -3,9 +3,8 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_extra_colors.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 
-/// Luna avatar shown at the top of the login/register screens, sat on a
-/// soft circle backdrop (matching the onboarding "circle behind Luna"
-/// motif) with a gentle floating loop for a cozier, more alive feel.
+/// Luna avatar at the top of login/register, on a soft circle backdrop
+/// (matching onboarding's "circle behind Luna") with a gentle floating loop.
 class AuthAvatar extends StatefulWidget {
   const AuthAvatar({super.key});
 

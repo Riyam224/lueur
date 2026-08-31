@@ -1,9 +1,8 @@
 import 'package:lueur/core/utils/streak_calculator.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
 
-/// Computes the user's current day-streak from the same entries shown on
-/// the journal/home screens, so the streak can never drift from what the
-/// user actually sees in their journal.
+/// Computes the current day-streak from the same entries shown on the
+/// journal/home screens, so it can never drift from what the user sees.
 class CalculateStreakUseCase {
   final MoodRepository _moodRepository;
 

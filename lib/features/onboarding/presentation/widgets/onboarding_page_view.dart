@@ -6,10 +6,8 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:lueur/features/onboarding/presentation/models/onboarding_page_data.dart';
 
-/// A single onboarding card: a big circle + Luna behind a theme badge,
-/// then a headline/subtitle. Listens to [pageController] so it can scale,
-/// fade and slide itself based on how far it is from the current page —
-/// the "sliding back and forth" animation for the whole flow.
+/// A single onboarding card: a big circle + Luna behind a theme badge, then
+/// a headline/subtitle. Listens to [pageController] to scale/fade/slide itself based on distance from the current page.
 class OnboardingPageView extends StatelessWidget {
   final OnboardingPageData data;
   final int index;

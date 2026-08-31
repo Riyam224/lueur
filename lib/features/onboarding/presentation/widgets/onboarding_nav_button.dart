@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 
-/// Small circular back/forward arrow button used in the onboarding bottom
-/// nav row. Scales down on press for tactile feedback; fades out and
-/// ignores taps when [enabled] is false (e.g. the back arrow on page one).
+/// Small circular back/forward arrow button in onboarding's bottom nav row.
+/// Scales down on press; fades and ignores taps when [enabled] is false.
 class OnboardingNavButton extends StatefulWidget {
   final VoidCallback onPressed;
   final IconData icon;

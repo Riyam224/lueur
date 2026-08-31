@@ -1,6 +1,5 @@
-/// Maps a streak day count onto a repeating 7-day visual growth cycle —
-/// day 8 looks like day 1 again, day 14 blooms again, and so on. The
-/// underlying streak count itself never resets; only this visual cycles.
+/// Maps a streak day count onto a repeating 7-day visual growth cycle (day 8
+/// looks like day 1 again) — the underlying streak count never resets, only this visual cycles.
 enum StreakGrowthStage {
   seed,
   sprout,

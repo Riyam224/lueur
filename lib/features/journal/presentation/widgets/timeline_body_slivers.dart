@@ -9,10 +9,8 @@ import 'package:lueur/features/journal/presentation/widgets/timeline_empty_state
 import 'package:lueur/features/journal/presentation/widgets/timeline_month_section_widget.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// Builds the scrollable-content slivers for [JournalGridState]: loading,
-/// error, empty, no-results, or the grouped month sections. Kept outside
-/// the screen's State class so the widget tree logic stays testable and
-/// the screen file stays focused on layout wiring.
+/// Builds the scrollable-content slivers (loading/error/empty/no-results/
+/// grouped months) — kept outside the screen's State class so it stays testable.
 List<Widget> buildTimelineBodySlivers(
   BuildContext context, {
   required JournalGridState state,
@@ -97,9 +95,8 @@ List<Widget> buildTimelineBodySlivers(
     l10n.timelineReflection4,
   ];
 
-  // Each month is one lazily-built sliver item — the scroll view only
-  // ever builds the month sections currently near the viewport rather
-  // than every bubble in the whole history up front.
+  // Each month is one lazily-built sliver item — the scroll view only builds
+  // month sections near the viewport, not the whole history up front.
   return [
     SliverPadding(
       padding: EdgeInsets.fromLTRB(

@@ -17,15 +17,13 @@ import 'package:lueur/features/journal/presentation/widgets/timeline_filters_wid
 import 'package:lueur/features/journal/presentation/widgets/timeline_header_widget.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-/// The full emotional timeline — every memory, searchable and filterable by
-/// mood or month. Reached from Home's and Journal's "View full timeline"
-/// links; Journal itself only teases the latest 3 entries.
+/// The full emotional timeline — every memory, searchable/filterable by mood
+/// or month. Reached from "View full timeline" links; Journal only teases the latest 3.
 class TimelineScreen extends StatelessWidget {
   const TimelineScreen({super.key, this.initialFocusDate});
 
-  /// When set, the screen scrolls to this day's entry once it's built —
-  /// used when a Journal card is tapped, so the user lands on the same day
-  /// they came from rather than the top of the full history.
+  /// When set, the screen scrolls to this day's entry once built — used when
+  /// a Journal card is tapped, so the user lands where they came from.
   final DateTime? initialFocusDate;
 
   @override
@@ -33,10 +31,8 @@ class TimelineScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<JournalGridCubit>()..loadEntries()),
-        // Standalone top-level route (sibling of the shell), so the shell's
-        // providers aren't in scope here — re-attach the app-wide signal,
-        // mirroring how the other standalone routes (chat, response,
-        // weeklyLetter) re-attach MoodCubit.
+        // Standalone top-level route, so the shell's providers aren't in
+        // scope — re-attach the signal, mirroring how chat/response/weeklyLetter re-attach MoodCubit.
         BlocProvider.value(value: sl<JournalRefreshSignal>()),
       ],
       child: BlocListener<JournalRefreshSignal, int>(

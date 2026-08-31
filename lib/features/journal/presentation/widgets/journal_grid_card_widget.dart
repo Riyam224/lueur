@@ -4,9 +4,8 @@ import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_bubble_visual.dart';
 
-/// A speech-bubble card — a rounded rectangle with a small tail and a
-/// smiley "sticker" accent overlapping one corner, echoing the playful
-/// chat-bubble poster look rather than a plain grid card.
+/// A speech-bubble card — a rounded rectangle with a small tail and a smiley
+/// "sticker" accent, echoing a playful chat-bubble look rather than a plain grid card.
 class JournalGridCardWidget extends StatefulWidget {
   /// Below this bubble size the AI summary line is dropped — only the
   /// mood illustration and date still fit comfortably.
@@ -16,10 +15,8 @@ class JournalGridCardWidget extends StatefulWidget {
   /// clamped — its "limited space" to move around in.
   static const double dragBoundRadius = 42;
 
-  /// The sticky-note card's width/height as a multiple of `size` — the
-  /// single source of truth for note proportions, shared by
-  /// [JournalActivityChoiceCard] and [JournalRecentMemoriesSection] so
-  /// every card type in the Journal scatter lines up.
+  /// The sticky-note card's width/height as a multiple of `size` — shared by
+  /// [JournalActivityChoiceCard] and [JournalRecentMemoriesSection] so every card type lines up.
   static const double widthRatio = 1.15;
   static const double heightRatio = 0.86;
 
@@ -108,9 +105,7 @@ class _JournalGridCardWidgetState extends State<JournalGridCardWidget>
   Widget build(BuildContext context) {
     final moodType = moodTypeFromEmoji(widget.entry.emoji);
     // A manually-picked color (via the card options sheet) always wins;
-    // otherwise the bubble is colored by its primary emotion so the
-    // timeline reads as a recognizable emotional map instead of a random
-    // per-card rotation.
+    // otherwise the bubble is colored by its primary emotion, not a random rotation.
     final cardColor =
         JournalCardColor.fromName(widget.entry.cardColor)?.color ??
             moodType?.journalBubbleColor ??

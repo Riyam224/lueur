@@ -20,11 +20,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   AuthRepositoryImpl(this._firebaseDataSource, this._djangoDataSource);
 
-  /// Verifies the Firebase token with the backend and, only the first time
-  /// this account is ever created, optimistically syncs an Arabic device
-  /// locale so a new Arabic-speaking user isn't stuck on the "en" default
-  /// until they find language settings. Fire-and-forget — never blocks
-  /// sign-in/registration and never surfaces a sync failure to the user.
+  /// Verifies the Firebase token and, only on first account creation,
+  /// optimistically syncs an Arabic device locale — fire-and-forget, never blocks sign-in or surfaces a sync failure.
   Future<DjangoUserModel> _verifyTokenAndSyncInitialLanguage(
     String idToken,
   ) async {
@@ -120,11 +117,8 @@ class AuthRepositoryImpl implements AuthRepository {
           .timeout(const Duration(seconds: 8));
       return Right(djangoUser);
     } on FirebaseAuthException catch (e, st) {
-      // Only a genuine "this session is no longer valid" response from
-      // Firebase should sign the user out. Anything else (network error,
-      // backend hiccup) must not — we can't tell "no internet" apart from
-      // "no valid session" here, so default to trusting the locally cached
-      // session and let the user keep using the app.
+      // Only a genuine "session no longer valid" response should sign the
+      // user out — we can't tell "no internet" apart from "no valid session" here, so default to trusting the cached session.
       if (_isInvalidSessionError(e)) {
         _logger.e(
           'Session invalid, signing out',
@@ -137,10 +131,8 @@ class AuthRepositoryImpl implements AuthRepository {
       _logger.w('Session restore failed (non-fatal): ${e.code}');
       return Right(UserModel.fromFirebaseUser(user));
     } on DioException catch (e, st) {
-      // The backend explicitly rejecting the token (banned/deleted account,
-      // revoked access) is a genuine "no longer valid" signal, unlike a
-      // timeout or connection failure — only the latter should be trusted
-      // as "probably just offline."
+      // The backend explicitly rejecting the token is a genuine "no longer
+      // valid" signal, unlike a timeout/connection failure, which is trusted as "probably just offline."
       final status = e.response?.statusCode;
       if (status == 401 || status == 403) {
         _logger.e(
@@ -201,9 +193,8 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  /// Maps a Firebase error to a stable, unlocalized failure code — never a
-  /// display string. The presentation layer resolves the code to localized
-  /// text via AppLocalizations, since the data layer has no BuildContext.
+  /// Maps a Firebase error to a stable, unlocalized failure code, never a
+  /// display string — the presentation layer localizes it via AppLocalizations.
   String _mapFirebaseError(FirebaseAuthException e) {
     return switch (e.code) {
       'user-not-found' => 'user-not-found',

@@ -12,10 +12,8 @@ import 'package:lueur/features/sudoku/presentation/models/sudoku_move.dart';
 import 'package:lueur/features/sudoku/presentation/utils/sudoku_grid_factory.dart';
 import 'package:lueur/features/sudoku/presentation/utils/sudoku_grid_ops.dart';
 
-/// Drives a single live 9x9 sudoku game — board state, notes ("candidates"),
-/// undo history, and the pausable timer. Ephemeral by design (like
-/// [DrawCubit] for free draw): only the final result is persisted, via
-/// [SaveSudokuResultUseCase], never the in-progress board.
+/// Drives a single live 9x9 sudoku game — board state, candidates, undo
+/// history, and the pausable timer. Ephemeral by design (like [DrawCubit]): only the final result is persisted.
 class SudokuCubit extends Cubit<SudokuState> {
   /// Three strikes and the round ends — keeps a hard round short and low
   /// stakes rather than letting mistakes pile up indefinitely.
@@ -235,10 +233,8 @@ class SudokuCubit extends Cubit<SudokuState> {
     );
   }
 
-  /// Persists the round outcome — never blocks the win/loss UI flow. On
-  /// failure the result is lost from history, so it's surfaced via a soft
-  /// [SudokuState.resultSaveFailed] flag (the underlying error is already
-  /// logged by the repository) rather than disrupting the outcome dialog.
+  /// Persists the round outcome without blocking the win/loss UI. On failure
+  /// it's surfaced via a soft [SudokuState.resultSaveFailed] flag, not by disrupting the outcome dialog.
   Future<void> _persistResult({
     required bool won,
     required int mistakes,

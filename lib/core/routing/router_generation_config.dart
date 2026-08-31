@@ -250,9 +250,8 @@ class RouterGenerationConfig {
           final emoji = extra?['emoji'] as String? ?? '😊';
           final thoughts = extra?['thoughts'] as String? ?? '';
           final aiResponse = extra?['aiResponse'] as String? ?? '';
-          // A full day's worth of messages (e.g. from the journal grid,
-          // where one bubble can represent several check-ins that day)
-          // takes priority over the single thoughts/aiResponse pair below.
+          // A full day's worth of messages (e.g. from the journal grid, where
+          // one bubble can span several check-ins) takes priority over the single thoughts/aiResponse pair below.
           final rawHistory = extra?['history'] as List<dynamic>?;
           final dayHistory = rawHistory
               ?.map((e) => e as Map<String, dynamic>)

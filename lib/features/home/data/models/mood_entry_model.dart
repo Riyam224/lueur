@@ -16,23 +16,20 @@ class MoodEntryModel {
   @JsonKey(name: 'ai_response')
   final String aiResponse;
 
-  // The backend sends UTC timestamps; converting to local time here (the
-  // single parse point for every mood/journal/timeline entry) means every
-  // screen displays local time automatically without its own conversion.
+  // The backend sends UTC timestamps; converting here (the single parse
+  // point for every entry) means every screen gets local time automatically.
   @JsonKey(name: 'created_at', fromJson: _createdAtFromJson)
   final DateTime createdAt;
 
   /// Journal grid customization — local-only, never sent to the backend
-  /// (the API request body for /generate is built manually and never
-  /// includes these fields; see [MoodRepositoryImpl]).
+  /// (see [MoodRepositoryImpl]).
   @JsonKey(name: 'card_color')
   final String? cardColor;
 
   final bool pinned;
 
-  /// Distinguishes a mood check-in ('mood_chat', the default) from an
-  /// activity log entry ('breathing' | 'sudoku' | 'drawing'). Defaults
-  /// gracefully so older cached entries without this key still parse.
+  /// Distinguishes a mood check-in ('mood_chat', default) from an activity
+  /// log entry — defaults gracefully so older cached entries still parse.
   @JsonKey(name: 'entry_type')
   final String entryType;
 

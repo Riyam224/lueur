@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // ── Lueur cozy palette (source of truth — reference these, never a raw
-  // hex, anywhere else in the app) ─────────────────────────────────────────
-  // Brand duo: Lavender Lilac (#B7AEDC) + Buttermilk Yellow (#FFE6A7) — the
-  // dusty, storybook-cozy pair from the app's mood board. Every purple in
-  // the app (light or dark mode) is the same hue/saturation as Lavender
-  // Lilac, just lighter or darker, so nothing reads as a "different purple".
+  // ── Lueur cozy palette (source of truth — never a raw hex elsewhere) ──
+  // Brand duo: Lavender Lilac + Buttermilk Yellow; every purple in the app is the same hue as Lavender Lilac, just lighter/darker.
   static const Color lavenderLilac = Color(0xFFB7AEDC);
   static const Color buttermilkYellow = Color(0xFFFFE6A7);
   static const Color creamBackground = Color(0xFFF8F2E7);
@@ -21,10 +17,8 @@ class AppColors {
   static const Color pastelPeriwinkle =
       Color(0xFFD9D4ED); // lighter lavender-lilac tint — AI bubble
 
-  // ── Sunrise palette — light theme only (gumdrop-pet reference: warm
-  // peach → coral gradient, sunset-orange accents). Dark mode keeps the
-  // lavender/plum palette above untouched; every constant here is only ever
-  // read by the LIGHT theme tokens below. ───────────────────────────────────
+  // ── Sunrise palette — light theme only (warm peach→coral, sunset-orange
+  // accents); dark mode keeps the lavender/plum palette above untouched. ──
   static const Color sunriseCream = Color(0xFFFFF4E9); // lightest bg
   static const Color sunrisePeachLight =
       Color(0xFFFFE9D6); // soft wash (icon bg, gradient end)
@@ -44,22 +38,15 @@ class AppColors {
   static const Color sunriseGreetingEnd =
       Color(0xFFCC5013); // contrast w/ white: 4.45:1
 
-  // ── Button-fill variants ─────────────────────────────────────────────────
-  // pastelPurple/pastelCoral read beautifully as backgrounds, glows, and
-  // decorative fills, but white text on top of them fails WCAG AA (need
-  // 4.5:1). These are the same hue, darkened via the WCAG relative-luminance
-  // formula until white text clears 4.5:1 — use ONLY where white/light text
-  // sits directly on the fill (buttons, filled chat bubbles). Leave every
-  // background/glow/decorative usage on the lighter pastel values above.
+  // ── Button-fill variants — pastelPurple/pastelCoral fail WCAG AA (4.5:1)
+  // for white text; these are the same hue darkened until it clears 4.5:1. Use only where white text sits directly on the fill.
   static const Color primaryButtonFill =
       sunriseButtonFill; // contrast w/ white: 4.85:1
   static const Color accentButtonFill =
       Color(0xFF9A6F00); // contrast w/ white: 4.52:1
 
-  // Greeting card gradient — same hue family, same contrast-safe styling,
-  // for the diagonal gradient behind Luna's white greeting text. Used in
-  // both light and dark mode: the card always carries white text, so it
-  // always needs the darkened pair regardless of theme.
+  // Greeting card gradient — same contrast-safe hue family, for the diagonal
+  // gradient behind Luna's white greeting text in both light and dark mode.
   static const Color greetingGradientStart =
       sunriseGreetingStart; // contrast w/ white: 6.0:1
   static const Color greetingGradientEnd =
@@ -81,10 +68,8 @@ class AppColors {
   static const Color lightBorder = sunriseBorder; // Card borders
   static const Color accent = sunriseAmber; // "Great" mood
 
-  // ── Dark Theme (same pastel family, deepened — no black/navy) ────────────
-  // Structural surfaces below carry a whisper of darkMintTeal blended in —
-  // a deliberate "touch of green" so dark mode reads like a cozy cabin at
-  // night (plum + moss) rather than plain purple-on-black.
+  // ── Dark Theme (same pastel family, deepened — no black/navy). Structural
+  // surfaces carry a whisper of darkMintTeal so it reads as plum+moss, not purple-on-black. ──
   static const Color darkBackground =
       Color(0xFF2B2138); // Scaffold — deep plum, not black
   static const Color darkSurface =

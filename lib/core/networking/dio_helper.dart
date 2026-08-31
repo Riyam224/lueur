@@ -18,10 +18,8 @@ class DioHelper {
       ),
     );
     dio.interceptors.addAll([authInterceptor, PrettyDioLogger()]);
-    // Must come after the interceptors above (sentry_dio docs: this call
-    // has to be the last Dio setup step). Wraps the adapter/transformer to
-    // record HTTP calls as performance spans — the Bearer auth interceptor
-    // above is untouched.
+    // Must come after the interceptors above (sentry_dio requires this to be
+    // the last Dio setup step) to record HTTP calls as performance spans.
     dio.addSentry();
   }
 

@@ -17,8 +17,7 @@ class AuthFirebaseDataSource {
   User? get currentUser => _firebaseAuth.currentUser;
 
   /// Forces a refresh of the ID token so a session restored from local
-  /// storage is checked against Firebase rather than trusting a cached,
-  /// possibly-expired token.
+  /// storage is checked against Firebase, not a possibly-expired cached token.
   Future<String> refreshIdToken() async {
     final user = _firebaseAuth.currentUser;
     if (user == null) throw StateError('No signed-in user');

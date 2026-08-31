@@ -13,10 +13,8 @@ import 'package:lueur/l10n/app_localizations.dart';
 class ChatScreen extends StatefulWidget {
   final String emoji;
 
-  /// Thoughts carried over from a completed exercise (breathing /
-  /// affirmations) that haven't been sent to Luna yet. When present, they're
-  /// sent automatically on open so Luna's first reply already reflects what
-  /// the user shared — no need to repeat themselves.
+  /// Thoughts carried over from a completed exercise, not yet sent to Luna —
+  /// when present, sent automatically on open so the user needn't repeat themselves.
   final String? autoSendThoughts;
 
   const ChatScreen({

@@ -37,14 +37,8 @@ class JournalDayActivityDots extends StatelessWidget {
   Widget build(BuildContext context) {
     final types = activityTypes.where((type) => type != excluding).toList();
 
-    // An invisible worst-case column (every known activity type) reserves
-    // this widget's layout height at a constant value, regardless of how
-    // many activity types actually happened that day. Without it, a day
-    // with none of these dots and a day with several take different
-    // amounts of vertical space, which changes how much the ancestor
-    // FittedBox (in JournalBubbleContent) has to shrink its whole bubble
-    // to fit — so the "same" text style would render at different sizes
-    // card to card. This reserves real measured space, not a guessed one.
+    // An invisible worst-case column reserves this widget's layout height at
+    // a constant value, so the ancestor FittedBox scales every card by the same factor regardless of how many dots a day actually has.
     final stacked = Stack(
       alignment: Alignment.topCenter,
       children: [

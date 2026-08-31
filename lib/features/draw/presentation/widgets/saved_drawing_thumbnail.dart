@@ -3,9 +3,8 @@ import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_path.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
 
-/// Reconstructs the plain-Dart [SavedDrawingEntity] paths back into the
-/// Flutter [DrawPath]s that [DrawPainter] already knows how to render —
-/// reused for both the small profile thumbnail and the full-size viewer.
+/// Reconstructs plain-Dart [SavedDrawingEntity] paths back into [DrawPath]s
+/// [DrawPainter] can render — reused by both the thumbnail and full-size viewer.
 List<DrawPath> drawPathsFromEntity(SavedDrawingEntity drawing) {
   return drawing.paths
       .map(
@@ -17,13 +16,8 @@ List<DrawPath> drawPathsFromEntity(SavedDrawingEntity drawing) {
       .toList();
 }
 
-/// Rescales [paths] so their own ink bounding box fills [frameSize] (minus
-/// [padding] on every side), instead of assuming the strokes were drawn on
-/// a canvas the same size as [frameSize]. The saved points are recorded in
-/// the original free-draw canvas's pixel space — which varies by device and
-/// is usually a tall rectangle, not a square — so painting them unscaled
-/// into a small square reference frame left most of the ink outside the
-/// visible area.
+/// Rescales [paths] so their ink bounding box fills [frameSize] (minus
+/// [padding]), instead of assuming a canvas the same size — saved points are in the original canvas's pixel space, which varies by device.
 List<DrawPath> _fitToFrame(
   List<DrawPath> paths, {
   required double frameSize,
@@ -48,8 +42,7 @@ List<DrawPath> _fitToFrame(
   final available = frameSize - padding * 2;
   final longestSide = [inkWidth, inkHeight, 1.0].reduce((a, b) => a > b ? a : b);
   // A single dot (near-zero bounding box) would otherwise blow up to an
-  // enormous circle at the frame's full scale — cap how far anything gets
-  // magnified.
+  // enormous circle at full scale — cap how far anything gets magnified.
   final scale = (available / longestSide).clamp(0.05, 4.0);
 
   final offsetX = padding + (available - inkWidth * scale) / 2;

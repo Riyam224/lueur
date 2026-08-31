@@ -10,8 +10,7 @@ import 'package:lueur/features/breathing/presentation/cubit/breathing_state.dart
 import 'package:lueur/features/breathing/presentation/utils/breathing_time_format.dart';
 
 /// Progress bar + elapsed/total time label. Scoped to `elapsedSeconds` so
-/// the once-per-second tick only rebuilds this, not the ambient blobs,
-/// ring, or Luna above.
+/// the once-per-second tick only rebuilds this, not the blobs/ring/Luna above.
 class BreathingProgressSection extends StatelessWidget {
   const BreathingProgressSection({
     super.key,

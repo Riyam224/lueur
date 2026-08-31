@@ -1,8 +1,7 @@
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 
 /// One journal bubble's worth of data — every entry from a single calendar
-/// day, chronologically ordered. Color/pin/delete act on [representative]
-/// (the day's most recent entry) since those fields live on a single entry.
+/// day. Color/pin/delete act on [representative] (the day's most recent entry).
 class DayGroup {
   final DateTime date;
   final List<MoodEntryEntity> entries;
@@ -11,18 +10,15 @@ class DayGroup {
 
   MoodEntryEntity get representative => entries.last;
 
-  /// The entry the day's card should render as its main content — the
-  /// most recent mood check-in if this day has one, so a mood_chat entry
-  /// always wins the card face even when a later activity entry exists;
-  /// otherwise falls back to [representative].
+  /// The entry the day's card renders as its main content — the most recent
+  /// mood check-in always wins over a later activity entry; falls back to [representative].
   MoodEntryEntity get primaryEntry => entries.lastWhere(
         (e) => e.entryType == 'mood_chat',
         orElse: () => representative,
       );
 
-  /// Every distinct entry type present this day (e.g. `{'mood_chat',
-  /// 'breathing'}`) — used to surface activity types the card face alone
-  /// wouldn't show.
+  /// Every distinct entry type present this day — used to surface activity
+  /// types the card face alone wouldn't show.
   Set<String> get activityTypes => entries.map((e) => e.entryType).toSet();
 
   bool get pinned => entries.any((e) => e.pinned);

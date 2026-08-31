@@ -86,15 +86,12 @@ class MoodRepositoryImpl implements MoodRepository {
       _logger.i('Fetching mood history from API...');
 
       // The backend scopes this response to the authenticated user via the
-      // Bearer token, so no client-side re-filter is needed here. (A prior
-      // filter compared the Firebase UID against the backend's own numeric
-      // user id, which never match — it silently dropped every entry.)
+      // Bearer token — no client-side re-filter needed (a prior UID-based filter silently dropped every entry).
       final List<MoodEntryModel> models =
           await _remote.getHistory(userId: _currentUserId);
 
-      // The backend doesn't know about cardColor/pinned — carry over the
-      // locally cached values so a refresh doesn't wipe journal grid
-      // customization back to defaults.
+      // The backend doesn't know about cardColor/pinned — carry over cached
+      // values so a refresh doesn't wipe journal grid customization.
       final merged = await _mergeLocalOnlyFields(models);
 
       await _local.cacheHistory(merged, userId: _currentUserId);

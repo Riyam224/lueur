@@ -13,12 +13,8 @@ import 'package:lueur/features/journal/presentation/widgets/journal_activity_cho
 import 'package:lueur/features/journal/presentation/widgets/journal_bubble_visual.dart'
     show noteTiltFor;
 
-/// One agenda-style card per day — every activity that day (mood check-ins
-/// and activity entries alike), each shown as a color-tagged rail item
-/// connected by a dashed line to a little pastel note with its exact time —
-/// a scrapbook-style "what happened this day" view. Replaces the old
-/// scattered per-entry-type bubble cards: a day with a mood check-in and a
-/// breathing session now shows both in one place.
+/// One agenda-style card per day — every activity that day, each a
+/// color-tagged rail item with a pastel note and exact time. Replaces the old per-entry-type bubble cards.
 class TimelineDayCard extends StatelessWidget {
   const TimelineDayCard({
     super.key,
@@ -103,9 +99,8 @@ class TimelineDayCard extends StatelessWidget {
   }
 }
 
-/// One activity's row: a color-tagged rail capsule (mood or activity name)
-/// on the left — connected by a dashed line down to the next item — and a
-/// tilted pastel note on the right with the exact time and a short preview.
+/// One activity's row: a color-tagged rail capsule on the left, connected
+/// by a dashed line, and a tilted pastel note with time and a short preview.
 class _TimelineActivityItem extends StatelessWidget {
   const _TimelineActivityItem({
     required this.entry,
@@ -117,9 +112,8 @@ class _TimelineActivityItem extends StatelessWidget {
   final bool isLast;
   final VoidCallback onTap;
 
-  /// The rail tag's short category name for a non-mood activity entry
-  /// (e.g. `breathing` -> `Breathing`) — distinct from the card's fuller
-  /// "took a breather" detail text.
+  /// The rail tag's short category name for a non-mood activity entry (e.g.
+  /// `breathing` -> `Breathing`), distinct from the card's fuller detail text.
   static String _shortActivityLabel(String entryType) =>
       entryType.isEmpty ? entryType : entryType[0].toUpperCase() + entryType.substring(1);
 
@@ -134,8 +128,7 @@ class _TimelineActivityItem extends StatelessWidget {
             AppColors.journalCardLavender);
 
     // The rail tag is a short category name; the card gives the detail —
-    // for an activity entry those would otherwise repeat the exact same
-    // "played a puzzle" text on both sides.
+    // otherwise an activity entry would repeat the same text on both sides.
     final tagLabel = isMoodEntry
         ? (moodType?.label(context) ?? entry.emoji)
         : _shortActivityLabel(entry.entryType);

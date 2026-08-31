@@ -5,8 +5,7 @@ import 'package:lueur/features/draw/presentation/cubit/draw_path.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
 
 /// Manages an ephemeral freehand drawing — no persistence, no domain/data
-/// layers, since there's nothing here to save, sync, or coordinate through
-/// a repository. Mirrors the presentation-only exception used for onboarding.
+/// layers to save/sync/coordinate through. Mirrors onboarding's presentation-only exception.
 class DrawCubit extends Cubit<DrawState> {
   static const double _minimumPointDistanceSquared = 6.25;
   static const int _maximumPointsPerStroke = 12000;
@@ -43,11 +42,8 @@ class DrawCubit extends Cubit<DrawState> {
       return;
     }
 
-    // Mutate the in-progress stroke's points in place (O(1) amortized)
-    // instead of copying the whole stroke on every pointer-move event.
-    // The outer list is still copied — but that's O(stroke count), not
-    // O(point count), so it stays cheap while still giving DrawPainter a
-    // new list reference to trigger a repaint.
+    // Mutate the in-progress stroke's points in place (O(1)) instead of
+    // copying on every move; the outer list copy stays O(stroke count) to still trigger DrawPainter's repaint.
     activePath.addPoint(point);
     emit(state.copyWith(paths: List<DrawPath>.of(state.paths)));
   }

@@ -18,9 +18,8 @@ class MoodRemoteDatasource {
     String? nextUrl = ApiEndpoints.history;
     Map<String, dynamic>? queryParameters = {'user_id': userId};
 
-    // The backend may return either a bare list or a DRF-paginated
-    // {results, next} envelope — follow every page so the journal shows
-    // every day, not just the first page (DRF's default page size).
+    // The backend may return a bare list or a DRF-paginated {results, next}
+    // envelope — follow every page so the journal isn't capped at one page.
     while (nextUrl != null) {
       final response = await _dio.get(
         nextUrl,

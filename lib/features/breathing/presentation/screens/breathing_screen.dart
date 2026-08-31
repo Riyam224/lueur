@@ -43,9 +43,8 @@ class _BreathingView extends StatefulWidget {
   State<_BreathingView> createState() => _BreathingViewState();
 }
 
-/// Scoped exception to the app's "no looping animation" rule: this loop is
-/// the paced-breathing instruction itself (functional), not decoration, and
-/// it stops the moment the exercise finishes.
+/// Scoped exception to the "no looping animation" rule: this loop is the
+/// paced-breathing instruction itself (functional, not decoration) and stops when the exercise finishes.
 class _BreathingViewState extends State<_BreathingView>
     with SingleTickerProviderStateMixin {
   static const double _restScale = 1.0;
@@ -125,9 +124,8 @@ class _BreathingViewState extends State<_BreathingView>
               _scaleController.value = 0;
             }
           },
-          // The cubit ticks `elapsedSeconds` once per second while in
-          // progress; only rebuild this (heavier) tree on type/phase changes
-          // and let the progress bar re-render itself via its own selector.
+          // The cubit ticks `elapsedSeconds` once per second; only rebuild
+          // this heavier tree on type/phase changes, let the progress bar re-render via its own selector.
           buildWhen: (previous, current) =>
               previous.runtimeType != current.runtimeType ||
               (previous is BreathingInProgress &&

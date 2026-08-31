@@ -7,10 +7,8 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/features/plant/presentation/widgets/sparkle_twinkle.dart';
 
-/// Luna's illustration, staged on a soft glowing halo with twinkling
-/// sparkles. [idleController] loops for the widget's whole lifetime and
-/// drives the halo pulse, sparkle twinkle, and Luna's gentle idle bob —
-/// independent of the one-shot bloom/fade entrance animations.
+/// Luna's illustration on a soft glowing halo with twinkling sparkles.
+/// [idleController] loops for the widget's whole lifetime, independent of the one-shot bloom/fade entrance.
 class LunaCelebrationStage extends StatelessWidget {
   const LunaCelebrationStage({
     super.key,

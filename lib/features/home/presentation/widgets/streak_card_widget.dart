@@ -13,17 +13,13 @@ import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Journal reflection card — current streak, a 7-day activity graph, the
-/// growing plant, and a motivational line. Visualizes the streak; never
-/// recomputes it.
+/// growing plant, and a motivational line. Visualizes only; never recomputes.
 class StreakCardWidget extends StatelessWidget {
   static const double _minBarHeight = 12;
   static const double _maxBarHeight = 44;
 
-  /// Root-letter Arabic day abbreviations, keyed by [DateTime.weekday]
-  /// (1=Monday … 7=Sunday). Most Arabic weekday names share the "ال"
-  /// definite-article prefix, so slicing the first character like the
-  /// English `DateFormat('E')` path would collapse most days to "ا" —
-  /// these are hand-picked distinguishing root letters instead.
+  /// Root-letter Arabic day abbreviations, keyed by weekday. Most Arabic
+  /// weekday names share the "ال" prefix, so slicing the first char (like `DateFormat('E')`) would collapse most days to "ا" — hand-picked instead.
   static const Map<int, String> _arabicDayAbbreviations = {
     DateTime.monday: 'ن',
     DateTime.tuesday: 'ث',
@@ -35,9 +31,7 @@ class StreakCardWidget extends StatelessWidget {
   };
 
   // `DateFormat('E', locale)` requires locale data initialized via
-  // `initializeDateFormatting()` — currently safe because `en` needs no
-  // init and `ar` is handled above, but a future added locale must be
-  // initialized before reaching this fallback.
+  // `initializeDateFormatting()` — safe today (en needs none, ar is handled above), but a future locale must be initialized first.
   static String _dayLabel(BuildContext context, DateTime day) {
     final locale = Localizations.localeOf(context);
     if (locale.languageCode == 'ar') {
@@ -125,9 +119,8 @@ class StreakCardWidget extends StatelessWidget {
                     style: ThemeTextStyles.titleMedium(context),
                   ),
                 ),
-                // Same growth-stage plant as the greeting card — grown from
-                // the same streak count passed into this widget, so it's
-                // always in sync with what the streak label above says.
+                // Same growth-stage plant as the greeting card, grown from
+                // the same streak count, so it stays in sync with the label above.
                 Lottie.asset(
                   PlantStage.fromStreak(streakDays).lottiePath,
                   width: AppSizes.avatarSm,
