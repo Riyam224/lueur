@@ -7,6 +7,9 @@ class ChatMessage {
     required this.content,
   });
 
+  static const String roleUser = 'user';
+  static const String roleAssistant = 'assistant';
+
   /// Sentinel for a send-failure line: `ChatCubit` has no `BuildContext` to
   /// localize it, so `chat_screen.dart` resolves it at render time instead.
   static const String sendFailedSentinelPrefix = 'chat_send_failed:';

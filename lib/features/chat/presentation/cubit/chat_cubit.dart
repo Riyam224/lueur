@@ -28,7 +28,8 @@ class ChatCubit extends Cubit<ChatState> {
   }) async {
     if (state.sessionEnded) return;
 
-    final userMessage = ChatMessage(role: 'user', content: thoughts);
+    final userMessage =
+        ChatMessage(role: ChatMessage.roleUser, content: thoughts);
     final updatedMessages = [...state.messages, userMessage];
 
     emit(state.copyWith(
@@ -57,7 +58,7 @@ class ChatCubit extends Cubit<ChatState> {
         // Show the fallback as a normal Luna chat bubble, not an error
         // banner — keeps the "texting a friend" feel intact on failure.
         final fallbackMessage = ChatMessage(
-          role: 'assistant',
+          role: ChatMessage.roleAssistant,
           content: _randomSendFailedSentinel(),
         );
         emit(state.copyWith(
@@ -70,7 +71,7 @@ class ChatCubit extends Cubit<ChatState> {
         final cleanReply = reply.replaceAll('[SESSION_END]', '').trim();
 
         final lunaMessage = ChatMessage(
-          role: 'assistant',
+          role: ChatMessage.roleAssistant,
           content: cleanReply,
         );
 

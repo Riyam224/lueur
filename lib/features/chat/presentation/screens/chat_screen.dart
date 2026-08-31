@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
 import 'package:lueur/features/chat/presentation/widgets/chat_app_bar.dart';
@@ -82,7 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void _saveMessage(ChatState state, int index) {
     String? precedingThoughts;
     for (var i = index - 1; i >= 0; i--) {
-      if (state.messages[i].role == 'user') {
+      if (state.messages[i].role == ChatMessage.roleUser) {
         precedingThoughts = state.messages[i].content;
         break;
       }

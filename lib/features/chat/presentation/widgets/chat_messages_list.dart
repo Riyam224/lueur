@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
 import 'package:lueur/features/chat/presentation/utils/chat_message_content.dart';
 import 'package:lueur/features/chat/presentation/widgets/chat_empty_state.dart';
@@ -32,7 +33,7 @@ class ChatMessagesList extends StatelessWidget {
       itemCount: state.messages.length,
       itemBuilder: (context, index) {
         final message = state.messages[index];
-        final isUser = message.role == 'user';
+        final isUser = message.role == ChatMessage.roleUser;
         final isPreviousSameRole =
             index > 0 && state.messages[index - 1].role == message.role;
 
