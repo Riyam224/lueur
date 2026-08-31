@@ -10,6 +10,7 @@ import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/forgot_password_state.dart';
+import 'package:lueur/features/auth/presentation/utils/auth_error_snackbar.dart';
 import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dart';
@@ -53,7 +54,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       final cs = Theme.of(context).colorScheme;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(state.message),
+          content: Text(localizeAuthErrorCode(context, state.message)),
           backgroundColor: cs.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(

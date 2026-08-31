@@ -476,6 +476,102 @@ abstract class AppLocalizations {
   /// **'This field is required'**
   String get authFieldRequired;
 
+  /// No description provided for @authErrorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found with this email.'**
+  String get authErrorUserNotFound;
+
+  /// No description provided for @authErrorWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password.'**
+  String get authErrorWrongPassword;
+
+  /// No description provided for @authErrorEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with this email.'**
+  String get authErrorEmailInUse;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak. Use at least 6 characters.'**
+  String get authErrorWeakPassword;
+
+  /// No description provided for @authErrorUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled.'**
+  String get authErrorUserDisabled;
+
+  /// No description provided for @authErrorTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please try again later.'**
+  String get authErrorTooManyRequests;
+
+  /// No description provided for @authErrorNetworkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please check your network.'**
+  String get authErrorNetworkFailed;
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed. Please try again.'**
+  String get authErrorGeneric;
+
+  /// No description provided for @authErrorLoginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Please try again.'**
+  String get authErrorLoginFailed;
+
+  /// No description provided for @authErrorRegisterFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed. Please try again.'**
+  String get authErrorRegisterFailed;
+
+  /// No description provided for @authErrorLogoutFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout failed. Please try again.'**
+  String get authErrorLogoutFailed;
+
+  /// No description provided for @authErrorGoogleSyncFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in with Google, but syncing your account failed. Please try again.'**
+  String get authErrorGoogleSyncFailed;
+
+  /// No description provided for @authErrorGoogleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in failed. Please try again.'**
+  String get authErrorGoogleSignInFailed;
+
+  /// No description provided for @authErrorResetEmailFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send reset email. Please try again.'**
+  String get authErrorResetEmailFailed;
+
+  /// No description provided for @authErrorSyncLanguageFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to sync preferred language.'**
+  String get authErrorSyncLanguageFailed;
+
   /// No description provided for @homeMoodGalleryTitle.
   ///
   /// In en, this message translates to:

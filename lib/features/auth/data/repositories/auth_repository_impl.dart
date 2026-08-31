@@ -50,7 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
     } catch (_) {
-      return const Left(ServerFailure('Login failed. Please try again.'));
+      return const Left(ServerFailure('login-failed'));
     }
   }
 
@@ -71,9 +71,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
     } catch (_) {
-      return const Left(
-        ServerFailure('Registration failed. Please try again.'),
-      );
+      return const Left(ServerFailure('register-failed'));
     }
   }
 
@@ -83,7 +81,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _firebaseDataSource.logout();
       return const Right(null);
     } catch (_) {
-      return const Left(ServerFailure('Logout failed. Please try again.'));
+      return const Left(ServerFailure('logout-failed'));
     }
   }
 
@@ -102,16 +100,10 @@ class AuthRepositoryImpl implements AuthRepository {
       _logger.e(
         'Google sign-in backend verify error: ${e.response?.statusCode} ${e.response?.data ?? e.message}',
       );
-      return const Left(
-        ServerFailure(
-          'Signed in with Google, but syncing your account failed. Please try again.',
-        ),
-      );
+      return const Left(ServerFailure('google-sync-failed'));
     } catch (e, st) {
       _logger.e('Google sign-in unexpected error', error: e, stackTrace: st);
-      return const Left(
-        ServerFailure('Google sign-in failed. Please try again.'),
-      );
+      return const Left(ServerFailure('google-sign-in-failed'));
     }
   }
 
@@ -193,9 +185,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
     } catch (_) {
-      return const Left(
-        ServerFailure('Could not send reset email. Please try again.'),
-      );
+      return const Left(ServerFailure('reset-email-failed'));
     }
   }
 
@@ -207,26 +197,29 @@ class AuthRepositoryImpl implements AuthRepository {
       await _djangoDataSource.updatePreferredLanguage(languageCode);
       return const Right(null);
     } catch (e) {
-      return const Left(
-        ServerFailure('Failed to sync preferred language.'),
-      );
+      return const Left(ServerFailure('sync-language-failed'));
     }
   }
 
+  /// Maps a Firebase error to a stable, unlocalized failure code — never a
+  /// display string. The presentation layer resolves the code to localized
+  /// text via AppLocalizations, since the data layer has no BuildContext.
   String _mapFirebaseError(FirebaseAuthException e) {
     return switch (e.code) {
-      'user-not-found' => 'No account found with this email.',
-      'wrong-password' ||
-      'invalid-credential' =>
-        'Incorrect email or password.',
-      'email-already-in-use' => 'An account already exists with this email.',
-      'invalid-email' => 'Please enter a valid email address.',
-      'weak-password' => 'Password is too weak. Use at least 6 characters.',
-      'user-disabled' => 'This account has been disabled.',
-      'too-many-requests' => 'Too many attempts. Please try again later.',
-      'network-request-failed' =>
-        'No internet connection. Please check your network.',
-      _ => e.message ?? 'Authentication failed. Please try again.',
+      'user-not-found' => 'user-not-found',
+      'wrong-password' || 'invalid-credential' => 'wrong-password',
+      'email-already-in-use' => 'email-already-in-use',
+      'invalid-email' => 'invalid-email',
+      'weak-password' => 'weak-password',
+      'user-disabled' => 'user-disabled',
+      'too-many-requests' => 'too-many-requests',
+      'network-request-failed' => 'network-request-failed',
+      _ => _unmappedFirebaseError(e),
     };
+  }
+
+  String _unmappedFirebaseError(FirebaseAuthException e) {
+    _logger.w('Unmapped FirebaseAuthException: ${e.code} — ${e.message}');
+    return 'auth-generic';
   }
 }

@@ -12,6 +12,7 @@ import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur/features/auth/presentation/utils/auth_error_snackbar.dart';
 import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_footer_link.dart';
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final cs = Theme.of(context).colorScheme;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(state.message),
+          content: Text(localizeAuthErrorCode(context, state.message)),
           backgroundColor: cs.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(

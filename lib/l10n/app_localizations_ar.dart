@@ -219,6 +219,62 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authFieldRequired => 'هذا الحقل مطلوب';
 
   @override
+  String get authErrorUserNotFound =>
+      'لم نجد حسابًا مرتبطًا بهذا البريد الإلكتروني.';
+
+  @override
+  String get authErrorWrongPassword =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+
+  @override
+  String get authErrorEmailInUse => 'يوجد حساب بالفعل بهذا البريد الإلكتروني.';
+
+  @override
+  String get authErrorInvalidEmail => 'من فضلك أدخل بريدًا إلكترونيًا صحيحًا.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'كلمة المرور ضعيفة قليلًا — استخدم 6 أحرف على الأقل.';
+
+  @override
+  String get authErrorUserDisabled => 'هذا الحساب موقوف حاليًا.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'محاولات كثيرة في وقت قصير — جرّب مرة أخرى بعد قليل.';
+
+  @override
+  String get authErrorNetworkFailed =>
+      'لا يوجد اتصال بالإنترنت. تحقق من شبكتك وحاول مرة أخرى.';
+
+  @override
+  String get authErrorGeneric => 'لم تنجح المحاولة هذه المرة، جرّب مرة أخرى.';
+
+  @override
+  String get authErrorLoginFailed => 'لم يتم تسجيل الدخول، جرّب مرة أخرى.';
+
+  @override
+  String get authErrorRegisterFailed => 'لم يتم إنشاء الحساب، جرّب مرة أخرى.';
+
+  @override
+  String get authErrorLogoutFailed => 'لم يتم تسجيل الخروج، جرّب مرة أخرى.';
+
+  @override
+  String get authErrorGoogleSyncFailed =>
+      'تم تسجيل الدخول بجوجل، لكن مزامنة حسابك لم تنجح. جرّب مرة أخرى.';
+
+  @override
+  String get authErrorGoogleSignInFailed =>
+      'لم ينجح تسجيل الدخول بجوجل، جرّب مرة أخرى.';
+
+  @override
+  String get authErrorResetEmailFailed =>
+      'لم نتمكن من إرسال رابط إعادة التعيين، جرّب مرة أخرى.';
+
+  @override
+  String get authErrorSyncLanguageFailed => 'لم تتم مزامنة اللغة المفضلة.';
+
+  @override
   String get homeMoodGalleryTitle => 'استكشف المشاعر';
 
   @override

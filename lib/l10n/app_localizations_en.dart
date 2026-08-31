@@ -220,6 +220,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authFieldRequired => 'This field is required';
 
   @override
+  String get authErrorUserNotFound => 'No account found with this email.';
+
+  @override
+  String get authErrorWrongPassword => 'Incorrect email or password.';
+
+  @override
+  String get authErrorEmailInUse =>
+      'An account already exists with this email.';
+
+  @override
+  String get authErrorInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get authErrorWeakPassword =>
+      'Password is too weak. Use at least 6 characters.';
+
+  @override
+  String get authErrorUserDisabled => 'This account has been disabled.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Too many attempts. Please try again later.';
+
+  @override
+  String get authErrorNetworkFailed =>
+      'No internet connection. Please check your network.';
+
+  @override
+  String get authErrorGeneric => 'Authentication failed. Please try again.';
+
+  @override
+  String get authErrorLoginFailed => 'Login failed. Please try again.';
+
+  @override
+  String get authErrorRegisterFailed =>
+      'Registration failed. Please try again.';
+
+  @override
+  String get authErrorLogoutFailed => 'Logout failed. Please try again.';
+
+  @override
+  String get authErrorGoogleSyncFailed =>
+      'Signed in with Google, but syncing your account failed. Please try again.';
+
+  @override
+  String get authErrorGoogleSignInFailed =>
+      'Google sign-in failed. Please try again.';
+
+  @override
+  String get authErrorResetEmailFailed =>
+      'Could not send reset email. Please try again.';
+
+  @override
+  String get authErrorSyncLanguageFailed =>
+      'Failed to sync preferred language.';
+
+  @override
   String get homeMoodGalleryTitle => 'EXPLORE MOODS';
 
   @override
