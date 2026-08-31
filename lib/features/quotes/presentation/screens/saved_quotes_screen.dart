@@ -10,6 +10,7 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
+import 'package:lueur/features/quotes/presentation/widgets/saved_quote_card.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 class SavedQuotesScreen extends StatelessWidget {
@@ -172,71 +173,9 @@ class SavedQuotesScreen extends StatelessWidget {
                                 size: 26.sp,
                               ),
                             ),
-                            child: Container(
-                              width: double.infinity,
-                              margin: EdgeInsets.only(bottom: AppSpacing.spaceMd),
-                              padding: EdgeInsets.all(AppSpacing.spaceLg),
-                              decoration: BoxDecoration(
-                                color: context.extra.cardBackgroundColor,
-                                borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
-                                border: Border.all(
-                                  color: context.extra.borderColor ??
-                                      Theme.of(context).colorScheme.outline,
-                                  width: 1.2,
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      if (quote.emoji != null) ...[
-                                        Text(
-                                          quote.emoji!,
-                                          style: TextStyle(
-                                            fontSize: 20.sp,
-                                            fontFamilyFallback: const [
-                                              'Apple Color Emoji',
-                                              'Noto Color Emoji',
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(width: AppSpacing.spaceSm),
-                                      ],
-                                      Expanded(
-                                        child: Text(
-                                          '"${quote.text}"',
-                                          style:
-                                              ThemeTextStyles.bodyMedium(context),
-                                        ),
-                                      ),
-                                      SizedBox(width: AppSpacing.spaceSm),
-                                      Icon(
-                                        Icons.bookmark_rounded,
-                                        size: 18.sp,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary
-                                            .withValues(alpha: 0.5),
-                                      ),
-                                    ],
-                                  ),
-                                  if (quote.thoughts != null &&
-                                      quote.thoughts!.isNotEmpty) ...[
-                                    SizedBox(height: AppSpacing.spaceXs),
-                                    Text(
-                                      quote.thoughts!,
-                                      style: ThemeTextStyles.bodySmall(context)
-                                          .copyWith(
-                                        color: context.extra.secondaryTextColor,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ],
-                              ),
+                            child: SavedQuoteCard(
+                              quote: quote,
+                              showBookmarkIcon: true,
                             ),
                           );
                         },

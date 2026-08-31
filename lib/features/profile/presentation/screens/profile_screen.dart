@@ -17,6 +17,7 @@ import 'package:lueur/features/profile/presentation/widgets/profile_settings_sec
 import 'package:lueur/features/profile/presentation/widgets/profile_sudoku_history_section_widget.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
+import 'package:lueur/features/quotes/presentation/widgets/saved_quote_card.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -136,66 +137,9 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       SizedBox(height: AppSpacing.spaceSm),
                       ...state.quotes.take(2).map(
-                            (quote) => Container(
-                              width: double.infinity,
-                              margin:
-                                  EdgeInsets.only(bottom: AppSpacing.spaceMd),
-                              padding: EdgeInsets.all(AppSpacing.spaceLg),
-                              decoration: BoxDecoration(
-                                color: context.extra.cardBackgroundColor,
-                                borderRadius: BorderRadius.circular(
-                                    AppSizes.borderRadiusLg),
-                                border: Border.all(
-                                  color: context.extra.borderColor ??
-                                      Theme.of(context).colorScheme.outline,
-                                  width: 1.2,
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      if (quote.emoji != null) ...[
-                                        Text(
-                                          quote.emoji!,
-                                          style: TextStyle(
-                                            fontSize: 18.sp,
-                                            fontFamilyFallback: const [
-                                              'Apple Color Emoji',
-                                              'Noto Color Emoji',
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(width: AppSpacing.spaceSm),
-                                      ],
-                                      Expanded(
-                                        child: Text(
-                                          '"${quote.text}"',
-                                          style: ThemeTextStyles.bodyMedium(
-                                            context,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (quote.thoughts != null &&
-                                      quote.thoughts!.isNotEmpty) ...[
-                                    SizedBox(height: AppSpacing.spaceXs),
-                                    Text(
-                                      quote.thoughts!,
-                                      style: ThemeTextStyles.bodySmall(context)
-                                          .copyWith(
-                                        color: context.extra.secondaryTextColor,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ],
-                              ),
+                            (quote) => SavedQuoteCard(
+                              quote: quote,
+                              emojiFontSize: 18,
                             ),
                           ),
                     ],
