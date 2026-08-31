@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -158,6 +160,61 @@ void main() {
       expect(entity?.id, cachedUid);
       expect(entity?.email, cachedEmail);
       verifyNever(() => firebaseAuth.signOut());
+    });
+  });
+
+  group('sendPasswordResetEmail', () {
+    test('returns Right(null) when Firebase sends the email successfully',
+        () async {
+      when(() => firebaseAuth.sendPasswordResetEmail(
+            email: any(named: 'email'),
+          ),).thenAnswer((_) async {});
+
+      final result =
+          await repository.sendPasswordResetEmail(email: cachedEmail);
+
+      expect(result, const Right<Object, void>(null));
+    });
+
+    test('maps a FirebaseAuthException to its known error code', () async {
+      when(() => firebaseAuth.sendPasswordResetEmail(
+            email: any(named: 'email'),
+          ),).thenThrow(FirebaseAuthException(code: 'user-not-found'));
+
+      final result =
+          await repository.sendPasswordResetEmail(email: cachedEmail);
+
+      final code = result.fold((f) => f.message, (_) => null);
+      expect(code, 'user-not-found');
+    });
+
+    test(
+      'maps a SocketException (offline, no Firebase call reached) to '
+      'network-request-failed instead of the generic reset-email-failed code',
+      () async {
+        when(() => firebaseAuth.sendPasswordResetEmail(
+              email: any(named: 'email'),
+            ),).thenThrow(const SocketException('Failed host lookup'));
+
+        final result =
+            await repository.sendPasswordResetEmail(email: cachedEmail);
+
+        final code = result.fold((f) => f.message, (_) => null);
+        expect(code, 'network-request-failed');
+      },
+    );
+
+    test('maps an unexpected error to the generic reset-email-failed code',
+        () async {
+      when(() => firebaseAuth.sendPasswordResetEmail(
+            email: any(named: 'email'),
+          ),).thenThrow(StateError('boom'));
+
+      final result =
+          await repository.sendPasswordResetEmail(email: cachedEmail);
+
+      final code = result.fold((f) => f.message, (_) => null);
+      expect(code, 'reset-email-failed');
     });
   });
 }

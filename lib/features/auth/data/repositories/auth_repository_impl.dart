@@ -176,6 +176,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Right(null);
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
+    } on SocketException {
+      return const Left(ServerFailure('network-request-failed'));
     } catch (_) {
       return const Left(ServerFailure('reset-email-failed'));
     }
