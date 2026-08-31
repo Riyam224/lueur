@@ -228,6 +228,7 @@ class RouterGenerationConfig {
             child: MultiBlocProvider(
               providers: [
                 BlocProvider.value(value: sl<MoodCubit>()),
+                BlocProvider.value(value: sl<AuthCubit>()),
                 BlocProvider(create: (_) => sl<SavedQuotesCubit>()),
               ],
               child: ResponseAiScreen(

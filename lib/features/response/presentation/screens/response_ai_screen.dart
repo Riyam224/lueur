@@ -1,12 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
@@ -84,10 +84,12 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
   }
 
   void _talkAgain(String aiResponse, String displayThoughts) {
+    final authState = context.read<AuthCubit>().state;
+    final userId = authState is AuthAuthenticated ? authState.user.id : '';
     context.push(
       AppRoutes.chat,
       extra: {
-        'userId': sl<FirebaseAuth>().currentUser?.uid ?? '',
+        'userId': userId,
         'emoji': widget.emojiUnicode ?? '😊',
         'thoughts': displayThoughts,
         'aiResponse': aiResponse,
