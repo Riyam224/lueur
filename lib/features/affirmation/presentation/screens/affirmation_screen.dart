@@ -30,7 +30,7 @@ class AffirmationScreen extends StatefulWidget {
 }
 
 class _AffirmationScreenState extends State<AffirmationScreen> {
-  final ValueNotifier<int> _index = ValueNotifier<int>(0);
+  late final ValueNotifier<int> _index;
 
   List<String> get _cards =>
       affirmations[widget.emoji] ?? defaultAffirmations;
@@ -82,6 +82,12 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
           extra: {'emoji': widget.emoji, 'thoughts': widget.thoughts},
         );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _index = ValueNotifier<int>(0);
   }
 
   @override
