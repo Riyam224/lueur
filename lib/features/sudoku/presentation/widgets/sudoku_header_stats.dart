@@ -4,6 +4,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/duration_format.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
@@ -21,12 +22,6 @@ class SudokuHeaderStats extends StatelessWidget {
   final int elapsedSeconds;
   final bool isPaused;
   final VoidCallback onTogglePause;
-
-  static String _formatDuration(int seconds) {
-    final m = seconds ~/ 60;
-    final s = seconds % 60;
-    return '${m.toString().padLeft(1, '0')}:${s.toString().padLeft(2, '0')}';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +52,7 @@ class SudokuHeaderStats extends StatelessWidget {
         SizedBox(width: AppSpacing.spaceMd),
         Flexible(
           child: Text(
-            _formatDuration(elapsedSeconds),
+            formatMmSs(elapsedSeconds),
             overflow: TextOverflow.ellipsis,
             style: ThemeTextStyles.bodyMedium(context).copyWith(
               color: extra.secondaryTextColor,

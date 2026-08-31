@@ -5,6 +5,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/duration_format.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_result_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_state.dart';
@@ -19,12 +20,6 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
     if (days <= 0) return AppLocalizations.of(context)!.profileSudokuRelativeToday;
     if (days == 1) return AppLocalizations.of(context)!.profileSudokuRelativeYesterday;
     return AppLocalizations.of(context)!.profileSudokuRelativeDaysAgo(days);
-  }
-
-  static String _formatDuration(int seconds) {
-    final m = seconds ~/ 60;
-    final s = seconds % 60;
-    return '$m:${s.toString().padLeft(2, '0')}';
   }
 
   @override
@@ -153,7 +148,7 @@ class _ResultRow extends StatelessWidget {
                 ),
                 Text(
                   result.won
-                      ? '${ProfileSudokuHistorySectionWidget._formatDuration(result.durationSeconds)} · $dateLabel'
+                      ? '${formatMmSs(result.durationSeconds)} · $dateLabel'
                       : '${AppLocalizations.of(context)!.profileSudokuMistakesCount(result.mistakes)} · $dateLabel',
                   style: ThemeTextStyles.bodySmall(context)
                       .copyWith(color: extra.secondaryTextColor),

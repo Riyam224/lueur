@@ -5,9 +5,9 @@ import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/duration_format.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_state.dart';
-import 'package:lueur/features/breathing/presentation/utils/breathing_time_format.dart';
 
 /// Progress bar + elapsed/total time label. Scoped to `elapsedSeconds` so
 /// the once-per-second tick only rebuilds this, not the blobs/ring/Luna above.
@@ -42,8 +42,8 @@ class BreathingProgressSection extends StatelessWidget {
             ),
             SizedBox(height: AppSpacing.spaceSm),
             Text(
-              '${formatBreathingTime(elapsedSeconds)} / '
-              '${formatBreathingTime(totalSeconds)}',
+              '${formatMmSs(elapsedSeconds)} / '
+              '${formatMmSs(totalSeconds)}',
               style: ThemeTextStyles.bodySmall(context).copyWith(
                 color: inkColor.withValues(alpha: 0.7),
               ),
