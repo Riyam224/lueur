@@ -6,7 +6,7 @@
 
 ## What is Lueur?
 
-Lueur is a Flutter mobile app that pairs an AI mood journal with a small toolkit of calming activities. Users share how they feel through emoji and free-text thoughts, and Luna (an AI companion backed by a Django REST API) responds with empathetic, personalized reflections and supports natural follow-up chat. Beyond journaling, Lueur tracks mood history so you can see how your moods have looked over time, and gamifies consistency through a plant-growth streak system — and gives users guided breathing, free drawing, and sudoku for moments they'd rather not talk.
+Lueur is a Flutter mobile app that pairs an AI mood journal with a small toolkit of calming activities. Users share how they feel through emoji and free-text thoughts, and Luna (an AI companion backed by a Django REST API) responds with empathetic, personalized reflections and supports natural follow-up chat. Beyond journaling, Lueur tracks mood history so you can see how your moods have looked over time, and gamifies consistency through a plant-growth streak system — and gives users guided breathing, free drawing, and sudoku for those days you just want to chill instead of talk.
 
 The app supports English and Arabic (with full RTL layout), light/dark theming, and Firebase-based authentication (email/password + Google Sign-In).
 
