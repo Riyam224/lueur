@@ -5,6 +5,7 @@ import 'package:lueur/core/styling/app_theme.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_bubble_content.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_day_activity_dots.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 MoodEntryEntity _entry({required String thoughts}) => MoodEntryEntity(
       id: 1,
@@ -28,6 +29,8 @@ Future<Size> _pumpAndMeasure(
       designSize: const Size(390, 844),
       builder: (context, _) => MaterialApp(
         theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: Center(
             child: SizedBox(

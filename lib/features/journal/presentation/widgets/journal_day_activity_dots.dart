@@ -72,7 +72,7 @@ class _ActivityLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = JournalActivityChoiceCard.colorForType(entryType);
-    final label = JournalActivityChoiceCard.labelForType(entryType);
+    final label = JournalActivityChoiceCard.labelForType(context, entryType);
     if (color == null || label == null) return const SizedBox.shrink();
 
     return GestureDetector(

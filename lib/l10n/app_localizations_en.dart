@@ -549,6 +549,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalMoodFallbackLabel => 'Okay';
 
   @override
+  String get journalActivityBreathing => 'took a breather';
+
+  @override
+  String get journalActivityPuzzle => 'played a puzzle';
+
+  @override
+  String get journalActivityDrawing => 'made a little drawing';
+
+  @override
   String get quotesScreenTitle => 'Saved quotes';
 
   @override

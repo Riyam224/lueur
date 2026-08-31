@@ -142,7 +142,7 @@ class _TimelineActivityItem extends StatelessWidget {
 
     final preview = isMoodEntry
         ? journalCardPreview(entry, 60)
-        : JournalActivityChoiceCard.labelForType(entry.entryType) ??
+        : JournalActivityChoiceCard.labelForType(context, entry.entryType) ??
             entry.entryType;
 
     final timeLabel = DateFormat('h:mm a').format(entry.createdAt);

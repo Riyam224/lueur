@@ -533,6 +533,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get journalMoodFallbackLabel => 'عادي';
 
   @override
+  String get journalActivityBreathing => 'أخذت لحظة تنفّس';
+
+  @override
+  String get journalActivityPuzzle => 'حلّيت لغزًا صغيرًا';
+
+  @override
+  String get journalActivityDrawing => 'رسمت رسمة صغيرة';
+
+  @override
   String get quotesScreenTitle => 'الاقتباسات المحفوظة';
 
   @override

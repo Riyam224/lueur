@@ -1070,6 +1070,24 @@ abstract class AppLocalizations {
   /// **'Okay'**
   String get journalMoodFallbackLabel;
 
+  /// No description provided for @journalActivityBreathing.
+  ///
+  /// In en, this message translates to:
+  /// **'took a breather'**
+  String get journalActivityBreathing;
+
+  /// No description provided for @journalActivityPuzzle.
+  ///
+  /// In en, this message translates to:
+  /// **'played a puzzle'**
+  String get journalActivityPuzzle;
+
+  /// No description provided for @journalActivityDrawing.
+  ///
+  /// In en, this message translates to:
+  /// **'made a little drawing'**
+  String get journalActivityDrawing;
+
   /// No description provided for @quotesScreenTitle.
   ///
   /// In en, this message translates to:

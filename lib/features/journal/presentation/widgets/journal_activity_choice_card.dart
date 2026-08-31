@@ -9,16 +9,15 @@ import 'package:lueur/features/journal/presentation/widgets/journal_bubble_visua
     show noteTiltFor;
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_card_widget.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_pushpin.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class _ActivityCardCopy {
   final String emoji;
-  final String label;
   final Color color;
   final String route;
 
   const _ActivityCardCopy({
     required this.emoji,
-    required this.label,
     required this.color,
     required this.route,
   });
@@ -27,23 +26,37 @@ class _ActivityCardCopy {
 const Map<String, _ActivityCardCopy> _activityCopy = {
   'breathing': _ActivityCardCopy(
     emoji: '🌬️',
-    label: 'took a breather',
     color: AppColors.journalCardBlue,
     route: AppRoutes.breathing,
   ),
   'sudoku': _ActivityCardCopy(
     emoji: '🧩',
-    label: 'played a puzzle',
     color: AppColors.journalCardLavender,
     route: AppRoutes.sudoku,
   ),
   'drawing': _ActivityCardCopy(
     emoji: '🎨',
-    label: 'made a little drawing',
     color: AppColors.journalCardPeach,
     route: AppRoutes.freeDraw,
   ),
 };
+
+/// The localized "you did this" label for a given entry type, or null for
+/// an unrecognized type — single source of truth for activity-type short
+/// copy, reused by [JournalDayActivityDots] and [TimelineDayCard].
+String? _labelForType(BuildContext context, String entryType) {
+  final l10n = AppLocalizations.of(context)!;
+  switch (entryType) {
+    case 'breathing':
+      return l10n.journalActivityBreathing;
+    case 'sudoku':
+      return l10n.journalActivityPuzzle;
+    case 'drawing':
+      return l10n.journalActivityDrawing;
+    default:
+      return null;
+  }
+}
 
 /// A small sticky-note "you did this" card for a non-mood_chat journal
 /// entry (breathing/sudoku/drawing) — deliberately simpler than
@@ -80,8 +93,10 @@ class JournalActivityChoiceCard extends StatelessWidget {
   /// The short "you did this" label for a given entry type, or null for an
   /// unrecognized type. Single source of truth for activity-type short
   /// copy — reused by [JournalDayActivityDots].
-  static String? labelForType(String entryType) =>
-      _activityCopy[entryType]?.label;
+  static String? labelForType(BuildContext context, String entryType) =>
+      _activityCopy.containsKey(entryType)
+          ? _labelForType(context, entryType)
+          : null;
 
   /// The route to push when an activity-type indicator is tapped, or null
   /// for an unrecognized type.
@@ -146,7 +161,7 @@ class JournalActivityChoiceCard extends StatelessWidget {
                       // very wide line instead.
                       width: size * 0.87,
                       child: Text(
-                        copy.label,
+                        _labelForType(context, entry.entryType) ?? '',
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
