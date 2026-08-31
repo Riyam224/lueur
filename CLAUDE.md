@@ -220,6 +220,7 @@ You MUST proactively suggest the appropriate agent when the situation matches. D
 - Register all dependencies in `core/injection/injection.dart` — nowhere else
 - Cubits are `registerFactory`; singletons/services are `registerLazySingleton`
 - **Exception:** `MoodCubit` is `registerLazySingleton` (singleton shared across tabs)
+- **Exception:** `MoodCubit`, `BreathingCubit`, and `SudokuCubit` take `JournalRefreshSignal` (a `Cubit`) directly as a constructor dependency, bypassing the use-case-only rule — it just needs to signal journal refresh with no shared business logic behind it.
 - Cubits, use cases, and repositories are resolved via `sl<T>()`, not instantiated manually
 
 ## 7) Build Method Discipline (IMPORTANT)
