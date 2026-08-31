@@ -21,7 +21,7 @@ class MoodInputSection extends StatefulWidget {
 
 class _MoodInputSectionState extends State<MoodInputSection> {
   MoodType? _selectedMood;
-  final TextEditingController _thoughtsController = TextEditingController();
+  late final TextEditingController _thoughtsController;
 
   static const List<MoodType> _moods = MoodType.values;
 
@@ -53,6 +53,12 @@ class _MoodInputSectionState extends State<MoodInputSection> {
       case null:
         return l10n.homeThoughtsLabelDefault;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _thoughtsController = TextEditingController();
   }
 
   @override
