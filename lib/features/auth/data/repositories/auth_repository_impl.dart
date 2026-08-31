@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/auth/data/datasources/auth_django_datasource.dart';
@@ -191,6 +192,12 @@ class AuthRepositoryImpl implements AuthRepository {
       await _djangoDataSource.updatePreferredLanguage(languageCode);
       return const Right(null);
     } catch (e) {
+      // Local debug visibility only — never the language value itself, and
+      // gated on kDebugMode so nothing is emitted (or transmitted) in release
+      // builds, since debugPrint alone is not stripped from release binaries.
+      if (kDebugMode) {
+        debugPrint('syncPreferredLanguage failed: ${e.runtimeType}: $e');
+      }
       return const Left(ServerFailure('sync-language-failed'));
     }
   }
