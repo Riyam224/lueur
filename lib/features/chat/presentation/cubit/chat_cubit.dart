@@ -27,6 +27,10 @@ class ChatCubit extends Cubit<ChatState> {
     required String thoughts,
   }) async {
     if (state.sessionEnded) return;
+    // Guards against a fast double-invoke (e.g. autoSendThoughts racing a
+    // manual send) — a second concurrent call would build its message list
+    // from a stale snapshot and clobber the first call's result on resolve.
+    if (state.status == ChatStatus.loading) return;
 
     final userMessage =
         ChatMessage(role: ChatMessage.roleUser, content: thoughts);
