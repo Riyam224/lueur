@@ -30,12 +30,14 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
+  late final TextEditingController _controller;
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController();
+    _scrollController = ScrollController();
     final autoThoughts = widget.autoSendThoughts;
     if (autoThoughts != null && autoThoughts.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
