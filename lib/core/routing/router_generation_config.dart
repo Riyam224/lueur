@@ -17,7 +17,7 @@ import 'package:lueur/features/auth/presentation/screens/login_screen.dart';
 import 'package:lueur/features/auth/presentation/screens/register_screen.dart';
 import 'package:lueur/features/breathing/presentation/screens/breathing_screen.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
-import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
+import 'package:lueur/features/chat/domain/usecases/send_chat_message_usecase.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/screens/chat_screen.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
@@ -273,7 +273,7 @@ class RouterGenerationConfig {
               providers: [
                 BlocProvider(
                   create: (_) => ChatCubit(
-                    repository: sl<ChatRepository>(),
+                    sendChatMessageUseCase: sl<SendChatMessageUseCase>(),
                     userId: userId,
                     initialMessages: dayHistory ??
                         (needsAutoSend

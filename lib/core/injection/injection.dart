@@ -25,6 +25,7 @@ import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart
 import 'package:lueur/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:lueur/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
+import 'package:lueur/features/chat/domain/usecases/send_chat_message_usecase.dart';
 import 'package:lueur/features/draw/data/datasources/saved_drawings_local_datasource.dart';
 import 'package:lueur/features/draw/data/repositories/saved_drawings_repository_impl.dart';
 import 'package:lueur/features/draw/domain/repositories/saved_drawings_repository.dart';
@@ -206,6 +207,9 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   );
   sl.registerLazySingleton<ChatRepository>(
     () => ChatRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SendChatMessageUseCase>(
+    () => SendChatMessageUseCase(sl<ChatRepository>()),
   );
 
   sl.registerLazySingleton(BreathingLocalDatasource.new);

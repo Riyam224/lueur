@@ -1,24 +1,38 @@
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
+import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
   final ChatRemoteDataSource remoteDataSource;
+  final Logger _logger = Logger();
 
   ChatRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<String> sendMessage({
+  Future<Either<Failure, String>> sendMessage({
     required String userId,
     required String emoji,
     required String thoughts,
     required List<ChatMessage> history,
   }) async {
-    return await remoteDataSource.sendMessage(
-      userId: userId,
-      emoji: emoji,
-      thoughts: thoughts,
-      history: history,
-    );
+    try {
+      final reply = await remoteDataSource.sendMessage(
+        userId: userId,
+        emoji: emoji,
+        thoughts: thoughts,
+        history: history,
+      );
+      return Right(reply);
+    } on DioException catch (e) {
+      _logger.e('DioException: ${e.message}');
+      return Left(ServerFailure(e.message ?? 'Server error occurred'));
+    } catch (e) {
+      _logger.e('Unexpected error: $e');
+      return Left(NetworkFailure('Unexpected error: $e'));
+    }
   }
 }
