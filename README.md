@@ -98,6 +98,16 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/login_dark.png" width="180" alt="Login screen, dark theme"/></td>
   </tr>
   <tr>
+    <td>Register</td>
+    <td><img src="screenshots/register_light.png" width="180" alt="Register screen, light theme"/></td>
+    <td><img src="screenshots/register_dark.png" width="180" alt="Register screen, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Forgot password</td>
+    <td><img src="screenshots/reset_password_light.png" width="180" alt="Forgot password screen, light theme"/></td>
+    <td><img src="screenshots/reset_password_dark.png" width="180" alt="Forgot password screen, dark theme"/></td>
+  </tr>
+  <tr>
     <td>Choose a mood</td>
     <td><img src="screenshots/home_screen_light.png" width="180" alt="Choosing a mood, light theme"/></td>
     <td><img src="screenshots/home_screen_dark.png" width="180" alt="Choosing a mood, dark theme"/></td>
@@ -133,6 +143,11 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/free_drawing_screen_dark.png" width="180" alt="Free drawing canvas, dark theme"/></td>
   </tr>
   <tr>
+    <td>Saved drawings</td>
+    <td><img src="screenshots/profile_with_saved_drawing_light.png" width="180" alt="Saved drawings gallery, light theme"/></td>
+    <td><img src="screenshots/profile_with_saved_drawing_dark.png" width="180" alt="Saved drawings gallery, dark theme"/></td>
+  </tr>
+  <tr>
     <td>Sudoku</td>
     <td><img src="screenshots/sudoku_screen_light.png" width="180" alt="Sudoku puzzle, light theme"/></td>
     <td><img src="screenshots/sudoku_screen_dark.png" width="180" alt="Sudoku puzzle, dark theme"/></td>
@@ -159,7 +174,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Timeline | Full scrollable/searchable memory history (mood + activity entries) with mood and month filters |
 | Streak & Plant | Daily journaling grows a virtual plant (seed → sprout → blooming), with a streak celebration screen |
 | Weekly Letter | AI-generated weekly emotional reflection with stats |
-| Saved Quotes | Bookmark Luna's responses for later, view and delete them |
+| Saved Quotes | Bookmark Luna's responses for later, view and delete them, with a retry option if loading them fails |
 | Breathing Exercise | Guided 4-7-8 breathing technique with animated visuals |
 | Affirmations | Emoji-specific rotating affirmation cards |
 | Free Drawing | Open canvas for expressive/calming drawing, with a gallery of saved drawings |
@@ -219,7 +234,7 @@ lib/
 │   ├── constants/         — AppSizes, AppSpacing
 │   ├── errors/            — Failure classes (NetworkFailure, ServerFailure, ...)
 │   ├── injection/         — single setupInjection() — all GetIt registrations
-│   ├── models/            — shared UI models (e.g. MoodEntry)
+│   ├── models/            — shared UI models (MoodType, JournalCardColor, MoodChoiceDestination)
 │   ├── monitoring/        — Sentry privacy filter (scrubs PII before reporting)
 │   ├── navigation/        — shell screen, bottom nav bar
 │   ├── networking/        — DioHelper, ApiEndpoints, AuthTokenInterceptor
