@@ -59,7 +59,6 @@ LunaTree (root widget: `Lueur`) is a Flutter journaling and relaxation app with 
 - **`core/routing/router_generation_config.dart`** — all `go_router` routes. `BlocProvider` for screen-scoped cubits goes here, not inside screens.
 - **`core/networking/dio_helper.dart`** + `api_endpoints.dart` — Dio client wrapping the Railway backend (`https://web-production-f8628.up.railway.app`).
 - **`core/errors/failures.dart`** — `Failure` base class + subtypes (`NetworkFailure`, `ServerFailure`).
-- **`core/models/mood_entry.dart`** — shared `MoodEntry` used in `core/widgets/`.
 - **`core/preferences/onboarding_prefs.dart`** — Hive-backed flag; `hasSeen()` / `markSeen()`. Splash reads this to choose onboarding vs. login.
 - **`core/styling/`** — `AppTheme`, `AppColors`, `AppExtraColors` (ThemeExtension), `AppTextStyles`, `AppFonts`, `AppAssets`.
 - **`core/constants/`** — `AppSizes`, `AppSpacing` (use `flutter_screenutil` `.r`/`.w`/`.h` values).
