@@ -70,9 +70,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingSkip => 'تخطي المقدمة';
 
   @override
-  String get onboardingGetStarted => 'ابدأ الآن';
-
-  @override
   String get onboardingTitle1 => 'مساحة هادئة،\nخاصة بك فقط';
 
   @override
@@ -171,9 +168,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get forgotPasswordCta => 'إرسال رابط إعادة التعيين';
-
-  @override
-  String get forgotPasswordEmailRequired => 'الرجاء إدخال بريدك الإلكتروني';
 
   @override
   String get forgotPasswordSuccessTitle => 'تحقق من بريدك الإلكتروني';
@@ -275,9 +269,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authErrorSyncLanguageFailed => 'لم تتم مزامنة اللغة المفضلة.';
 
   @override
-  String get homeMoodGalleryTitle => 'استكشف المشاعر';
-
-  @override
   String get moodLabelHappy => 'سعيد';
 
   @override
@@ -326,19 +317,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get commonTalkToLuna => 'تحدث مع لونا';
 
   @override
-  String get commonThisWeekLabel => 'هذا الأسبوع';
-
-  @override
   String get commonSavedToQuotesSnack => 'تم الحفظ في الاقتباسات 🌿';
 
   @override
   String get commonDismissBarrierLabel => 'إغلاق';
-
-  @override
-  String get commonToday => 'اليوم';
-
-  @override
-  String get commonYesterday => 'أمس';
 
   @override
   String get lunaName => 'لونا';
@@ -361,12 +343,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get moodEntryDeleteAllConfirm => 'حذف الكل';
-
-  @override
-  String get moodEntryEmptyStateTitle => 'قصتك تبدأ من هنا';
-
-  @override
-  String get moodEntryListEmptyMessage => 'لا توجد مدخلات بعد';
 
   @override
   String get homeMoodPromptLabel => 'كيف تشعر اليوم؟';
@@ -408,15 +384,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeThoughtsRequiredSnack => 'الرجاء مشاركة أفكارك';
 
   @override
-  String get homeThoughtsRequiredSnackFirst => 'الرجاء مشاركة أفكارك أولاً';
-
-  @override
-  String get homeShareThoughtsSectionLabel => 'شارك أفكارك';
-
-  @override
-  String get homeTalkToLunaWithSparkle => 'تحدث مع لونا ✨';
-
-  @override
   String get homeThoughtsHint => 'ما الذي يشغل بالك اليوم...';
 
   @override
@@ -449,15 +416,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get homeStreakMotivationMilestone => 'يوم واحد فقط ونباتك سينمو 🌿';
-
-  @override
-  String get homeEmptyStateSubtitle => 'شارك فكرة واضغط على تحدث مع لونا';
-
-  @override
-  String get homeFirstSeedCelebration => 'لقد زرعت بذرتك الأولى 🌱';
-
-  @override
-  String get homeFirstSeedCelebrationSubtitle => 'لونا سعيدة جداً بوجودك هنا!';
 
   @override
   String homeDaysStreakChip(int streak) {
@@ -503,24 +461,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get journalTitle => 'يومياتي';
-
-  @override
-  String get journalEmptyStateSubtitle => 'ما الذي يشغل بالك اليوم؟';
-
-  @override
   String journalDayStreakLabel(int count) {
     return '$count يوم متتالي';
   }
-
-  @override
-  String get journalStartJournalingButton => 'ابدأ الكتابة';
-
-  @override
-  String get journalEntryDeleteTitle => 'حذف هذا المدخل؟';
-
-  @override
-  String get journalEntryDeleteMessage => 'سيتم حذف هذا المدخل نهائياً';
 
   @override
   String get journalSearchHint => 'ابحث في المدخلات...';
@@ -554,10 +497,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get journalGridEmptyMessage => 'كل قصة تبدأ بصفحة واحدة.';
 
   @override
-  String get journalTodayNoEntriesMessage =>
-      'لا توجد مدخلات بعد · ابدأ بفكرة بسيطة';
-
-  @override
   String get timelineTitle => 'الخط الزمني';
 
   @override
@@ -584,9 +523,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get timelineReflection4 => '☀️ كل مدخلة هنا هي خطوة صغيرة نحو نفسك.';
-
-  @override
-  String get journalMoodFallbackLabel => 'عادي';
 
   @override
   String get journalActivityBreathing => 'أخذت لحظة تنفّس';
@@ -838,24 +774,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileQuotesEmptySubtitle => 'ستتذكر لونا كلماتك المفضلة.';
-
-  @override
-  String get profileStatsTotalEntries => 'إجمالي المدخلات';
-
-  @override
-  String get profileStatsDayStreak => 'أيام متتالية';
-
-  @override
-  String get profileStatsSectionLabel => 'الإحصائيات';
-
-  @override
-  String get profileQuickLinksSectionLabel => 'المزيد';
-
-  @override
-  String get profileQuickLinkWeeklyLetter => 'الرسالة الأسبوعية';
-
-  @override
-  String get profileQuickLinkMoodBoard => 'لوحة المشاعر';
 
   @override
   String get profileSettingsSectionLabel => 'الإعدادات';

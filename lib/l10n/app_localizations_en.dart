@@ -70,9 +70,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingSkip => 'Skip intro';
 
   @override
-  String get onboardingGetStarted => 'Get started';
-
-  @override
   String get onboardingTitle1 => 'A gentle space,\njust for you';
 
   @override
@@ -172,9 +169,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forgotPasswordCta => 'Send reset link';
-
-  @override
-  String get forgotPasswordEmailRequired => 'Please enter your email';
 
   @override
   String get forgotPasswordSuccessTitle => 'Check your email';
@@ -277,9 +271,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Failed to sync preferred language.';
 
   @override
-  String get homeMoodGalleryTitle => 'EXPLORE MOODS';
-
-  @override
   String get moodLabelHappy => 'Happy';
 
   @override
@@ -328,19 +319,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonTalkToLuna => 'Talk to Luna';
 
   @override
-  String get commonThisWeekLabel => 'This week';
-
-  @override
   String get commonSavedToQuotesSnack => 'Saved to quotes 🌿';
 
   @override
   String get commonDismissBarrierLabel => 'Dismiss';
-
-  @override
-  String get commonToday => 'Today';
-
-  @override
-  String get commonYesterday => 'Yesterday';
 
   @override
   String get lunaName => 'Luna';
@@ -363,12 +345,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moodEntryDeleteAllConfirm => 'Delete all';
-
-  @override
-  String get moodEntryEmptyStateTitle => 'Your story starts here';
-
-  @override
-  String get moodEntryListEmptyMessage => 'No mood entries yet';
 
   @override
   String get homeMoodPromptLabel => 'How are you feeling today?';
@@ -410,16 +386,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeThoughtsRequiredSnack => 'Please share your thoughts';
 
   @override
-  String get homeThoughtsRequiredSnackFirst =>
-      'Please share your thoughts first';
-
-  @override
-  String get homeShareThoughtsSectionLabel => 'SHARE YOUR THOUGHTS';
-
-  @override
-  String get homeTalkToLunaWithSparkle => 'Talk to Luna ✨';
-
-  @override
   String get homeThoughtsHint => 'What\'s on your mind today...';
 
   @override
@@ -454,16 +420,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeStreakMotivationMilestone =>
       'One more day and your plant grows.';
-
-  @override
-  String get homeEmptyStateSubtitle => 'Share a thought and tap Talk to Luna';
-
-  @override
-  String get homeFirstSeedCelebration => 'You just planted your first seed 🌱';
-
-  @override
-  String get homeFirstSeedCelebrationSubtitle =>
-      'Luna is so happy you\'re here!';
 
   @override
   String homeDaysStreakChip(int streak) {
@@ -515,25 +471,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get journalTitle => 'My Journal';
-
-  @override
-  String get journalEmptyStateSubtitle => 'What\'s on your mind today?';
-
-  @override
   String journalDayStreakLabel(int count) {
     return '$count day streak';
   }
-
-  @override
-  String get journalStartJournalingButton => 'Start journaling';
-
-  @override
-  String get journalEntryDeleteTitle => 'Delete entry?';
-
-  @override
-  String get journalEntryDeleteMessage =>
-      'This will permanently remove this journal entry.';
 
   @override
   String get journalSearchHint => 'Search entries...';
@@ -568,10 +508,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Every story begins with a single page.';
 
   @override
-  String get journalTodayNoEntriesMessage =>
-      'No entries yet · Start with one gentle thought';
-
-  @override
   String get timelineTitle => 'Timeline';
 
   @override
@@ -601,9 +537,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get timelineReflection4 =>
       '☀️ Every entry here is a small act of showing up.';
-
-  @override
-  String get journalMoodFallbackLabel => 'Okay';
 
   @override
   String get journalActivityBreathing => 'took a breather';
@@ -861,24 +794,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profileQuotesEmptySubtitle =>
       'Luna will remember your favorite words.';
-
-  @override
-  String get profileStatsTotalEntries => 'Total entries';
-
-  @override
-  String get profileStatsDayStreak => 'Day streak';
-
-  @override
-  String get profileStatsSectionLabel => 'STATISTICS';
-
-  @override
-  String get profileQuickLinksSectionLabel => 'MORE';
-
-  @override
-  String get profileQuickLinkWeeklyLetter => 'Weekly Letter';
-
-  @override
-  String get profileQuickLinkMoodBoard => 'Mood Board';
 
   @override
   String get profileSettingsSectionLabel => 'SETTINGS';

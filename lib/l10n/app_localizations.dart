@@ -188,12 +188,6 @@ abstract class AppLocalizations {
   /// **'Skip intro'**
   String get onboardingSkip;
 
-  /// No description provided for @onboardingGetStarted.
-  ///
-  /// In en, this message translates to:
-  /// **'Get started'**
-  String get onboardingGetStarted;
-
   /// No description provided for @onboardingTitle1.
   ///
   /// In en, this message translates to:
@@ -386,12 +380,6 @@ abstract class AppLocalizations {
   /// **'Send reset link'**
   String get forgotPasswordCta;
 
-  /// No description provided for @forgotPasswordEmailRequired.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter your email'**
-  String get forgotPasswordEmailRequired;
-
   /// No description provided for @forgotPasswordSuccessTitle.
   ///
   /// In en, this message translates to:
@@ -572,12 +560,6 @@ abstract class AppLocalizations {
   /// **'Failed to sync preferred language.'**
   String get authErrorSyncLanguageFailed;
 
-  /// No description provided for @homeMoodGalleryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'EXPLORE MOODS'**
-  String get homeMoodGalleryTitle;
-
   /// No description provided for @moodLabelHappy.
   ///
   /// In en, this message translates to:
@@ -674,12 +656,6 @@ abstract class AppLocalizations {
   /// **'Talk to Luna'**
   String get commonTalkToLuna;
 
-  /// No description provided for @commonThisWeekLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'This week'**
-  String get commonThisWeekLabel;
-
   /// No description provided for @commonSavedToQuotesSnack.
   ///
   /// In en, this message translates to:
@@ -691,18 +667,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get commonDismissBarrierLabel;
-
-  /// No description provided for @commonToday.
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get commonToday;
-
-  /// No description provided for @commonYesterday.
-  ///
-  /// In en, this message translates to:
-  /// **'Yesterday'**
-  String get commonYesterday;
 
   /// No description provided for @lunaName.
   ///
@@ -745,18 +709,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete all'**
   String get moodEntryDeleteAllConfirm;
-
-  /// No description provided for @moodEntryEmptyStateTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your story starts here'**
-  String get moodEntryEmptyStateTitle;
-
-  /// No description provided for @moodEntryListEmptyMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'No mood entries yet'**
-  String get moodEntryListEmptyMessage;
 
   /// No description provided for @homeMoodPromptLabel.
   ///
@@ -836,24 +788,6 @@ abstract class AppLocalizations {
   /// **'Please share your thoughts'**
   String get homeThoughtsRequiredSnack;
 
-  /// No description provided for @homeThoughtsRequiredSnackFirst.
-  ///
-  /// In en, this message translates to:
-  /// **'Please share your thoughts first'**
-  String get homeThoughtsRequiredSnackFirst;
-
-  /// No description provided for @homeShareThoughtsSectionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'SHARE YOUR THOUGHTS'**
-  String get homeShareThoughtsSectionLabel;
-
-  /// No description provided for @homeTalkToLunaWithSparkle.
-  ///
-  /// In en, this message translates to:
-  /// **'Talk to Luna ✨'**
-  String get homeTalkToLunaWithSparkle;
-
   /// No description provided for @homeThoughtsHint.
   ///
   /// In en, this message translates to:
@@ -919,24 +853,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One more day and your plant grows.'**
   String get homeStreakMotivationMilestone;
-
-  /// No description provided for @homeEmptyStateSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Share a thought and tap Talk to Luna'**
-  String get homeEmptyStateSubtitle;
-
-  /// No description provided for @homeFirstSeedCelebration.
-  ///
-  /// In en, this message translates to:
-  /// **'You just planted your first seed 🌱'**
-  String get homeFirstSeedCelebration;
-
-  /// No description provided for @homeFirstSeedCelebrationSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Luna is so happy you\'re here!'**
-  String get homeFirstSeedCelebrationSubtitle;
 
   /// No description provided for @homeDaysStreakChip.
   ///
@@ -1004,41 +920,11 @@ abstract class AppLocalizations {
   /// **'🔥 {count} day streak'**
   String weeklyLetterStreakChip(int count);
 
-  /// No description provided for @journalTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'My Journal'**
-  String get journalTitle;
-
-  /// No description provided for @journalEmptyStateSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'What\'s on your mind today?'**
-  String get journalEmptyStateSubtitle;
-
   /// No description provided for @journalDayStreakLabel.
   ///
   /// In en, this message translates to:
   /// **'{count} day streak'**
   String journalDayStreakLabel(int count);
-
-  /// No description provided for @journalStartJournalingButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Start journaling'**
-  String get journalStartJournalingButton;
-
-  /// No description provided for @journalEntryDeleteTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete entry?'**
-  String get journalEntryDeleteTitle;
-
-  /// No description provided for @journalEntryDeleteMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'This will permanently remove this journal entry.'**
-  String get journalEntryDeleteMessage;
 
   /// No description provided for @journalSearchHint.
   ///
@@ -1100,12 +986,6 @@ abstract class AppLocalizations {
   /// **'Every story begins with a single page.'**
   String get journalGridEmptyMessage;
 
-  /// No description provided for @journalTodayNoEntriesMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'No entries yet · Start with one gentle thought'**
-  String get journalTodayNoEntriesMessage;
-
   /// No description provided for @timelineTitle.
   ///
   /// In en, this message translates to:
@@ -1159,12 +1039,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'☀️ Every entry here is a small act of showing up.'**
   String get timelineReflection4;
-
-  /// No description provided for @journalMoodFallbackLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Okay'**
-  String get journalMoodFallbackLabel;
 
   /// No description provided for @journalActivityBreathing.
   ///
@@ -1651,42 +1525,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Luna will remember your favorite words.'**
   String get profileQuotesEmptySubtitle;
-
-  /// No description provided for @profileStatsTotalEntries.
-  ///
-  /// In en, this message translates to:
-  /// **'Total entries'**
-  String get profileStatsTotalEntries;
-
-  /// No description provided for @profileStatsDayStreak.
-  ///
-  /// In en, this message translates to:
-  /// **'Day streak'**
-  String get profileStatsDayStreak;
-
-  /// No description provided for @profileStatsSectionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'STATISTICS'**
-  String get profileStatsSectionLabel;
-
-  /// No description provided for @profileQuickLinksSectionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'MORE'**
-  String get profileQuickLinksSectionLabel;
-
-  /// No description provided for @profileQuickLinkWeeklyLetter.
-  ///
-  /// In en, this message translates to:
-  /// **'Weekly Letter'**
-  String get profileQuickLinkWeeklyLetter;
-
-  /// No description provided for @profileQuickLinkMoodBoard.
-  ///
-  /// In en, this message translates to:
-  /// **'Mood Board'**
-  String get profileQuickLinkMoodBoard;
 
   /// No description provided for @profileSettingsSectionLabel.
   ///
