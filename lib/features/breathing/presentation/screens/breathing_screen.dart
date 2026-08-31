@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +7,8 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/luna_check_in_prompt.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_phase.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_state.dart';
@@ -88,10 +89,12 @@ class _BreathingViewState extends State<_BreathingView>
   }
 
   void _goToTalkToLuna() {
+    final authState = context.read<AuthCubit>().state;
+    final userId = authState is AuthAuthenticated ? authState.user.id : '';
     context.push(
       AppRoutes.chat,
       extra: {
-        'userId': sl<FirebaseAuth>().currentUser?.uid ?? '',
+        'userId': userId,
         'emoji': widget.emoji,
         'thoughts': widget.thoughts,
         'aiResponse': '',
