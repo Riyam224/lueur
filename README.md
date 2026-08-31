@@ -123,6 +123,16 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/talk_to_luna_screen_dark.png" width="180" alt="Luna's AI response, dark theme"/></td>
   </tr>
   <tr>
+    <td>Follow-up chat</td>
+    <td>—</td>
+    <td><img src="screenshots/chat_with_ai_luna_dark.png" width="180" alt="Follow-up chat conversation with Luna, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Follow-up chat (continued)</td>
+    <td>—</td>
+    <td><img src="screenshots/chat_with_ai_luna_more_dark.png" width="180" alt="Extended follow-up chat conversation with Luna, dark theme"/></td>
+  </tr>
+  <tr>
     <td>Mood journal</td>
     <td><img src="screenshots/journal_light.png" width="180" alt="Mood journal, light theme"/></td>
     <td><img src="screenshots/journal_dark.png" width="180" alt="Mood journal, dark theme"/></td>
