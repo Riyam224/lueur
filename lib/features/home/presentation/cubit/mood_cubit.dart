@@ -84,15 +84,35 @@ class MoodCubit extends Cubit<MoodState> {
   }
 
   Future<void> deleteEntry(int id) async {
-    _cachedEntries = _cachedEntries.where((e) => e.id != id).toList();
-    emit(MoodHistorySuccess(_cachedEntries));
-    await _repository.deleteEntry(id);
+    final result = await _repository.deleteEntry(id);
+    if (isClosed) return;
+
+    result.fold(
+      (failure) {
+        _logger.e('MoodCubit delete error: ${failure.message}');
+        emit(MoodError(failure.message));
+      },
+      (_) {
+        _cachedEntries = _cachedEntries.where((e) => e.id != id).toList();
+        emit(MoodHistorySuccess(_cachedEntries));
+      },
+    );
   }
 
   Future<void> deleteAllEntries() async {
-    _cachedEntries = [];
-    emit(const MoodHistorySuccess([]));
-    await _repository.deleteAllEntries();
+    final result = await _repository.deleteAllEntries();
+    if (isClosed) return;
+
+    result.fold(
+      (failure) {
+        _logger.e('MoodCubit delete all error: ${failure.message}');
+        emit(MoodError(failure.message));
+      },
+      (_) {
+        _cachedEntries = [];
+        emit(const MoodHistorySuccess([]));
+      },
+    );
   }
 
   Future<void> getHistory() async {
