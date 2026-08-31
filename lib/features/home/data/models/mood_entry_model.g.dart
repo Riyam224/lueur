@@ -13,7 +13,7 @@ MoodEntryModel _$MoodEntryModelFromJson(Map<String, dynamic> json) =>
       emoji: json['emoji'] as String,
       thoughts: json['thoughts'] as String,
       aiResponse: json['ai_response'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: _createdAtFromJson(json['created_at'] as String),
       cardColor: json['card_color'] as String?,
       pinned: json['pinned'] as bool? ?? false,
       entryType: json['entry_type'] as String? ?? 'mood_chat',

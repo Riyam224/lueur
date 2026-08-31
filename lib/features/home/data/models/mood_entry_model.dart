@@ -16,7 +16,10 @@ class MoodEntryModel {
   @JsonKey(name: 'ai_response')
   final String aiResponse;
 
-  @JsonKey(name: 'created_at')
+  // The backend sends UTC timestamps; converting to local time here (the
+  // single parse point for every mood/journal/timeline entry) means every
+  // screen displays local time automatically without its own conversion.
+  @JsonKey(name: 'created_at', fromJson: _createdAtFromJson)
   final DateTime createdAt;
 
   /// Journal grid customization — local-only, never sent to the backend
@@ -82,3 +85,5 @@ class MoodEntryModel {
     );
   }
 }
+
+DateTime _createdAtFromJson(String value) => DateTime.parse(value).toLocal();
