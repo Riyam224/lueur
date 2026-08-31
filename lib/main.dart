@@ -43,7 +43,7 @@ Future<void> main() async {
 
     // Firebase, Hive, SharedPreferences, and DI initialize behind a Flutter
     // loading screen, allowing Android's native splash to hand off promptly.
-    runApp(Lueur(initialization: initializeAppServices()));
+    runApp(const Lueur(initializer: initializeAppServices));
   }
 
   // Initializing the native Sentry SDK is expensive on a cold emulator. Do

@@ -13,19 +13,54 @@ import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 class Lueur extends StatelessWidget {
-  const Lueur({required this.initialization, super.key});
+  const Lueur({required this.initializer, super.key});
 
-  /// Hive/SharedPreferences/DI setup kicked off after runApp(). Nothing
+  /// Kicks off Hive/SharedPreferences/DI setup after runApp(). Nothing
   /// resolving via `sl<T>()` may build until this completes; [build] gates the real app on it.
-  final Future<void> initialization;
+  /// Taking the function (not an already-started Future) lets the startup
+  /// error screen retry by calling it again instead of forcing a restart.
+  final Future<void> Function() initializer;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AppInitGate(initializer: initializer);
+  }
+}
+
+class _AppInitGate extends StatefulWidget {
+  const _AppInitGate({required this.initializer});
+
+  final Future<void> Function() initializer;
+
+  @override
+  State<_AppInitGate> createState() => _AppInitGateState();
+}
+
+class _AppInitGateState extends State<_AppInitGate> {
+  late Future<void> _initialization;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialization = widget.initializer();
+  }
+
+  void _retry() {
+    setState(() {
+      _initialization = widget.initializer();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: initialization,
+      future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return _AppStartupErrorScreen(error: snapshot.error!);
+          return _AppStartupErrorScreen(
+            error: snapshot.error!,
+            onRetry: _retry,
+          );
         }
         if (snapshot.connectionState != ConnectionState.done) {
           return const _AppLoadingScreen();
@@ -69,21 +104,42 @@ class _AppLoadingScreen extends StatelessWidget {
 /// Shown if background init throws (e.g. Hive box corruption) — a blank
 /// frozen loading spinner would otherwise look like a hang.
 class _AppStartupErrorScreen extends StatelessWidget {
-  const _AppStartupErrorScreen({required this.error});
+  const _AppStartupErrorScreen({required this.error, required this.onRetry});
 
   final Object error;
+  final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: AppColors.lightBackground,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text(
-              'Something went wrong while starting the app.\n$error',
-              textAlign: TextAlign.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(AppAssets.lunaCharacter, width: 120, height: 120),
+                const SizedBox(height: 24),
+                const Text(
+                  'Hmm, something interrupted us while getting things ready.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$error',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                const SizedBox(height: 24),
+                FilledButton(
+                  onPressed: onRetry,
+                  child: const Text('Try again'),
+                ),
+              ],
             ),
           ),
         ),
