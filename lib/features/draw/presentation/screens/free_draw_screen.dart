@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +7,8 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/routing/app_routes.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
@@ -77,10 +78,12 @@ class _FreeDrawView extends StatelessWidget {
   }
 
   void _goToTalkToLuna(BuildContext context) {
+    final authState = context.read<AuthCubit>().state;
+    final userId = authState is AuthAuthenticated ? authState.user.id : '';
     context.push(
       AppRoutes.chat,
       extra: {
-        'userId': sl<FirebaseAuth>().currentUser?.uid ?? '',
+        'userId': userId,
         'emoji': emoji,
         'thoughts': thoughts,
         'aiResponse': '',

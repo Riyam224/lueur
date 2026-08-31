@@ -325,7 +325,10 @@ class RouterGenerationConfig {
           final thoughts = extra?['thoughts'] as String? ?? '';
           return _buildTransitionPage(
             state: state,
-            child: FreeDrawScreen(emoji: emoji, thoughts: thoughts),
+            child: BlocProvider.value(
+              value: sl<AuthCubit>(),
+              child: FreeDrawScreen(emoji: emoji, thoughts: thoughts),
+            ),
           );
         },
       ),
