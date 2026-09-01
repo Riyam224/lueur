@@ -61,4 +61,16 @@ class MoodRemoteDatasource {
     );
     return MoodEntryModel.fromJson(response.data as Map<String, dynamic>);
   }
+
+  Future<void> deleteEntry(String entryId) async {
+    await _dio.delete(ApiEndpoints.deleteEntry(entryId));
+  }
+
+  Future<int> deleteAllEntries() async {
+    final response = await _dio.delete(
+      ApiEndpoints.deleteAllEntries,
+      data: {'confirm': true},
+    );
+    return (response.data as Map<String, dynamic>)['deleted_count'] as int;
+  }
 }

@@ -13,11 +13,13 @@ import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/presentation/cubit/weekly_letter_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
+import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_body.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_grid_header.dart';
 import 'package:lueur/features/plant/domain/entities/streak_milestone.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_cubit.dart';
 import 'package:lueur/features/plant/presentation/cubit/plant_state.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Journal is a lightweight entry point into memories — title, weekly letter,
 /// and a taste of recent days. Full searchable browsing lives in [AppRoutes.timeline].
@@ -79,6 +81,19 @@ class _JournalGridScreenState extends State<JournalGridScreen> {
               if (state is PlantLoaded) {
                 unawaited(_maybeCelebrateStreak(state.streakDays));
               }
+            },
+          ),
+          BlocListener<JournalGridCubit, JournalGridState>(
+            listenWhen: (previous, current) =>
+                current is JournalGridLoaded && current.actionFailed,
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context)!.journalActionFailedSnack,
+                  ),
+                ),
+              );
             },
           ),
         ],

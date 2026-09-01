@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_grid_selector_section.dart';
@@ -14,6 +15,7 @@ import 'package:lueur/features/sudoku/presentation/widgets/sudoku_help_dialog.da
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_number_pad_section.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_outcome_dialog.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_toolbar.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// A calm, simple 9x9 sudoku — one of Luna's offerings for a rough moment.
 class SudokuScreen extends StatefulWidget {
@@ -103,18 +105,52 @@ class _SudokuScreenState extends State<SudokuScreen> {
                       ),
                       const SudokuHeaderSection(),
                       SizedBox(height: AppSpacing.spaceMd),
-                      BlocSelector<SudokuCubit, SudokuState, bool>(
-                        selector: (state) => state.isGenerating,
-                        builder: (context, isGenerating) => isGenerating
-                            ? const Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 120,
+                      BlocSelector<SudokuCubit, SudokuState, (bool, bool)>(
+                        selector: (state) =>
+                            (state.isGenerating, state.generationFailed),
+                        builder: (context, generation) {
+                          final (isGenerating, generationFailed) = generation;
+                          if (isGenerating) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 120),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                          if (generationFailed) {
+                            final l10n = AppLocalizations.of(context)!;
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 120,
+                              ),
+                              child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      l10n.sudokuGenerationFailedMessage,
+                                      textAlign: TextAlign.center,
+                                      style: ThemeTextStyles.bodyMedium(
+                                        context,
+                                      ),
+                                    ),
+                                    SizedBox(height: AppSpacing.spaceMd),
+                                    ElevatedButton(
+                                      onPressed: () => unawaited(
+                                        context.read<SudokuCubit>().start(),
+                                      ),
+                                      child: Text(
+                                        l10n.responseTryAgainButton,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              )
-                            : const SudokuGridSelectorSection(),
+                              ),
+                            );
+                          }
+                          return const SudokuGridSelectorSection();
+                        },
                       ),
                       SizedBox(height: AppSpacing.space2Xl),
                       const SudokuNumberPadSection(),

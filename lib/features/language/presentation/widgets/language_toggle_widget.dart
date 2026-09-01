@@ -7,10 +7,21 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/language/domain/entities/app_language.dart';
 import 'package:lueur/features/language/presentation/cubit/language_cubit.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 /// Two-option English / Arabic segmented toggle for the Settings screen.
 class LanguageToggleWidget extends StatelessWidget {
   const LanguageToggleWidget({super.key});
+
+  Future<void> _changeLanguage(BuildContext context, AppLanguage language) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final succeeded = await context.read<LanguageCubit>().changeLanguage(language);
+    if (succeeded) return;
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.languageChangeFailedSnack)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +41,12 @@ class LanguageToggleWidget extends StatelessWidget {
           _LanguageOption(
             label: 'English',
             selected: currentLanguage == AppLanguage.en,
-            onTap: () =>
-                context.read<LanguageCubit>().changeLanguage(AppLanguage.en),
+            onTap: () => _changeLanguage(context, AppLanguage.en),
           ),
           _LanguageOption(
             label: 'العربي',
             selected: currentLanguage == AppLanguage.ar,
-            onTap: () =>
-                context.read<LanguageCubit>().changeLanguage(AppLanguage.ar),
+            onTap: () => _changeLanguage(context, AppLanguage.ar),
           ),
         ],
       ),

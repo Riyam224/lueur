@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/widgets/list_entrance_fade.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/utils/timeline_layout.dart';
@@ -122,23 +123,26 @@ class JournalRecentMemoriesSection extends StatelessWidget {
     return Positioned(
       left: left,
       top: top,
-      child: group.representative.entryType == 'mood_chat'
-          ? JournalGridCardWidget(
-              entry: group.representative,
-              index: index,
-              size: _previewBubbleSize,
-              duration: group.conversationDuration,
-              onTap: openTimeline,
-              onLongPress: () => showJournalCardOptionsSheet(
-                context,
-                entryId: group.representative.id,
+      child: ListEntranceFade(
+        index: index,
+        child: group.representative.entryType == 'mood_chat'
+            ? JournalGridCardWidget(
+                entry: group.representative,
+                index: index,
+                size: _previewBubbleSize,
+                duration: group.conversationDuration,
+                onTap: openTimeline,
+                onLongPress: () => showJournalCardOptionsSheet(
+                  context,
+                  entryId: group.representative.id,
+                ),
+              )
+            : JournalActivityChoiceCard(
+                entry: group.representative,
+                size: _previewBubbleSize,
+                onTap: openTimeline,
               ),
-            )
-          : JournalActivityChoiceCard(
-              entry: group.representative,
-              size: _previewBubbleSize,
-              onTap: openTimeline,
-            ),
+      ),
     );
   }
 }

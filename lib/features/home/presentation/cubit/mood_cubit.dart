@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
@@ -45,7 +46,9 @@ class MoodCubit extends Cubit<MoodState> {
     result.fold(
       (failure) {
         _logger.e('MoodCubit error: ${failure.message}');
-        emit(MoodError(failure.message));
+        emit(
+          MoodError(failure.message, offline: failure is NetworkOfflineFailure),
+        );
       },
       (entry) {
         _logger.i('MoodCubit: success — entry id: ${entry.id}');
@@ -72,7 +75,9 @@ class MoodCubit extends Cubit<MoodState> {
     result.fold(
       (failure) {
         _logger.e('MoodCubit local save error: ${failure.message}');
-        emit(MoodError(failure.message));
+        emit(
+          MoodError(failure.message, offline: failure is NetworkOfflineFailure),
+        );
       },
       (entry) {
         _logger.i('MoodCubit local save success — entry id: ${entry.id}');
@@ -90,11 +95,14 @@ class MoodCubit extends Cubit<MoodState> {
     result.fold(
       (failure) {
         _logger.e('MoodCubit delete error: ${failure.message}');
-        emit(MoodError(failure.message));
+        emit(
+          MoodError(failure.message, offline: failure is NetworkOfflineFailure),
+        );
       },
       (_) {
         _cachedEntries = _cachedEntries.where((e) => e.id != id).toList();
         emit(MoodHistorySuccess(_cachedEntries));
+        _journalRefreshSignal.bump();
       },
     );
   }
@@ -106,11 +114,14 @@ class MoodCubit extends Cubit<MoodState> {
     result.fold(
       (failure) {
         _logger.e('MoodCubit delete all error: ${failure.message}');
-        emit(MoodError(failure.message));
+        emit(
+          MoodError(failure.message, offline: failure is NetworkOfflineFailure),
+        );
       },
       (_) {
         _cachedEntries = [];
         emit(const MoodHistorySuccess([]));
+        _journalRefreshSignal.bump();
       },
     );
   }
@@ -126,7 +137,9 @@ class MoodCubit extends Cubit<MoodState> {
     result.fold(
       (failure) {
         _logger.e('MoodCubit history error: ${failure.message}');
-        emit(MoodError(failure.message));
+        emit(
+          MoodError(failure.message, offline: failure is NetworkOfflineFailure),
+        );
       },
       (entries) {
         _logger.i('MoodCubit: ${entries.length} entries loaded');

@@ -36,14 +36,18 @@ class LanguageCubit extends Cubit<Locale> {
     );
   }
 
-  Future<void> changeLanguage(AppLanguage language) async {
+  /// Returns whether the change actually persisted, so the toggle widget
+  /// can show a friendly snackbar on failure instead of silently doing
+  /// nothing — persistence failing leaves the UI on the current language.
+  Future<bool> changeLanguage(AppLanguage language) async {
     final result = await _setLanguagePreferenceUseCase(language);
-    if (isClosed) return;
-    result.fold(
-      (_) {}, // persistence failed — leave the UI on the current language
+    if (isClosed) return false;
+    return result.fold(
+      (_) => false,
       (_) {
         emit(_toLocale(language));
         unawaited(_syncPreferredLanguage(language));
+        return true;
       },
     );
   }

@@ -29,6 +29,9 @@ class ChatRepositoryImpl implements ChatRepository {
       return Right(reply);
     } on DioException catch (e) {
       _logger.e('DioException: ${e.message}');
+      if (e.type == DioExceptionType.connectionError) {
+        return const Left(NetworkOfflineFailure());
+      }
       return Left(ServerFailure(e.message ?? 'Server error occurred'));
     } catch (e) {
       _logger.e('Unexpected error: $e');

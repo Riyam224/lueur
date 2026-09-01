@@ -322,6 +322,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonSavedToQuotesSnack => 'Saved to quotes 🌿';
 
   @override
+  String get chatOfflineSnack =>
+      'Looks like you\'re offline — try again when you\'re back 🌙';
+
+  @override
   String get commonDismissBarrierLabel => 'Dismiss';
 
   @override
@@ -345,6 +349,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moodEntryDeleteAllConfirm => 'Delete all';
+
+  @override
+  String get moodEntryDeleteAllFailedSnack =>
+      'Couldn\'t delete your entries — try again.';
 
   @override
   String get homeMoodPromptLabel => 'How are you feeling today?';
@@ -508,6 +516,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Every story begins with a single page.';
 
   @override
+  String get journalActionFailedSnack =>
+      'Couldn\'t save that change — try again.';
+
+  @override
   String get timelineTitle => 'Timeline';
 
   @override
@@ -577,6 +589,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get responseTryAgainButton => 'Try again';
+
+  @override
+  String get responseGenericErrorMessage =>
+      'Something went wrong on our end — let\'s try that again.';
 
   @override
   String get responseShareButton => 'Share';
@@ -750,6 +766,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t save this round to your history — no biggie, keep playing!';
 
   @override
+  String get sudokuGenerationFailedMessage =>
+      'Couldn\'t put together a puzzle just now.';
+
+  @override
   String get sudokuOutcomeNewGameButton => 'New Game';
 
   @override
@@ -775,6 +795,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get drawSavedSnack => 'Drawing saved to your profile';
+
+  @override
+  String get drawSaveErrorSnack =>
+      'Couldn\'t save your drawing — try again in a moment.';
 
   @override
   String get drawTalkToLunaLink => 'feel like talking to luna now?';
@@ -803,6 +827,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSettingsLanguage => 'Language';
+
+  @override
+  String get languageChangeFailedSnack =>
+      'Couldn\'t change language — try again.';
 
   @override
   String get profileJournalDataSectionLabel => 'JOURNAL DATA';
@@ -873,6 +901,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get breathingPhaseOut => 'Breathe out';
+
+  @override
+  String get breathingConfigErrorMessage =>
+      'Couldn\'t load the breathing exercise — let\'s try again.';
 
   @override
   String get affirmationHeader => 'A word from Luna 💙';

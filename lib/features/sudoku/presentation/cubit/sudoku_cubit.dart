@@ -49,7 +49,16 @@ class SudokuCubit extends Cubit<SudokuState> {
     _ticker?.cancel();
     emit(SudokuGridFactory.freshState(isGenerating: true));
 
-    final board = await _generatePuzzle();
+    SudokuBoardEntity board;
+    try {
+      board = await _generatePuzzle();
+    } catch (e) {
+      _logger.e('SudokuCubit: failed to generate puzzle — $e');
+      if (!isClosed) {
+        emit(SudokuGridFactory.freshState().copyWith(generationFailed: true));
+      }
+      return;
+    }
     if (isClosed) return;
 
     _solution = board.solution;
@@ -229,7 +238,14 @@ class SudokuCubit extends Cubit<SudokuState> {
           'duration_seconds': state.elapsedSeconds,
           'difficulty': _difficulty,
         },
-      ).then((result) => result.fold((_) {}, (_) => _journalRefreshSignal.bump())),
+      ).then(
+        (result) => result.fold(
+          (failure) => _logger.w(
+            'SudokuCubit: failed to log activity — ${failure.message}',
+          ),
+          (_) => _journalRefreshSignal.bump(),
+        ),
+      ),
     );
   }
 

@@ -35,10 +35,27 @@ class TimelineScreen extends StatelessWidget {
         // scope — re-attach the signal, mirroring how chat/response/weeklyLetter re-attach MoodCubit.
         BlocProvider.value(value: sl<JournalRefreshSignal>()),
       ],
-      child: BlocListener<JournalRefreshSignal, int>(
-        listener: (context, state) {
-          unawaited(context.read<JournalGridCubit>().loadEntries());
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<JournalRefreshSignal, int>(
+            listener: (context, state) {
+              unawaited(context.read<JournalGridCubit>().loadEntries());
+            },
+          ),
+          BlocListener<JournalGridCubit, JournalGridState>(
+            listenWhen: (previous, current) =>
+                current is JournalGridLoaded && current.actionFailed,
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context)!.journalActionFailedSnack,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
         child: _TimelineView(initialFocusDate: initialFocusDate),
       ),
     );

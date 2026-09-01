@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur/core/widgets/offline_snackbar.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
@@ -109,6 +110,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: BlocConsumer<ChatCubit, ChatState>(
         listener: (context, state) {
           if (state.status == ChatStatus.success) _scrollToBottom();
+          if (state.offline) showOfflineSnackBar(context);
         },
         builder: (context, state) {
           return Column(

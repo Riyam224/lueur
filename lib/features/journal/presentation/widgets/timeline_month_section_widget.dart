@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/list_entrance_fade.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/widgets/journal_card_options_sheet.dart';
 import 'package:lueur/features/journal/presentation/widgets/month_separator_widget.dart';
@@ -50,12 +51,15 @@ class TimelineMonthSectionWidget extends StatelessWidget {
             if (i > 0) SizedBox(height: AppSpacing.spaceMd),
             KeyedSubtree(
               key: keyForDate(section.groups[i].date),
-              child: TimelineDayCard(
-                group: section.groups[i],
-                onOpenDay: onOpenDay,
-                onLongPress: () => showJournalCardOptionsSheet(
-                  context,
-                  entryId: section.groups[i].representative.id,
+              child: ListEntranceFade(
+                index: i,
+                child: TimelineDayCard(
+                  group: section.groups[i],
+                  onOpenDay: onOpenDay,
+                  onLongPress: () => showJournalCardOptionsSheet(
+                    context,
+                    entryId: section.groups[i].representative.id,
+                  ),
                 ),
               ),
             ),

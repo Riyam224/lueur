@@ -13,6 +13,7 @@ import 'package:lueur/features/breathing/domain/entities/breathing_phase.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_state.dart';
 import 'package:lueur/features/breathing/presentation/widgets/breathing_in_progress_content.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class BreathingScreen extends StatelessWidget {
   final String emoji;
@@ -134,13 +135,27 @@ class _BreathingViewState extends State<_BreathingView>
           builder: (context, state) {
             return switch (state) {
               BreathingLoading() => const SizedBox.shrink(),
-              BreathingError(:final message) => Center(
+              BreathingError() => Center(
                   child: Padding(
                     padding: EdgeInsets.all(AppSpacing.horizontalPaddingLg),
-                    child: Text(
-                      message,
-                      textAlign: TextAlign.center,
-                      style: ThemeTextStyles.bodyMedium(context),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!
+                              .breathingConfigErrorMessage,
+                          textAlign: TextAlign.center,
+                          style: ThemeTextStyles.bodyMedium(context),
+                        ),
+                        SizedBox(height: AppSpacing.spaceMd),
+                        TextButton.icon(
+                          onPressed: () => context.read<BreathingCubit>().start(),
+                          icon: const Icon(Icons.refresh_rounded),
+                          label: Text(
+                            AppLocalizations.of(context)!.responseTryAgainButton,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

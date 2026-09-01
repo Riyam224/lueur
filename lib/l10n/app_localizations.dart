@@ -662,6 +662,12 @@ abstract class AppLocalizations {
   /// **'Saved to quotes 🌿'**
   String get commonSavedToQuotesSnack;
 
+  /// No description provided for @chatOfflineSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks like you\'re offline — try again when you\'re back 🌙'**
+  String get chatOfflineSnack;
+
   /// No description provided for @commonDismissBarrierLabel.
   ///
   /// In en, this message translates to:
@@ -709,6 +715,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete all'**
   String get moodEntryDeleteAllConfirm;
+
+  /// No description provided for @moodEntryDeleteAllFailedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete your entries — try again.'**
+  String get moodEntryDeleteAllFailedSnack;
 
   /// No description provided for @homeMoodPromptLabel.
   ///
@@ -986,6 +998,12 @@ abstract class AppLocalizations {
   /// **'Every story begins with a single page.'**
   String get journalGridEmptyMessage;
 
+  /// No description provided for @journalActionFailedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save that change — try again.'**
+  String get journalActionFailedSnack;
+
   /// No description provided for @timelineTitle.
   ///
   /// In en, this message translates to:
@@ -1117,6 +1135,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try again'**
   String get responseTryAgainButton;
+
+  /// No description provided for @responseGenericErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong on our end — let\'s try that again.'**
+  String get responseGenericErrorMessage;
 
   /// No description provided for @responseShareButton.
   ///
@@ -1436,6 +1460,12 @@ abstract class AppLocalizations {
   /// **'Couldn\'t save this round to your history — no biggie, keep playing!'**
   String get sudokuResultSaveFailedNotice;
 
+  /// No description provided for @sudokuGenerationFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t put together a puzzle just now.'**
+  String get sudokuGenerationFailedMessage;
+
   /// No description provided for @sudokuOutcomeNewGameButton.
   ///
   /// In en, this message translates to:
@@ -1490,6 +1520,12 @@ abstract class AppLocalizations {
   /// **'Drawing saved to your profile'**
   String get drawSavedSnack;
 
+  /// No description provided for @drawSaveErrorSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save your drawing — try again in a moment.'**
+  String get drawSaveErrorSnack;
+
   /// No description provided for @drawTalkToLunaLink.
   ///
   /// In en, this message translates to:
@@ -1543,6 +1579,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get profileSettingsLanguage;
+
+  /// No description provided for @languageChangeFailedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t change language — try again.'**
+  String get languageChangeFailedSnack;
 
   /// No description provided for @profileJournalDataSectionLabel.
   ///
@@ -1645,6 +1687,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Breathe out'**
   String get breathingPhaseOut;
+
+  /// No description provided for @breathingConfigErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the breathing exercise — let\'s try again.'**
+  String get breathingConfigErrorMessage;
 
   /// No description provided for @affirmationHeader.
   ///

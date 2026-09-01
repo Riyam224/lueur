@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/navigation/app_bottom_nav_bar.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
+import 'package:lueur/core/widgets/offline_snackbar.dart';
 import 'package:lueur/core/widgets/response_error_state.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
@@ -126,26 +127,48 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                 onBack: _goBack,
               ),
               Expanded(
-                child: BlocListener<MoodCubit, MoodState>(
-                  listenWhen: (previous, current) {
-                    if (_didResponseHaptic) return false;
-                    return current is MoodHistorySuccess &&
-                        current.justGenerated != null &&
-                        current.justGenerated!.aiResponse.isNotEmpty;
-                  },
-                  listener: (context, state) {
-                    HapticFeedback.lightImpact();
-                    _didResponseHaptic = true;
-                  },
+                child: MultiBlocListener(
+                  listeners: [
+                    BlocListener<MoodCubit, MoodState>(
+                      listenWhen: (previous, current) {
+                        if (_didResponseHaptic) return false;
+                        return current is MoodHistorySuccess &&
+                            current.justGenerated != null &&
+                            current.justGenerated!.aiResponse.isNotEmpty;
+                      },
+                      listener: (context, state) {
+                        HapticFeedback.lightImpact();
+                        _didResponseHaptic = true;
+                      },
+                    ),
+                    BlocListener<MoodCubit, MoodState>(
+                      listenWhen: (previous, current) =>
+                          current is MoodError && current.offline,
+                      listener: (context, state) => showOfflineSnackBar(context),
+                    ),
+                  ],
                   child: BlocBuilder<MoodCubit, MoodState>(
                     builder: (context, state) {
                       if (state is MoodLoading) {
                         return const Center(child: LunaTypingIndicator());
                       }
 
+                      if (state is MoodError && state.offline) {
+                        return Center(
+                          child: TextButton.icon(
+                            onPressed: _retryGenerate,
+                            icon: const Icon(Icons.refresh_rounded),
+                            label: Text(
+                              AppLocalizations.of(context)!.responseTryAgainButton,
+                            ),
+                          ),
+                        );
+                      }
+
                       if (state is MoodError) {
                         return ResponseErrorState(
-                          message: state.message,
+                          message: AppLocalizations.of(context)!
+                              .responseGenericErrorMessage,
                           retryLabel:
                               AppLocalizations.of(context)!.responseTryAgainButton,
                           onRetry: _retryGenerate,

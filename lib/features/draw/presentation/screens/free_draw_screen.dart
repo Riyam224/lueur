@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
@@ -12,6 +13,7 @@ import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
+import 'package:lueur/features/draw/presentation/cubit/saved_drawings_state.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_canvas.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_palette.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_talk_to_luna_link.dart';
@@ -66,13 +68,12 @@ class _FreeDrawView extends StatelessWidget {
         entryType: 'drawing',
         payload: {'thumbnail_url': ''},
       ).then(
-        (result) => result.fold((_) {}, (_) => sl<JournalRefreshSignal>().bump()),
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppLocalizations.of(context)!.drawSavedSnack),
-        duration: const Duration(seconds: 2),
+        (result) => result.fold(
+          (failure) => Logger().w(
+            'FreeDrawScreen: failed to log activity — ${failure.message}',
+          ),
+          (_) => sl<JournalRefreshSignal>().bump(),
+        ),
       ),
     );
   }
@@ -93,23 +94,40 @@ class _FreeDrawView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            DrawTopBar(
-              onBack: () => context.pop(),
-              onSave: () => _saveDrawing(context),
+    return BlocListener<SavedDrawingsCubit, SavedDrawingsState>(
+      listenWhen: (previous, current) =>
+          current is SavedDrawingsError || current is SavedDrawingsLoaded,
+      listener: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              state is SavedDrawingsError
+                  ? l10n.drawSaveErrorSnack
+                  : l10n.drawSavedSnack,
             ),
-            SizedBox(height: AppSpacing.spaceMd),
-            const Expanded(child: DrawCanvas()),
-            SizedBox(height: AppSpacing.spaceLg),
-            const DrawPalette(),
-            SizedBox(height: AppSpacing.spaceLg),
-            DrawTalkToLunaLink(onTap: () => _goToTalkToLuna(context)),
-            SizedBox(height: AppSpacing.spaceMd),
-          ],
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: SafeArea(
+          child: Column(
+            children: [
+              DrawTopBar(
+                onBack: () => context.pop(),
+                onSave: () => _saveDrawing(context),
+              ),
+              SizedBox(height: AppSpacing.spaceMd),
+              const Expanded(child: DrawCanvas()),
+              SizedBox(height: AppSpacing.spaceLg),
+              const DrawPalette(),
+              SizedBox(height: AppSpacing.spaceLg),
+              DrawTalkToLunaLink(onTap: () => _goToTalkToLuna(context)),
+              SizedBox(height: AppSpacing.spaceMd),
+            ],
+          ),
         ),
       ),
     );

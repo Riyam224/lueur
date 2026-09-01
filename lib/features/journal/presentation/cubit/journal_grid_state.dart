@@ -19,10 +19,15 @@ final class JournalGridLoading extends JournalGridState {
 final class JournalGridLoaded extends JournalGridState {
   final List<MoodEntryEntity> entries;
 
-  const JournalGridLoaded(this.entries);
+  /// One-shot signal that the last card action (color/pin/delete) failed to
+  /// save — the entries list is left untouched, and the screen shows a
+  /// brief snackbar for this instead of losing the whole grid.
+  final bool actionFailed;
+
+  const JournalGridLoaded(this.entries, {this.actionFailed = false});
 
   @override
-  List<Object?> get props => [entries];
+  List<Object?> get props => [entries, actionFailed];
 }
 
 final class JournalGridError extends JournalGridState {

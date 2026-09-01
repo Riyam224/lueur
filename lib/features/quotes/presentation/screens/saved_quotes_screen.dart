@@ -136,22 +136,25 @@ class SavedQuotesScreen extends StatelessWidget {
                                   ) ??
                                   false;
                             },
-                            onDismissed: (_) {
+                            onDismissed: (_) async {
                               final cubit = context.read<SavedQuotesCubit>();
                               final messenger = ScaffoldMessenger.of(context);
+                              final l10n = AppLocalizations.of(context)!;
                               final quoteText = quote.text;
                               final quoteEmoji = quote.emoji;
                               final quoteThoughts = quote.thoughts;
                               final quoteId = quote.id;
-                              cubit.deleteQuote(quoteId);
+                              await cubit.deleteQuote(quoteId);
+                              // A failure already surfaces via the
+                              // full-screen SavedQuotesError/ResponseErrorState
+                              // below — don't also claim success here.
+                              if (cubit.state is SavedQuotesError) return;
                               messenger.showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                    AppLocalizations.of(context)!.quotesDeletedSnack,
-                                  ),
+                                  content: Text(l10n.quotesDeletedSnack),
                                   duration: const Duration(seconds: 2),
                                   action: SnackBarAction(
-                                    label: AppLocalizations.of(context)!.quotesUndoAction,
+                                    label: l10n.quotesUndoAction,
                                     onPressed: () => cubit.saveQuote(
                                       quoteText,
                                       emoji: quoteEmoji,

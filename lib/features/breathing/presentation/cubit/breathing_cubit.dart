@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_config_entity.dart';
 import 'package:lueur/features/breathing/domain/entities/breathing_phase.dart';
@@ -14,6 +15,7 @@ class BreathingCubit extends Cubit<BreathingState> {
   final GetBreathingConfigUseCase _getConfigUseCase;
   final LogActivityUseCase _logActivityUseCase;
   final JournalRefreshSignal _journalRefreshSignal;
+  final Logger _logger = Logger();
 
   Timer? _ticker;
   BreathingConfigEntity? _config;
@@ -61,7 +63,14 @@ class BreathingCubit extends Cubit<BreathingState> {
         _logActivityUseCase(
           entryType: 'breathing',
           payload: {'duration_seconds': _elapsedSeconds},
-        ).then((result) => result.fold((_) {}, (_) => _journalRefreshSignal.bump())),
+        ).then(
+          (result) => result.fold(
+            (failure) => _logger.w(
+              'BreathingCubit: failed to log activity — ${failure.message}',
+            ),
+            (_) => _journalRefreshSignal.bump(),
+          ),
+        ),
       );
       return;
     }

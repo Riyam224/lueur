@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
@@ -122,10 +123,13 @@ class _TimelineActivityItem extends StatelessWidget {
     final moodType = moodTypeFromEmoji(entry.emoji);
     final isMoodEntry = entry.entryType == 'mood_chat';
 
-    final accentColor = isMoodEntry
-        ? (moodType?.journalBubbleColor ?? AppColors.journalCardLavender)
-        : (JournalActivityChoiceCard.colorForType(entry.entryType) ??
-            AppColors.journalCardLavender);
+    // A manually-picked color (via the card options sheet) always wins,
+    // matching JournalGridCardWidget's precedence.
+    final accentColor = JournalCardColor.fromName(entry.cardColor)?.color ??
+        (isMoodEntry
+            ? (moodType?.journalBubbleColor ?? AppColors.journalCardLavender)
+            : (JournalActivityChoiceCard.colorForType(entry.entryType) ??
+                AppColors.journalCardLavender));
 
     // The rail tag is a short category name; the card gives the detail —
     // otherwise an activity entry would repeat the same text on both sides.

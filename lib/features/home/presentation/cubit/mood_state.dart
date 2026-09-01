@@ -28,8 +28,13 @@ class MoodHistorySuccess extends MoodState {
 
 class MoodError extends MoodState {
   final String message;
-  const MoodError(this.message);
+
+  /// True when this failure was caused by no internet connection — the UI
+  /// shows a friendly snackbar for this instead of the inline error text.
+  final bool offline;
+
+  const MoodError(this.message, {this.offline = false});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, offline];
 }

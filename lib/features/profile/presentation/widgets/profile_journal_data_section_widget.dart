@@ -4,6 +4,7 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
+import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Destructive data actions live under Profile, not Home/Journal, which
@@ -38,7 +39,19 @@ class ProfileJournalDataSectionWidget extends StatelessWidget {
         false;
 
     if (!confirmed) return;
+    if (!context.mounted) return;
+    final messenger = ScaffoldMessenger.of(context);
+
     await moodCubit.deleteAllEntries();
+
+    // MoodError is a fresh instance per fold — checking right after the
+    // await reliably reflects this action's own outcome, not some other
+    // screen's unrelated failure on the same shared singleton cubit.
+    if (moodCubit.state is MoodError) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.moodEntryDeleteAllFailedSnack)),
+      );
+    }
   }
 
   @override

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/usecases/send_chat_message_usecase.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
@@ -39,6 +40,7 @@ class ChatCubit extends Cubit<ChatState> {
     emit(state.copyWith(
       status: ChatStatus.loading,
       messages: updatedMessages,
+      offline: false,
     ),);
 
     // History excludes the last user message (the API adds it via `thoughts`)
@@ -59,6 +61,16 @@ class ChatCubit extends Cubit<ChatState> {
     result.fold(
       (failure) {
         _logger.e('ChatCubit.sendMessage failed', error: failure.message);
+        if (failure is NetworkOfflineFailure) {
+          // No fake Luna reply when there's no connection at all — just
+          // surface the offline snackbar and leave the message sendable again.
+          emit(state.copyWith(
+            status: ChatStatus.success,
+            messages: updatedMessages,
+            offline: true,
+          ),);
+          return;
+        }
         // Show the fallback as a normal Luna chat bubble, not an error
         // banner — keeps the "texting a friend" feel intact on failure.
         final fallbackMessage = ChatMessage(
@@ -68,6 +80,7 @@ class ChatCubit extends Cubit<ChatState> {
         emit(state.copyWith(
           status: ChatStatus.success,
           messages: [...updatedMessages, fallbackMessage],
+          offline: false,
         ),);
       },
       (reply) {
@@ -83,6 +96,7 @@ class ChatCubit extends Cubit<ChatState> {
           status: ChatStatus.success,
           messages: [...updatedMessages, lunaMessage],
           sessionEnded: sessionEnded,
+          offline: false,
         ),);
       },
     );

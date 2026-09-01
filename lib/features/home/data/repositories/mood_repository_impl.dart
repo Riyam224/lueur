@@ -42,6 +42,9 @@ class MoodRepositoryImpl implements MoodRepository {
       return Right(model.toEntity());
     } on DioException catch (e) {
       _logger.e('DioException: ${e.message}');
+      if (e.type == DioExceptionType.connectionError) {
+        return const Left(NetworkOfflineFailure());
+      }
       return Left(ServerFailure(e.message ?? 'Server error occurred'));
     } catch (e) {
       _logger.e('Unexpected error: $e');
@@ -123,6 +126,7 @@ class MoodRepositoryImpl implements MoodRepository {
   @override
   Future<Either<Failure, void>> deleteEntry(int id) async {
     try {
+      if (!_isGuest) await _remote.deleteEntry(id.toString());
       await _local.deleteEntry(id, userId: _currentUserId);
       _logger.i('Entry deleted from cache: id=$id');
       return const Right(null);
@@ -135,6 +139,7 @@ class MoodRepositoryImpl implements MoodRepository {
   @override
   Future<Either<Failure, void>> deleteAllEntries() async {
     try {
+      if (!_isGuest) await _remote.deleteAllEntries();
       await _local.deleteAllEntries(userId: _currentUserId);
       _logger.i('All entries deleted from cache');
       return const Right(null);
@@ -145,7 +150,8 @@ class MoodRepositoryImpl implements MoodRepository {
   }
 
   Future<List<MoodEntryModel>> _mergeLocalOnlyFields(
-      List<MoodEntryModel> remoteModels,) async {
+    List<MoodEntryModel> remoteModels,
+  ) async {
     final cachedById = {
       for (final entry in await _local.getCachedHistory(userId: _currentUserId))
         entry.id: entry,
@@ -200,7 +206,9 @@ class MoodRepositoryImpl implements MoodRepository {
 
   @override
   Future<Either<Failure, MoodEntryEntity>> setPinned(
-      int id, bool pinned,) async {
+    int id,
+    bool pinned,
+  ) async {
     try {
       final updated =
           await _local.setPinned(id, pinned, userId: _currentUserId);

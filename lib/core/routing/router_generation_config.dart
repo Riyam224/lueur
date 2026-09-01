@@ -51,6 +51,7 @@ class RouterGenerationConfig {
     return CustomTransitionPage(
       key: state.pageKey,
       child: child,
+      transitionDuration: const Duration(milliseconds: 220),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final curved = CurvedAnimation(
           parent: animation,

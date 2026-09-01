@@ -320,6 +320,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get commonSavedToQuotesSnack => 'تم الحفظ في الاقتباسات 🌿';
 
   @override
+  String get chatOfflineSnack =>
+      'يبدو أنك غير متصل بالإنترنت — حاول مرة أخرى لاحقًا 🌙';
+
+  @override
   String get commonDismissBarrierLabel => 'إغلاق';
 
   @override
@@ -343,6 +347,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get moodEntryDeleteAllConfirm => 'حذف الكل';
+
+  @override
+  String get moodEntryDeleteAllFailedSnack =>
+      'تعذّر حذف مدخلاتك — حاول مرة أخرى.';
 
   @override
   String get homeMoodPromptLabel => 'كيف تشعر اليوم؟';
@@ -497,6 +505,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get journalGridEmptyMessage => 'كل قصة تبدأ بصفحة واحدة.';
 
   @override
+  String get journalActionFailedSnack =>
+      'تعذّر حفظ هذا التغيير — حاول مرة أخرى.';
+
+  @override
   String get timelineTitle => 'الخط الزمني';
 
   @override
@@ -563,6 +575,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get responseTryAgainButton => 'حاول مرة أخرى';
+
+  @override
+  String get responseGenericErrorMessage =>
+      'حدث خطأ من جانبنا — لنحاول مرة أخرى.';
 
   @override
   String get responseShareButton => 'مشاركة';
@@ -731,6 +747,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'تعذّر حفظ هذه الجولة في السجل — لا مشكلة، تابع اللعب!';
 
   @override
+  String get sudokuGenerationFailedMessage =>
+      'تعذّر إنشاء لغز في الوقت الحالي.';
+
+  @override
   String get sudokuOutcomeNewGameButton => 'لعبة جديدة';
 
   @override
@@ -758,6 +778,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get drawSavedSnack => 'تم حفظ الرسمة في حسابك';
 
   @override
+  String get drawSaveErrorSnack => 'تعذّر حفظ رسمتك — حاول مرة أخرى بعد قليل.';
+
+  @override
   String get drawTalkToLunaLink => 'تشعر برغبة في التحدث مع لونا الآن؟';
 
   @override
@@ -783,6 +806,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileSettingsLanguage => 'اللغة';
+
+  @override
+  String get languageChangeFailedSnack => 'تعذّر تغيير اللغة — حاول مرة أخرى.';
 
   @override
   String get profileJournalDataSectionLabel => 'بيانات اليوميات';
@@ -853,6 +879,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get breathingPhaseOut => 'زفير';
+
+  @override
+  String get breathingConfigErrorMessage =>
+      'تعذّر تحميل تمرين التنفس — لنحاول مرة أخرى.';
 
   @override
   String get affirmationHeader => 'كلمة من لونا 💙';

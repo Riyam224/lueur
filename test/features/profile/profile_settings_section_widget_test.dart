@@ -27,7 +27,7 @@ class _FakeLanguageCubit extends Cubit<Locale> implements LanguageCubit {
   _FakeLanguageCubit(super.initial);
 
   @override
-  Future<void> changeLanguage(AppLanguage language) async {}
+  Future<bool> changeLanguage(AppLanguage language) async => true;
 }
 
 void main() {
