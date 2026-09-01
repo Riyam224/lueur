@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
     // so total wait is max(delay, work), not delay + work.
     final results = await Future.wait([
       Future.delayed(SplashConstants.navigationDelay),
-      OnboardingPrefs.hasSeen(),
+      OnboardingPrefs.hasSeen(null),
     ]);
     if (!mounted) return;
 

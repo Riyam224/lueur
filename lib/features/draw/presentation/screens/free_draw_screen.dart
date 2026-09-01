@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -69,9 +70,13 @@ class _FreeDrawView extends StatelessWidget {
         payload: {'thumbnail_url': ''},
       ).then(
         (result) => result.fold(
-          (failure) => Logger().w(
-            'FreeDrawScreen: failed to log activity — ${failure.message}',
-          ),
+          (failure) {
+            if (kDebugMode) {
+              Logger().w(
+                'FreeDrawScreen: failed to log activity — ${failure.message}',
+              );
+            }
+          },
           (_) => sl<JournalRefreshSignal>().bump(),
         ),
       ),

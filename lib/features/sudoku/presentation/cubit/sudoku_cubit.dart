@@ -241,9 +241,13 @@ class SudokuCubit extends Cubit<SudokuState> {
         },
       ).then(
         (result) => result.fold(
-          (failure) => _logger.w(
-            'SudokuCubit: failed to log activity — ${failure.message}',
-          ),
+          (failure) {
+            if (kDebugMode) {
+              _logger.w(
+                'SudokuCubit: failed to log activity — ${failure.message}',
+              );
+            }
+          },
           (_) => _journalRefreshSignal.bump(),
         ),
       ),

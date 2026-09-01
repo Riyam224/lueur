@@ -42,8 +42,12 @@ class JournalGridCubit extends Cubit<JournalGridState> {
     final result = await _setCardColorUseCase(id: id, cardColor: cardColor);
     if (isClosed) return;
     result.fold(
-      (failure) =>
-          emit(JournalGridLoaded(current.entries, actionFailed: true)),
+      (failure) => emit(
+        JournalGridLoaded(
+          current.entries,
+          actionFailureCount: current.actionFailureCount + 1,
+        ),
+      ),
       (updated) => emit(JournalGridLoaded(_replace(current.entries, updated))),
     );
   }
@@ -56,8 +60,12 @@ class JournalGridCubit extends Cubit<JournalGridState> {
     final result = await _togglePinUseCase(id: id, pinned: pinned);
     if (isClosed) return;
     result.fold(
-      (failure) =>
-          emit(JournalGridLoaded(current.entries, actionFailed: true)),
+      (failure) => emit(
+        JournalGridLoaded(
+          current.entries,
+          actionFailureCount: current.actionFailureCount + 1,
+        ),
+      ),
       (updated) => emit(JournalGridLoaded(_replace(current.entries, updated))),
     );
   }
@@ -70,8 +78,12 @@ class JournalGridCubit extends Cubit<JournalGridState> {
     final result = await _deleteEntryUseCase(id);
     if (isClosed) return;
     result.fold(
-      (failure) =>
-          emit(JournalGridLoaded(current.entries, actionFailed: true)),
+      (failure) => emit(
+        JournalGridLoaded(
+          current.entries,
+          actionFailureCount: current.actionFailureCount + 1,
+        ),
+      ),
       (_) => emit(
         JournalGridLoaded(
           current.entries.where((e) => e.id != id).toList(),

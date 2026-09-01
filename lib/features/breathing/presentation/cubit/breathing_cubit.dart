@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
@@ -65,9 +66,13 @@ class BreathingCubit extends Cubit<BreathingState> {
           payload: {'duration_seconds': _elapsedSeconds},
         ).then(
           (result) => result.fold(
-            (failure) => _logger.w(
-              'BreathingCubit: failed to log activity — ${failure.message}',
-            ),
+            (failure) {
+              if (kDebugMode) {
+                _logger.w(
+                  'BreathingCubit: failed to log activity — ${failure.message}',
+                );
+              }
+            },
             (_) => _journalRefreshSignal.bump(),
           ),
         ),

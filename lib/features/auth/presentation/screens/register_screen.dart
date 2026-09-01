@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
@@ -92,16 +93,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthAuthenticated) {
-      unawaited(_showSuccessThenNavigate(context));
+      unawaited(_showSuccessThenNavigate(context, state.user.id));
     } else if (state is AuthError) {
       showAuthErrorSnackBar(context, state.message);
     }
   }
 
-  Future<void> _showSuccessThenNavigate(BuildContext context) async {
+  Future<void> _showSuccessThenNavigate(BuildContext context, String uid) async {
     await AuthSuccessDialog.show(context);
     if (!context.mounted) return;
-    context.go(AppRoutes.home);
+    final seenOnboarding = await OnboardingPrefs.hasSeen(uid);
+    if (!context.mounted) return;
+    context.go(seenOnboarding ? AppRoutes.home : AppRoutes.onBoarding);
   }
 
   void _submit(BuildContext context) {
