@@ -1,4 +1,6 @@
+# ============================================================
 # Miscellaneous
+# ============================================================
 *.class
 *.log
 *.pyc
@@ -23,7 +25,9 @@ migrate_working_dir/
 # is commented out by default.
 #.vscode/
 
+# ============================================================
 # Flutter/Dart/Pub related
+# ============================================================
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
@@ -44,14 +48,68 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Environment variables
+# ============================================================
+# Secrets & credentials — never commit any of these
+# ============================================================
 .env
+.env.*
+!.env.example
+env.json
+*.env.json
+secrets.dart
+secrets.json
+**/lib/**/secrets/**
 
-# Supabase keys
+# Signing / keystores
+android/key.properties
+android/*.jks
+android/*.keystore
+*.jks
+*.keystore
+*.p12
+*.pem
+*.mobileprovision
+*.p8
+*.cer
+ios/**/*.p12
+ios/**/*.mobileprovision
+
+# Firebase config (client identifiers, still keep out of a public repo)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+macos/Runner/GoogleService-Info.plist
+firebase-adminsdk*.json
+firebase-service-account*.json
+**/serviceAccountKey.json
+
+# Sentry
+sentry.properties
+.sentryclirc
+
+# Supabase / third-party constants that embed keys
 lib/core/constants/supabase_constants.dart
 
-# AI Tools
-.claude/
+# Any local override of API endpoints (staging/local URLs, tokens for testing)
+lib/core/networking/api_endpoints_local.dart
+lib/**/*_local.dart
+
+# Fastlane (if/when used for App Store/Play automation)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+**/fastlane/.env
+**/fastlane/Fastfile.local
+
+# ============================================================
+# Repo hygiene — not secrets, but shouldn't bloat a public repo
+# ============================================================
+screenshots/
+specs/
+*.checklists/
+.claude/*
+!.claude/settings.json
 .skills/
 .specs/
 .specify/
@@ -60,9 +118,13 @@ lib/core/constants/supabase_constants.dart
 .agents/
 .speckit/
 *.claude-session
-android/key.properties
-android/lueur-release.jks
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
 
-sentry.properties
+# Crash dumps / device logs that may contain user data captured during debugging
+*.crashlog
+*.hprof
+*.trace
+
+# Local database dumps sometimes pulled for debugging (Hive boxes, sqlite)
+*.hive
+*.sqlite
+*.db
