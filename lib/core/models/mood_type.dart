@@ -3,6 +3,7 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
+//
 /// The set of mood illustrations available in assets/illustrations/.
 enum MoodType {
   happy,
