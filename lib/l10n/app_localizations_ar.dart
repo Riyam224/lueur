@@ -995,4 +995,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authSuccessMessage => 'لونا سعيدة بوجودك هنا';
+
+  @override
+  String get startupErrorMessage => 'حدث خلل بسيط ونحن نجهز الأمور';
+
+  @override
+  String get startupErrorSubtext => 'حاول مرة أخرى بعد قليل';
+
+  @override
+  String get startupErrorRetry => 'حاول مرة أخرى';
 }

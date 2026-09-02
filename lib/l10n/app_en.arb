@@ -392,5 +392,8 @@
   "streakGrowthStageBlossomLabel": "Blossom 🌺",
   "streakGrowthStageBloomingLabel": "Blooming 🌸",
   "authSuccessTitle": "You're in!",
-  "authSuccessMessage": "Luna's glad you're here."
+  "authSuccessMessage": "Luna's glad you're here.",
+  "startupErrorMessage": "Hmm, something interrupted us while getting things ready.",
+  "startupErrorSubtext": "Give it another try in a moment.",
+  "startupErrorRetry": "Try again"
 }

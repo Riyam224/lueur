@@ -298,5 +298,8 @@
   "streakGrowthStageBlossomLabel": "تزهر 🌺",
   "streakGrowthStageBloomingLabel": "تتفتح 🌸",
   "authSuccessTitle": "أهلاً بك!",
-  "authSuccessMessage": "لونا سعيدة بوجودك هنا"
+  "authSuccessMessage": "لونا سعيدة بوجودك هنا",
+  "startupErrorMessage": "حدث خلل بسيط ونحن نجهز الأمور",
+  "startupErrorSubtext": "حاول مرة أخرى بعد قليل",
+  "startupErrorRetry": "حاول مرة أخرى"
 }

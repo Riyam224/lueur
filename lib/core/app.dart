@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,6 +13,7 @@ import 'package:lueur/features/language/presentation/cubit/language_cubit.dart';
 import 'package:lueur/features/theme/domain/entities/app_theme_mode.dart';
 import 'package:lueur/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class Lueur extends StatelessWidget {
   const Lueur({required this.initializer, super.key});
@@ -42,13 +45,23 @@ class _AppInitGateState extends State<_AppInitGate> {
   @override
   void initState() {
     super.initState();
-    _initialization = widget.initializer();
+    _initialization = _runInitializer();
   }
 
   void _retry() {
     setState(() {
-      _initialization = widget.initializer();
+      _initialization = _runInitializer();
     });
+  }
+
+  Future<void> _runInitializer() {
+    final future = widget.initializer();
+    unawaited(
+      future.catchError((Object error, StackTrace stackTrace) {
+        unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+      }),
+    );
+    return future;
   }
 
   @override
@@ -113,36 +126,47 @@ class _AppStartupErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: AppColors.lightBackground,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(AppAssets.lunaCharacter, width: 120, height: 120),
-                const SizedBox(height: 24),
-                const Text(
-                  'Hmm, something interrupted us while getting things ready.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            backgroundColor: AppColors.lightBackground,
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      AppAssets.lunaCharacter,
+                      width: 120,
+                      height: 120,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.startupErrorMessage,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.startupErrorSubtext,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 24),
+                    FilledButton(
+                      onPressed: onRetry,
+                      child: Text(l10n.startupErrorRetry),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  '$error',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-                const SizedBox(height: 24),
-                FilledButton(
-                  onPressed: onRetry,
-                  child: const Text('Try again'),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

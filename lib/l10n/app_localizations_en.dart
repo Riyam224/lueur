@@ -1017,4 +1017,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSuccessMessage => 'Luna\'s glad you\'re here.';
+
+  @override
+  String get startupErrorMessage =>
+      'Hmm, something interrupted us while getting things ready.';
+
+  @override
+  String get startupErrorSubtext => 'Give it another try in a moment.';
+
+  @override
+  String get startupErrorRetry => 'Try again';
 }

@@ -1891,6 +1891,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Luna\'s glad you\'re here.'**
   String get authSuccessMessage;
+
+  /// No description provided for @startupErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hmm, something interrupted us while getting things ready.'**
+  String get startupErrorMessage;
+
+  /// No description provided for @startupErrorSubtext.
+  ///
+  /// In en, this message translates to:
+  /// **'Give it another try in a moment.'**
+  String get startupErrorSubtext;
+
+  /// No description provided for @startupErrorRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get startupErrorRetry;
 }
 
 class _AppLocalizationsDelegate
