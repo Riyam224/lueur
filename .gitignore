@@ -128,3 +128,4 @@ specs/
 *.hive
 *.sqlite
 *.db
+*.apks
