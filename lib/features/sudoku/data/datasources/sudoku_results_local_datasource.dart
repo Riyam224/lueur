@@ -47,4 +47,7 @@ class SudokuResultsLocalDatasource {
     final encoded = await compute(_encodeResults, updated);
     await _box.put(_key(userId), encoded);
   }
+
+  Future<void> clearAllForUser({required String userId}) =>
+      _box.delete(_key(userId));
 }

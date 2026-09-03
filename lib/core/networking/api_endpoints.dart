@@ -5,6 +5,7 @@ class ApiEndpoints {
   static const String authVerify = '$_v1/auth/verify/';
 
   static const String accountsMe = '$_v1/accounts/me/';
+  static const String deleteAccount = '$_v1/accounts/delete-account/';
 
 static const String generate = '$_v1/companion/generate/';
   static const String history = '$_v1/companion/history/';

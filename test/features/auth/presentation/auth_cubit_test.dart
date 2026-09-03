@@ -9,6 +9,7 @@ import 'package:lueur/core/preferences/auth_prefs.dart';
 import 'package:lueur/features/auth/domain/entities/user_entity.dart';
 import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
 import 'package:lueur/features/auth/domain/usecases/check_session_usecase.dart';
+import 'package:lueur/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/register_usecase.dart';
@@ -24,6 +25,7 @@ class FakeAuthRepository implements AuthRepository {
   Either<Failure, UserEntity> googleResult =
       const Right(UserEntity(id: 'uid-1', email: 'user@example.com'));
   Future<Either<Failure, void>> Function()? logoutHandler;
+  Either<Failure, void> deleteAccountResult = const Right(null);
 
   @override
   Future<Either<Failure, UserEntity>> login({
@@ -55,6 +57,9 @@ class FakeAuthRepository implements AuthRepository {
       const Right(null);
 
   @override
+  Future<Either<Failure, void>> deleteAccount() async => deleteAccountResult;
+
+  @override
   Future<Either<Failure, void>> sendPasswordResetEmail(
           {required String email,}) async =>
       const Right(null);
@@ -81,7 +86,9 @@ void main() {
       logoutUseCase: LogoutUseCase(repository),
       signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
       checkSessionUseCase: CheckSessionUseCase(repository),
+      deleteAccountUseCase: DeleteAccountUseCase(repository),
       onSessionCleared: () async {},
+      onAccountDeleted: (_) async {},
     );
   });
 
@@ -149,7 +156,9 @@ void main() {
         logoutUseCase: LogoutUseCase(repository),
         signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
         checkSessionUseCase: CheckSessionUseCase(repository),
+        deleteAccountUseCase: DeleteAccountUseCase(repository),
         onSessionCleared: () async => cleared = true,
+        onAccountDeleted: (_) async {},
       );
 
       final logout = cubit.logout();
@@ -177,13 +186,66 @@ void main() {
         logoutUseCase: LogoutUseCase(repository),
         signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
         checkSessionUseCase: CheckSessionUseCase(repository),
+        deleteAccountUseCase: DeleteAccountUseCase(repository),
         onSessionCleared: () async => events.add('cleared'),
+        onAccountDeleted: (_) async {},
       );
 
       await cubit.enterGuestMode();
 
       expect(events, ['signed-out', 'cleared']);
       expect(cubit.state, isA<AuthGuest>());
+    });
+  });
+
+  group('account deletion', () {
+    test(
+      'success wipes the deleted user\'s local data and lands unauthenticated',
+      () async {
+        final events = <String>[];
+        await cubit.login(email: 'user@example.com', password: 'password123');
+        expect(cubit.state, isA<AuthAuthenticated>());
+
+        await cubit.close();
+        cubit = AuthCubit(
+          loginUseCase: LoginUseCase(repository),
+          registerUseCase: RegisterUseCase(repository),
+          logoutUseCase: LogoutUseCase(repository),
+          signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
+          checkSessionUseCase: CheckSessionUseCase(repository),
+          deleteAccountUseCase: DeleteAccountUseCase(repository),
+          onSessionCleared: () async {},
+          onAccountDeleted: (userId) async => events.add('wiped:$userId'),
+        );
+        await cubit.login(email: 'user@example.com', password: 'password123');
+
+        await cubit.deleteAccount();
+
+        expect(events, ['wiped:uid-1']);
+        expect(cubit.state, isA<AuthUnauthenticated>());
+      },
+    );
+
+    test('failure emits AuthError and never wipes local data', () async {
+      var wiped = false;
+      await cubit.close();
+      cubit = AuthCubit(
+        loginUseCase: LoginUseCase(repository),
+        registerUseCase: RegisterUseCase(repository),
+        logoutUseCase: LogoutUseCase(repository),
+        signInWithGoogleUseCase: SignInWithGoogleUseCase(repository),
+        checkSessionUseCase: CheckSessionUseCase(repository),
+        deleteAccountUseCase: DeleteAccountUseCase(repository),
+        onSessionCleared: () async {},
+        onAccountDeleted: (_) async => wiped = true,
+      );
+      await cubit.login(email: 'user@example.com', password: 'password123');
+      repository.deleteAccountResult = const Left(ServerFailure('delete-account-failed'));
+
+      await cubit.deleteAccount();
+
+      expect(wiped, isFalse);
+      expect(cubit.state, isA<AuthError>());
     });
   });
 }

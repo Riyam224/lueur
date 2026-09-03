@@ -9,6 +9,7 @@ import 'package:lueur/features/auth/data/datasources/auth_firebase_datasource.da
 import 'package:lueur/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:lueur/features/auth/domain/repositories/auth_repository.dart';
 import 'package:lueur/features/auth/domain/usecases/check_session_usecase.dart';
+import 'package:lueur/features/auth/domain/usecases/delete_account_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/login_usecase.dart';
 import 'package:lueur/features/auth/domain/usecases/logout_usecase.dart';
@@ -140,6 +141,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton(() => CheckSessionUseCase(sl()));
   sl.registerLazySingleton(() => ForgotPasswordUseCase(sl()));
   sl.registerLazySingleton(() => SyncPreferredLanguageUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteAccountUseCase(sl()));
 
   // singleton — shared across all routes
   sl.registerLazySingleton(
@@ -149,8 +151,19 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
       logoutUseCase: sl(),
       signInWithGoogleUseCase: sl(),
       checkSessionUseCase: sl(),
+      deleteAccountUseCase: sl(),
       onSessionCleared: () async {
         await sl<MoodLocalDatasource>().clearGuestHistory();
+        sl<MoodCubit>().clearEntries();
+      },
+      // Wider, permanent wipe of the deleted user's own local data —
+      // deliberately not folded into onSessionCleared, whose narrower
+      // guest-only scope a plain logout still relies on.
+      onAccountDeleted: (userId) async {
+        await sl<MoodLocalDatasource>().deleteAllEntries(userId: userId);
+        await sl<SavedQuotesLocalDatasource>().clearAllForUser(userId: userId);
+        await sl<SudokuResultsLocalDatasource>().clearAllForUser(userId: userId);
+        await sl<SavedDrawingsLocalDatasource>().clearAllForUser(userId: userId);
         sl<MoodCubit>().clearEntries();
       },
     ),

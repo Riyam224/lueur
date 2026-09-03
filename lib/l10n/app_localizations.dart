@@ -1598,6 +1598,42 @@ abstract class AppLocalizations {
   /// **'Delete all journal entries'**
   String get profileDeleteAllEntriesLabel;
 
+  /// No description provided for @profileAccountSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCOUNT'**
+  String get profileAccountSectionLabel;
+
+  /// No description provided for @profileDeleteAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get profileDeleteAccountLabel;
+
+  /// No description provided for @accountDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account permanently?'**
+  String get accountDeleteTitle;
+
+  /// No description provided for @accountDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes your account and everything tied to it — journal entries, saved quotes, drawings, and sudoku history — from our servers and this device. This cannot be undone, and it\'s different from deleting your journal entries only.'**
+  String get accountDeleteMessage;
+
+  /// No description provided for @accountDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get accountDeleteConfirm;
+
+  /// No description provided for @accountDeleteFailedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete your account — try again.'**
+  String get accountDeleteFailedSnack;
+
   /// No description provided for @profileDrawingsTitle.
   ///
   /// In en, this message translates to:

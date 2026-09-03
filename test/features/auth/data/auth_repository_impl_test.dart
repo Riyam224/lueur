@@ -217,4 +217,50 @@ void main() {
       expect(code, 'reset-email-failed');
     });
   });
+
+  group('deleteAccount', () {
+    test(
+      'calls the backend before signing out locally, and returns Right on success',
+      () async {
+        final callOrder = <String>[];
+        when(() => dio.delete(ApiEndpoints.deleteAccount)).thenAnswer((_) async {
+          callOrder.add('backend-delete');
+          return Response(
+            requestOptions: RequestOptions(path: ApiEndpoints.deleteAccount),
+            statusCode: 204,
+          );
+        });
+        when(() => firebaseAuth.signOut()).thenAnswer((_) async {
+          callOrder.add('firebase-sign-out');
+        });
+
+        final result = await repository.deleteAccount();
+
+        expect(result, const Right<Object, void>(null));
+        expect(callOrder, ['backend-delete', 'firebase-sign-out']);
+      },
+    );
+
+    test(
+      'returns Left and never signs out locally when the backend call fails',
+      () async {
+        when(() => dio.delete(ApiEndpoints.deleteAccount)).thenThrow(
+          DioException(
+            requestOptions: RequestOptions(path: ApiEndpoints.deleteAccount),
+            response: Response(
+              requestOptions: RequestOptions(path: ApiEndpoints.deleteAccount),
+              statusCode: 502,
+            ),
+            type: DioExceptionType.badResponse,
+          ),
+        );
+
+        final result = await repository.deleteAccount();
+
+        final code = result.fold((f) => f.message, (_) => null);
+        expect(code, 'delete-account-failed');
+        verifyNever(() => firebaseAuth.signOut());
+      },
+    );
+  });
 }

@@ -817,6 +817,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileDeleteAllEntriesLabel => 'حذف كل مدخلات اليوميات';
 
   @override
+  String get profileAccountSectionLabel => 'الحساب';
+
+  @override
+  String get profileDeleteAccountLabel => 'حذف الحساب';
+
+  @override
+  String get accountDeleteTitle => 'هل تريد حذف حسابك نهائياً؟';
+
+  @override
+  String get accountDeleteMessage =>
+      'سيؤدي هذا إلى حذف حسابك وكل ما يرتبط به نهائياً — مدخلات اليوميات، والاقتباسات المحفوظة، والرسومات، وسجل السودوكو — من خوادمنا ومن هذا الجهاز. لا يمكن التراجع عن هذا الإجراء، وهو يختلف عن حذف مدخلات اليوميات فقط.';
+
+  @override
+  String get accountDeleteConfirm => 'حذف الحساب';
+
+  @override
+  String get accountDeleteFailedSnack => 'تعذّر حذف حسابك — حاول مرة أخرى.';
+
+  @override
   String get profileDrawingsTitle => 'رسوماتي';
 
   @override

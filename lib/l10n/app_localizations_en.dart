@@ -839,6 +839,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileDeleteAllEntriesLabel => 'Delete all journal entries';
 
   @override
+  String get profileAccountSectionLabel => 'ACCOUNT';
+
+  @override
+  String get profileDeleteAccountLabel => 'Delete account';
+
+  @override
+  String get accountDeleteTitle => 'Delete your account permanently?';
+
+  @override
+  String get accountDeleteMessage =>
+      'This permanently deletes your account and everything tied to it — journal entries, saved quotes, drawings, and sudoku history — from our servers and this device. This cannot be undone, and it\'s different from deleting your journal entries only.';
+
+  @override
+  String get accountDeleteConfirm => 'Delete account';
+
+  @override
+  String get accountDeleteFailedSnack =>
+      'Couldn\'t delete your account — try again.';
+
+  @override
   String get profileDrawingsTitle => 'My Drawings';
 
   @override

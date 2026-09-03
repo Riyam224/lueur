@@ -31,4 +31,11 @@ class AuthDjangoDatasource {
       data: {'preferred_language': languageCode},
     );
   }
+
+  /// Permanently, hard-deletes the signed-in user's account on the backend
+  /// (Firebase user included). Must be called while the Firebase session is
+  /// still active so the auth interceptor can attach a valid token.
+  Future<void> deleteAccount() async {
+    await _dio.delete(ApiEndpoints.deleteAccount);
+  }
 }

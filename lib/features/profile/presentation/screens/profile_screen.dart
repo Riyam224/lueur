@@ -10,6 +10,7 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur/features/profile/presentation/widgets/profile_account_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_avatar_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_journal_data_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_saved_drawings_section_widget.dart';
@@ -197,6 +198,18 @@ class ProfileScreen extends StatelessWidget {
           ),
           sliver: const SliverToBoxAdapter(
             child: ProfileJournalDataSectionWidget(),
+          ),
+        ),
+
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.horizontalPaddingLg,
+            0,
+            AppSpacing.horizontalPaddingLg,
+            AppSpacing.sectionSpacingLg,
+          ),
+          sliver: const SliverToBoxAdapter(
+            child: ProfileAccountSectionWidget(),
           ),
         ),
 

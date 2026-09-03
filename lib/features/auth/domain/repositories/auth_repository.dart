@@ -17,6 +17,10 @@ abstract class AuthRepository {
   Future<Either<Failure, void>> logout();
   Future<Either<Failure, UserEntity>> signInWithGoogle();
 
+  /// Permanently deletes the signed-in user's account (backend-first,
+  /// hard-delete, fail-closed). Local session state is untouched on failure.
+  Future<Either<Failure, void>> deleteAccount();
+
   /// Restores a locally persisted Firebase session, forcing an ID token
   /// refresh to catch expired/revoked sessions. Returns `Right(null)` when none exists or restore fails.
   Future<Either<Failure, UserEntity?>> checkSession();

@@ -59,6 +59,10 @@ class FakeAuthRepository implements AuthRepository {
       throw UnimplementedError();
 
   @override
+  Future<Either<Failure, void>> deleteAccount() async =>
+      throw UnimplementedError();
+
+  @override
   Future<Either<Failure, void>> sendPasswordResetEmail({
     required String email,
   }) async =>

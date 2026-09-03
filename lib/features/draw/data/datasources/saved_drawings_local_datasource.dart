@@ -47,4 +47,7 @@ class SavedDrawingsLocalDatasource {
     final encoded = await compute(_encodeDrawings, updated);
     await _box.put(_key(userId), encoded);
   }
+
+  Future<void> clearAllForUser({required String userId}) =>
+      _box.delete(_key(userId));
 }

@@ -84,6 +84,22 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, void>> deleteAccount() async {
+    try {
+      // Backend-first while the Firebase session is still active, so the
+      // auth interceptor attaches a valid token; the backend hard-deletes
+      // the Firebase user server-side, so no client-side User.delete() call.
+      await _djangoDataSource.deleteAccount();
+      // Local-only sign-out to clear the cached Firebase/Google session;
+      // never a delete() call against an already-deleted Firebase user.
+      await _firebaseDataSource.logout();
+      return const Right(null);
+    } catch (_) {
+      return const Left(ServerFailure('delete-account-failed'));
+    }
+  }
+
+  @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     try {
       final (:user, :idToken) = await _firebaseDataSource.signInWithGoogle();
