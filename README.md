@@ -289,11 +289,11 @@ Base URL: `https://web-production-f8628.up.railway.app`
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| POST | `/api/auth/verify/` | Verify a Firebase ID token with the backend |
-| GET | `/api/accounts/me/` | Fetch the current user's account/profile info |
-| POST | `/api/companion/generate/` | Generate an AI response for an emoji + thoughts entry |
-| GET | `/api/companion/history/` | Fetch the current user's mood history |
-| GET | `/api/companion/weekly-letter/` | Get the AI-generated weekly reflection |
+| POST | `/api/v1/auth/verify/` | Verify a Firebase ID token with the backend |
+| GET | `/api/v1/accounts/me/` | Fetch the current user's account/profile info |
+| POST | `/api/v1/companion/generate/` | Generate an AI response for an emoji + thoughts entry |
+| GET | `/api/v1/companion/history/` | Fetch the current user's mood history |
+| GET | `/api/v1/companion/weekly-letter/` | Get the AI-generated weekly reflection |
 
 Requests are authenticated with a Firebase ID token attached by `AuthTokenInterceptor` (`core/networking/`).
 
