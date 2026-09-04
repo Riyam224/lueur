@@ -167,6 +167,11 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/profile_with_theming_langs_light.png" width="180" alt="Theme & language settings, light theme"/></td>
     <td><img src="screenshots/profile_with_theming_langs_dark.png" width="180" alt="Theme & language settings, dark theme"/></td>
   </tr>
+  <tr>
+    <td>Delete account confirmation</td>
+    <td><img src="screenshots/delete_account_light.png" width="180" alt="Delete account confirmation dialog, light theme"/></td>
+    <td><img src="screenshots/delete_account_dark.png" width="180" alt="Delete account confirmation dialog, dark theme"/></td>
+  </tr>
 </table>
 
 More screenshots live in [`screenshots/`](screenshots/).
@@ -191,6 +196,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Sudoku | Playable sudoku puzzles with move validation and saved results history |
 | Mood Choice Dialog | Lightweight prompt offering an activity (breathe, draw, play) based on the selected mood |
 | Auth | Email/password and Google Sign-In via Firebase Auth, plus forgot-password flow |
+| Account Deletion | Permanently delete your account and all associated data from Profile settings |
 | Dark / Light Theme | User-selectable, persisted locally, applied instantly across the app |
 | Localization | English and Arabic, including RTL layout, via `AppLocalizations` (Flutter `intl`/l10n) |
 | Analytics & Crash Reporting | Firebase Analytics + Sentry (with a privacy filter that scrubs sensitive data before sending) |
@@ -291,6 +297,7 @@ Base URL: `https://web-production-f8628.up.railway.app`
 | --- | --- | --- |
 | POST | `/api/v1/auth/verify/` | Verify a Firebase ID token with the backend |
 | GET | `/api/v1/accounts/me/` | Fetch the current user's account/profile info |
+| DELETE | `/api/v1/accounts/delete-account/` | Permanently delete the current user's account and all associated data |
 | POST | `/api/v1/companion/generate/` | Generate an AI response for an emoji + thoughts entry |
 | GET | `/api/v1/companion/history/` | Fetch the current user's mood history |
 | GET | `/api/v1/companion/weekly-letter/` | Get the AI-generated weekly reflection |
