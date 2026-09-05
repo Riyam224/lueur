@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Lueur</title>
+<style>
+  :root {
+    --cream: #FFF8F5;
+    --lavender: #C8B4F8;
+    --mint: #5BBFA0;
+    --plum: #4A3A60;
+    --orange: #E8825A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--plum);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.7;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 100px; }
+  header { text-align: center; margin-bottom: 40px; }
+  .logo-dot {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--lavender), var(--mint));
+    margin: 0 auto 16px;
+  }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-size: 2rem; margin: 0 0 4px; }
+  .updated { color: #8a7a9a; font-size: 0.9rem; }
+  h2 {
+    font-family: Georgia, "Times New Roman", serif; font-size: 1.3rem;
+    margin-top: 40px; padding-bottom: 8px; border-bottom: 2px solid var(--lavender);
+  }
+  h3 { font-size: 1.05rem; margin-top: 24px; margin-bottom: 8px; color: var(--plum); }
+  p, li { font-size: 1rem; }
+  ul { padding-left: 20px; }
+  a { color: var(--orange); }
+  .intro-card {
+    background: white; border-radius: 16px; padding: 24px; margin-bottom: 8px;
+    box-shadow: 0 2px 12px rgba(74,58,96,0.06);
+  }
+  .highlight-card {
+    background: #F5F0FF; border: 1px solid var(--lavender); border-radius: 16px;
+    padding: 20px 24px; margin: 16px 0;
+  }
+  .notice-card {
+    background: #FFF0EC; border: 1px solid var(--orange); border-radius: 16px;
+    padding: 20px 24px; margin: 32px 0;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #eee2f0; vertical-align: top; }
+  th { color: var(--plum); font-weight: 600; }
+  .step-list li { margin-bottom: 8px; }
+  code {
+    background: #F5F0FF; padding: 2px 6px; border-radius: 4px; font-size: 0.9em;
+  }
+  footer { text-align: center; margin-top: 56px; color: #8a7a9a; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo-dot"></div>
+    <h1>Privacy Policy</h1>
+    <div class="updated">Lueur — Last updated September 5, 2026</div>
+    <div class="updated">Developed by Riyam</div>
+  </header>
+
+  <div class="intro-card">
+    <p>Lueur is a wellness and journaling companion app built around Luna, an AI companion who responds to your mood check-ins and journal entries. This page explains exactly what information Lueur collects, why, and how you're in control of it.</p>
+    <p><strong>Lueur is not a medical device, does not provide therapy or clinical treatment, and is not a substitute for professional mental health care.</strong> Luna is a supportive companion for reflection, not a licensed professional.</p>
+  </div>
+
+  <h2>Information We Collect</h2>
+  <table>
+    <tr><th>What</th><th>Why</th></tr>
+    <tr><td>Your name and email address, or basic profile info if you sign in with Google</td><td>To create and secure your account, via Firebase Authentication</td></tr>
+    <tr><td>Mood check-ins, journal entries, and messages you send to Luna</td><td>To power your personal journal, timeline, and Luna's responses to you</td></tr>
+    <tr><td>Your selected language preference</td><td>To show the app and Luna's responses in your preferred language</td></tr>
+    <tr><td>A short rolling summary of past conversations</td><td>So Luna can refer back to something you mentioned earlier without you repeating it — see "Conversation Memory" below</td></tr>
+    <tr><td>App usage data tied to an app-instance identifier</td><td>Via Firebase Analytics, to understand how the app is used and improve it — we do not send journal content to Firebase Analytics</td></tr>
+    <tr><td>Crash and error reports</td><td>Via Sentry, to find and fix bugs — journal content and other sensitive fields are filtered out before any report is ever sent</td></tr>
+  </table>
+  <p>We do not collect your location, contacts, camera access, or phone number. We do not use any social sign-in provider other than Google. Our application code does not log or store your IP address — though our hosting provider's infrastructure may retain standard connection-level logs for operational purposes, outside of anything our app itself accesses or controls.</p>
+
+  <h3>Content That Stays on Your Device</h3>
+  <p>Saved quotes (Luna's responses you choose to bookmark), drawings you create, and your Sudoku history are all stored locally on your device only — none of this content is ever uploaded to our servers. For drawings and Sudoku, we do log that you completed the activity (for your streak and journal timeline), along with basic outcome details for Sudoku (solved or not, time taken, difficulty) — but never the drawing image itself or the puzzle board.</p>
+
+  <h3>Guest Mode</h3>
+  <p>You can use Lueur's breathing exercises, drawing canvas, and Sudoku puzzles without creating an account. Content you create in guest mode — such as a drawing — is never sent to Groq and is never stored on our servers; it stays on your device only, and is automatically cleared when the app restarts. Talking with Luna and receiving AI-generated responses requires creating an account.</p>
+
+  <h2>How Your Data Is Used</h2>
+  <ul>
+    <li>Your mood entries and journal text are sent securely to our backend server so Luna can generate a thoughtful, personalized response, and so your entries sync across sessions.</li>
+    <li>When Luna generates a response, we send your message and the relevant recent conversation context needed to generate that response to Groq, a third-party AI service — this happens entirely server-to-server; Groq never receives your name, email, or any other identifying account information. Note that the text itself may still contain identifying details if you choose to share them (e.g. mentioning your name).</li>
+    <li>Some data (like recent entries) is also cached locally on your device so the app works smoothly even with a spotty connection.</li>
+    <li>We do not sell your data, do not use your journal content for advertising, and do not show ads in Lueur.</li>
+    <li>We do not use your data for remarketing or third-party ad tracking of any kind.</li>
+  </ul>
+
+  <h3>Conversation Memory</h3>
+  <p>When a chat conversation with Luna comes to a natural close, we generate a short summary of that conversation (also via Groq, subject to the same terms described above) and store it associated with your account. This summary gives Luna continuity — so she can reference something from an earlier conversation without you needing to repeat it. Only the summary is kept; the underlying conversation transcript used to generate it is not separately retained beyond that one-time processing step. This summary is deleted, along with the rest of your data, if you delete your account.</p>
+
+  <h2>Who We Share Data With</h2>
+  <p>We use a small number of trusted service providers to run Lueur. None are permitted to use your data for their own advertising purposes:</p>
+  <table>
+    <tr><th>Service</th><th>Purpose</th></tr>
+    <tr><td>Firebase Authentication (Google)</td><td>Account sign-up and login (email/password and Google Sign-In)</td></tr>
+    <tr><td>Firebase Analytics (Google)</td><td>App usage analytics tied to an app-instance identifier — not your personal identity, and never includes journal content</td></tr>
+    <tr><td>Railway</td><td>Hosting our backend server and database</td></tr>
+    <tr><td>Sentry</td><td>Crash and error monitoring, with sensitive fields (including journal content) filtered out before any report is sent</td></tr>
+    <tr><td>Groq</td><td>Generating Luna's AI responses and conversation summaries — server-to-server only, never linked to your name or email</td></tr>
+  </table>
+  <p>Per Groq's terms, ordinary inference inputs/outputs are not retained by default, but may be temporarily retained — generally up to 30 days — for reliability troubleshooting or abuse investigation, and are not used to train Groq's models.</p>
+  <p>We do not permit these providers to use your content for their own advertising purposes.</p>
+
+  <h2>Delete Your Account &amp; Data</h2>
+  <div class="highlight-card">
+    <p><strong>You can permanently delete your account and all associated data at any time, directly in the app:</strong></p>
+    <ol class="step-list">
+      <li>Open Lueur and go to <strong>Profile</strong></li>
+      <li>Tap <strong>Delete Account</strong></li>
+      <li>Confirm — this is immediate and permanent</li>
+    </ol>
+    <p>Deleting your account permanently removes your account record, your authentication identity, your journal entries, and your conversation memory summary from our production systems — this cannot be undone through the app. Residual copies may briefly persist in secure backups or service-provider logs, and are removed according to their own retention schedules.</p>
+    <p><strong>No longer have the app installed?</strong> Email us at <a href="mailto:riyam.thekluge@gmail.com">riyam.thekluge@gmail.com</a> from the address associated with your account, and we'll process the deletion within 30 days.</p>
+  </div>
+
+  <h3>Deleting Journal Entries Only</h3>
+  <p>If you'd like to clear your journal history without deleting your account entirely, you can delete individual entries, or delete all of your journal entries at once, from within the app. This removes your journal content and Luna's responses but keeps your account, profile, and login active. <strong>This does not delete your saved quotes, drawings, or Sudoku history</strong> — those are separate, on-device content and aren't affected by clearing your journal.</p>
+
+  <h2>Your Rights</h2>
+  <p>Wherever you're located — including the EU, UK, or elsewhere with statutory data protection rights — you have the right to access, correct, delete, and receive a portable copy of your personal data:</p>
+  <ul>
+    <li><strong>Access &amp; correction</strong> — contact us below if you'd like your information corrected or a copy of what we hold; there is currently no self-service profile-editing screen in the app.</li>
+    <li><strong>Deletion</strong> — see "Delete Your Account & Data" above.</li>
+    <li><strong>Portability</strong> — email us for a copy of your data before deleting your account.</li>
+  </ul>
+
+  <h2>Data Retention</h2>
+  <p>We retain your account and journal data for as long as your account remains active. If you delete your account, this data is permanently removed as described above. Crash reports are retained only as long as needed to diagnose and fix issues.</p>
+
+  <h2>Data Security</h2>
+  <p>We use encrypted (HTTPS/TLS) connections between the app and our servers, secure token-based authentication via Firebase, and access controls limiting who can reach production data. No system is perfectly secure, but we take reasonable, concrete steps to protect your information.</p>
+
+  <h2>Children's Privacy</h2>
+  <p>Lueur is not directed at children, and we do not knowingly collect personal information from children under 13. This addresses the US COPPA standard; some other regions define a different minimum age for consent, and we don't intend this single threshold to imply compliance with every jurisdiction's specific rules. If you believe a child has provided us with personal information, contact us and we'll remove it.</p>
+
+  <h2>Changes to This Policy</h2>
+  <p>If we make meaningful changes to how we handle your data, we'll update this page and change the "last updated" date above.</p>
+
+  <h2>Contact Us</h2>
+  <p>Questions about this policy, your data, or a deletion request? Reach out at <a href="mailto:riyam.thekluge@gmail.com">riyam.thekluge@gmail.com</a>.</p>
+
+  <div class="notice-card">
+    <p><strong>A note on sensitive content:</strong> Lueur is a supportive wellness tool, not a substitute for professional care. Your journal entries may contain sensitive personal reflections — please be mindful of what you share, and reach out to a qualified professional if you're going through a crisis. Lueur is not equipped to respond to emergencies. If you're in crisis, contact your local emergency services or a crisis hotline immediately — <a href="https://findahelpline.com" target="_blank">findahelpline.com</a> can help you find one near you.</p>
+  </div>
+
+  <footer>Lueur — a little light for you 🌿</footer>
+
+</div>
+</body>
+</html>
