@@ -302,6 +302,9 @@ Base URL: `https://web-production-f8628.up.railway.app`
 | POST | `/api/v1/companion/generate/` | Generate an AI response for an emoji + thoughts entry |
 | GET | `/api/v1/companion/history/` | Fetch the current user's mood history |
 | GET | `/api/v1/companion/weekly-letter/` | Get the AI-generated weekly reflection |
+| POST | `/api/v1/companion/activity/` | Log a completed non-chat activity (breathing/sudoku/drawing) |
+| DELETE | `/api/v1/companion/entries/delete-all/` | Delete every journal entry for the authenticated user |
+| DELETE | `/api/v1/companion/entries/{id}/delete/` | Delete a single journal entry by id |
 
 Requests are authenticated with a Firebase ID token attached by `AuthTokenInterceptor` (`core/networking/`).
 
