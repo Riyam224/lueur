@@ -58,47 +58,54 @@ class _ProfileGuestAuthButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: OutlinedButton(
-            onPressed: () => context.go(AppRoutes.loginScreen),
-            style: OutlinedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 14.h),
-              side: const BorderSide(color: AppColors.primary),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () => context.go(AppRoutes.loginScreen),
+                style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                  side: const BorderSide(color: AppColors.primary),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(AppSizes.borderRadiusMd),
+                  ),
+                ),
+                child: Text(
+                  AppLocalizations.of(context)!.profileGuestLogInLabel,
+                  style: ThemeTextStyles.bodyMedium(context).copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
-            child: Text(
-              AppLocalizations.of(context)!.profileGuestLogInLabel,
-              style: ThemeTextStyles.bodyMedium(context).copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w600,
+            SizedBox(width: AppSpacing.spaceMd),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () => context.go(AppRoutes.registerScreen),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(AppSizes.borderRadiusMd),
+                  ),
+                ),
+                child: Text(
+                  AppLocalizations.of(context)!.profileGuestRegisterLabel,
+                  style: ThemeTextStyles.bodyMedium(context).copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
-        SizedBox(width: AppSpacing.spaceMd),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: () => context.go(AppRoutes.registerScreen),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              padding: EdgeInsets.symmetric(vertical: 14.h),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-              ),
-            ),
-            child: Text(
-              AppLocalizations.of(context)!.profileGuestRegisterLabel,
-              style: ThemeTextStyles.bodyMedium(context).copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
+        SizedBox(height: AppSpacing.verticalPaddingSm),
       ],
     );
   }

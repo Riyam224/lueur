@@ -10,6 +10,8 @@ import 'package:lueur/l10n/app_localizations.dart';
 /// Permanent account deletion, kept as its own section — distinct from
 /// [ProfileJournalDataSectionWidget]'s "delete all journal entries", which
 /// only clears mood data and leaves the account itself intact.
+///
+/// Hidden entirely for guest sessions, since there is no account to delete.
 class ProfileAccountSectionWidget extends StatelessWidget {
   const ProfileAccountSectionWidget({super.key});
 
@@ -59,31 +61,39 @@ class ProfileAccountSectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.profileAccountSectionLabel,
-          style: ThemeTextStyles.labelSmall(context).copyWith(
-            color: AppColors.primary,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.2,
-          ),
-        ),
-        SizedBox(height: AppSpacing.verticalPaddingSm),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(
-            Icons.delete_forever_rounded,
-            color: AppColors.errorColor,
-          ),
-          title: Text(
-            l10n.profileDeleteAccountLabel,
-            style: const TextStyle(color: AppColors.errorColor),
-          ),
-          onTap: () => _confirmDeleteAccount(context),
-        ),
-      ],
+    return BlocBuilder<AuthCubit, AuthState>(
+      buildWhen: (previous, current) =>
+          previous is AuthGuest != current is AuthGuest,
+      builder: (context, state) {
+        if (state is AuthGuest) return const SizedBox.shrink();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.profileAccountSectionLabel,
+              style: ThemeTextStyles.labelSmall(context).copyWith(
+                color: AppColors.primary,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
+            ),
+            SizedBox(height: AppSpacing.verticalPaddingSm),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(
+                Icons.delete_forever_rounded,
+                color: AppColors.errorColor,
+              ),
+              title: Text(
+                l10n.profileDeleteAccountLabel,
+                style: const TextStyle(color: AppColors.errorColor),
+              ),
+              onTap: () => _confirmDeleteAccount(context),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -153,24 +153,14 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/free_drawing_screen_dark.png" width="180" alt="Free drawing canvas, dark theme"/></td>
   </tr>
   <tr>
-    <td>Saved drawings</td>
-    <td><img src="screenshots/profile_with_saved_drawing_light.png" width="180" alt="Saved drawings gallery, light theme"/></td>
-    <td><img src="screenshots/profile_with_saved_drawing_dark.png" width="180" alt="Saved drawings gallery, dark theme"/></td>
-  </tr>
-  <tr>
     <td>Sudoku</td>
     <td><img src="screenshots/sudoku_screen_light.png" width="180" alt="Sudoku puzzle, light theme"/></td>
     <td><img src="screenshots/sudoku_screen_dark.png" width="180" alt="Sudoku puzzle, dark theme"/></td>
   </tr>
   <tr>
     <td>Profile & settings</td>
-    <td><img src="screenshots/profile_with_theming_langs_light.png" width="180" alt="Theme & language settings, light theme"/></td>
-    <td><img src="screenshots/profile_with_theming_langs_dark.png" width="180" alt="Theme & language settings, dark theme"/></td>
-  </tr>
-  <tr>
-    <td>Delete account confirmation</td>
-    <td><img src="screenshots/delete_account_light.png" width="180" alt="Delete account confirmation dialog, light theme"/></td>
-    <td><img src="screenshots/delete_account_dark.png" width="180" alt="Delete account confirmation dialog, dark theme"/></td>
+    <td><img src="screenshots/profile_light.png" width="180" alt="Profile & settings, light theme"/></td>
+    <td><img src="screenshots/profile_dark.png" width="180" alt="Profile & settings, dark theme"/></td>
   </tr>
 </table>
 
