@@ -314,6 +314,18 @@ abstract class AppLocalizations {
   /// **'Log out'**
   String get authLogOut;
 
+  /// No description provided for @profileGuestLogInLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get profileGuestLogInLabel;
+
+  /// No description provided for @profileGuestRegisterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get profileGuestRegisterLabel;
+
   /// No description provided for @authEmailLabel.
   ///
   /// In en, this message translates to:

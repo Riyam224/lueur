@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/routing/app_routes.dart';
-import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_account_section_widget.dart';
+import 'package:lueur/features/profile/presentation/widgets/profile_auth_action_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_avatar_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_journal_data_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_saved_drawings_section_widget.dart';
@@ -220,28 +220,8 @@ class ProfileScreen extends StatelessWidget {
             AppSpacing.horizontalPaddingLg,
             100.h,
           ),
-          sliver: SliverToBoxAdapter(
-            child: TextButton.icon(
-              onPressed: () => context.read<AuthCubit>().logout(),
-              icon:
-                  const Icon(Icons.logout_rounded, color: AppColors.errorColor),
-              label: Text(
-                AppLocalizations.of(context)!.authLogOut,
-                style: ThemeTextStyles.bodyMedium(context).copyWith(
-                  color: AppColors.errorColor,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 14.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-                  side: BorderSide(
-                    color: AppColors.errorColor.withValues(alpha: 0.3),
-                  ),
-                ),
-              ),
-            ),
+          sliver: const SliverToBoxAdapter(
+            child: ProfileAuthActionWidget(),
           ),
         ),
       ],

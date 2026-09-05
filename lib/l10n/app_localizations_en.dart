@@ -137,6 +137,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authLogOut => 'Log out';
 
   @override
+  String get profileGuestLogInLabel => 'Log in';
+
+  @override
+  String get profileGuestRegisterLabel => 'Register';
+
+  @override
   String get authEmailLabel => 'Email';
 
   @override

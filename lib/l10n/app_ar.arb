@@ -36,6 +36,8 @@
   "guestWarningMessage": "عند المتابعة كضيف، لن تتذكر لونا مدخلاتك بعد إغلاق التطبيق. هل تريد الحفاظ على أيامك المتتالية؟ يمكنك التسجيل في أي وقت.",
   "guestWarningRegisterInstead": "التسجيل بدلاً من ذلك",
   "authLogOut": "تسجيل الخروج",
+  "profileGuestLogInLabel": "تسجيل الدخول",
+  "profileGuestRegisterLabel": "التسجيل",
   "authEmailLabel": "البريد الإلكتروني",
   "authEmailHint": "your@email.com",
   "authPasswordLabel": "كلمة المرور",

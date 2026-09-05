@@ -201,7 +201,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Localization | English and Arabic, including RTL layout, via `AppLocalizations` (Flutter `intl`/l10n) |
 | Analytics & Crash Reporting | Firebase Analytics + Sentry (with a privacy filter that scrubs sensitive data before sending) |
 | Onboarding | First-launch walkthrough introducing Luna and the app's core loop |
-| Guest Mode | Use breathing, drawing, and Sudoku without an account — Luna's AI responses require signing in, and guest-created content doesn't persist between sessions |
+| Guest Mode | Use breathing, drawing, and Sudoku without an account — Luna's AI responses require signing in, and guest-created content doesn't persist between sessions. Profile shows Log in / Register instead of Log out while in a guest session |
 
 ---
 
@@ -274,7 +274,7 @@ lib/
 │   ├── mood_choice/         — post-mood-selection activity dialog (presentation-only)
 │   ├── onboarding/          — first-launch walkthrough (presentation-only)
 │   ├── plant/                — streak calculation, plant growth visualization, celebration screen
-│   ├── profile/              — user stats, settings entry point, logout
+│   ├── profile/              — user stats, settings entry point, logout (or Log in / Register for a guest session)
 │   ├── quotes/                — save, browse, and delete Luna's saved responses
 │   ├── response/               — AI-generated response screen + save-quote action
 │   ├── splash/                  — entry point, decides auth/onboarding redirect

@@ -136,6 +136,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authLogOut => 'تسجيل الخروج';
 
   @override
+  String get profileGuestLogInLabel => 'تسجيل الدخول';
+
+  @override
+  String get profileGuestRegisterLabel => 'التسجيل';
+
+  @override
   String get authEmailLabel => 'البريد الإلكتروني';
 
   @override
