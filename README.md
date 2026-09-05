@@ -211,7 +211,6 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Code Generation | json_serializable, hive_generator, build_runner |
 | Responsive UI | flutter_screenutil |
 | Localization | flutter_localizations + `intl` (ARB-based, `lib/l10n/`) |
-| Charts | fl_chart |
 | Analytics / Crash Reporting | firebase_analytics, sentry_flutter, sentry_dio |
 | Misc | confetti (streak celebration), lottie (animations), screenshot + share_plus (sharing saved content) |
 
