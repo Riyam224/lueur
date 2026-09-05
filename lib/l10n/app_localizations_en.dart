@@ -595,6 +595,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Something went wrong on our end — let\'s try that again.';
 
   @override
+  String get responseGuestBlockedTitle => 'Let\'s make this official';
+
+  @override
+  String get responseGuestBlockedMessage =>
+      'I\'d love to talk this through with you, but that needs an account first — it only takes a moment, and I\'ll be right here.';
+
+  @override
+  String get responseGuestBlockedButton => 'Sign in to talk with Luna';
+
+  @override
   String get responseShareButton => 'Share';
 
   @override

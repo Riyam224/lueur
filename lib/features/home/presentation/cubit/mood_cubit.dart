@@ -47,7 +47,11 @@ class MoodCubit extends Cubit<MoodState> {
       (failure) {
         _logger.e('MoodCubit error: ${failure.message}');
         emit(
-          MoodError(failure.message, offline: failure is NetworkOfflineFailure),
+          MoodError(
+            failure.message,
+            offline: failure is NetworkOfflineFailure,
+            guestBlocked: failure is GuestSignInRequiredFailure,
+          ),
         );
       },
       (entry) {

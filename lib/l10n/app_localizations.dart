@@ -1142,6 +1142,24 @@ abstract class AppLocalizations {
   /// **'Something went wrong on our end — let\'s try that again.'**
   String get responseGenericErrorMessage;
 
+  /// No description provided for @responseGuestBlockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s make this official'**
+  String get responseGuestBlockedTitle;
+
+  /// No description provided for @responseGuestBlockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'d love to talk this through with you, but that needs an account first — it only takes a moment, and I\'ll be right here.'**
+  String get responseGuestBlockedMessage;
+
+  /// No description provided for @responseGuestBlockedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to talk with Luna'**
+  String get responseGuestBlockedButton;
+
   /// No description provided for @responseShareButton.
   ///
   /// In en, this message translates to:

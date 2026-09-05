@@ -1,7 +1,15 @@
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-/// Sensitive-data substrings that must never leave the device via Sentry —
-/// mirrors the Django backend's `_sentry_before_send` redaction rules.
+/// Sensitive-data substrings that must never leave the device via Sentry.
+///
+/// Request/response body scrubbing here is currently unreachable in
+/// practice: `sentry_dio` only attaches request/response `data` when
+/// `SentryFlutterOptions.sendDefaultPii` is true, and it's set to false in
+/// main.dart. This list is kept as a defense-in-depth safeguard for if
+/// `sendDefaultPii` is ever re-enabled, and it still actively scrubs
+/// breadcrumbs and `extra` regardless of that flag. It does not mirror the
+/// Django backend's `_sentry_before_send` list — the two serve different
+/// payloads with different field names and are maintained independently.
 const List<String> _sensitiveKeySubstrings = [
   'journal',
   'mood',
@@ -66,7 +74,8 @@ SentryRequest _scrubRequest(SentryRequest request) {
 }
 
 /// [SentryFlutterOptions.beforeSend] hook — scrubs breadcrumbs, extra, and
-/// request/response data for journal/mood/message/luna/chat/entry keys before the event leaves the device.
+/// (if ever populated) request/response data for journal/mood/message/luna/chat/entry
+/// keys before the event leaves the device.
 SentryEvent scrubSensitiveSentryData(SentryEvent event, Hint hint) {
   return event.copyWith(
     extra: _scrubMap(event.extra),

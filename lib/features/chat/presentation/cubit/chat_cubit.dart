@@ -41,6 +41,7 @@ class ChatCubit extends Cubit<ChatState> {
       status: ChatStatus.loading,
       messages: updatedMessages,
       offline: false,
+      guestBlocked: false,
     ),);
 
     // History excludes the last user message (the API adds it via `thoughts`)
@@ -61,6 +62,16 @@ class ChatCubit extends Cubit<ChatState> {
     result.fold(
       (failure) {
         _logger.e('ChatCubit.sendMessage failed', error: failure.message);
+        if (failure is GuestSignInRequiredFailure) {
+          // No fake Luna reply for a blocked guest — the screen replaces
+          // the whole chat UI with a sign-in prompt instead.
+          emit(state.copyWith(
+            status: ChatStatus.success,
+            messages: updatedMessages,
+            guestBlocked: true,
+          ),);
+          return;
+        }
         if (failure is NetworkOfflineFailure) {
           // No fake Luna reply when there's no connection at all — just
           // surface the offline snackbar and leave the message sendable again.
@@ -68,6 +79,7 @@ class ChatCubit extends Cubit<ChatState> {
             status: ChatStatus.success,
             messages: updatedMessages,
             offline: true,
+            guestBlocked: false,
           ),);
           return;
         }
@@ -81,6 +93,7 @@ class ChatCubit extends Cubit<ChatState> {
           status: ChatStatus.success,
           messages: [...updatedMessages, fallbackMessage],
           offline: false,
+          guestBlocked: false,
         ),);
       },
       (reply) {
@@ -97,6 +110,7 @@ class ChatCubit extends Cubit<ChatState> {
           messages: [...updatedMessages, lunaMessage],
           sessionEnded: sessionEnded,
           offline: false,
+          guestBlocked: false,
         ),);
       },
     );

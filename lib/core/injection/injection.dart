@@ -219,7 +219,7 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
     () => ChatRemoteDataSourceImpl(dio: sl<DioHelper>().dio),
   );
   sl.registerLazySingleton<ChatRepository>(
-    () => ChatRepositoryImpl(remoteDataSource: sl()),
+    () => ChatRepositoryImpl(remoteDataSource: sl(), firebaseAuth: sl()),
   );
   sl.registerLazySingleton<SendChatMessageUseCase>(
     () => SendChatMessageUseCase(sl<ChatRepository>()),

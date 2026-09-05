@@ -13,12 +13,17 @@ class ChatState {
   /// explicitly reset on every subsequent emit, never carried forward.
   final bool offline;
 
+  /// True when a guest tried to talk with Luna — the screen shows a warm
+  /// sign-in prompt in place of the chat UI instead of a fake Luna reply.
+  final bool guestBlocked;
+
   const ChatState({
     this.status = ChatStatus.initial,
     this.messages = const [],
     this.error,
     this.sessionEnded = false,
     this.offline = false,
+    this.guestBlocked = false,
   });
 
   ChatState copyWith({
@@ -27,6 +32,7 @@ class ChatState {
     String? error,
     bool? sessionEnded,
     bool? offline,
+    bool? guestBlocked,
   }) =>
       ChatState(
         status: status ?? this.status,
@@ -34,5 +40,6 @@ class ChatState {
         error: error ?? this.error,
         sessionEnded: sessionEnded ?? this.sessionEnded,
         offline: offline ?? this.offline,
+        guestBlocked: guestBlocked ?? this.guestBlocked,
       );
 }

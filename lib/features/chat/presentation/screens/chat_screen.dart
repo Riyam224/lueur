@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/widgets/offline_snackbar.dart';
+import 'package:lueur/core/widgets/response_guest_blocked_state.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:lueur/features/chat/presentation/cubit/chat_state.dart';
@@ -113,6 +116,12 @@ class _ChatScreenState extends State<ChatScreen> {
           if (state.offline) showOfflineSnackBar(context);
         },
         builder: (context, state) {
+          if (state.guestBlocked) {
+            return ResponseGuestBlockedState(
+              onSignIn: () => context.go(AppRoutes.loginScreen),
+            );
+          }
+
           return Column(
             children: [
               Expanded(

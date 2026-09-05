@@ -25,14 +25,19 @@ class MoodRepositoryImpl implements MoodRepository {
     required String emoji,
     required String thoughts,
   }) async {
+    if (_isGuest) {
+      _logger.i('Blocked guest attempt to talk with Luna — no network call made');
+      return const Left(GuestSignInRequiredFailure());
+    }
+
     try {
       _logger.i('Generating response for emoji: $emoji');
 
       final body = <String, dynamic>{
         'emoji': emoji,
         'thoughts': thoughts,
+        'user_id': _currentUserId,
       };
-      if (!_isGuest) body['user_id'] = _currentUserId;
 
       final MoodEntryModel model = await _remote.generateResponse(body);
 
@@ -187,6 +192,25 @@ class MoodRepositoryImpl implements MoodRepository {
     required String entryType,
     required Map<String, dynamic> payload,
   }) async {
+    if (_isGuest) {
+      // Activity logging is a silent background action, not a user-facing
+      // feature — a guest sees no difference; we just skip a network call
+      // that was always going to fail anyway (no account to log against).
+      _logger.i('Skipped logging guest activity ($entryType) — no account to log against');
+      return Right(
+        MoodEntryModel(
+          id: 0,
+          userId: _currentUserId,
+          emoji: '',
+          thoughts: '',
+          aiResponse: '',
+          createdAt: DateTime.now(),
+          entryType: entryType,
+          payload: payload,
+        ).toEntity(),
+      );
+    }
+
     try {
       final model = await _remote.postActivity(
         entryType: entryType,
