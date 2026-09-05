@@ -201,6 +201,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Localization | English and Arabic, including RTL layout, via `AppLocalizations` (Flutter `intl`/l10n) |
 | Analytics & Crash Reporting | Firebase Analytics + Sentry (with a privacy filter that scrubs sensitive data before sending) |
 | Onboarding | First-launch walkthrough introducing Luna and the app's core loop |
+| Guest Mode | Use breathing, drawing, and Sudoku without an account — Luna's AI responses require signing in, and guest-created content doesn't persist between sessions |
 
 ---
 
@@ -400,6 +401,7 @@ Fonts: **Nunito** (primary body/UI) and **DMSerifDisplay** (display/italic headi
 6. **Sealed classes over Freezed** for state unions — native Dart 3 `sealed class` + exhaustive `switch`
 7. **Theme & language persisted locally** — no flash on cold start, consistent across logout
 8. **Sentry privacy filter** — `beforeSend` hook scrubs sensitive data before any crash report leaves the device
+9. **Guest mode never calls the AI backend** — deliberate, to avoid unauthenticated usage of a paid, Groq-backed third-party service; guest-created content is cleared on app restart by design, not a bug
 
 ---
 
