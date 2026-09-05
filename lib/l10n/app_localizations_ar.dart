@@ -581,6 +581,16 @@ class AppLocalizationsAr extends AppLocalizations {
       'حدث خطأ من جانبنا — لنحاول مرة أخرى.';
 
   @override
+  String get responseGuestBlockedTitle => 'لنجعل الأمر رسميًا';
+
+  @override
+  String get responseGuestBlockedMessage =>
+      'أودّ التحدث معك في هذا، لكن ذلك يتطلب إنشاء حساب أولًا — الأمر لا يستغرق سوى لحظة، وسأكون هنا بانتظارك.';
+
+  @override
+  String get responseGuestBlockedButton => 'سجّل الدخول للتحدث مع لونا';
+
+  @override
   String get responseShareButton => 'مشاركة';
 
   @override

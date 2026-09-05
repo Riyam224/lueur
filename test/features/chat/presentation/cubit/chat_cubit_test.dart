@@ -25,6 +25,36 @@ class _DelayedChatRepository implements ChatRepository {
   }
 }
 
+class _GuestBlockedChatRepository implements ChatRepository {
+  @override
+  Future<Either<Failure, String>> sendMessage({
+    required String userId,
+    required String emoji,
+    required String thoughts,
+    required List<ChatMessage> history,
+  }) async =>
+      const Left(GuestSignInRequiredFailure());
+}
+
+/// Returns the guest-blocked failure on the first call, then succeeds —
+/// simulates a guest signing in mid-session and retrying with the same
+/// ChatCubit instance.
+class _SignsInAfterFirstCallChatRepository implements ChatRepository {
+  var _calls = 0;
+
+  @override
+  Future<Either<Failure, String>> sendMessage({
+    required String userId,
+    required String emoji,
+    required String thoughts,
+    required List<ChatMessage> history,
+  }) async {
+    _calls++;
+    if (_calls == 1) return const Left(GuestSignInRequiredFailure());
+    return const Right('Welcome back.');
+  }
+}
+
 void main() {
   test(
     'a second sendMessage call while one is still in flight is a no-op',
@@ -74,6 +104,38 @@ void main() {
       cubit.state.messages.map((m) => m.content),
       ['hello', 'hi there'],
     );
+    await cubit.close();
+  });
+
+  test(
+      'sendMessage as a guest never fakes a Luna reply and emits guestBlocked',
+      () async {
+    final repository = _GuestBlockedChatRepository();
+    final cubit = ChatCubit(
+      sendChatMessageUseCase: SendChatMessageUseCase(repository),
+      userId: '',
+    );
+
+    await cubit.sendMessage(emoji: '🌱', thoughts: 'Trying Luna');
+
+    expect(cubit.state.guestBlocked, isTrue);
+    expect(cubit.state.messages.map((m) => m.content), ['Trying Luna']);
+    await cubit.close();
+  });
+
+  test('guestBlocked clears once a later sendMessage succeeds', () async {
+    final repository = _SignsInAfterFirstCallChatRepository();
+    final cubit = ChatCubit(
+      sendChatMessageUseCase: SendChatMessageUseCase(repository),
+      userId: '',
+    );
+
+    await cubit.sendMessage(emoji: '🌱', thoughts: 'Trying Luna');
+    expect(cubit.state.guestBlocked, isTrue);
+
+    await cubit.sendMessage(emoji: '🌱', thoughts: 'Hi again');
+
+    expect(cubit.state.guestBlocked, isFalse);
     await cubit.close();
   });
 }

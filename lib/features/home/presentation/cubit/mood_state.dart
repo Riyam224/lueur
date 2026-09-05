@@ -33,8 +33,12 @@ class MoodError extends MoodState {
   /// shows a friendly snackbar for this instead of the inline error text.
   final bool offline;
 
-  const MoodError(this.message, {this.offline = false});
+  /// True when a guest tried to talk with Luna — the UI shows a warm
+  /// sign-in prompt instead of the generic error copy.
+  final bool guestBlocked;
+
+  const MoodError(this.message, {this.offline = false, this.guestBlocked = false});
 
   @override
-  List<Object?> get props => [message, offline];
+  List<Object?> get props => [message, offline, guestBlocked];
 }

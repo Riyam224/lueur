@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/features/draw/data/datasources/saved_drawings_local_datasource.dart';
@@ -16,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> initializeAppServices() async {
   await _initializeFirebase();
   await _openHiveBoxes();
-  await _clearGuestOnlyData();
+  await clearGuestOnlyData();
   await _initializeDependencyInjection();
 }
 
@@ -35,10 +36,17 @@ Future<void> _openHiveBoxes() async {
   ]);
 }
 
-/// Guest entries are session-only. Clears only the anonymous key; cached
-/// histories belonging to registered Firebase UIDs remain untouched.
-Future<void> _clearGuestOnlyData() async {
+/// Guest-created data is session-only across every activity. Clears only the
+/// anonymous key in each datasource; data belonging to registered Firebase
+/// UIDs remains untouched.
+///
+/// Public only so tests can call it directly — the sole production caller
+/// is [initializeAppServices], during startup before the first frame.
+@visibleForTesting
+Future<void> clearGuestOnlyData() async {
   await MoodLocalDatasource().clearGuestHistory();
+  await SavedDrawingsLocalDatasource().clearGuestDrawings();
+  await SudokuResultsLocalDatasource().clearGuestResults();
 }
 
 Future<void> _initializeDependencyInjection() async {

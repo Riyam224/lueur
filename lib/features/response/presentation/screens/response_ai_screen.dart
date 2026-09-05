@@ -7,6 +7,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
 import 'package:lueur/core/widgets/offline_snackbar.dart';
 import 'package:lueur/core/widgets/response_error_state.dart';
+import 'package:lueur/core/widgets/response_guest_blocked_state.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_cubit.dart';
@@ -162,6 +163,12 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                               AppLocalizations.of(context)!.responseTryAgainButton,
                             ),
                           ),
+                        );
+                      }
+
+                      if (state is MoodError && state.guestBlocked) {
+                        return ResponseGuestBlockedState(
+                          onSignIn: () => context.go(AppRoutes.loginScreen),
                         );
                       }
 

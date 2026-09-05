@@ -19,6 +19,7 @@ String _encodeDrawings(List<SavedDrawingModel> drawings) {
 
 class SavedDrawingsLocalDatasource {
   static const String boxName = 'saved_drawings';
+  static const String guestUserId = '';
 
   Box<String> get _box => Hive.box<String>(boxName);
 
@@ -50,4 +51,8 @@ class SavedDrawingsLocalDatasource {
 
   Future<void> clearAllForUser({required String userId}) =>
       _box.delete(_key(userId));
+
+  /// Guest drawings are intentionally session-only. Registered-user keys are
+  /// never touched by this cleanup.
+  Future<void> clearGuestDrawings() => clearAllForUser(userId: guestUserId);
 }

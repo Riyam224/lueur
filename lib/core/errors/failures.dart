@@ -23,3 +23,9 @@ class ServerFailure extends Failure {
 class CancellationFailure extends Failure {
   const CancellationFailure() : super('Operation cancelled');
 }
+
+/// A guest tried to talk with Luna. Guests must never reach the AI backend —
+/// this is returned before any network call is attempted.
+class GuestSignInRequiredFailure extends Failure {
+  const GuestSignInRequiredFailure() : super('Sign in to talk with Luna');
+}

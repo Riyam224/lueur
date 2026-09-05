@@ -19,6 +19,7 @@ String _encodeResults(List<SudokuResultModel> results) {
 
 class SudokuResultsLocalDatasource {
   static const String boxName = 'sudoku_results';
+  static const String guestUserId = '';
 
   Box<String> get _box => Hive.box<String>(boxName);
 
@@ -50,4 +51,8 @@ class SudokuResultsLocalDatasource {
 
   Future<void> clearAllForUser({required String userId}) =>
       _box.delete(_key(userId));
+
+  /// Guest results are intentionally session-only. Registered-user keys are
+  /// never touched by this cleanup.
+  Future<void> clearGuestResults() => clearAllForUser(userId: guestUserId);
 }
