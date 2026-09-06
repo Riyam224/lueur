@@ -51,7 +51,7 @@ class RouterGenerationConfig {
     return CustomTransitionPage(
       key: state.pageKey,
       child: child,
-      transitionDuration: const Duration(milliseconds: 220),
+      transitionDuration: const Duration(milliseconds: 260),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final curved = CurvedAnimation(
           parent: animation,
@@ -64,7 +64,10 @@ class RouterGenerationConfig {
               begin: const Offset(0, 0.04),
               end: Offset.zero,
             ).animate(curved),
-            child: child,
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.97, end: 1.0).animate(curved),
+              child: child,
+            ),
           ),
         );
       },
