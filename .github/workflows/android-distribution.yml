@@ -70,12 +70,23 @@ jobs:
       - name: Analyze
         run: flutter analyze --no-fatal-infos
 
+      - name: Check SENTRY_DSN is available
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        run: |
+          echo "SENTRY_DSN length: ${#SENTRY_DSN}"
+          if [ -z "$SENTRY_DSN" ]; then
+            echo "::warning::SENTRY_DSN is empty or not set — Sentry will not be active in this build."
+          fi
+
       - name: Build APK (release)
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         run: |
           flutter build apk --release \
             --build-number=${{ github.run_number }} \
             --build-name=1.0.${{ github.run_number }} \
-            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
+            --dart-define=SENTRY_DSN="$SENTRY_DSN" \
             --dart-define=APP_ENV=production
 
       - name: Verify APK exists
