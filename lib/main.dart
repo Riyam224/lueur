@@ -19,6 +19,7 @@ Future<void> main() async {
 
   // DM Sans is bundled locally — never fetch fonts at runtime, which used
   // to block cold starts on a call to Google's font CDN.
+  //
   GoogleFonts.config.allowRuntimeFetching = false;
 
   void runLueur() {
