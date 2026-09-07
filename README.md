@@ -159,8 +159,8 @@ The flow below follows the app in order — onboarding → sign in → capture a
   </tr>
   <tr>
     <td>Profile & settings</td>
-    <td><img src="screenshots/profile_light.png" width="180" alt="Profile & settings, light theme"/></td>
-    <td><img src="screenshots/profile_dark.png" width="180" alt="Profile & settings, dark theme"/></td>
+    <td><img src="screenshots/profile_journey_light.png" width="180" alt="Profile & settings, light theme"/></td>
+    <td><img src="screenshots/profile_journey_dark.png" width="180" alt="Profile & settings, dark theme"/></td>
   </tr>
 </table>
 
