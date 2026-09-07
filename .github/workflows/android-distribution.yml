@@ -71,7 +71,12 @@ jobs:
         run: flutter analyze --no-fatal-infos
 
       - name: Build APK (release)
-        run: flutter build apk --release --build-number=${{ github.run_number }} --build-name=1.0.${{ github.run_number }}
+        run: |
+          flutter build apk --release \
+            --build-number=${{ github.run_number }} \
+            --build-name=1.0.${{ github.run_number }} \
+            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
+            --dart-define=APP_ENV=production
 
       - name: Verify APK exists
         run: |
