@@ -59,6 +59,19 @@ class ProfileScreen extends StatelessWidget {
             horizontal: AppSpacing.horizontalPaddingLg,
           ),
           sliver: SliverToBoxAdapter(
+            child: ElevatedButton(
+              onPressed: () =>
+                  throw Exception('Sentry connectivity test — temporary, remove after verifying'),
+              child: const Text('TEST SENTRY'),
+            ),
+          ),
+        ),
+
+        SliverPadding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.horizontalPaddingLg,
+          ),
+          sliver: SliverToBoxAdapter(
             child: BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) => ProfileAvatarWidget(
                 name: _displayName(context, state),
