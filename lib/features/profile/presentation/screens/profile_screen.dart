@@ -21,8 +21,6 @@ import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart
 import 'package:lueur/features/quotes/presentation/widgets/saved_quote_card.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-const _debugSentryDsn = String.fromEnvironment('SENTRY_DSN');
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -52,33 +50,6 @@ class ProfileScreen extends StatelessWidget {
             child: Text(
               AppLocalizations.of(context)!.profileTitle,
               style: ThemeTextStyles.headlineMedium(context),
-            ),
-          ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.horizontalPaddingLg,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: ElevatedButton(
-              onPressed: () =>
-                  throw Exception('Sentry connectivity test — temporary, remove after verifying'),
-              child: const Text('TEST SENTRY'),
-            ),
-          ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.horizontalPaddingLg,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: Text(
-              _debugSentryDsn.isEmpty
-                  ? 'SENTRY_DSN: EMPTY (not baked into this build)'
-                  : 'SENTRY_DSN: SET (${_debugSentryDsn.length} chars, starts with "${_debugSentryDsn.substring(0, _debugSentryDsn.length < 15 ? _debugSentryDsn.length : 15)}...")',
-              style: const TextStyle(fontSize: 12, color: Colors.red),
             ),
           ),
         ),
