@@ -88,9 +88,7 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: AppSpacing.space3Xl + AppSpacing.spaceSm,
-                      ),
+                      SizedBox(height: AppSpacing.topPaddingSafeArea),
                       StreakCelebrationHeader(
                         streakDays: widget.streakDays,
                         eyebrowLabel: l10n.streakCelebrationEyebrowLabel,

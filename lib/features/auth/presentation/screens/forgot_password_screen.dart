@@ -87,8 +87,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: IconButton(
                     onPressed: () => context.pop(),
                     icon: Icon(
-                      Icons.arrow_back_rounded,
+                      Icons.arrow_back_ios_new_rounded,
                       color: secondaryText,
+                      size: AppSizes.iconSm,
                     ),
                   ),
                 ),

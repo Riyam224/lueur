@@ -5,20 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/routing/app_routes.dart';
+import 'package:lueur/core/styling/theme_extensions.dart';
+import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/app_top_bar.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/draw_cubit.dart';
+import 'package:lueur/features/draw/presentation/cubit/draw_state.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_state.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_canvas.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_palette.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_talk_to_luna_link.dart';
-import 'package:lueur/features/draw/presentation/widgets/draw_top_bar.dart';
 import 'package:lueur/features/home/domain/usecases/log_activity_usecase.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
@@ -117,13 +121,52 @@ class _FreeDrawView extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppTopBar(
+          title: AppLocalizations.of(context)!.drawTopBarTitle,
+          onBack: () => context.pop(),
+          actions: [
+            BlocBuilder<DrawCubit, DrawState>(
+              buildWhen: (previous, current) =>
+                  previous.paths.isEmpty != current.paths.isEmpty,
+              builder: (context, state) {
+                final hasStrokes = state.paths.isNotEmpty;
+                final extra = context.extra;
+                return IconButton(
+                  onPressed: hasStrokes
+                      ? () => context.read<DrawCubit>().undoLastStroke()
+                      : null,
+                  tooltip: AppLocalizations.of(context)!.drawUndoButton,
+                  icon: Icon(
+                    Icons.undo_rounded,
+                    color: hasStrokes
+                        ? extra.primaryTextColor
+                        : extra.borderColor,
+                    size: AppSizes.iconSm,
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              onPressed: () => _saveDrawing(context),
+              icon: Icon(
+                Icons.save_alt_rounded,
+                color: context.extra.primaryColor,
+                size: AppSizes.iconSm,
+              ),
+            ),
+            TextButton(
+              onPressed: () => context.read<DrawCubit>().clear(),
+              child: Text(
+                AppLocalizations.of(context)!.drawClearButton,
+                style: ThemeTextStyles.bodyMedium(context)
+                    .copyWith(color: context.extra.secondaryTextColor),
+              ),
+            ),
+          ],
+        ),
         body: SafeArea(
           child: Column(
             children: [
-              DrawTopBar(
-                onBack: () => context.pop(),
-                onSave: () => _saveDrawing(context),
-              ),
               SizedBox(height: AppSpacing.spaceMd),
               const Expanded(child: DrawCanvas()),
               SizedBox(height: AppSpacing.spaceLg),

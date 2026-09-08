@@ -167,7 +167,7 @@ class _BreathingViewState extends State<_BreathingView>
               BreathingFinished() => Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: AppSpacing.horizontalPaddingXl,
+                      horizontal: AppSpacing.horizontalPaddingLg,
                     ),
                     child: LunaCheckInPrompt(
                       onTalkToLuna: _goToTalkToLuna,

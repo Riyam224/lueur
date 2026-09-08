@@ -9,12 +9,12 @@ import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/models/mood_type.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
+import 'package:lueur/core/widgets/app_top_bar.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/features/journal/presentation/models/day_group.dart';
 import 'package:lueur/features/journal/presentation/widgets/timeline_body_slivers.dart';
 import 'package:lueur/features/journal/presentation/widgets/timeline_filters_widget.dart';
-import 'package:lueur/features/journal/presentation/widgets/timeline_header_widget.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// The full emotional timeline — every memory, searchable/filterable by mood
@@ -132,33 +132,18 @@ class _TimelineViewState extends State<_TimelineView> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor =
         isDark ? AppColors.darkBackground : AppColors.lightBackground;
-    final headingColor =
-        isDark ? AppColors.darkOnBackground : AppColors.lightOnBackground;
     final subheadingColor =
         isDark ? AppColors.darkSecondaryText : AppColors.lightSecondaryText;
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: backgroundColor,
+      appBar: AppTopBar(title: l10n.timelineTitle),
       body: SafeArea(
         child: BlocBuilder<JournalGridCubit, JournalGridState>(
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
-                SliverPadding(
-                  padding: EdgeInsets.fromLTRB(
-                    AppSpacing.horizontalPaddingLg,
-                    AppSpacing.spaceSm,
-                    AppSpacing.horizontalPaddingLg,
-                    0,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: TimelineHeaderWidget(
-                      title: l10n.timelineTitle,
-                      headingColor: headingColor,
-                    ),
-                  ),
-                ),
                 if (state is JournalGridLoaded && state.entries.isNotEmpty)
                   SliverPadding(
                     padding: EdgeInsets.fromLTRB(

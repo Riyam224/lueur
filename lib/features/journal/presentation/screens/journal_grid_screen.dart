@@ -124,8 +124,11 @@ class _JournalGridView extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverPadding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.horizontalPaddingLg,
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.horizontalPaddingLg,
+                AppSpacing.topPaddingSafeArea,
+                AppSpacing.horizontalPaddingLg,
+                0,
               ),
               sliver: SliverToBoxAdapter(
                 child: JournalGridHeader(

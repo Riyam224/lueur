@@ -31,7 +31,6 @@ class JournalGridHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: AppSpacing.spaceLg),
         Text(
           l10n.journalGridTitle,
           style: ThemeTextStyles.headlineMedium(context)

@@ -103,11 +103,11 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.horizontalPaddingXl,
+            horizontal: AppSpacing.horizontalPaddingLg,
           ),
           child: Column(
             children: [
-              SizedBox(height: AppSpacing.space3Xl + AppSpacing.spaceSm),
+              SizedBox(height: AppSpacing.topPaddingSafeArea),
               Text(
                 AppLocalizations.of(context)!.affirmationHeader,
                 style: ThemeTextStyles.headlineSmall(context).copyWith(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/app_top_bar.dart';
 import 'package:lueur/features/home/presentation/widgets/weekly_letter_banner.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
@@ -15,6 +13,9 @@ class WeeklyLetterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppTopBar(
+        title: AppLocalizations.of(context)!.weeklyLetterScreenTitle,
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -23,22 +24,6 @@ class WeeklyLetterScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () => context.pop(),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  ),
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!.weeklyLetterScreenTitle,
-                      style: ThemeTextStyles.headlineSmall(context),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(width: 40.w),
-                ],
-              ),
               SizedBox(height: AppSpacing.sectionSpacingMd),
               const WeeklyLetterBanner(),
             ],

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
-import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/app_top_bar.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/widgets/draw_painter.dart';
 import 'package:lueur/features/draw/presentation/widgets/saved_drawing_thumbnail.dart';
@@ -28,48 +29,25 @@ class SavedDrawingViewerScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppTopBar(
+        title: AppLocalizations.of(context)!.drawViewerTitle,
+        actions: [
+          IconButton(
+            onPressed: () {
+              onDelete();
+              context.pop();
+            },
+            icon: Icon(
+              Icons.delete_outline_rounded,
+              color: AppColors.errorColor,
+              size: AppSizes.iconSm,
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.horizontalPaddingMd,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () => context.pop(),
-                    icon: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      color: extra.primaryTextColor,
-                      size: 20,
-                    ),
-                  ),
-                  Flexible(
-                    child: Text(
-                      AppLocalizations.of(context)!.drawViewerTitle,
-                      overflow: TextOverflow.ellipsis,
-                      style: ThemeTextStyles.bodyMedium(context).copyWith(
-                        color: extra.secondaryTextColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      onDelete();
-                      context.pop();
-                    },
-                    icon: const Icon(
-                      Icons.delete_outline_rounded,
-                      color: AppColors.errorColor,
-                      size: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             SizedBox(height: AppSpacing.spaceMd),
             Expanded(
               child: Padding(

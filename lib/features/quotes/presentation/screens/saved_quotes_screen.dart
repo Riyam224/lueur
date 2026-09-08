@@ -8,6 +8,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/app_top_bar.dart';
 import 'package:lueur/core/widgets/response_error_state.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
@@ -21,6 +22,10 @@ class SavedQuotesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppTopBar(
+        title: AppLocalizations.of(context)!.quotesScreenTitle,
+        onBack: () => context.go(AppRoutes.profile),
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -29,23 +34,6 @@ class SavedQuotesScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: AppSpacing.space3Xl),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () => context.go(AppRoutes.profile),
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  ),
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!.quotesScreenTitle,
-                      style: ThemeTextStyles.headlineSmall(context),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(width: 40.w),
-                ],
-              ),
               SizedBox(height: AppSpacing.sectionSpacingMd),
               Expanded(
                 child: BlocBuilder<SavedQuotesCubit, SavedQuotesState>(

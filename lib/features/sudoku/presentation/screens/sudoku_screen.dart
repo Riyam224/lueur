@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/app_top_bar.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_state.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_grid_selector_section.dart';
@@ -14,7 +15,6 @@ import 'package:lueur/features/sudoku/presentation/widgets/sudoku_header_section
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_help_dialog.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_number_pad_section.dart';
 import 'package:lueur/features/sudoku/presentation/widgets/sudoku_outcome_dialog.dart';
-import 'package:lueur/features/sudoku/presentation/widgets/sudoku_toolbar.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// A calm, simple 9x9 sudoku — one of Luna's offerings for a rough moment.
@@ -54,6 +54,26 @@ class _SudokuScreenState extends State<SudokuScreen> {
         if (!didPop) _leave(context);
       },
       child: Scaffold(
+        appBar: AppTopBar(
+          onBack: () => _leave(context),
+          actions: [
+            IconButton(
+              onPressed: () => showSudokuHelpDialog(context),
+              icon: const Icon(Icons.help_outline_rounded),
+            ),
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.more_horiz_rounded),
+              onSelected: (_) => unawaited(context.read<SudokuCubit>().start()),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'new',
+                  child:
+                      Text(AppLocalizations.of(context)!.sudokuNewGameMenuItem),
+                ),
+              ],
+            ),
+          ],
+        ),
         body: SafeArea(
           child: BlocListener<SudokuCubit, SudokuState>(
             listenWhen: (previous, current) =>
@@ -97,12 +117,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
                   ),
                   child: Column(
                     children: [
-                      SudokuToolbar(
-                        onLeave: () => _leave(context),
-                        onHelp: () => showSudokuHelpDialog(context),
-                        onNewGame: () =>
-                            unawaited(context.read<SudokuCubit>().start()),
-                      ),
                       const SudokuHeaderSection(),
                       SizedBox(height: AppSpacing.spaceMd),
                       BlocSelector<SudokuCubit, SudokuState, (bool, bool)>(
