@@ -83,6 +83,7 @@
     <tr><td>A short rolling summary of past conversations</td><td>So Luna can refer back to something you mentioned earlier without you repeating it — see "Conversation Memory" below</td></tr>
     <tr><td>App usage data tied to an app-instance identifier</td><td>Via Firebase Analytics, to understand how the app is used and improve it — we do not send journal content to Firebase Analytics</td></tr>
     <tr><td>Crash and error reports</td><td>Via Sentry, to find and fix bugs — journal content and other sensitive fields are filtered out on your device before any report is ever sent, and again on our server before storage</td></tr>
+    <tr><td>Content you report — the flagged message text, your chosen reason, an optional comment, and (if relevant) your own message that prompted it</td><td>When you flag one of Luna's responses, so we can review it and improve Luna's safety and quality</td></tr>
   </table>
   <p>We do not collect your location, contacts, camera access, or phone number. We do not use any social sign-in provider other than Google. Our application code does not log or store your IP address — neither in the app nor on our backend server — though our hosting provider's infrastructure may retain standard connection-level logs for operational purposes, outside of anything our app itself accesses or controls.</p>
   <p>Our account system technically supports a few optional profile fields (such as a short bio or date of birth) for possible future personalization features. <strong>None of these fields are currently collected, shown, or editable anywhere in the Lueur app</strong> — if that ever changes, we'll update this policy and the "last updated" date above before the feature ships.</p>
@@ -104,6 +105,9 @@
 
   <h3>Conversation Memory</h3>
   <p>When a chat conversation with Luna comes to a natural close, we generate a short summary of that conversation (also via Groq, subject to the same terms described above) and store it associated with your account. This summary gives Luna continuity — so she can reference something from an earlier conversation without you needing to repeat it. Only the summary is kept; the underlying conversation transcript used to generate it is not separately retained beyond that one-time processing step. This summary is deleted, along with the rest of your data, if you delete your account.</p>
+
+  <h3>Reporting a Response</h3>
+  <p>If a reply from Luna feels off, you can flag it directly from the chat. This sends the flagged message text, the reason you selected, an optional comment, and — if you choose to include it — your own message that prompted it, to our backend server (hosted on Railway, listed below) so we can review it. This is not sent to Groq. Reported content is tied to your account and is permanently deleted if you delete your account, the same as your journal entries.</p>
 
   <h3>If You're Going Through a Hard Moment</h3>
   <p>If something you share with Luna suggests you may be in crisis, Luna is designed to respond with extra care and to point you toward crisis resources instead of continuing as a normal conversation. This safety response happens automatically and is handled with the same care and data protections described throughout this policy — it does not involve a person reviewing your entry in real time.</p>
@@ -129,7 +133,7 @@
       <li>Tap <strong>Delete Account</strong></li>
       <li>Confirm — this is immediate and permanent</li>
     </ol>
-    <p>Deleting your account permanently removes your account record, your authentication identity, your journal entries, and your conversation memory summary from our production systems — this cannot be undone through the app. Residual copies may briefly persist in secure backups or service-provider logs, and are removed according to their own retention schedules.</p>
+    <p>Deleting your account permanently removes your account record, your authentication identity, your journal entries, your conversation memory summary, and any content you've reported from our production systems — this cannot be undone through the app. Residual copies may briefly persist in secure backups or service-provider logs, and are removed according to their own retention schedules.</p>
     <p><strong>No longer have the app installed?</strong> Email us at <a href="mailto:riyam.thekluge@gmail.com">riyam.thekluge@gmail.com</a> from the address associated with your account, and we'll process the deletion within 30 days.</p>
   </div>
 

@@ -138,6 +138,11 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/chat_with_ai_luna_more_dark.png" width="180" alt="Extended follow-up chat conversation with Luna, dark theme"/></td>
   </tr>
   <tr>
+    <td>Report a response</td>
+    <td><img src="screenshots/talk_to_ai_flag_light.png" width="180" alt="Report bottom sheet for flagging one of Luna's replies, light theme"/></td>
+    <td><img src="screenshots/talk_to_ai_flag_dark.png" width="180" alt="Report bottom sheet for flagging one of Luna's replies, dark theme"/></td>
+  </tr>
+  <tr>
     <td>Mood journal</td>
     <td><img src="screenshots/journal_light.png" width="180" alt="Mood journal, light theme"/></td>
     <td><img src="screenshots/journal_dark.png" width="180" alt="Mood journal, dark theme"/></td>
@@ -195,6 +200,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Streak & Plant | Daily journaling grows a virtual plant (seed → sprout → blooming), with a streak celebration screen |
 | Weekly Letter | AI-generated weekly emotional reflection with stats |
 | Saved Quotes | Bookmark Luna's responses for later, view and delete them, with a retry option if loading them fails |
+| Content Reporting | Flag one of Luna's chat replies (offensive/harmful, inaccurate, uncomfortable, or other) with an optional comment, satisfying Google Play's requirement that AI-generated content be reportable in-app |
 | Breathing Exercise | Guided breathe-in/breathe-out cycle with animated ring visuals |
 | Affirmations | Emoji-specific rotating affirmation cards |
 | Free Drawing | Open canvas for expressive/calming drawing, with a gallery of saved drawings |
@@ -282,6 +288,7 @@ lib/
 │   ├── plant/                — streak calculation, plant growth visualization, celebration screen
 │   ├── profile/              — user stats, settings entry point, logout (or Log in / Register for a guest session)
 │   ├── quotes/                — save, browse, and delete Luna's saved responses
+│   ├── report/                 — flag one of Luna's chat replies (reason + optional comment)
 │   ├── response/               — AI-generated response screen + save-quote action
 │   ├── splash/                  — entry point, decides auth/onboarding redirect
 │   ├── sudoku/                   — sudoku puzzle generation, play, and saved results
@@ -309,6 +316,7 @@ Base URL: `https://web-production-f8628.up.railway.app`
 | GET | `/api/v1/companion/history/` | Fetch the current user's mood history |
 | GET | `/api/v1/companion/weekly-letter/` | Get the AI-generated weekly reflection |
 | POST | `/api/v1/companion/activity/` | Log a completed non-chat activity (breathing/sudoku/drawing) |
+| POST | `/api/v1/companion/report/` | Submit a report flagging one of Luna's chat responses |
 | DELETE | `/api/v1/companion/entries/delete-all/` | Delete every journal entry for the authenticated user |
 | DELETE | `/api/v1/companion/entries/{id}/delete/` | Delete a single journal entry by id |
 
