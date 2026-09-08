@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
+import 'package:lueur/features/auth/presentation/widgets/age_confirmation_checkbox.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:lueur/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:lueur/l10n/app_localizations.dart';
@@ -26,12 +27,17 @@ class RegisterFormFields extends StatelessWidget {
     required this.passwordStrength,
     required this.borderColor,
     required this.secondaryText,
+    required this.textPrimary,
+    required this.primaryColor,
+    required this.isAgeConfirmed,
+    required this.ageError,
     required this.onNameChanged,
     required this.onEmailChanged,
     required this.onPasswordChanged,
     required this.onConfirmPasswordChanged,
     required this.onTogglePasswordVisibility,
     required this.onToggleConfirmPasswordVisibility,
+    required this.onAgeConfirmedChanged,
     required this.onSubmit,
   });
 
@@ -52,12 +58,17 @@ class RegisterFormFields extends StatelessWidget {
   final PasswordStrength passwordStrength;
   final Color borderColor;
   final Color secondaryText;
+  final Color textPrimary;
+  final Color primaryColor;
+  final bool isAgeConfirmed;
+  final String? ageError;
   final ValueChanged<String> onNameChanged;
   final ValueChanged<String> onEmailChanged;
   final ValueChanged<String> onPasswordChanged;
   final ValueChanged<String> onConfirmPasswordChanged;
   final VoidCallback onTogglePasswordVisibility;
   final VoidCallback onToggleConfirmPasswordVisibility;
+  final ValueChanged<bool> onAgeConfirmedChanged;
   final VoidCallback onSubmit;
 
   @override
@@ -138,6 +149,14 @@ class RegisterFormFields extends StatelessWidget {
             ),
             onPressed: onToggleConfirmPasswordVisibility,
           ),
+        ),
+        SizedBox(height: AppSpacing.sectionSpacingSm),
+        AgeConfirmationCheckbox(
+          value: isAgeConfirmed,
+          onChanged: onAgeConfirmedChanged,
+          primaryColor: primaryColor,
+          textPrimary: textPrimary,
+          errorText: ageError,
         ),
       ],
     );

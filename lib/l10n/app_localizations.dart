@@ -476,6 +476,18 @@ abstract class AppLocalizations {
   /// **'This field is required'**
   String get authFieldRequired;
 
+  /// No description provided for @ageConfirmationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m 18 or older'**
+  String get ageConfirmationLabel;
+
+  /// No description provided for @ageConfirmationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm you\'re 18 or older to continue'**
+  String get ageConfirmationError;
+
   /// No description provided for @authErrorUserNotFound.
   ///
   /// In en, this message translates to:

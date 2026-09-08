@@ -219,6 +219,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authFieldRequired => 'هذا الحقل مطلوب';
 
   @override
+  String get ageConfirmationLabel => 'أنا فوق 18 سنة';
+
+  @override
+  String get ageConfirmationError => 'يرجى تأكيد أنك فوق 18 سنة للمتابعة';
+
+  @override
   String get authErrorUserNotFound =>
       'لم نجد حسابًا مرتبطًا بهذا البريد الإلكتروني.';
 

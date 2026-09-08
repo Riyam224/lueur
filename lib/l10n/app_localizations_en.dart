@@ -220,6 +220,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authFieldRequired => 'This field is required';
 
   @override
+  String get ageConfirmationLabel => 'I\'m 18 or older';
+
+  @override
+  String get ageConfirmationError =>
+      'Please confirm you\'re 18 or older to continue';
+
+  @override
   String get authErrorUserNotFound => 'No account found with this email.';
 
   @override

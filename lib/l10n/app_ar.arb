@@ -63,6 +63,8 @@
   "authConfirmPasswordHint": "أعد إدخال كلمة المرور",
   "authConfirmPasswordMismatch": "كلمتا المرور غير متطابقتين",
   "authFieldRequired": "هذا الحقل مطلوب",
+  "ageConfirmationLabel": "أنا فوق 18 سنة",
+  "ageConfirmationError": "يرجى تأكيد أنك فوق 18 سنة للمتابعة",
   "authErrorUserNotFound": "لم نجد حسابًا مرتبطًا بهذا البريد الإلكتروني.",
   "authErrorWrongPassword": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
   "authErrorEmailInUse": "يوجد حساب بالفعل بهذا البريد الإلكتروني.",

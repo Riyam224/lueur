@@ -105,6 +105,8 @@
   "authConfirmPasswordHint": "Re-enter your password",
   "authConfirmPasswordMismatch": "Passwords don't match",
   "authFieldRequired": "This field is required",
+  "ageConfirmationLabel": "I'm 18 or older",
+  "ageConfirmationError": "Please confirm you're 18 or older to continue",
   "authErrorUserNotFound": "No account found with this email.",
   "authErrorWrongPassword": "Incorrect email or password.",
   "authErrorEmailInUse": "An account already exists with this email.",

@@ -16,6 +16,7 @@ import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_success_dialog.dart';
 import 'package:lueur/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:lueur/features/auth/presentation/widgets/register_body.dart';
+import 'package:lueur/l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -57,6 +58,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? _emailError;
   String? _passwordError;
   String? _confirmPasswordError;
+  bool _isAgeConfirmed = false;
+  String? _ageError;
 
   @override
   void dispose() {
@@ -91,6 +94,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _toggleConfirmPasswordVisibility() =>
       setState(() => _obscureConfirmPassword = !_obscureConfirmPassword);
 
+  void _onAgeConfirmedChanged(bool value) {
+    setState(() {
+      _isAgeConfirmed = value;
+      if (value && _ageError != null) _ageError = null;
+    });
+  }
+
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthAuthenticated) {
       unawaited(_showSuccessThenNavigate(context, state.user.id));
@@ -117,16 +127,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _controllers.password.text,
       _controllers.confirmPassword.text,
     );
+    final ageError = _isAgeConfirmed
+        ? null
+        : AppLocalizations.of(context)!.ageConfirmationError;
     setState(() {
       _nameError = nameError;
       _emailError = emailError;
       _passwordError = passwordError;
       _confirmPasswordError = confirmError;
+      _ageError = ageError;
     });
     if (nameError != null ||
         emailError != null ||
         passwordError != null ||
-        confirmError != null) {
+        confirmError != null ||
+        ageError != null) {
       return;
     }
 
@@ -135,6 +150,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: _controllers.password.text,
           name: _controllers.name.text.trim(),
         );
+  }
+
+  void _signInWithGoogle(BuildContext context) {
+    if (!_isAgeConfirmed) {
+      setState(() {
+        _ageError = AppLocalizations.of(context)!.ageConfirmationError;
+      });
+      return;
+    }
+    context.read<AuthCubit>().signInWithGoogle();
   }
 
   Future<void> _onContinueAsGuest(BuildContext context) async {
@@ -179,6 +204,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 secondaryText: secondaryText,
                 borderColor: borderColor,
                 primaryColor: cs.primary,
+                isAgeConfirmed: _isAgeConfirmed,
+                ageError: _ageError,
                 onNameChanged: _clearNameError,
                 onEmailChanged: _clearEmailError,
                 onPasswordChanged: _onPasswordChanged,
@@ -186,9 +213,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTogglePasswordVisibility: _togglePasswordVisibility,
                 onToggleConfirmPasswordVisibility:
                     _toggleConfirmPasswordVisibility,
+                onAgeConfirmedChanged: _onAgeConfirmedChanged,
                 onSubmit: () => _submit(context),
-                onGoogleSignIn: () =>
-                    context.read<AuthCubit>().signInWithGoogle(),
+                onGoogleSignIn: () => _signInWithGoogle(context),
                 onGoToLogin: () => context.go(AppRoutes.loginScreen),
                 onContinueAsGuest: () => _onContinueAsGuest(context),
               ),

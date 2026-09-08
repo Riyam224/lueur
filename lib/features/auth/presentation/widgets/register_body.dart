@@ -35,12 +35,15 @@ class RegisterBody extends StatelessWidget {
     required this.secondaryText,
     required this.borderColor,
     required this.primaryColor,
+    required this.isAgeConfirmed,
+    required this.ageError,
     required this.onNameChanged,
     required this.onEmailChanged,
     required this.onPasswordChanged,
     required this.onConfirmPasswordChanged,
     required this.onTogglePasswordVisibility,
     required this.onToggleConfirmPasswordVisibility,
+    required this.onAgeConfirmedChanged,
     required this.onSubmit,
     required this.onGoogleSignIn,
     required this.onGoToLogin,
@@ -66,12 +69,15 @@ class RegisterBody extends StatelessWidget {
   final Color secondaryText;
   final Color borderColor;
   final Color primaryColor;
+  final bool isAgeConfirmed;
+  final String? ageError;
   final ValueChanged<String> onNameChanged;
   final ValueChanged<String> onEmailChanged;
   final ValueChanged<String> onPasswordChanged;
   final ValueChanged<String> onConfirmPasswordChanged;
   final VoidCallback onTogglePasswordVisibility;
   final VoidCallback onToggleConfirmPasswordVisibility;
+  final ValueChanged<bool> onAgeConfirmedChanged;
   final VoidCallback onSubmit;
   final VoidCallback onGoogleSignIn;
   final VoidCallback onGoToLogin;
@@ -104,12 +110,17 @@ class RegisterBody extends StatelessWidget {
           passwordStrength: passwordStrength,
           borderColor: borderColor,
           secondaryText: secondaryText,
+          textPrimary: textPrimary,
+          primaryColor: primaryColor,
+          isAgeConfirmed: isAgeConfirmed,
+          ageError: ageError,
           onNameChanged: onNameChanged,
           onEmailChanged: onEmailChanged,
           onPasswordChanged: onPasswordChanged,
           onConfirmPasswordChanged: onConfirmPasswordChanged,
           onTogglePasswordVisibility: onTogglePasswordVisibility,
           onToggleConfirmPasswordVisibility: onToggleConfirmPasswordVisibility,
+          onAgeConfirmedChanged: onAgeConfirmedChanged,
           onSubmit: onSubmit,
         ),
         SizedBox(height: AppSpacing.verticalPaddingXl),
