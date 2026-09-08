@@ -907,13 +907,24 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get breathingHeaderLabel => 'تمرين التنفس الموجه';
+  String get breathingHeaderLabel => 'لنتنفس مع لونا';
 
   @override
   String get breathingPhaseIn => 'شهيق';
 
   @override
   String get breathingPhaseOut => 'زفير';
+
+  @override
+  String breathingPhaseSecondsRemaining(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds ثوانٍ',
+      one: 'ثانية واحدة',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get breathingConfigErrorMessage =>

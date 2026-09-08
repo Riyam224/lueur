@@ -32,8 +32,7 @@ class AffirmationScreen extends StatefulWidget {
 class _AffirmationScreenState extends State<AffirmationScreen> {
   late final ValueNotifier<int> _index;
 
-  List<String> get _cards =>
-      affirmations[widget.emoji] ?? defaultAffirmations;
+  List<String> get _cards => affirmations[widget.emoji] ?? defaultAffirmations;
 
   String get _currentCard => _cards[_index.value];
 
@@ -137,9 +136,11 @@ class _AffirmationScreenState extends State<AffirmationScreen> {
                       padding: EdgeInsets.all(AppSpacing.space2Xl),
                       decoration: BoxDecoration(
                         color: context.extra.cardBackgroundColor,
-                        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
+                        borderRadius:
+                            BorderRadius.circular(AppSizes.borderRadiusLg),
                         border: Border.all(
-                          color: context.extra.borderColor ?? AppColors.cardBorder,
+                          color:
+                              context.extra.borderColor ?? AppColors.cardBorder,
                           width: 1.5,
                         ),
                       ),

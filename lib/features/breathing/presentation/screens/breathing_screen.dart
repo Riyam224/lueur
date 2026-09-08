@@ -6,6 +6,7 @@ import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/app_top_bar.dart';
 import 'package:lueur/core/widgets/luna_check_in_prompt.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
@@ -110,6 +111,9 @@ class _BreathingViewState extends State<_BreathingView>
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppTopBar(
+        title: AppLocalizations.of(context)!.breathingHeaderLabel,
+      ),
       body: SafeArea(
         child: BlocConsumer<BreathingCubit, BreathingState>(
           listenWhen: (previous, current) =>

@@ -362,9 +362,15 @@
       "count": {"type": "int"}
     }
   },
-  "breathingHeaderLabel": "guided breathing",
+  "breathingHeaderLabel": "Breathe with Luna",
   "breathingPhaseIn": "Breathe in",
   "breathingPhaseOut": "Breathe out",
+  "breathingPhaseSecondsRemaining": "{seconds, plural, one{1 second} other{{seconds} seconds}}",
+  "@breathingPhaseSecondsRemaining": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
   "breathingConfigErrorMessage": "Couldn't load the breathing exercise — let's try again.",
   "affirmationHeader": "A word from Luna 💙",
   "affirmationSubheader": "A personalized card just for you",

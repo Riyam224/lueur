@@ -25,5 +25,8 @@ class AppSpacing {
   static double sectionSpacingMd = 24.h;
   static double sectionSpacingLg = 32.h;
 
-  static double topPaddingSafeArea = 80.h;
+  // Extra breathing room below the device safe area (status bar/notch) —
+  // screens that use this pair it with a `SafeArea` rather than relying on
+  // this value alone to clear the notch.
+  static double topPaddingSafeArea = 24.h;
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/utils/duration_format.dart';
 import 'package:lueur/features/breathing/presentation/cubit/breathing_cubit.dart';
@@ -16,10 +15,15 @@ class BreathingProgressSection extends StatelessWidget {
     super.key,
     required this.totalSeconds,
     required this.inkColor,
+    required this.progressColor,
   });
 
   final int totalSeconds;
   final Color inkColor;
+
+  /// Matches the current phase's ring color around Luna, so both progress
+  /// indicators stay visually in sync.
+  final Color progressColor;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +40,8 @@ class BreathingProgressSection extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 6.h,
-                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
-                valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+                backgroundColor: progressColor.withValues(alpha: 0.15),
+                valueColor: AlwaysStoppedAnimation(progressColor),
               ),
             ),
             SizedBox(height: AppSpacing.spaceSm),

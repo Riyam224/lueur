@@ -48,7 +48,7 @@ LunaTree (root widget: `Lueur`) is a Flutter journaling and relaxation app with 
 | `plant` | Streak tracker visualised as a growing plant |
 | `quotes` | Save/delete/view affirmation quotes (Hive) |
 | `affirmation` | Rotating affirmation cards for a selected mood |
-| `breathing` | Guided 4-7-8 breathing exercise screen |
+| `breathing` | Guided breathe-in/breathe-out exercise screen |
 | `profile` | User settings and saved quotes entry point |
 | `onboarding` | First-launch walkthrough — presentation-only (no domain/data layers) |
 | `splash` | Entry point — decides auth redirect |
@@ -62,10 +62,11 @@ LunaTree (root widget: `Lueur`) is a Flutter journaling and relaxation app with 
 - **`core/preferences/onboarding_prefs.dart`** — Hive-backed flag; `hasSeen()` / `markSeen()`. Splash reads this to choose onboarding vs. login.
 - **`core/styling/`** — `AppTheme`, `AppColors`, `AppExtraColors` (ThemeExtension), `AppTextStyles`, `AppFonts`, `AppAssets`.
 - **`core/constants/`** — `AppSizes`, `AppSpacing` (use `flutter_screenutil` `.r`/`.w`/`.h` values).
+- **`core/widgets/app_top_bar.dart`** — `AppTopBar`, the canonical `PreferredSizeWidget` app bar for every pushed/detail screen (back button style, title style, height, top spacing). Root tab screens (home, journal, profile) keep their own greeting-style headers and don't use it. Use this instead of building a bespoke header row/widget for a new screen.
 
 ## Startup sequence
 
-`main()` → `Hive.initFlutter()` → open three boxes (`mood_entries`, `saved_quotes`, theme) → `setupInjection()` → `GoogleFonts.pendingFonts()` → `runApp(Lueur())`.
+`main()` calls `GoogleFonts.config.allowRuntimeFetching = false` (Nunito, DMSerifDisplay, and DM Sans are all bundled local assets — never fetched from Google's font CDN) then `runApp(Lueur(initializer: initializeAppServices))` immediately, so the first frame draws behind a loading screen while `initializeAppServices()` (`core/startup/app_initializer.dart`) runs: `Firebase.initializeApp()` → open four Hive boxes (`mood_entries`, `saved_quotes`, `sudoku_results`, `saved_drawings`) → clear guest-only data in each of those datasources → `SharedPreferences.getInstance()` → `setupInjection()`. Theme/language preferences live in `shared_preferences`, not a Hive box.
 
 `SplashScreen.initState` waits a fixed delay then calls `OnboardingPrefs.hasSeen()`:
 - `false` → `context.go(AppRoutes.onBoarding)`
@@ -110,8 +111,8 @@ Light and dark themes defined in `AppTheme`. Extra semantic colors (mood colours
 | `ThemeTextStyles` | `flutter_screenutil .sp` | Older feature screens (home, journal, etc.) |
 
 **Fonts:**
-- **Nunito** (bundled, primary body/UI) and **DMSerifDisplay** (bundled, display/italic headings)
-- **DM Sans** and **DM Serif Display** also loaded via `GoogleFonts.pendingFonts()` in `main()`
+- **Nunito** (primary body/UI), **DMSerifDisplay** (display/italic headings), and **DM Sans** are all bundled local assets (`pubspec.yaml` `fonts:`)
+- `google_fonts` runtime fetching is disabled in `main()` (`GoogleFonts.config.allowRuntimeFetching = false`) — it used to block cold starts on a call to Google's font CDN; no fonts are fetched over the network
 - `AppFonts.mainFontName` is used in `ThemeTextStyles`
 - `ThemeTextStyles` already includes `fontFamilyFallback` with emoji fallbacks — always include them in any `TextStyle` that may render emoji
 

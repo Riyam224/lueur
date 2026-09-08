@@ -38,7 +38,8 @@ class _StreakCelebrationScreenState extends State<StreakCelebrationScreen>
   @override
   void initState() {
     super.initState();
-    _affirmationIndex = Random().nextInt(StreakCelebrationCopy.affirmationCount);
+    _affirmationIndex =
+        Random().nextInt(StreakCelebrationCopy.affirmationCount);
     _animations = StreakCelebrationAnimations(
       vsync: this,
       streakDays: widget.streakDays,

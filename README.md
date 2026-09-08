@@ -109,8 +109,8 @@ The flow below follows the app in order — onboarding → sign in → capture a
   </tr>
   <tr>
     <td>Choose a mood</td>
-    <td><img src="screenshots/home_screen_light.png" width="180" alt="Choosing a mood, light theme"/></td>
-    <td><img src="screenshots/home_screen_dark.png" width="180" alt="Choosing a mood, dark theme"/></td>
+    <td><img src="screenshots/home_light.png" width="180" alt="Choosing a mood, light theme"/></td>
+    <td><img src="screenshots/home_dark.png" width="180" alt="Choosing a mood, dark theme"/></td>
   </tr>
   <tr>
     <td>Mood choice dialog</td>
@@ -144,23 +144,23 @@ The flow below follows the app in order — onboarding → sign in → capture a
   </tr>
   <tr>
     <td>Breathing exercise</td>
-    <td><img src="screenshots/breathing_out_light.png" width="180" alt="Breathing exercise, light theme"/></td>
-    <td><img src="screenshots/breathing_out_dark.png" width="180" alt="Breathing exercise, dark theme"/></td>
+    <td><img src="screenshots/breathing_light.png" width="180" alt="Breathing exercise, light theme"/></td>
+    <td><img src="screenshots/breathing_dark.png" width="180" alt="Breathing exercise, dark theme"/></td>
   </tr>
   <tr>
     <td>Free drawing</td>
-    <td><img src="screenshots/freedrawing_light.png" width="180" alt="Free drawing canvas, light theme"/></td>
-    <td><img src="screenshots/free_drawing_screen_dark.png" width="180" alt="Free drawing canvas, dark theme"/></td>
+    <td><img src="screenshots/freedraw_light.png" width="180" alt="Free drawing canvas, light theme"/></td>
+    <td><img src="screenshots/freedraw_dark.png" width="180" alt="Free drawing canvas, dark theme"/></td>
   </tr>
   <tr>
     <td>Sudoku</td>
-    <td><img src="screenshots/sudoku_screen_light.png" width="180" alt="Sudoku puzzle, light theme"/></td>
-    <td><img src="screenshots/sudoku_screen_dark.png" width="180" alt="Sudoku puzzle, dark theme"/></td>
+    <td><img src="screenshots/sudoku_light.png" width="180" alt="Sudoku puzzle, light theme"/></td>
+    <td><img src="screenshots/sudoku_dark.png" width="180" alt="Sudoku puzzle, dark theme"/></td>
   </tr>
   <tr>
     <td>Profile & settings</td>
-    <td><img src="screenshots/profile_journey_light.png" width="180" alt="Profile & settings, light theme"/></td>
-    <td><img src="screenshots/profile_journey_dark.png" width="180" alt="Profile & settings, dark theme"/></td>
+    <td><img src="screenshots/profile_light.png" width="180" alt="Profile & settings, light theme"/></td>
+    <td><img src="screenshots/profile_dark.png" width="180" alt="Profile & settings, dark theme"/></td>
   </tr>
 </table>
 
@@ -180,7 +180,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Streak & Plant | Daily journaling grows a virtual plant (seed → sprout → blooming), with a streak celebration screen |
 | Weekly Letter | AI-generated weekly emotional reflection with stats |
 | Saved Quotes | Bookmark Luna's responses for later, view and delete them, with a retry option if loading them fails |
-| Breathing Exercise | Guided 4-7-8 breathing technique with animated visuals |
+| Breathing Exercise | Guided breathe-in/breathe-out cycle with animated ring visuals |
 | Affirmations | Emoji-specific rotating affirmation cards |
 | Free Drawing | Open canvas for expressive/calming drawing, with a gallery of saved drawings |
 | Sudoku | Playable sudoku puzzles with move validation and saved results history |
@@ -249,12 +249,12 @@ lib/
 │   ├── styling/           — AppTheme, AppColors, AppExtraColors, text styles, fonts
 │   ├── theme/             — theme-related core widgets/helpers
 │   ├── utils/             — shared helpers/extensions
-│   └── widgets/           — shared reusable widgets
+│   └── widgets/           — shared reusable widgets, incl. AppTopBar (canonical app bar for pushed/detail screens)
 │
 ├── features/
 │   ├── affirmation/       — emoji-specific affirmation cards
 │   ├── auth/               — login, register, forgot password, Firebase + Django auth
-│   ├── breathing/          — guided 4-7-8 breathing exercise
+│   ├── breathing/          — guided breathe-in/breathe-out exercise
 │   ├── chat/                — follow-up chat with Luna
 │   ├── draw/                — free drawing canvas + saved drawings gallery
 │   ├── home/                — mood input, AI response trigger, history, weekly letter
@@ -375,7 +375,7 @@ Two text style systems coexist by design:
 | `AppTextStyles` | Custom `_scale()` clamp based on screen width | Newer screens (splash, onboarding, auth) |
 | `ThemeTextStyles` | `flutter_screenutil` (`.sp`) | Older feature screens (home, journal, etc.) |
 
-Fonts: **Nunito** (primary body/UI) and **DMSerifDisplay** (display/italic headings), both bundled; **DM Sans** also loaded via Google Fonts at startup.
+Fonts: **Nunito** (primary body/UI), **DMSerifDisplay** (display/italic headings), and **DM Sans**, all bundled locally as assets — runtime fetching via `google_fonts` is disabled (`GoogleFonts.config.allowRuntimeFetching = false`) to avoid blocking cold starts on a network call.
 
 ### Spacing Grid
 

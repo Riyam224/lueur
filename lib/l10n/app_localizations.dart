@@ -1739,7 +1739,7 @@ abstract class AppLocalizations {
   /// No description provided for @breathingHeaderLabel.
   ///
   /// In en, this message translates to:
-  /// **'guided breathing'**
+  /// **'Breathe with Luna'**
   String get breathingHeaderLabel;
 
   /// No description provided for @breathingPhaseIn.
@@ -1753,6 +1753,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Breathe out'**
   String get breathingPhaseOut;
+
+  /// No description provided for @breathingPhaseSecondsRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, one{1 second} other{{seconds} seconds}}'**
+  String breathingPhaseSecondsRemaining(int seconds);
 
   /// No description provided for @breathingConfigErrorMessage.
   ///

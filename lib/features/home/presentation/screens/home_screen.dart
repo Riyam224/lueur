@@ -86,124 +86,127 @@ class _HomeScreenBody extends StatelessWidget {
         builder: (context, mood) {
           final (isLoading, hasEntries, errorMessage) = mood;
 
-          return CustomScrollView(
-            slivers: [
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.topPaddingSafeArea,
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.verticalPaddingLg,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: HomeHeader(
-                    userName: userName,
-                    userSeed: userSeed,
+          return SafeArea(
+            bottom: false,
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(
+                    AppSpacing.horizontalPaddingLg,
+                    AppSpacing.topPaddingSafeArea,
+                    AppSpacing.horizontalPaddingLg,
+                    AppSpacing.verticalPaddingLg,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: HomeHeader(
+                      userName: userName,
+                      userSeed: userSeed,
+                    ),
                   ),
                 ),
-              ),
-              SliverPadding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSpacing.horizontalPaddingLg,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      // Ambient gradient bleed softening the hard edge between
-                      // the greeting card and mood picker — purely decorative, never affects layout.
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: -AppSpacing.sectionSpacingLg,
-                        height: AppSpacing.sectionSpacingLg,
-                        child: IgnorePointer(
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  (Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? AppColors.pastelOrchid
-                                          : AppColors.greetingGradientStart)
-                                      .withValues(alpha: 0.22),
-                                  (Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? AppColors.pastelOrchid
-                                          : AppColors.greetingGradientStart)
-                                      .withValues(alpha: 0.0),
-                                ],
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.horizontalPaddingLg,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Ambient gradient bleed softening the hard edge between
+                        // the greeting card and mood picker — purely decorative, never affects layout.
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: -AppSpacing.sectionSpacingLg,
+                          height: AppSpacing.sectionSpacingLg,
+                          child: IgnorePointer(
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    (Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? AppColors.pastelOrchid
+                                            : AppColors.greetingGradientStart)
+                                        .withValues(alpha: 0.22),
+                                    (Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? AppColors.pastelOrchid
+                                            : AppColors.greetingGradientStart)
+                                        .withValues(alpha: 0.0),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      GreetingCard(
-                        userName: userName,
-                        hasEntries: hasEntries,
-                      ),
-                    ],
+                        GreetingCard(
+                          userName: userName,
+                          hasEntries: hasEntries,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                  AppSpacing.horizontalPaddingLg,
-                  0,
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(
+                    AppSpacing.horizontalPaddingLg,
+                    AppSpacing.sectionSpacingSm,
+                    AppSpacing.horizontalPaddingLg,
+                    0,
+                  ),
+                  sliver: const SliverToBoxAdapter(child: HomeStreakWidget()),
                 ),
-                sliver: const SliverToBoxAdapter(child: HomeStreakWidget()),
-              ),
-              SliverPadding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
-                  AppSpacing.horizontalPaddingLg,
-                  AppSpacing.sectionSpacingSm,
+                SliverPadding(
+                  padding: EdgeInsets.fromLTRB(
+                    AppSpacing.horizontalPaddingLg,
+                    AppSpacing.sectionSpacingSm,
+                    AppSpacing.horizontalPaddingLg,
+                    AppSpacing.sectionSpacingSm,
+                  ),
+                  sliver: const SliverToBoxAdapter(child: MoodInputSection()),
                 ),
-                sliver: const SliverToBoxAdapter(child: MoodInputSection()),
-              ),
-              if (isLoading)
+                if (isLoading)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSpacing.sectionSpacingMd,
+                      ),
+                      child: Center(
+                        child: Lottie.asset(
+                          'assets/lottie/plant_sprout.json',
+                          width: AppSizes.iconXl,
+                          height: AppSizes.iconXl,
+                          repeat: true,
+                        ),
+                      ),
+                    ),
+                  ),
+                if (errorMessage != null)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: AppSpacing.horizontalPaddingLg,
+                        vertical: AppSpacing.sectionSpacingSm,
+                      ),
+                      child: Text(
+                        errorMessage,
+                        style: ThemeTextStyles.bodyMedium(context)
+                            .copyWith(color: AppColors.errorColor),
+                      ),
+                    ),
+                  ),
                 SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSpacing.sectionSpacingMd,
-                    ),
-                    child: Center(
-                      child: Lottie.asset(
-                        'assets/lottie/plant_sprout.json',
-                        width: AppSizes.iconXl,
-                        height: AppSizes.iconXl,
-                        repeat: true,
-                      ),
-                    ),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).padding.bottom +
+                        kBottomNavBarContentHeight +
+                        AppSpacing.sectionSpacingSm,
                   ),
                 ),
-              if (errorMessage != null)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSpacing.horizontalPaddingLg,
-                      vertical: AppSpacing.sectionSpacingSm,
-                    ),
-                    child: Text(
-                      errorMessage,
-                      style: ThemeTextStyles.bodyMedium(context)
-                          .copyWith(color: AppColors.errorColor),
-                    ),
-                  ),
-                ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: MediaQuery.of(context).padding.bottom +
-                      kBottomNavBarContentHeight +
-                      AppSpacing.sectionSpacingSm,
-                ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

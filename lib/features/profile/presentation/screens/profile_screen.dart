@@ -37,194 +37,191 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.topPaddingSafeArea,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.verticalPaddingMd,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: Text(
-              AppLocalizations.of(context)!.profileTitle,
-              style: ThemeTextStyles.headlineMedium(context),
+    return SafeArea(
+      bottom: false,
+      child: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.topPaddingSafeArea,
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.verticalPaddingMd,
             ),
-          ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.horizontalPaddingLg,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, state) => ProfileAvatarWidget(
-                name: _displayName(context, state),
-                subtitle: _subtitle(context),
-                seed: _userSeed(state),
+            sliver: SliverToBoxAdapter(
+              child: Text(
+                AppLocalizations.of(context)!.profileTitle,
+                style: ThemeTextStyles.headlineMedium(context),
               ),
             ),
           ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingMd,
+          SliverPadding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalPaddingLg,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) => ProfileAvatarWidget(
+                  name: _displayName(context, state),
+                  subtitle: _subtitle(context),
+                  seed: _userSeed(state),
+                ),
+              ),
+            ),
           ),
-          sliver: SliverToBoxAdapter(
-            child: BlocBuilder<SavedQuotesCubit, SavedQuotesState>(
-              builder: (context, state) {
-                if (state is SavedQuotesLoaded) {
-                  if (state.quotes.isEmpty) {
-                    return Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(AppSpacing.spaceLg),
-                      decoration: BoxDecoration(
-                        color: context.extra.cardBackgroundColor,
-                        borderRadius:
-                            BorderRadius.circular(AppSizes.borderRadiusLg),
-                        border: Border.all(
-                          color: context.extra.borderColor ??
-                              Theme.of(context).colorScheme.outline,
-                          width: 1.2,
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              0,
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.sectionSpacingMd,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: BlocBuilder<SavedQuotesCubit, SavedQuotesState>(
+                builder: (context, state) {
+                  if (state is SavedQuotesLoaded) {
+                    if (state.quotes.isEmpty) {
+                      return Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(AppSpacing.spaceLg),
+                        decoration: BoxDecoration(
+                          color: context.extra.cardBackgroundColor,
+                          borderRadius:
+                              BorderRadius.circular(AppSizes.borderRadiusLg),
+                          border: Border.all(
+                            color: context.extra.borderColor ??
+                                Theme.of(context).colorScheme.outline,
+                            width: 1.2,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        children: [
-                          Text('📌',
-                              style: TextStyle(fontSize: AppSizes.iconLg)),
-                          SizedBox(height: AppSpacing.spaceSm),
-                          Text(
-                            AppLocalizations.of(context)!.quotesScreenTitle,
-                            style: ThemeTextStyles.titleMedium(context),
-                          ),
-                          SizedBox(height: AppSpacing.spaceXs),
-                          Text(
-                            AppLocalizations.of(context)!
-                                .profileQuotesEmptySubtitle,
-                            style: ThemeTextStyles.bodySmall(context).copyWith(
-                              color: context.extra.secondaryTextColor,
+                        child: Column(
+                          children: [
+                            Text('📌',
+                                style: TextStyle(fontSize: AppSizes.iconLg)),
+                            SizedBox(height: AppSpacing.spaceSm),
+                            Text(
+                              AppLocalizations.of(context)!.quotesScreenTitle,
+                              style: ThemeTextStyles.titleMedium(context),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
+                            SizedBox(height: AppSpacing.spaceXs),
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .profileQuotesEmptySubtitle,
+                              style:
+                                  ThemeTextStyles.bodySmall(context).copyWith(
+                                color: context.extra.secondaryTextColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!.quotesScreenTitle,
+                                overflow: TextOverflow.ellipsis,
+                                style: ThemeTextStyles.headlineSmall(context),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () =>
+                                  context.go(AppRoutes.savedQuotes),
+                              icon: const Icon(Icons.chevron_right_rounded),
+                              color: context.extra.tertiaryTextColor,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppSpacing.spaceSm),
+                        ...state.quotes.take(2).map(
+                              (quote) => SavedQuoteCard(
+                                quote: quote,
+                                emojiFontSize: 18,
+                              ),
+                            ),
+                      ],
                     );
                   }
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              AppLocalizations.of(context)!.quotesScreenTitle,
-                              overflow: TextOverflow.ellipsis,
-                              style: ThemeTextStyles.headlineSmall(context),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => context.go(AppRoutes.savedQuotes),
-                            icon: const Icon(Icons.chevron_right_rounded),
-                            color: context.extra.tertiaryTextColor,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: AppSpacing.spaceSm),
-                      ...state.quotes.take(2).map(
-                            (quote) => SavedQuoteCard(
-                              quote: quote,
-                              emojiFontSize: 18,
-                            ),
-                          ),
-                    ],
-                  );
-                }
-
-                return const SizedBox.shrink();
-              },
+                  return const SizedBox.shrink();
+                },
+              ),
             ),
           ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingMd,
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              0,
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.sectionSpacingMd,
+            ),
+            sliver: const SliverToBoxAdapter(
+              child: ProfileSavedDrawingsSectionWidget(),
+            ),
           ),
-          sliver: const SliverToBoxAdapter(
-            child: ProfileSavedDrawingsSectionWidget(),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              0,
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.sectionSpacingMd,
+            ),
+            sliver: const SliverToBoxAdapter(
+              child: ProfileSudokuHistorySectionWidget(),
+            ),
           ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingMd,
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              0,
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.sectionSpacingLg,
+            ),
+            sliver: const SliverToBoxAdapter(
+              child: ProfileSettingsSectionWidget(),
+            ),
           ),
-          sliver: const SliverToBoxAdapter(
-            child: ProfileSudokuHistorySectionWidget(),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              0,
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.sectionSpacingLg,
+            ),
+            sliver: const SliverToBoxAdapter(
+              child: ProfileJournalDataSectionWidget(),
+            ),
           ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingLg,
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              0,
+              AppSpacing.horizontalPaddingLg,
+              AppSpacing.sectionSpacingLg,
+            ),
+            sliver: const SliverToBoxAdapter(
+              child: ProfileAccountSectionWidget(),
+            ),
           ),
-          sliver: const SliverToBoxAdapter(
-            child: ProfileSettingsSectionWidget(),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPaddingLg,
+              0,
+              AppSpacing.horizontalPaddingLg,
+              100.h,
+            ),
+            sliver: const SliverToBoxAdapter(
+              child: ProfileAuthActionWidget(),
+            ),
           ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingLg,
-          ),
-          sliver: const SliverToBoxAdapter(
-            child: ProfileJournalDataSectionWidget(),
-          ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            AppSpacing.sectionSpacingLg,
-          ),
-          sliver: const SliverToBoxAdapter(
-            child: ProfileAccountSectionWidget(),
-          ),
-        ),
-
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            AppSpacing.horizontalPaddingLg,
-            0,
-            AppSpacing.horizontalPaddingLg,
-            100.h,
-          ),
-          sliver: const SliverToBoxAdapter(
-            child: ProfileAuthActionWidget(),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

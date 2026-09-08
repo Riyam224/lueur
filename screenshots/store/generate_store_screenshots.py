@@ -14,6 +14,10 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 ROOT = "/Users/r/StudioProjects/lueur"
 SCREENSHOTS_DIR = os.path.join(ROOT, "screenshots")
 OUT_DIR = os.path.join(SCREENSHOTS_DIR, "store")
+# Raw source captures for the store assets — kept in their own folder so
+# regenerating store assets never depends on whatever happens to be in the
+# top-level screenshots/ folder (used for the README) at the time.
+SOURCE_DIR = os.path.join(OUT_DIR, "store1")
 FONTS_DIR = os.path.join(ROOT, "assets", "fonts")
 
 HEADLINE_FONT_PATH = os.path.join(FONTS_DIR, "DMSerifDisplay-Regular.ttf")
@@ -54,58 +58,142 @@ PUNCH_HOLE_INSET_FRACTION = 0.003
 # punch hole.
 NOTCH_CROP_TOP = 145
 
+# Center/radius of that same baked-in blob, used instead of NOTCH_CROP_TOP
+# for an entry that wants to keep its real status bar (time/network/battery)
+# visible — the blob gets painted over with the row's flat background color
+# rather than cropping the whole status bar away.
+STATUS_BLOB_CENTER = (539, 86)
+STATUS_BLOB_ERASE_RADIUS = 48
+
+
+def erase_status_blob(shot):
+    bg = shot.getpixel((STATUS_BLOB_CENTER[0] + 150, STATUS_BLOB_CENTER[1]))
+    draw = ImageDraw.Draw(shot)
+    r = STATUS_BLOB_ERASE_RADIUS
+    draw.ellipse(
+        [
+            (STATUS_BLOB_CENTER[0] - r, STATUS_BLOB_CENTER[1] - r),
+            (STATUS_BLOB_CENTER[0] + r, STATUS_BLOB_CENTER[1] + r),
+        ],
+        fill=bg,
+    )
+    return shot
+
+
+# Region of the emulator's "3G" text + no-signal triangle in the status bar
+# (right side, next to the battery icon), replaced with real wifi + cellular
+# signal glyphs for an entry that keeps its status bar visible — a real
+# device would show wifi and a normal signal reading, not a flaky "3G" +
+# no-signal warning triangle. The glyphs are lifted pixel-for-pixel from
+# another raw capture's status bar (same emulator template, same
+# position/size for every screenshot) rather than hand-drawn, so they match
+# the wifi + signal icons already visible on every other screenshot exactly.
+NETWORK_ICON_CLEAR_BOX = (868, 45, 972, 96)
+WIFI_GLYPH_SOURCE = "timeline_dark.png"
+WIFI_GLYPH_BOX = (886, 48, 970, 92)  # wifi fan + cellular signal triangle, as one unit
+
+_wifi_glyph_cache = None
+
+
+def _wifi_glyph():
+    global _wifi_glyph_cache
+    if _wifi_glyph_cache is None:
+        ref = Image.open(os.path.join(SOURCE_DIR, WIFI_GLYPH_SOURCE)).convert("RGB")
+        crop = ref.crop(WIFI_GLYPH_BOX)
+        import numpy as np
+
+        arr = np.array(crop)
+        lum = arr.mean(axis=2)
+        alpha = np.clip((lum - 40) / (220 - 40) * 255, 0, 255).astype("uint8")
+        rgba = np.zeros((crop.height, crop.width, 4), dtype="uint8")
+        rgba[..., 0] = 255
+        rgba[..., 1] = 255
+        rgba[..., 2] = 255
+        rgba[..., 3] = alpha
+        _wifi_glyph_cache = Image.fromarray(rgba, "RGBA")
+    return _wifi_glyph_cache
+
+
+def draw_wifi_icon(shot):
+    bg = shot.getpixel((NETWORK_ICON_CLEAR_BOX[0] - 68, 70))
+    draw = ImageDraw.Draw(shot)
+    draw.rectangle(NETWORK_ICON_CLEAR_BOX, fill=bg)
+    shot.paste(_wifi_glyph(), (WIFI_GLYPH_BOX[0], WIFI_GLYPH_BOX[1]), _wifi_glyph())
+    return shot
+
+# Every entry keeps its real status bar (time/network/battery) visible
+# instead of the usual top crop — only the baked-in emulator camera blob is
+# painted over. "chat_with_ai_luna_more_dark" is the one raw capture whose
+# status bar reads "3G" instead of showing a wifi icon, so it also gets the
+# drawn wifi glyph.
+_STATUS_BAR_VISIBLE = {
+    "crop_top": 0,
+    "skip_notch_crop": True,
+    "erase_blob": True,
+}
+
 SCREENS = [
     {
         "out": "store-screenshot-1.png",
-        "headline": "Meet Luna, your calm companion",
-        # Long, filled-out conversation instead of a near-empty two-bubble
-        # capture, so the phone frame isn't mostly blank space.
-        "screenshot": "chat_with_ai_luna_more_light.png",
+        "headline": "These are Lueur's features",
+        "screenshot": "features_dark.png",
+        **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
     {
         "out": "store-screenshot-2.png",
         "headline": "Check in with how you feel",
-        "screenshot": "home_screen_dark.png",
+        "screenshot": "home_light.png",
+        **_STATUS_BAR_VISIBLE,
     },
     {
         "out": "store-screenshot-3.png",
-        "headline": "A cozy space for your thoughts",
-        "screenshot": "journal_dark.png",
+        "headline": "Talk it out with Luna",
+        "screenshot": "chat_with_ai_luna_more_dark.png",
+        **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
     {
         "out": "store-screenshot-4.png",
-        "headline": "Every moment, remembered",
-        "screenshot": "timeline_light.png",
+        "headline": "Your week, your streak, your story",
+        "screenshot": "journal_light.png",
+        **_STATUS_BAR_VISIBLE,
     },
     {
         "out": "store-screenshot-5.png",
-        "headline": "Always in your language",
-        "screenshot": "profile_with_theming_langs_dark.png",
-        # Reconstructed from the previous rendered store screenshot (the raw
-        # capture was lost) — already a clean crop with no punch-hole blob
-        # to trim, so skip the usual top crop.
-        "crop_top": 0,
-        "skip_notch_crop": True,
+        "headline": "Every moment, remembered",
+        "screenshot": "timeline_dark.png",
+        **_STATUS_BAR_VISIBLE,
     },
     {
         "out": "store-screenshot-6.png",
-        "headline": "A slow breath with Luna",
-        "screenshot": "breathing_with_luna_light.png",
+        "headline": "Breathe easy with Luna",
+        "screenshot": "breathing_light.png",
+        **_STATUS_BAR_VISIBLE,
     },
     {
         "out": "store-screenshot-7.png",
-        "headline": "Draw out what words can't say",
-        "screenshot": "freedrawing_light.png",
+        "headline": "A small puzzle to unwind",
+        "screenshot": "sudoku_dark.png",
+        **_STATUS_BAR_VISIBLE,
     },
     {
         "out": "store-screenshot-8.png",
-        "headline": "A small puzzle to unwind",
-        "screenshot": "sudoku_screen_dark.png",
+        "headline": "Draw out what words can't say",
+        "screenshot": "freedraw_light.png",
+        **_STATUS_BAR_VISIBLE,
     },
     {
         "out": "store-screenshot-9.png",
+        "headline": "Always in your language",
+        "screenshot": "profile_choose_theme_and language_dark.png",
+        **_STATUS_BAR_VISIBLE,
+    },
+    {
+        "out": "store-screenshot-10.png",
         "headline": "Your journey, all in one place",
-        "screenshot": "profile_journey_dark.png",
+        "screenshot": "profile_light.png",
+        **_STATUS_BAR_VISIBLE,
     },
 ]
 
@@ -187,9 +275,15 @@ def rounded_mask(size, radius):
     return mask
 
 
-def build_phone_frame(screenshot_path, frame_top, frame_bottom, crop_top=0):
+def build_phone_frame(
+    screenshot_path, frame_top, frame_bottom, crop_top=0, erase_blob=False, wifi_icon=False
+):
     frame_h = frame_bottom - frame_top
     shot = Image.open(screenshot_path).convert("RGB")
+    if erase_blob:
+        shot = erase_status_blob(shot)
+    if wifi_icon:
+        shot = draw_wifi_icon(shot)
     if crop_top:
         shot = shot.crop((0, crop_top, shot.width, shot.height))
 
@@ -284,9 +378,14 @@ def render(entry):
 
     frame_top = TOP_MARGIN + HEADLINE_BLOCK_H
     frame_bottom = H - BOTTOM_MARGIN
-    screenshot_path = os.path.join(SCREENSHOTS_DIR, entry["screenshot"])
+    screenshot_path = os.path.join(SOURCE_DIR, entry["screenshot"])
     bezel, bezel_x, shadow, shadow_pad = build_phone_frame(
-        screenshot_path, frame_top, frame_bottom, entry.get("crop_top", 0)
+        screenshot_path,
+        frame_top,
+        frame_bottom,
+        entry.get("crop_top", 0),
+        entry.get("erase_blob", False),
+        entry.get("wifi_icon", False),
     )
     bezel_y = frame_top
 

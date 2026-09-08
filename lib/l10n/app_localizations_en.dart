@@ -930,13 +930,24 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get breathingHeaderLabel => 'guided breathing';
+  String get breathingHeaderLabel => 'Breathe with Luna';
 
   @override
   String get breathingPhaseIn => 'Breathe in';
 
   @override
   String get breathingPhaseOut => 'Breathe out';
+
+  @override
+  String breathingPhaseSecondsRemaining(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds seconds',
+      one: '1 second',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get breathingConfigErrorMessage =>
