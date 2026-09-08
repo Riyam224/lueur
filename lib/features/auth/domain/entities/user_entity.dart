@@ -1,5 +1,10 @@
 import 'package:equatable/equatable.dart';
 
+/// Result of an auth flow that can create an account (login, register,
+/// Google sign-in): the resolved user plus whether this call created the
+/// account, so callers can react to first-time sign-up exactly once.
+typedef AuthResult = ({UserEntity user, bool isNewUser});
+
 class UserEntity extends Equatable {
   final String id;
   final String email;

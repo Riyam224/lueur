@@ -18,24 +18,27 @@ import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 
 class FakeAuthRepository implements AuthRepository {
-  Either<Failure, UserEntity> loginResult =
-      const Right(UserEntity(id: 'uid-1', email: 'user@example.com'));
-  Either<Failure, UserEntity> registerResult =
-      const Right(UserEntity(id: 'uid-1', email: 'user@example.com'));
-  Either<Failure, UserEntity> googleResult =
-      const Right(UserEntity(id: 'uid-1', email: 'user@example.com'));
+  Either<Failure, AuthResult> loginResult = const Right(
+    (user: UserEntity(id: 'uid-1', email: 'user@example.com'), isNewUser: false),
+  );
+  Either<Failure, AuthResult> registerResult = const Right(
+    (user: UserEntity(id: 'uid-1', email: 'user@example.com'), isNewUser: true),
+  );
+  Either<Failure, AuthResult> googleResult = const Right(
+    (user: UserEntity(id: 'uid-1', email: 'user@example.com'), isNewUser: false),
+  );
   Future<Either<Failure, void>> Function()? logoutHandler;
   Either<Failure, void> deleteAccountResult = const Right(null);
 
   @override
-  Future<Either<Failure, UserEntity>> login({
+  Future<Either<Failure, AuthResult>> login({
     required String email,
     required String password,
   }) async =>
       loginResult;
 
   @override
-  Future<Either<Failure, UserEntity>> register({
+  Future<Either<Failure, AuthResult>> register({
     required String email,
     required String password,
     required String name,
@@ -43,7 +46,7 @@ class FakeAuthRepository implements AuthRepository {
       registerResult;
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithGoogle() async => googleResult;
+  Future<Either<Failure, AuthResult>> signInWithGoogle() async => googleResult;
 
   @override
   Future<Either<Failure, void>> logout() async {
@@ -140,6 +143,53 @@ void main() {
 
       expect(cubit.state, isA<AuthInitial>());
       expect(await AuthPrefs.hasEverAuthenticated(), isFalse);
+    });
+  });
+
+  group('isNewUser propagation into AuthAuthenticated', () {
+    test('Google sign-in for a new account emits isNewUser: true', () async {
+      repository.googleResult = const Right(
+        (user: UserEntity(id: 'uid-1', email: 'user@example.com'), isNewUser: true),
+      );
+
+      await cubit.signInWithGoogle();
+
+      final state = cubit.state;
+      expect(state, isA<AuthAuthenticated>());
+      expect((state as AuthAuthenticated).isNewUser, isTrue);
+    });
+
+    test('Google sign-in for an existing account emits isNewUser: false',
+        () async {
+      repository.googleResult = const Right(
+        (user: UserEntity(id: 'uid-1', email: 'user@example.com'), isNewUser: false),
+      );
+
+      await cubit.signInWithGoogle();
+
+      final state = cubit.state;
+      expect(state, isA<AuthAuthenticated>());
+      expect((state as AuthAuthenticated).isNewUser, isFalse);
+    });
+
+    test('register emits isNewUser: true', () async {
+      await cubit.register(
+        email: 'user@example.com',
+        password: 'password123',
+        name: 'User',
+      );
+
+      final state = cubit.state;
+      expect(state, isA<AuthAuthenticated>());
+      expect((state as AuthAuthenticated).isNewUser, isTrue);
+    });
+
+    test('login emits isNewUser: false', () async {
+      await cubit.login(email: 'user@example.com', password: 'password123');
+
+      final state = cubit.state;
+      expect(state, isA<AuthAuthenticated>());
+      expect((state as AuthAuthenticated).isNewUser, isFalse);
     });
   });
 

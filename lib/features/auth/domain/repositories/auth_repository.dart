@@ -3,19 +3,19 @@ import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/auth/domain/entities/user_entity.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, UserEntity>> login({
+  Future<Either<Failure, AuthResult>> login({
     required String email,
     required String password,
   });
 
-  Future<Either<Failure, UserEntity>> register({
+  Future<Either<Failure, AuthResult>> register({
     required String email,
     required String password,
     required String name,
   });
 
   Future<Either<Failure, void>> logout();
-  Future<Either<Failure, UserEntity>> signInWithGoogle();
+  Future<Either<Failure, AuthResult>> signInWithGoogle();
 
   /// Permanently deletes the signed-in user's account (backend-first,
   /// hard-delete, fail-closed). Local session state is untouched on failure.

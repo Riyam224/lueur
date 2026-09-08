@@ -32,14 +32,14 @@ class _FakeAuthRepository implements AuthRepository {
   Future<Either<Failure, void>> deleteAccount() => throw UnimplementedError();
 
   @override
-  Future<Either<Failure, UserEntity>> login({
+  Future<Either<Failure, AuthResult>> login({
     required String email,
     required String password,
   }) =>
       throw UnimplementedError();
 
   @override
-  Future<Either<Failure, UserEntity>> register({
+  Future<Either<Failure, AuthResult>> register({
     required String email,
     required String password,
     required String name,
@@ -47,7 +47,7 @@ class _FakeAuthRepository implements AuthRepository {
       throw UnimplementedError();
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithGoogle() =>
+  Future<Either<Failure, AuthResult>> signInWithGoogle() =>
       throw UnimplementedError();
 
   @override

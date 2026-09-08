@@ -23,18 +23,19 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// Verifies the Firebase token and, only on first account creation,
   /// optimistically syncs an Arabic device locale — fire-and-forget, never blocks sign-in or surfaces a sync failure.
-  Future<DjangoUserModel> _verifyTokenAndSyncInitialLanguage(
-    String idToken,
-  ) async {
+  /// Returns `isNewUser` alongside the user so callers can react to
+  /// first-time account creation exactly once (e.g. age confirmation).
+  Future<({DjangoUserModel user, bool isNewUser})>
+      _verifyTokenAndSyncInitialLanguage(String idToken) async {
     final result = await _djangoDataSource.verifyToken(idToken);
     if (result.isNewUser && Platform.localeName.startsWith('ar')) {
       unawaited(syncPreferredLanguage('ar'));
     }
-    return result.user;
+    return result;
   }
 
   @override
-  Future<Either<Failure, UserEntity>> login({
+  Future<Either<Failure, AuthResult>> login({
     required String email,
     required String password,
   }) async {
@@ -43,8 +44,8 @@ class AuthRepositoryImpl implements AuthRepository {
         email: email,
         password: password,
       );
-      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
-      return Right(djangoUser);
+      final result = await _verifyTokenAndSyncInitialLanguage(idToken);
+      return Right((user: result.user, isNewUser: result.isNewUser));
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
     } catch (_) {
@@ -53,7 +54,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> register({
+  Future<Either<Failure, AuthResult>> register({
     required String email,
     required String password,
     required String name,
@@ -64,8 +65,8 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
         name: name,
       );
-      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
-      return Right(djangoUser);
+      final result = await _verifyTokenAndSyncInitialLanguage(idToken);
+      return Right((user: result.user, isNewUser: result.isNewUser));
     } on FirebaseAuthException catch (e) {
       return Left(ServerFailure(_mapFirebaseError(e)));
     } catch (_) {
@@ -100,11 +101,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signInWithGoogle() async {
+  Future<Either<Failure, AuthResult>> signInWithGoogle() async {
     try {
       final (:user, :idToken) = await _firebaseDataSource.signInWithGoogle();
-      final djangoUser = await _verifyTokenAndSyncInitialLanguage(idToken);
-      return Right(djangoUser);
+      final result = await _verifyTokenAndSyncInitialLanguage(idToken);
+      return Right((user: result.user, isNewUser: result.isNewUser));
     } on GoogleSignInCancelledException {
       return const Left(CancellationFailure());
     } on FirebaseAuthException catch (e) {
@@ -127,12 +128,12 @@ class AuthRepositoryImpl implements AuthRepository {
     if (user == null) return const Right(null);
 
     try {
-      final djangoUser = await (() async {
+      final result = await (() async {
         final idToken = await _firebaseDataSource.refreshIdToken();
         return _verifyTokenAndSyncInitialLanguage(idToken);
       })()
           .timeout(const Duration(seconds: 8));
-      return Right(djangoUser);
+      return Right(result.user);
     } on FirebaseAuthException catch (e, st) {
       // Only a genuine "session no longer valid" response should sign the
       // user out — we can't tell "no internet" apart from "no valid session" here, so default to trusting the cached session.

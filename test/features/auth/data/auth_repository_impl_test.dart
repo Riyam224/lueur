@@ -16,6 +16,8 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
 class MockUser extends Mock implements User {}
 
+class MockUserCredential extends Mock implements UserCredential {}
+
 class MockGoogleSignIn extends Mock implements GoogleSignIn {}
 
 class MockDio extends Mock implements Dio {}
@@ -161,6 +163,65 @@ void main() {
       expect(entity?.email, cachedEmail);
       verifyNever(() => firebaseAuth.signOut());
     });
+  });
+
+  group('isNewUser propagation', () {
+    test(
+      'login() surfaces isNewUser: true from the backend verify response',
+      () async {
+        final credential = MockUserCredential();
+        when(() => credential.user).thenReturn(user);
+        when(() => firebaseAuth.signInWithEmailAndPassword(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+            ),).thenAnswer((_) async => credential);
+        when(() => user.getIdToken()).thenAnswer((_) async => 'fresh-token');
+        when(() => dio.post(any(), data: any(named: 'data'))).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(path: ApiEndpoints.authVerify),
+            statusCode: 200,
+            data: {
+              'firebase_uid': cachedUid,
+              'email': cachedEmail,
+              'name': cachedName,
+              'is_new_user': true,
+            },
+          ),
+        );
+
+        final result = await repository.login(
+          email: cachedEmail,
+          password: 'password123',
+        );
+
+        final auth = result.fold((_) => null, (a) => a);
+        expect(auth?.isNewUser, isTrue);
+        expect(auth?.user.id, cachedUid);
+      },
+    );
+
+    test(
+      'login() surfaces isNewUser: false from the backend verify response',
+      () async {
+        final credential = MockUserCredential();
+        when(() => credential.user).thenReturn(user);
+        when(() => firebaseAuth.signInWithEmailAndPassword(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+            ),).thenAnswer((_) async => credential);
+        when(() => user.getIdToken()).thenAnswer((_) async => 'fresh-token');
+        when(() => dio.post(any(), data: any(named: 'data')))
+            .thenAnswer((_) async => backendSuccessResponse());
+
+        final result = await repository.login(
+          email: cachedEmail,
+          password: 'password123',
+        );
+
+        final auth = result.fold((_) => null, (a) => a);
+        expect(auth?.isNewUser, isFalse);
+      },
+    );
   });
 
   group('sendPasswordResetEmail', () {

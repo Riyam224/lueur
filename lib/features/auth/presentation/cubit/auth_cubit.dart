@@ -66,7 +66,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (isClosed) return;
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (auth) => emit(AuthAuthenticated(auth.user, isNewUser: auth.isNewUser)),
     );
   }
 
@@ -85,7 +85,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (isClosed) return;
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (auth) => emit(AuthAuthenticated(auth.user, isNewUser: auth.isNewUser)),
     );
   }
 
@@ -98,7 +98,7 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) => failure is CancellationFailure
           ? emit(const AuthInitial())
           : emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (auth) => emit(AuthAuthenticated(auth.user, isNewUser: auth.isNewUser)),
     );
   }
 

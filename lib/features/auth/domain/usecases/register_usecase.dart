@@ -7,7 +7,7 @@ class RegisterUseCase {
   final AuthRepository repository;
   const RegisterUseCase(this.repository);
 
-  Future<Either<Failure, UserEntity>> call({
+  Future<Either<Failure, AuthResult>> call({
     required String email,
     required String password,
     required String name,

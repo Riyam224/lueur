@@ -7,5 +7,5 @@ class SignInWithGoogleUseCase {
   final AuthRepository _repository;
   const SignInWithGoogleUseCase(this._repository);
 
-  Future<Either<Failure, UserEntity>> call() => _repository.signInWithGoogle();
+  Future<Either<Failure, AuthResult>> call() => _repository.signInWithGoogle();
 }

@@ -18,10 +18,16 @@ final class AuthLoading extends AuthState {
 
 final class AuthAuthenticated extends AuthState {
   final UserEntity user;
-  const AuthAuthenticated(this.user);
+
+  /// True only when this sign-in call itself created the account (fresh
+  /// login/register/Google sign-in). False on a restored session
+  /// ([AuthCubit.checkSession]), where it wouldn't mean "just signed up."
+  final bool isNewUser;
+
+  const AuthAuthenticated(this.user, {this.isNewUser = false});
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [user, isNewUser];
 }
 
 final class AuthUnauthenticated extends AuthState {
