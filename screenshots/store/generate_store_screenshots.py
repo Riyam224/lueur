@@ -177,7 +177,7 @@ SCREENS = [
     {
         "out": "store-screenshot-3.png",
         "headline": "Talk it out with Luna",
-        "screenshot": "chat_with_ai_luna_more_dark.png",
+        "screenshot": "talk_to_luna_dark.png",
         **_STATUS_BAR_VISIBLE,
         "wifi_icon": True,
     },

@@ -75,7 +75,7 @@ PHONE_SCREENS = [
     # wide instead of four.
     {"screenshot": "home_light.png", "angle": -6, "h_frac": 0.72, "cx_frac": 0.530, "cy_frac": 0.535},
     {"screenshot": "breathing_light.png", "angle": 0, "h_frac": 0.72, "cx_frac": 0.700, "cy_frac": 0.495},
-    {"screenshot": "chat_with_ai_luna_more_dark.png", "angle": 6, "h_frac": 0.72, "cx_frac": 0.868, "cy_frac": 0.535, "wifi_icon": True},
+    {"screenshot": "talk_to_luna_dark.png", "angle": 6, "h_frac": 0.72, "cx_frac": 0.868, "cy_frac": 0.535, "wifi_icon": True},
 ]
 
 # Five real mood entries (Journal-style), shown as a small floating card —

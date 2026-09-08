@@ -14,11 +14,13 @@ class ChatMessagesList extends StatelessWidget {
     required this.scrollController,
     required this.state,
     required this.onBookmarkMessage,
+    required this.onReportMessage,
   });
 
   final ScrollController scrollController;
   final ChatState state;
   final void Function(int index) onBookmarkMessage;
+  final void Function(int index) onReportMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class ChatMessagesList extends StatelessWidget {
           isFirst: index == 0,
           isPreviousSameRole: isPreviousSameRole,
           onBookmark: isUser ? null : () => onBookmarkMessage(index),
+          onReport: isUser ? null : () => onReportMessage(index),
         );
       },
     );

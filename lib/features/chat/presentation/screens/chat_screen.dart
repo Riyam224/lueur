@@ -12,6 +12,7 @@ import 'package:lueur/features/chat/presentation/widgets/chat_input_bar.dart';
 import 'package:lueur/features/chat/presentation/widgets/chat_messages_list.dart';
 import 'package:lueur/features/chat/presentation/widgets/chat_session_end_card.dart';
 import 'package:lueur/features/chat/presentation/widgets/chat_typing_indicator.dart';
+import 'package:lueur/features/chat/presentation/widgets/report_message_sheet.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
@@ -105,6 +106,22 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  void _reportMessage(ChatState state, int index) {
+    String? precedingThoughts;
+    for (var i = index - 1; i >= 0; i--) {
+      if (state.messages[i].role == ChatMessage.roleUser) {
+        precedingThoughts = state.messages[i].content;
+        break;
+      }
+    }
+
+    showReportMessageSheet(
+      context,
+      reportedText: state.messages[index].content,
+      userMessage: precedingThoughts,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,6 +146,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   scrollController: _scrollController,
                   state: state,
                   onBookmarkMessage: (index) => _saveMessage(state, index),
+                  onReportMessage: (index) => _reportMessage(state, index),
                 ),
               ),
               if (state.status == ChatStatus.loading)

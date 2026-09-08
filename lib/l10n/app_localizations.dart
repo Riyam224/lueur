@@ -209,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingSubtitle2.
   ///
   /// In en, this message translates to:
-  /// **'A friendly journaling companion for\nreflection, not professional guidance.'**
+  /// **'A friendly AI companion for\nreflection, not professional guidance.'**
   String get onboardingSubtitle2;
 
   /// No description provided for @onboardingTitle3.
@@ -691,6 +691,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Luna'**
   String get lunaName;
+
+  /// No description provided for @lunaAiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Companion'**
+  String get lunaAiSubtitle;
 
   /// No description provided for @navHomeLabel.
   ///
@@ -1423,6 +1429,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to Home'**
   String get chatBackToHomeButton;
+
+  /// No description provided for @chatReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s wrong with this response?'**
+  String get chatReportTitle;
+
+  /// No description provided for @chatReportReasonOffensive.
+  ///
+  /// In en, this message translates to:
+  /// **'Offensive or harmful'**
+  String get chatReportReasonOffensive;
+
+  /// No description provided for @chatReportReasonInaccurate.
+  ///
+  /// In en, this message translates to:
+  /// **'Inaccurate or unhelpful'**
+  String get chatReportReasonInaccurate;
+
+  /// No description provided for @chatReportReasonUncomfortable.
+  ///
+  /// In en, this message translates to:
+  /// **'Made me uncomfortable'**
+  String get chatReportReasonUncomfortable;
+
+  /// No description provided for @chatReportReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get chatReportReasonOther;
+
+  /// No description provided for @chatReportCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything else you want us to know? (optional)'**
+  String get chatReportCommentHint;
+
+  /// No description provided for @chatReportSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit report'**
+  String get chatReportSubmitButton;
+
+  /// No description provided for @chatReportSuccessSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for letting us know — we\'ll look into it.'**
+  String get chatReportSuccessSnack;
+
+  /// No description provided for @chatReportErrorSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong — please try again.'**
+  String get chatReportErrorSnack;
 
   /// No description provided for @sudokuHowToPlayTitle.
   ///

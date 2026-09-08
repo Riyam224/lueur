@@ -80,7 +80,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingSubtitle2 =>
-      'رفيقة ودودة للكتابة والتأمل،\nوليست بديلاً عن الإرشاد المتخصص';
+      'رفيقة ودودة تعمل بالذكاء الاصطناعي للكتابة والتأمل،\nوليست بديلاً عن الإرشاد المتخصص';
 
   @override
   String get onboardingTitle3 => 'خطوات صغيرة،\nنمو حقيقي';
@@ -334,6 +334,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lunaName => 'لونا';
+
+  @override
+  String get lunaAiSubtitle => 'رفيقة بالذكاء الاصطناعي';
 
   @override
   String get navHomeLabel => 'الرئيسية';
@@ -724,6 +727,33 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chatBackToHomeButton => 'العودة للرئيسية';
+
+  @override
+  String get chatReportTitle => 'ما الخطأ في هذا الرد؟';
+
+  @override
+  String get chatReportReasonOffensive => 'مسيء أو ضار';
+
+  @override
+  String get chatReportReasonInaccurate => 'غير دقيق أو غير مفيد';
+
+  @override
+  String get chatReportReasonUncomfortable => 'جعلني أشعر بعدم الارتياح';
+
+  @override
+  String get chatReportReasonOther => 'سبب آخر';
+
+  @override
+  String get chatReportCommentHint => 'هل تريد إخبارنا بشيء آخر؟ (اختياري)';
+
+  @override
+  String get chatReportSubmitButton => 'إرسال البلاغ';
+
+  @override
+  String get chatReportSuccessSnack => 'شكراً لإخبارنا — سنراجع الأمر.';
+
+  @override
+  String get chatReportErrorSnack => 'حدث خطأ ما — يرجى المحاولة مرة أخرى.';
 
   @override
   String get sudokuHowToPlayTitle => 'كيف تلعب';

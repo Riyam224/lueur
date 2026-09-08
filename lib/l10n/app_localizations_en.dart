@@ -81,7 +81,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingSubtitle2 =>
-      'A friendly journaling companion for\nreflection, not professional guidance.';
+      'A friendly AI companion for\nreflection, not professional guidance.';
 
   @override
   String get onboardingTitle3 => 'Small steps,\nreal growth';
@@ -336,6 +336,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lunaName => 'Luna';
+
+  @override
+  String get lunaAiSubtitle => 'AI Companion';
 
   @override
   String get navHomeLabel => 'Home';
@@ -742,6 +745,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chatBackToHomeButton => 'Back to Home';
+
+  @override
+  String get chatReportTitle => 'What\'s wrong with this response?';
+
+  @override
+  String get chatReportReasonOffensive => 'Offensive or harmful';
+
+  @override
+  String get chatReportReasonInaccurate => 'Inaccurate or unhelpful';
+
+  @override
+  String get chatReportReasonUncomfortable => 'Made me uncomfortable';
+
+  @override
+  String get chatReportReasonOther => 'Other';
+
+  @override
+  String get chatReportCommentHint =>
+      'Anything else you want us to know? (optional)';
+
+  @override
+  String get chatReportSubmitButton => 'Submit report';
+
+  @override
+  String get chatReportSuccessSnack =>
+      'Thanks for letting us know — we\'ll look into it.';
+
+  @override
+  String get chatReportErrorSnack => 'Something went wrong — please try again.';
 
   @override
   String get sudokuHowToPlayTitle => 'How to play';

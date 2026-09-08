@@ -11,6 +11,7 @@ static const String generate = '$_v1/companion/generate/';
   static const String history = '$_v1/companion/history/';
   static const String weeklyLetter = '$_v1/companion/weekly-letter/';
   static const String activity = '$_v1/companion/activity/';
+  static const String report = '$_v1/companion/report/';
   static const String deleteAllEntries = '$_v1/companion/entries/delete-all/';
 
   static String deleteEntry(String entryId) =>

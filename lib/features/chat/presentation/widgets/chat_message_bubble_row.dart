@@ -5,7 +5,7 @@ import 'package:lueur/core/styling/app_assets.dart';
 import 'package:lueur/features/chat/presentation/widgets/chat_bubble.dart';
 
 /// One row in the chat transcript: Luna's avatar (first message of a group
-/// only), the message bubble, and an optional bookmark button for saving quotes.
+/// only), the message bubble, and optional bookmark/report buttons.
 class ChatMessageBubbleRow extends StatelessWidget {
   const ChatMessageBubbleRow({
     super.key,
@@ -14,6 +14,7 @@ class ChatMessageBubbleRow extends StatelessWidget {
     required this.isFirst,
     required this.isPreviousSameRole,
     this.onBookmark,
+    this.onReport,
   });
 
   final String content;
@@ -21,6 +22,7 @@ class ChatMessageBubbleRow extends StatelessWidget {
   final bool isFirst;
   final bool isPreviousSameRole;
   final VoidCallback? onBookmark;
+  final VoidCallback? onReport;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,18 @@ class ChatMessageBubbleRow extends StatelessWidget {
               onPressed: onBookmark,
               icon: Icon(
                 Icons.bookmark_border_rounded,
+                size: 18.sp,
+                color: cs.primary.withValues(alpha: 0.6),
+              ),
+              padding: EdgeInsets.only(left: 4.w),
+              constraints: const BoxConstraints(),
+              visualDensity: VisualDensity.compact,
+            ),
+          if (onReport != null)
+            IconButton(
+              onPressed: onReport,
+              icon: Icon(
+                Icons.flag_outlined,
                 size: 18.sp,
                 color: cs.primary.withValues(alpha: 0.6),
               ),

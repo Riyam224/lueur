@@ -41,7 +41,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                     .copyWith(color: cs.primary),
               ),
               Text(
-                l10n.lunaName,
+                l10n.lunaAiSubtitle,
                 style: ThemeTextStyles.captionSmall(context)
                     .copyWith(color: extra.secondaryTextColor),
               ),

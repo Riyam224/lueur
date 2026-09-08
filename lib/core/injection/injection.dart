@@ -62,6 +62,11 @@ import 'package:lueur/features/quotes/domain/usecases/delete_quote_usecase.dart'
 import 'package:lueur/features/quotes/domain/usecases/get_saved_quotes_usecase.dart';
 import 'package:lueur/features/quotes/domain/usecases/save_quote_usecase.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
+import 'package:lueur/features/report/data/datasources/report_remote_datasource.dart';
+import 'package:lueur/features/report/data/repositories/report_repository_impl.dart';
+import 'package:lueur/features/report/domain/repositories/report_repository.dart';
+import 'package:lueur/features/report/domain/usecases/submit_report_usecase.dart';
+import 'package:lueur/features/report/presentation/cubit/report_cubit.dart';
 import 'package:lueur/features/sudoku/data/datasources/sudoku_results_local_datasource.dart';
 import 'package:lueur/features/sudoku/data/repositories/sudoku_results_repository_impl.dart';
 import 'package:lueur/features/sudoku/domain/repositories/sudoku_results_repository.dart';
@@ -224,6 +229,15 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton<SendChatMessageUseCase>(
     () => SendChatMessageUseCase(sl<ChatRepository>()),
   );
+
+  sl.registerLazySingleton<ReportRemoteDataSource>(
+    () => ReportRemoteDataSourceImpl(dio: sl<DioHelper>().dio),
+  );
+  sl.registerLazySingleton<ReportRepository>(
+    () => ReportRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => SubmitReportUseCase(sl()));
+  sl.registerFactory<ReportCubit>(() => ReportCubit(sl()));
 
   sl.registerLazySingleton(BreathingLocalDatasource.new);
   sl.registerLazySingleton<BreathingRepository>(
