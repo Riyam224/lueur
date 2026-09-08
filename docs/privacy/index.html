@@ -65,7 +65,7 @@
   <header>
     <div class="logo-dot"></div>
     <h1>Privacy Policy</h1>
-    <div class="updated">Lueur — Last updated September 5, 2026</div>
+    <div class="updated">Lueur — Last updated September 8, 2026</div>
     <div class="updated">Developed by Riyam</div>
   </header>
 
@@ -77,17 +77,18 @@
   <h2>Information We Collect</h2>
   <table>
     <tr><th>What</th><th>Why</th></tr>
-    <tr><td>Your name and email address, or basic profile info if you sign in with Google</td><td>To create and secure your account, via Firebase Authentication</td></tr>
+    <tr><td>Your full name and email address — from the sign-up form, or from your Google account if you use Google Sign-In (we do not collect your Google profile photo)</td><td>To create and secure your account, via Firebase Authentication</td></tr>
     <tr><td>Mood check-ins, journal entries, and messages you send to Luna</td><td>To power your personal journal, timeline, and Luna's responses to you</td></tr>
     <tr><td>Your selected language preference</td><td>To show the app and Luna's responses in your preferred language</td></tr>
     <tr><td>A short rolling summary of past conversations</td><td>So Luna can refer back to something you mentioned earlier without you repeating it — see "Conversation Memory" below</td></tr>
     <tr><td>App usage data tied to an app-instance identifier</td><td>Via Firebase Analytics, to understand how the app is used and improve it — we do not send journal content to Firebase Analytics</td></tr>
-    <tr><td>Crash and error reports</td><td>Via Sentry, to find and fix bugs — journal content and other sensitive fields are filtered out before any report is ever sent</td></tr>
+    <tr><td>Crash and error reports</td><td>Via Sentry, to find and fix bugs — journal content and other sensitive fields are filtered out on your device before any report is ever sent, and again on our server before storage</td></tr>
   </table>
-  <p>We do not collect your location, contacts, camera access, or phone number. We do not use any social sign-in provider other than Google. Our application code does not log or store your IP address — though our hosting provider's infrastructure may retain standard connection-level logs for operational purposes, outside of anything our app itself accesses or controls.</p>
+  <p>We do not collect your location, contacts, camera access, or phone number. We do not use any social sign-in provider other than Google. Our application code does not log or store your IP address — neither in the app nor on our backend server — though our hosting provider's infrastructure may retain standard connection-level logs for operational purposes, outside of anything our app itself accesses or controls.</p>
+  <p>Our account system technically supports a few optional profile fields (such as a short bio or date of birth) for possible future personalization features. <strong>None of these fields are currently collected, shown, or editable anywhere in the Lueur app</strong> — if that ever changes, we'll update this policy and the "last updated" date above before the feature ships.</p>
 
   <h3>Content That Stays on Your Device</h3>
-  <p>Saved quotes (Luna's responses you choose to bookmark), drawings you create, and your Sudoku history are all stored locally on your device only — none of this content is ever uploaded to our servers. For drawings and Sudoku, we do log that you completed the activity (for your streak and journal timeline), along with basic outcome details for Sudoku (solved or not, time taken, difficulty) — but never the drawing image itself or the puzzle board.</p>
+  <p>Saved quotes (Luna's responses you choose to bookmark), drawings you create, and your Sudoku history are all stored locally on your device only — none of this content is ever uploaded to our servers. For breathing exercises, drawings, and Sudoku, we do log that you completed the activity (for your streak and journal timeline), along with basic outcome details — how long a breathing exercise lasted, and for Sudoku whether it was solved, how long it took, and its difficulty — but never the drawing image itself, the puzzle board, or any audio/visual recording of a breathing session.</p>
 
   <h3>Guest Mode</h3>
   <p>You can use Lueur's breathing exercises, drawing canvas, and Sudoku puzzles without creating an account. Content you create in guest mode — such as a drawing — is never sent to Groq and is never stored on our servers; it stays on your device only, and is automatically cleared when the app restarts. Talking with Luna and receiving AI-generated responses requires creating an account.</p>
@@ -104,6 +105,9 @@
   <h3>Conversation Memory</h3>
   <p>When a chat conversation with Luna comes to a natural close, we generate a short summary of that conversation (also via Groq, subject to the same terms described above) and store it associated with your account. This summary gives Luna continuity — so she can reference something from an earlier conversation without you needing to repeat it. Only the summary is kept; the underlying conversation transcript used to generate it is not separately retained beyond that one-time processing step. This summary is deleted, along with the rest of your data, if you delete your account.</p>
 
+  <h3>If You're Going Through a Hard Moment</h3>
+  <p>If something you share with Luna suggests you may be in crisis, Luna is designed to respond with extra care and to point you toward crisis resources instead of continuing as a normal conversation. This safety response happens automatically and is handled with the same care and data protections described throughout this policy — it does not involve a person reviewing your entry in real time.</p>
+
   <h2>Who We Share Data With</h2>
   <p>We use a small number of trusted service providers to run Lueur. None are permitted to use your data for their own advertising purposes:</p>
   <table>
@@ -111,10 +115,10 @@
     <tr><td>Firebase Authentication (Google)</td><td>Account sign-up and login (email/password and Google Sign-In)</td></tr>
     <tr><td>Firebase Analytics (Google)</td><td>App usage analytics tied to an app-instance identifier — not your personal identity, and never includes journal content</td></tr>
     <tr><td>Railway</td><td>Hosting our backend server and database</td></tr>
-    <tr><td>Sentry</td><td>Crash and error monitoring, with sensitive fields (including journal content) filtered out before any report is sent</td></tr>
+    <tr><td>Sentry</td><td>Crash and error monitoring, with sensitive fields (including journal content and conversation memory) filtered out on both the app and the server before any report is sent</td></tr>
     <tr><td>Groq</td><td>Generating Luna's AI responses and conversation summaries — server-to-server only, never linked to your name or email</td></tr>
   </table>
-  <p>Per Groq's terms, ordinary inference inputs/outputs are not retained by default, but may be temporarily retained — generally up to 30 days — for reliability troubleshooting or abuse investigation, and are not used to train Groq's models.</p>
+  <p>Per Groq's terms, ordinary inference inputs/outputs are not retained by default, but may be temporarily retained for up to 30 days, unless legally required to retain longer, solely to troubleshoot errors or investigate suspected abuse — and are not used to train Groq's models. You can review Groq's current data handling terms directly at <a href="https://console.groq.com/docs/your-data" target="_blank">console.groq.com/docs/your-data</a>.</p>
   <p>We do not permit these providers to use your content for their own advertising purposes.</p>
 
   <h2>Delete Your Account &amp; Data</h2>
