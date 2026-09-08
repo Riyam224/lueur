@@ -227,6 +227,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please confirm you\'re 18 or older to continue';
 
   @override
+  String get ageConfirmationDialogTitle => 'One more thing';
+
+  @override
+  String get ageConfirmationDialogMessage =>
+      'Please confirm you\'re 18 or older to use Luna.';
+
+  @override
+  String get ageConfirmationDialogConfirm => 'I\'m 18 or older';
+
+  @override
+  String get ageConfirmationDialogDecline => 'I\'m not 18';
+
+  @override
+  String get ageConfirmationDeclinedMessage =>
+      'Your account has been removed since you can\'t confirm you\'re 18 or older.';
+
+  @override
   String get authErrorUserNotFound => 'No account found with this email.';
 
   @override

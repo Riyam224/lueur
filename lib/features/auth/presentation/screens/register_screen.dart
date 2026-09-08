@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/widgets/app_blob_background.dart';
@@ -12,8 +11,8 @@ import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/auth/presentation/utils/auth_error_snackbar.dart';
 import 'package:lueur/features/auth/presentation/utils/auth_guest_flow.dart';
+import 'package:lueur/features/auth/presentation/utils/auth_success_handler.dart';
 import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
-import 'package:lueur/features/auth/presentation/widgets/auth_success_dialog.dart';
 import 'package:lueur/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:lueur/features/auth/presentation/widgets/register_body.dart';
 import 'package:lueur/l10n/app_localizations.dart';
@@ -103,18 +102,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthAuthenticated) {
-      unawaited(_showSuccessThenNavigate(context, state.user.id));
+      // Both submit paths on this screen (email/password and Google) already
+      // gate on _isAgeConfirmed before ever calling AuthCubit, so age is
+      // always pre-confirmed by the time AuthAuthenticated arrives here.
+      unawaited(handleAuthSuccess(context, state, preConfirmedAge: true));
     } else if (state is AuthError) {
       showAuthErrorSnackBar(context, state.message);
     }
-  }
-
-  Future<void> _showSuccessThenNavigate(BuildContext context, String uid) async {
-    await AuthSuccessDialog.show(context);
-    if (!context.mounted) return;
-    final seenOnboarding = await OnboardingPrefs.hasSeen(uid);
-    if (!context.mounted) return;
-    context.go(seenOnboarding ? AppRoutes.home : AppRoutes.onBoarding);
   }
 
   void _submit(BuildContext context) {

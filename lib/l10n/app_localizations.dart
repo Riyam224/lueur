@@ -488,6 +488,36 @@ abstract class AppLocalizations {
   /// **'Please confirm you\'re 18 or older to continue'**
   String get ageConfirmationError;
 
+  /// No description provided for @ageConfirmationDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One more thing'**
+  String get ageConfirmationDialogTitle;
+
+  /// No description provided for @ageConfirmationDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm you\'re 18 or older to use Luna.'**
+  String get ageConfirmationDialogMessage;
+
+  /// No description provided for @ageConfirmationDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m 18 or older'**
+  String get ageConfirmationDialogConfirm;
+
+  /// No description provided for @ageConfirmationDialogDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m not 18'**
+  String get ageConfirmationDialogDecline;
+
+  /// No description provided for @ageConfirmationDeclinedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been removed since you can\'t confirm you\'re 18 or older.'**
+  String get ageConfirmationDeclinedMessage;
+
   /// No description provided for @authErrorUserNotFound.
   ///
   /// In en, this message translates to:

@@ -26,7 +26,7 @@ android {
     defaultConfig {
         applicationId = "com.riyamdev224.lueurapp"
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

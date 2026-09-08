@@ -207,6 +207,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Sudoku | Playable sudoku puzzles with move validation and saved results history |
 | Mood Choice Dialog | Lightweight prompt offering an activity (breathe, draw, play) based on the selected mood |
 | Auth | Email/password and Google Sign-In via Firebase Auth, plus forgot-password flow |
+| Age Confirmation | Self-declaration checkbox ("I'm 18 or older") on register; for a new account created via a path with no checkbox (Google Sign-In on either auth screen), a mandatory modal gates access instead — declining rolls the account back. Confirmed per-account locally so returning users aren't re-prompted; never sent to the backend |
 | Account Deletion | Permanently delete your account and all associated data from Profile settings |
 | Dark / Light Theme | User-selectable, persisted locally, applied instantly across the app |
 | Localization | English and Arabic, including RTL layout, via `AppLocalizations` (Flutter `intl`/l10n) |
@@ -225,7 +226,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Navigation | go_router |
 | Auth | Firebase Auth (email/password + Google Sign-In via `google_sign_in`) |
 | Backend | Django REST Framework, deployed on Railway |
-| Local Storage | Hive (mood entries, saved quotes, sudoku results, saved drawings) + `shared_preferences` (theme, language) |
+| Local Storage | Hive (mood entries, saved quotes, sudoku results, saved drawings, onboarding-seen flag, per-account age confirmation flag) + `shared_preferences` (theme, language) |
 | Networking | Dio + PrettyDioLogger |
 | DI | GetIt |
 | Error Handling | dartz (`Either<Failure, T>`) |
@@ -266,7 +267,7 @@ lib/
 │   ├── monitoring/        — Sentry privacy filter (scrubs PII before reporting)
 │   ├── navigation/        — shell screen, bottom nav bar
 │   ├── networking/        — DioHelper, ApiEndpoints, AuthTokenInterceptor
-│   ├── preferences/       — OnboardingPrefs (Hive-backed "has seen onboarding" flag)
+│   ├── preferences/       — OnboardingPrefs and AgeConfirmationPrefs (Hive-backed "has seen onboarding" / "has confirmed age" flags, per-uid)
 │   ├── routing/           — GoRouter config (router_generation_config.dart, app_routes.dart)
 │   ├── startup/           — app_initializer.dart, the Firebase/Hive/SharedPreferences/DI bootstrap sequence
 │   ├── styling/           — AppTheme, AppColors, AppExtraColors, text styles, fonts
@@ -276,7 +277,7 @@ lib/
 │
 ├── features/
 │   ├── affirmation/       — emoji-specific affirmation cards
-│   ├── auth/               — login, register, forgot password, Firebase + Django auth
+│   ├── auth/               — login, register, forgot password, age confirmation, Firebase + Django auth
 │   ├── breathing/          — guided breathe-in/breathe-out exercise
 │   ├── chat/                — follow-up chat with Luna
 │   ├── draw/                — free drawing canvas + saved drawings gallery
@@ -419,6 +420,7 @@ Fonts: **Nunito** (primary body/UI), **DMSerifDisplay** (display/italic headings
 7. **Theme & language persisted locally** — no flash on cold start, consistent across logout
 8. **Sentry privacy filter** — `beforeSend` hook scrubs sensitive data before any crash report leaves the device
 9. **Guest mode never calls the AI backend** — deliberate, to avoid unauthenticated usage of a paid, Groq-backed third-party service; guest-created content is cleared on app restart by design, not a bug
+10. **Age confirmation is enforced centrally, not per-screen** — a shared `handleAuthSuccess` handler reacts to `AuthAuthenticated` for both login and register, so the gate can't be bypassed by entering through a path with no checkbox of its own (e.g. Google Sign-In on the login screen)
 
 ---
 

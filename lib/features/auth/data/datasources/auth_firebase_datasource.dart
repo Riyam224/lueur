@@ -60,7 +60,7 @@ class AuthFirebaseDataSource {
     if (refreshedUser == null) {
       throw StateError('Firebase user disappeared after registration reload');
     }
-    return _toResult(refreshedUser);
+    return _toResult(refreshedUser, forceTokenRefresh: true);
   }
 
   Future<void> sendPasswordResetEmail({required String email}) {
@@ -91,8 +91,15 @@ class AuthFirebaseDataSource {
     return _toResult(googleUserResult);
   }
 
-  Future<FirebaseAuthResult> _toResult(User user) async {
-    final idToken = await user.getIdToken() ?? '';
+  /// [forceTokenRefresh] mints a fresh ID token instead of returning the
+  /// cached one — needed right after [register] because the token issued at
+  /// account creation predates the `updateDisplayName` call, so its `name`
+  /// claim would otherwise be empty when sent to the backend for verification.
+  Future<FirebaseAuthResult> _toResult(
+    User user, {
+    bool forceTokenRefresh = false,
+  }) async {
+    final idToken = await user.getIdToken(forceTokenRefresh) ?? '';
     return (user: UserModel.fromFirebaseUser(user), idToken: idToken);
   }
 }

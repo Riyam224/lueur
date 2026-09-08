@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
-import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
@@ -14,12 +13,12 @@ import 'package:lueur/features/auth/presentation/constants/auth_constants.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/auth/presentation/utils/auth_error_snackbar.dart';
+import 'package:lueur/features/auth/presentation/utils/auth_success_handler.dart';
 import 'package:lueur/features/auth/presentation/utils/auth_validators.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_avatar.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_footer_link.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_or_divider.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_primary_button.dart';
-import 'package:lueur/features/auth/presentation/widgets/auth_success_dialog.dart';
 import 'package:lueur/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:lueur/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:lueur/features/auth/presentation/widgets/guest_warning_dialog.dart';
@@ -61,7 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthAuthenticated) {
-      unawaited(_showSuccessThenNavigate(context, state.user.id));
+      // No checkbox exists on this screen (its only sign-up path is
+      // Google), so age is never pre-confirmed here — handleAuthSuccess
+      // decides on its own whether the modal is needed.
+      unawaited(handleAuthSuccess(context, state));
     } else if (state is AuthError) {
       final cs = Theme.of(context).colorScheme;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -75,14 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     }
-  }
-
-  Future<void> _showSuccessThenNavigate(BuildContext context, String uid) async {
-    await AuthSuccessDialog.show(context);
-    if (!context.mounted) return;
-    final seenOnboarding = await OnboardingPrefs.hasSeen(uid);
-    if (!context.mounted) return;
-    context.go(seenOnboarding ? AppRoutes.home : AppRoutes.onBoarding);
   }
 
   void _submit(BuildContext context) {
