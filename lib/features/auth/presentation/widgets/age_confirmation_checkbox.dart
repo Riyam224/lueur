@@ -3,8 +3,10 @@ import 'package:lueur/core/styling/app_text_styles.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 /// Self-declaration checkbox confirming the user is 18 or older, shown
-/// between the password fields and the register CTA. UI-only — this flag
-/// is never sent to the backend or persisted.
+/// between the password fields and the register CTA. This flag is never
+/// sent to the backend, but is persisted locally per-uid via
+/// AgeConfirmationPrefs once auth succeeds, so returning users aren't
+/// re-prompted.
 class AgeConfirmationCheckbox extends StatelessWidget {
   const AgeConfirmationCheckbox({
     super.key,
