@@ -105,7 +105,12 @@ fastlane/test_output
 # ============================================================
 # Repo hygiene — not secrets, but shouldn't bloat a public repo
 # ============================================================
-screenshots/
+# Raw source captures for regenerating Play Store assets — not referenced
+# by the README, kept out of the repo to avoid bloat. The README's own
+# screenshots/ images and the generated screenshots/store/*.png assets are
+# tracked normally.
+screenshots/store/store1/
+__pycache__/
 specs/
 *.checklists/
 .claude/*
