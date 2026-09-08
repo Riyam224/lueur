@@ -88,14 +88,34 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/splash_dark.png" width="180" alt="Splash screen, dark theme"/></td>
   </tr>
   <tr>
-    <td>Onboarding</td>
-    <td><img src="screenshots/onboarding_2_light.png" width="180" alt="Onboarding walkthrough, light theme"/></td>
-    <td><img src="screenshots/onboarding_2_dark.png" width="180" alt="Onboarding walkthrough, dark theme"/></td>
+    <td>Onboarding (1/3)</td>
+    <td><img src="screenshots/onboarding_1_light.png" width="180" alt="Onboarding walkthrough page 1, light theme"/></td>
+    <td><img src="screenshots/onboarding_1_dark.png" width="180" alt="Onboarding walkthrough page 1, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Onboarding (2/3)</td>
+    <td><img src="screenshots/onboarding_2_light.png" width="180" alt="Onboarding walkthrough page 2, light theme"/></td>
+    <td><img src="screenshots/onboarding_2_dark.png" width="180" alt="Onboarding walkthrough page 2, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Onboarding (3/3)</td>
+    <td><img src="screenshots/onboarding_3_light.png" width="180" alt="Onboarding walkthrough page 3, light theme"/></td>
+    <td><img src="screenshots/onboarding_3_dark.png" width="180" alt="Onboarding walkthrough page 3, dark theme"/></td>
   </tr>
   <tr>
     <td>Login</td>
     <td><img src="screenshots/login_light.png" width="180" alt="Login screen, light theme"/></td>
     <td><img src="screenshots/login_dark.png" width="180" alt="Login screen, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Google Sign-In</td>
+    <td><img src="screenshots/google_login_light.png" width="180" alt="Google Sign-In account picker, light theme"/></td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td>Signed in</td>
+    <td><img src="screenshots/login_successfully_light.png" width="180" alt="Sign-in success confirmation, light theme"/></td>
+    <td>—</td>
   </tr>
   <tr>
     <td>Register</td>
@@ -113,24 +133,34 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/home_dark.png" width="180" alt="Choosing a mood, dark theme"/></td>
   </tr>
   <tr>
+    <td>Mood shared, ready to talk</td>
+    <td><img src="screenshots/home_screen_light.png" width="180" alt="Home screen after picking a mood, with the Talk to Luna button, light theme"/></td>
+    <td>—</td>
+  </tr>
+  <tr>
     <td>Mood choice dialog</td>
     <td><img src="screenshots/features_lght.png" width="180" alt="Mood choice dialog offering Talk, Breathe, Draw, or Sudoku, light theme"/></td>
     <td><img src="screenshots/features_dark.png" width="180" alt="Mood choice dialog offering Talk, Breathe, Draw, or Sudoku, dark theme"/></td>
   </tr>
   <tr>
     <td>Luna's AI response</td>
-    <td><img src="screenshots/talk_to_luna_light.png" width="180" alt="Luna's AI response, light theme"/></td>
-    <td><img src="screenshots/talk_to_luna_screen_dark.png" width="180" alt="Luna's AI response, dark theme"/></td>
+    <td><img src="screenshots/luna_responses_light.png" width="180" alt="Luna's AI response to a shared mood, light theme"/></td>
+    <td>—</td>
   </tr>
   <tr>
     <td>Follow-up chat</td>
-    <td>—</td>
+    <td><img src="screenshots/luna_ai_light.png" width="180" alt="Follow-up chat conversation with Luna, light theme"/></td>
     <td><img src="screenshots/talk_to_luna_dark.png" width="180" alt="Follow-up chat conversation with Luna, dark theme"/></td>
   </tr>
   <tr>
     <td>Follow-up chat (continued)</td>
     <td><img src="screenshots/chat_with_ai_luna_more_light.png" width="180" alt="Extended follow-up chat conversation with Luna, light theme"/></td>
     <td><img src="screenshots/chat_with_ai_luna_more_dark.png" width="180" alt="Extended follow-up chat conversation with Luna, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Chat session ends</td>
+    <td>—</td>
+    <td><img src="screenshots/continue_chatting_dark.png" width="180" alt="Chat session wrap-up, saved to journal, dark theme"/></td>
   </tr>
   <tr>
     <td>Mood journal</td>
@@ -141,6 +171,11 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td>Timeline</td>
     <td><img src="screenshots/timeline_light.png" width="180" alt="Full memory timeline with mood/month filters and activity cards, light theme"/></td>
     <td><img src="screenshots/timeline_dark.png" width="180" alt="Full memory timeline with mood/month filters and activity cards, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Affirmation cards</td>
+    <td><img src="screenshots/start_drawing_light.png" width="180" alt="Rotating affirmation cards with an activity nudge, light theme"/></td>
+    <td><img src="screenshots/talk_to_luna_screen_dark.png" width="180" alt="Rotating affirmation cards with an activity nudge, dark theme"/></td>
   </tr>
   <tr>
     <td>Breathing exercise</td>
@@ -161,6 +196,16 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td>Profile & settings</td>
     <td><img src="screenshots/profile_light.png" width="180" alt="Profile & settings, light theme"/></td>
     <td><img src="screenshots/profile_dark.png" width="180" alt="Profile & settings, dark theme"/></td>
+  </tr>
+  <tr>
+    <td>Profile — saved content</td>
+    <td><img src="screenshots/profile_choose_theme_and_language_light.png" width="180" alt="Profile scrolled to saved quotes, drawings, Sudoku history, and appearance/language settings, light theme"/></td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td>Profile — data & account</td>
+    <td>—</td>
+    <td><img src="screenshots/profile_choose_theme_and_language_dark.png" width="180" alt="Profile scrolled to journal data, account deletion, and log out, dark theme"/></td>
   </tr>
 </table>
 
