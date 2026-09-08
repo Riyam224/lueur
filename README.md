@@ -285,12 +285,14 @@ lib/
 │   ├── constants/         — AppSizes, AppSpacing
 │   ├── errors/            — Failure classes (NetworkFailure, ServerFailure, ...)
 │   ├── injection/         — single setupInjection() — all GetIt registrations
+│   ├── journal/           — JournalRefreshSignal, a lightweight cross-feature refresh signal
 │   ├── models/            — shared UI models (MoodType, JournalCardColor, MoodChoiceDestination)
 │   ├── monitoring/        — Sentry privacy filter (scrubs PII before reporting)
 │   ├── navigation/        — shell screen, bottom nav bar
 │   ├── networking/        — DioHelper, ApiEndpoints, AuthTokenInterceptor
 │   ├── preferences/       — OnboardingPrefs (Hive-backed "has seen onboarding" flag)
 │   ├── routing/           — GoRouter config (router_generation_config.dart, app_routes.dart)
+│   ├── startup/           — app_initializer.dart, the Firebase/Hive/SharedPreferences/DI bootstrap sequence
 │   ├── styling/           — AppTheme, AppColors, AppExtraColors, text styles, fonts
 │   ├── theme/             — theme-related core widgets/helpers
 │   ├── utils/             — shared helpers/extensions
