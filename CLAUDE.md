@@ -44,11 +44,16 @@ LunaTree (root widget: `Lueur`) is a Flutter journaling and relaxation app with 
 | `home` | Mood capture — emoji + free-text → AI response |
 | `response` | Displays AI-generated response + save-quote action |
 | `chat` | Follow-up chat with the AI journaling companion |
-| `journal` | Browseable mood history with emoji filter + chart |
+| `journal` | Mood + activity journal grid, and the full searchable/filterable timeline |
 | `plant` | Streak tracker visualised as a growing plant |
 | `quotes` | Save/delete/view affirmation quotes (Hive) |
 | `affirmation` | Rotating affirmation cards for a selected mood |
 | `breathing` | Guided breathe-in/breathe-out exercise screen |
+| `draw` | Free drawing canvas + saved drawings gallery |
+| `sudoku` | Sudoku puzzle generation, play, and saved results |
+| `language` | Language preference (Cubit, local datasource, sync usecase) |
+| `theme` | Light/dark theme preference (Cubit, local datasource) |
+| `mood_choice` | Post-mood-selection activity dialog — presentation-only |
 | `profile` | User settings and saved quotes entry point |
 | `onboarding` | First-launch walkthrough — presentation-only (no domain/data layers) |
 | `splash` | Entry point — decides auth redirect |
@@ -95,9 +100,17 @@ Base URL: `https://web-production-f8628.up.railway.app`
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/companion/generate/` | Generate AI response for emoji + thoughts |
-| GET | `/api/companion/history/?user_id=` | Fetch user's mood history |
-| GET | `/api/companion/weekly-letter/` | Get AI weekly reflection |
+| POST | `/api/v1/auth/verify/` | Verify a Firebase ID token with the backend |
+| GET | `/api/v1/accounts/me/` | Fetch the current user's account/profile info |
+| DELETE | `/api/v1/accounts/delete-account/` | Permanently delete the current user's account and all associated data |
+| POST | `/api/v1/companion/generate/` | Generate AI response for emoji + thoughts |
+| GET | `/api/v1/companion/history/` | Fetch user's mood history |
+| GET | `/api/v1/companion/weekly-letter/` | Get AI weekly reflection |
+| POST | `/api/v1/companion/activity/` | Log a completed non-chat activity (breathing/sudoku/drawing) |
+| DELETE | `/api/v1/companion/entries/delete-all/` | Delete every journal entry for the authenticated user |
+| DELETE | `/api/v1/companion/entries/{id}/delete/` | Delete a single journal entry by id |
+
+Requests are authenticated with a Firebase ID token attached by `AuthTokenInterceptor` (`core/networking/`).
 
 ## Theme & typography
 
@@ -221,7 +234,8 @@ You MUST proactively suggest the appropriate agent when the situation matches. D
 - Register all dependencies in `core/injection/injection.dart` — nowhere else
 - Cubits are `registerFactory`; singletons/services are `registerLazySingleton`
 - **Exception:** `MoodCubit` is `registerLazySingleton` (singleton shared across tabs)
-- **Exception:** `MoodCubit`, `BreathingCubit`, and `SudokuCubit` take `JournalRefreshSignal` (a `Cubit`) directly as a constructor dependency, bypassing the use-case-only rule — it just needs to signal journal refresh with no shared business logic behind it.
+- **Exception:** `BreathingCubit` and `SudokuCubit` take `JournalRefreshSignal` (a `Cubit`) directly as a constructor dependency, bypassing the use-case-only rule — it just needs to signal journal refresh with no shared business logic behind it.
+- **Exception:** `MoodCubit` takes `MoodRepository` directly (plus `JournalRefreshSignal`) instead of use cases — a pre-existing deviation from the use-case-only rule; do not follow this pattern for new cubits.
 - Cubits, use cases, and repositories are resolved via `sl<T>()`, not instantiated manually
 
 ## 7) Build Method Discipline (IMPORTANT)
