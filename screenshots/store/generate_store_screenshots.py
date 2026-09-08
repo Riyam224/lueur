@@ -92,12 +92,19 @@ NETWORK_ICON_CLEAR_BOX = (868, 45, 972, 96)
 WIFI_GLYPH_SOURCE = "timeline_dark.png"
 WIFI_GLYPH_BOX = (886, 48, 970, 92)  # wifi fan + cellular signal triangle, as one unit
 
-_wifi_glyph_cache = None
+# The battery icon (right next to the glyph we're replacing) is never
+# touched, so its fill color tells us what tone the status bar icons should
+# be in *this* screenshot's theme (white on a dark status bar, dark gray on
+# a light one) — sampled per-shot instead of hardcoded so the pasted glyph
+# matches light- and dark-themed captures alike.
+BATTERY_SAMPLE_BOX = (975, 40, 1030, 100)
+
+_wifi_glyph_mask_cache = None
 
 
-def _wifi_glyph():
-    global _wifi_glyph_cache
-    if _wifi_glyph_cache is None:
+def _wifi_glyph_mask():
+    global _wifi_glyph_mask_cache
+    if _wifi_glyph_mask_cache is None:
         ref = Image.open(os.path.join(SOURCE_DIR, WIFI_GLYPH_SOURCE)).convert("RGB")
         crop = ref.crop(WIFI_GLYPH_BOX)
         import numpy as np
@@ -105,20 +112,41 @@ def _wifi_glyph():
         arr = np.array(crop)
         lum = arr.mean(axis=2)
         alpha = np.clip((lum - 40) / (220 - 40) * 255, 0, 255).astype("uint8")
-        rgba = np.zeros((crop.height, crop.width, 4), dtype="uint8")
-        rgba[..., 0] = 255
-        rgba[..., 1] = 255
-        rgba[..., 2] = 255
-        rgba[..., 3] = alpha
-        _wifi_glyph_cache = Image.fromarray(rgba, "RGBA")
-    return _wifi_glyph_cache
+        _wifi_glyph_mask_cache = alpha
+    return _wifi_glyph_mask_cache
+
+
+def _wifi_glyph(color):
+    import numpy as np
+
+    alpha = _wifi_glyph_mask()
+    rgba = np.zeros((alpha.shape[0], alpha.shape[1], 4), dtype="uint8")
+    rgba[..., 0] = color[0]
+    rgba[..., 1] = color[1]
+    rgba[..., 2] = color[2]
+    rgba[..., 3] = alpha
+    return Image.fromarray(rgba, "RGBA")
+
+
+def _status_icon_color(shot):
+    import numpy as np
+    from collections import Counter
+
+    arr = np.array(shot.crop(BATTERY_SAMPLE_BOX))
+    counts = Counter(map(tuple, arr.reshape(-1, 3)))
+    # The most common color in that box is the status-bar background; the
+    # next most common is the battery icon's own fill.
+    (_, _), (color, _) = counts.most_common(2)
+    return color
 
 
 def draw_wifi_icon(shot):
     bg = shot.getpixel((NETWORK_ICON_CLEAR_BOX[0] - 68, 70))
+    icon_color = _status_icon_color(shot)
     draw = ImageDraw.Draw(shot)
     draw.rectangle(NETWORK_ICON_CLEAR_BOX, fill=bg)
-    shot.paste(_wifi_glyph(), (WIFI_GLYPH_BOX[0], WIFI_GLYPH_BOX[1]), _wifi_glyph())
+    glyph = _wifi_glyph(icon_color)
+    shot.paste(glyph, (WIFI_GLYPH_BOX[0], WIFI_GLYPH_BOX[1]), glyph)
     return shot
 
 # Every entry keeps its real status bar (time/network/battery) visible
@@ -158,30 +186,35 @@ SCREENS = [
         "headline": "Your week, your streak, your story",
         "screenshot": "journal_light.png",
         **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
     {
         "out": "store-screenshot-5.png",
         "headline": "Every moment, remembered",
         "screenshot": "timeline_dark.png",
         **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
     {
         "out": "store-screenshot-6.png",
         "headline": "Breathe easy with Luna",
         "screenshot": "breathing_light.png",
         **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
     {
         "out": "store-screenshot-7.png",
         "headline": "A small puzzle to unwind",
         "screenshot": "sudoku_dark.png",
         **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
     {
         "out": "store-screenshot-8.png",
         "headline": "Draw out what words can't say",
         "screenshot": "freedraw_light.png",
         **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
     {
         "out": "store-screenshot-9.png",
@@ -194,6 +227,7 @@ SCREENS = [
         "headline": "Your journey, all in one place",
         "screenshot": "profile_light.png",
         **_STATUS_BAR_VISIBLE,
+        "wifi_icon": True,
     },
 ]
 
@@ -276,8 +310,12 @@ def rounded_mask(size, radius):
 
 
 def build_phone_frame(
-    screenshot_path, frame_top, frame_bottom, crop_top=0, erase_blob=False, wifi_icon=False
+    screenshot_path, frame_top, frame_bottom, crop_top=0, erase_blob=False, wifi_icon=False,
+    corner_r=None, bezel_w=None,
 ):
+    corner_r = FRAME_CORNER_R if corner_r is None else corner_r
+    bezel_w = BEZEL_WIDTH if bezel_w is None else bezel_w
+
     frame_h = frame_bottom - frame_top
     shot = Image.open(screenshot_path).convert("RGB")
     if erase_blob:
@@ -291,23 +329,23 @@ def build_phone_frame(
     frame_w = int(frame_h * aspect)
     frame_x = (W - frame_w) // 2
 
-    bezel = Image.new("RGBA", (frame_w + 2 * BEZEL_WIDTH, frame_h + 2 * BEZEL_WIDTH), (0, 0, 0, 0))
+    bezel = Image.new("RGBA", (frame_w + 2 * bezel_w, frame_h + 2 * bezel_w), (0, 0, 0, 0))
     bezel_draw = ImageDraw.Draw(bezel)
     bezel_draw.rounded_rectangle(
         [(0, 0), (bezel.width - 1, bezel.height - 1)],
-        radius=FRAME_CORNER_R + BEZEL_WIDTH,
+        radius=corner_r + bezel_w,
         fill=BEZEL_COLOR,
     )
 
     shot_resized = shot.resize((frame_w, frame_h), Image.Resampling.LANCZOS)
-    inner_mask = rounded_mask((frame_w, frame_h), FRAME_CORNER_R)
-    bezel.paste(shot_resized, (BEZEL_WIDTH, BEZEL_WIDTH), inner_mask)
+    inner_mask = rounded_mask((frame_w, frame_h), corner_r)
+    bezel.paste(shot_resized, (bezel_w, bezel_w), inner_mask)
 
     # Punch-hole camera dot, fully inset within the screen content (like a
     # real in-display camera cutout) rather than a separate status-bar icon.
     hole_r = frame_w * PUNCH_HOLE_FRACTION / 2
-    hole_cx = BEZEL_WIDTH + frame_w / 2
-    hole_cy = BEZEL_WIDTH + frame_w * PUNCH_HOLE_INSET_FRACTION + hole_r
+    hole_cx = bezel_w + frame_w / 2
+    hole_cy = bezel_w + frame_w * PUNCH_HOLE_INSET_FRACTION + hole_r
     bezel_draw.ellipse(
         [(hole_cx - hole_r, hole_cy - hole_r), (hole_cx + hole_r, hole_cy + hole_r)],
         fill=(0, 0, 0, 255),
@@ -333,8 +371,8 @@ def build_phone_frame(
     # screen area, the detail that reads as "clean modern phone".
     indicator_w = frame_w * 0.25
     indicator_h = 1.6 * SCALE
-    indicator_x0 = BEZEL_WIDTH + (frame_w - indicator_w) / 2
-    indicator_y1 = BEZEL_WIDTH + frame_h - 6 * SCALE
+    indicator_x0 = bezel_w + (frame_w - indicator_w) / 2
+    indicator_y1 = bezel_w + frame_h - 6 * SCALE
     bezel_draw.rounded_rectangle(
         [(indicator_x0, indicator_y1 - indicator_h), (indicator_x0 + indicator_w, indicator_y1)],
         radius=indicator_h / 2,
@@ -346,12 +384,12 @@ def build_phone_frame(
     pad = 80 * SCALE
     shadow_draw.rounded_rectangle(
         [(pad, pad + 24 * SCALE), (pad + bezel.width, pad + bezel.height + 24 * SCALE)],
-        radius=FRAME_CORNER_R + BEZEL_WIDTH,
+        radius=corner_r + bezel_w,
         fill=(0x2B, 0x21, 0x38, 110),
     )
     shadow = shadow.filter(ImageFilter.GaussianBlur(28 * SCALE))
 
-    return bezel, frame_x - BEZEL_WIDTH, shadow, pad
+    return bezel, frame_x - bezel_w, shadow, pad
 
 
 def render(entry):
