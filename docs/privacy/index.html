@@ -52,6 +52,21 @@
   table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
   th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #eee2f0; vertical-align: top; }
   th { color: var(--plum); font-weight: 600; }
+  @media (max-width: 600px) {
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+    table { border: none; margin: 20px 0; }
+    tr {
+      background: white; border-radius: 12px; padding: 12px 14px;
+      margin-bottom: 12px; box-shadow: 0 1px 8px rgba(74,58,96,0.05);
+    }
+    td { border-bottom: none; padding: 4px 0; }
+    td::before {
+      content: attr(data-label); display: block; font-size: 0.78rem;
+      font-weight: 600; color: var(--orange); text-transform: uppercase;
+      letter-spacing: 0.02em; margin-bottom: 2px;
+    }
+  }
   .step-list li { margin-bottom: 8px; }
   code {
     background: #F5F0FF; padding: 2px 6px; border-radius: 4px; font-size: 0.9em;
@@ -79,16 +94,16 @@
   <h2>Information We Collect</h2>
   <table>
     <tr><th>What</th><th>Why</th></tr>
-    <tr><td>Your full name and email address — from the sign-up form, or from your Google account if you use Google Sign-In (we do not collect your Google profile photo)</td><td>To create and secure your account, via Firebase Authentication</td></tr>
-    <tr><td>Mood check-ins, journal entries, and messages you send to Luna</td><td>To power your personal journal, timeline, and Luna's responses to you</td></tr>
-    <tr><td>Your selected language preference</td><td>To show the app and Luna's responses in your preferred language</td></tr>
-    <tr><td>A short rolling summary of past conversations</td><td>So Luna can refer back to something you mentioned earlier without you repeating it — see "Conversation Memory" below</td></tr>
-    <tr><td>App usage data tied to an app-instance identifier</td><td>Via Firebase Analytics, to understand how the app is used and improve it — we do not send journal content to Firebase Analytics</td></tr>
-    <tr><td>Crash and error reports</td><td>Via Sentry, to find and fix bugs — journal content and other sensitive fields are filtered out on your device before any report is ever sent, and again on our server before storage</td></tr>
-    <tr><td>Content you report — the flagged message text, your chosen reason, an optional comment, and (if relevant) your own message that prompted it</td><td>When you flag one of Luna's responses, so we can review it and improve Luna's safety and quality</td></tr>
+    <tr><td data-label="What">Your full name and email address — from the sign-up form, or from your Google account if you use Google Sign-In (we do not collect your Google profile photo)</td><td data-label="Why">To create and secure your account, via Firebase Authentication</td></tr>
+    <tr><td data-label="What">Mood check-ins, journal entries, and messages you send to Luna</td><td data-label="Why">To power your personal journal, timeline, and Luna's responses to you</td></tr>
+    <tr><td data-label="What">Your selected language preference</td><td data-label="Why">To show the app and Luna's responses in your preferred language</td></tr>
+    <tr><td data-label="What">A short rolling summary of past conversations</td><td data-label="Why">So Luna can refer back to something you mentioned earlier without you repeating it — see "Conversation Memory" below</td></tr>
+    <tr><td data-label="What">App usage data tied to an app-instance identifier</td><td data-label="Why">Via Firebase Analytics, to understand how the app is used and improve it — we do not send journal content to Firebase Analytics</td></tr>
+    <tr><td data-label="What">Crash and error reports</td><td data-label="Why">Via Sentry, to find and fix bugs — journal content and other sensitive fields are filtered out on your device before any report is ever sent, and again on our server before storage</td></tr>
+    <tr><td data-label="What">Content you report — the flagged message text, your chosen reason, an optional comment, and (if relevant) your own message that prompted it</td><td data-label="Why">When you flag one of Luna's responses, so we can review it and improve Luna's safety and quality</td></tr>
   </table>
   <p>We do not collect your location, contacts, camera access, or phone number. We do not use any social sign-in provider other than Google. Our application code does not log or store your IP address — neither in the app nor on our backend server — though our hosting provider's infrastructure may retain standard connection-level logs for operational purposes, outside of anything our app itself accesses or controls.</p>
-  <p>Our account system technically supports a few optional profile fields (such as a short bio or date of birth) for possible future personalization features. <strong>None of these fields are currently collected, shown, or editable anywhere in the Lueur app</strong> — if that ever changes, we'll update this policy and the "last updated" date above before the feature ships.</p>
+  <p>Our account system technically supports a few optional profile fields (such as a short bio, date of birth, or gender) for possible future personalization features. <strong>None of these fields are currently collected, shown, or editable anywhere in the Lueur app</strong> — if that ever changes, we'll update this policy and the "last updated" date above before the feature ships.</p>
 
   <h3>Content That Stays on Your Device</h3>
   <p>Saved quotes (Luna's responses you choose to bookmark), drawings you create, and your Sudoku history are all stored locally on your device only — none of this content is ever uploaded to our servers. For breathing exercises, drawings, and Sudoku, we do log that you completed the activity (for your streak and journal timeline), along with basic outcome details — how long a breathing exercise lasted, and for Sudoku whether it was solved, how long it took, and its difficulty — but never the drawing image itself, the puzzle board, or any audio/visual recording of a breathing session.</p>
@@ -118,11 +133,11 @@
   <p>We use a small number of trusted service providers to run Lueur. None are permitted to use your data for their own advertising purposes:</p>
   <table>
     <tr><th>Service</th><th>Purpose</th></tr>
-    <tr><td>Firebase Authentication (Google)</td><td>Account sign-up and login (email/password and Google Sign-In)</td></tr>
-    <tr><td>Firebase Analytics (Google)</td><td>App usage analytics tied to an app-instance identifier — not your personal identity, and never includes journal content</td></tr>
-    <tr><td>Railway</td><td>Hosting our backend server and database</td></tr>
-    <tr><td>Sentry</td><td>Crash and error monitoring, with sensitive fields (including journal content and conversation memory) filtered out on both the app and the server before any report is sent</td></tr>
-    <tr><td>Groq</td><td>Generating Luna's AI responses and conversation summaries — server-to-server only, never linked to your name or email</td></tr>
+    <tr><td data-label="Service">Firebase Authentication (Google)</td><td data-label="Purpose">Account sign-up and login (email/password and Google Sign-In)</td></tr>
+    <tr><td data-label="Service">Firebase Analytics (Google)</td><td data-label="Purpose">App usage analytics tied to an app-instance identifier — not your personal identity, and never includes journal content</td></tr>
+    <tr><td data-label="Service">Railway</td><td data-label="Purpose">Hosting our backend server and database</td></tr>
+    <tr><td data-label="Service">Sentry</td><td data-label="Purpose">Crash and error monitoring, with sensitive fields (including journal content and conversation memory) filtered out on both the app and the server before any report is sent</td></tr>
+    <tr><td data-label="Service">Groq</td><td data-label="Purpose">Generating Luna's AI responses and conversation summaries — server-to-server only, never linked to your name or email</td></tr>
   </table>
   <p>Per Groq's terms, ordinary inference inputs/outputs are not retained by default, but may be temporarily retained for up to 30 days, unless legally required to retain longer, solely to troubleshoot errors or investigate suspected abuse — and are not used to train Groq's models. You can review Groq's current data handling terms directly at <a href="https://console.groq.com/docs/your-data" target="_blank">console.groq.com/docs/your-data</a>.</p>
   <p>We do not permit these providers to use your content for their own advertising purposes.</p>
