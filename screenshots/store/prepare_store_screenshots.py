@@ -37,7 +37,7 @@ SCREENS = [
     {"out": "store-screenshot-1.png", "screenshot": "chat_with_ai_luna_more_light.png"},
     {"out": "store-screenshot-2.png", "screenshot": "home_dark.png"},
     {"out": "store-screenshot-3.png", "screenshot": "journal_dark.png"},
-    {"out": "store-screenshot-4.png", "screenshot": "timeline_light.png"},
+    {"out": "store-screenshot-4.png", "screenshot": "journal_light.png"},
     {"out": "store-screenshot-5.png", "screenshot": "profile_choose_theme_and language_dark.png"},
     {"out": "store-screenshot-6.png", "screenshot": "breathing_light.png"},
     {"out": "store-screenshot-7.png", "screenshot": "freedraw_light.png"},

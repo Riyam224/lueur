@@ -143,14 +143,14 @@ The flow below follows the app in order — onboarding → sign in → capture a
     <td><img src="screenshots/talk_to_ai_flag_dark.png" width="180" alt="Report bottom sheet for flagging one of Luna's replies, dark theme"/></td>
   </tr>
   <tr>
-    <td>Mood journal</td>
-    <td><img src="screenshots/journal_light.png" width="180" alt="Mood journal, light theme"/></td>
-    <td><img src="screenshots/journal_dark.png" width="180" alt="Mood journal, dark theme"/></td>
+    <td>Journal Screen</td>
+    <td><img src="screenshots/journal_light.png" width="180" alt="Journal Screen with streak, weekly letter, and recent memories showing each day's single latest entry, light theme"/></td>
+    <td><img src="screenshots/journal_dark.png" width="180" alt="Journal Screen with streak, weekly letter, and recent memories showing each day's single latest entry, dark theme"/></td>
   </tr>
   <tr>
     <td>Timeline</td>
-    <td><img src="screenshots/timeline_light.png" width="180" alt="Full memory timeline with mood/month filters and activity cards, light theme"/></td>
-    <td><img src="screenshots/timeline_dark.png" width="180" alt="Full memory timeline with mood/month filters and activity cards, dark theme"/></td>
+    <td><img src="screenshots/timeline_light.png" width="180" alt="Full memory timeline with mood/month filters, listing every entry logged per day, light theme"/></td>
+    <td><img src="screenshots/timeline_dark.png" width="180" alt="Full memory timeline with mood/month filters, listing every entry logged per day, dark theme"/></td>
   </tr>
   <tr>
     <td>Affirmation cards</td>
@@ -194,9 +194,9 @@ More screenshots live in [`screenshots/`](screenshots/).
 | --- | --- |
 | AI Mood Response | Share an emoji + thoughts → Luna responds with an empathetic, personalized reflection |
 | Follow-up Chat | Continue the conversation with Luna after the initial response |
-| Mood Journal | Grid/history view of all entries with emoji filter, search, pin, and card color |
+| Journal Screen | Streak, weekly letter, and a "recent memories" teaser showing each day's single most recent entry (mood or activity) — tapping a card opens Timeline scrolled to that day |
 | Activity Journal Entries | Completing a breathing session, sudoku puzzle, or drawing logs a journal card for it alongside mood entries |
-| Timeline | Full scrollable/searchable memory history (mood + activity entries) with mood and month filters |
+| Timeline | Full scrollable/searchable memory history, grouped by day, listing every entry logged that day (not just one per type) with mood and month filters |
 | Streak & Plant | Daily journaling grows a virtual plant (seed → sprout → blooming), with a streak celebration screen |
 | Weekly Letter | AI-generated weekly emotional reflection with stats |
 | Saved Quotes | Bookmark Luna's responses for later, view and delete them, with a retry option if loading them fails |
@@ -282,7 +282,7 @@ lib/
 │   ├── chat/                — follow-up chat with Luna
 │   ├── draw/                — free drawing canvas + saved drawings gallery
 │   ├── home/                — mood input, AI response trigger, history, weekly letter
-│   ├── journal/             — mood + activity journal grid, and the full searchable/filterable timeline
+│   ├── journal/             — journal screen (streak, weekly letter, recent memories), and the full searchable/filterable timeline
 │   ├── language/            — language preference (Cubit, local datasource, sync usecase)
 │   ├── mood_choice/         — post-mood-selection activity dialog (presentation-only)
 │   ├── onboarding/          — first-launch walkthrough (presentation-only)
