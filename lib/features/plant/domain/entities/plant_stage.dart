@@ -1,3 +1,12 @@
+/// Maps a streak day count onto a cumulative, non-repeating growth model
+/// that tops out "fully bloomed" at day 28 and stays there.
+///
+/// Deliberately separate from [StreakGrowthStage] (see
+/// streak_growth_stage.dart), which maps the same streak count onto a
+/// repeating 7-day visual cycle instead. The two enums share stage names
+/// (seed/sprout/blossom/blooming) by coincidence of visual vocabulary, not
+/// because they represent the same progression — don't merge them or assume
+/// a given streak count maps to the same stage in both.
 enum PlantStage {
   seed,
   sprout,

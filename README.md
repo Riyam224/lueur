@@ -230,7 +230,7 @@ More screenshots live in [`screenshots/`](screenshots/).
 | Networking | Dio + PrettyDioLogger |
 | DI | GetIt |
 | Error Handling | dartz (`Either<Failure, T>`) |
-| Code Generation | json_serializable, hive_generator, build_runner |
+| Code Generation | json_serializable, build_runner |
 | Responsive UI | flutter_screenutil |
 | Localization | flutter_localizations + `intl` (ARB-based, `lib/l10n/`) |
 | Analytics / Crash Reporting | firebase_analytics, sentry_flutter, sentry_dio |

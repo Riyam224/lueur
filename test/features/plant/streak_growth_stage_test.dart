@@ -14,10 +14,15 @@ void main() {
       expect(StreakGrowthStage.fromStreak(10), StreakGrowthStage.sprout);
     });
 
-    test('days 4-6 of a cycle are plant', () {
+    test('days 4-5 of a cycle are plant', () {
       expect(StreakGrowthStage.fromStreak(4), StreakGrowthStage.plant);
-      expect(StreakGrowthStage.fromStreak(6), StreakGrowthStage.plant);
-      expect(StreakGrowthStage.fromStreak(13), StreakGrowthStage.plant);
+      expect(StreakGrowthStage.fromStreak(5), StreakGrowthStage.plant);
+      expect(StreakGrowthStage.fromStreak(11), StreakGrowthStage.plant);
+    });
+
+    test('day 6 of a cycle is blossom', () {
+      expect(StreakGrowthStage.fromStreak(6), StreakGrowthStage.blossom);
+      expect(StreakGrowthStage.fromStreak(13), StreakGrowthStage.blossom);
     });
 
     test('day 7 of a cycle is blooming, and re-blooms every 7th day', () {
