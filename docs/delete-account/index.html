@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Your Account — Lueur</title>
+  <style>
+    :root {
+      --bg: #1b1730;
+      --card: #2a2447;
+      --card-soft: #332c58;
+      --lavender: #b8a4f0;
+      --lavender-light: #d9cdfb;
+      --text: #f1edfc;
+      --text-dim: #b8b0d6;
+      --danger: #f0a4a4;
+      --danger-soft: #3a2733;
+      --success: #a4f0c4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(circle at 20% 0%, #2a2450 0%, #1b1730 55%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 48px 20px;
+    }
+
+    .wrap {
+      max-width: 560px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .moon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin: 0 0 8px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .subtitle {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(184, 164, 240, 0.15);
+    }
+
+    .card h2 {
+      font-size: 16px;
+      color: var(--lavender-light);
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0 0 8px;
+    }
+
+    .card ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .pill-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pill-list li {
+      background: var(--card-soft);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 13.5px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      color: var(--lavender-light);
+      font-weight: 600;
+    }
+
+    input,
+    textarea {
+      background: var(--card-soft);
+      border: 1px solid rgba(184, 164, 240, 0.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 14.5px;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #7c7398;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--lavender) 0%, #9683e0 100%);
+      color: #1b1730;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .fallback {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 12px;
+    }
+
+    .fallback a {
+      color: var(--lavender-light);
+      text-decoration: none;
+    }
+
+    .status {
+      display: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .status.success {
+      background: rgba(164, 240, 196, 0.12);
+      color: var(--success);
+      display: block;
+    }
+
+    .status.error {
+      background: var(--danger-soft);
+      color: var(--danger);
+      display: block;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #6c6390;
+      font-size: 12px;
+      margin-top: 28px;
+      line-height: 1.6;
+    }
+
+    .footer-note a {
+      color: #9a8dc9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="header">
+      <h1>Delete Your Lueur Account</h1>
+      <p class="subtitle">We're sorry to see you go. Fill out the form below and we'll take care of the rest — no need
+        to open the app.</p>
+    </div>
+
+    <div class="card">
+      <h2>🗂️ What gets deleted</h2>
+      <ul class="pill-list">
+        <li>Your account and login credentials</li>
+        <li>All journal entries and conversations with Luna</li>
+        <li>Your streak, plant growth progress, and drawings</li>
+        <li>Any personal data linked to your profile</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>⏱️ How it works</h2>
+      <p>Submit the form with the email you used to sign up. We'll verify it's really you, then permanently delete your
+        account and data within <strong>7 days</strong>. You'll get a confirmation email once it's done.</p>
+    </div>
+
+    <div class="card">
+      <h2>✉️ Request deletion</h2>
+      <form id="deleteForm" action="https://formspree.io/f/xzebooze" method="POST">
+        <div class="field">
+          <label for="email">Email used on Lueur</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="reason">Anything you'd like us to know? (optional)</label>
+          <textarea id="reason" name="reason" placeholder="Totally optional — just helps us improve Lueur."></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="Lueur — Account Deletion Request">
+        <button type="submit">Request Account Deletion</button>
+        <div class="status" id="formStatus"></div>
+      </form>
+      <p class="fallback">Prefer email? Write to us directly at <a
+          href="mailto:riyam.techcampus@gmail.com?subject=Lueur%20—%20Account%20Deletion%20Request">riyam.techcampus@gmail.com</a>
+      </p>
+    </div>
+
+    <p class="footer-note">
+      Lueur is a personal companion app, not a medical service.<br>
+      See our <a href="https://riyam224.github.io/lueur/privacy/">Privacy Policy</a> for more on how your data is
+      handled.
+    </p>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('deleteForm');
+    const status = document.getElementById('formStatus');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = form.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          status.className = 'status success';
+          status.textContent = "Got it 💜 We've received your request and will confirm by email shortly.";
+          form.reset();
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch (err) {
+        status.className = 'status error';
+        status.textContent = "Something went wrong. Please email us directly at riyam.techcampus@gmail.com instead.";
+      }
+      btn.disabled = false;
+      btn.textContent = 'Request Account Deletion';
+    });
+  </script>
+
+</body>
+
+</html>
