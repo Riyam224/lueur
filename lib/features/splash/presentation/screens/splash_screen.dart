@@ -49,26 +49,25 @@ class _SplashScreenState extends State<SplashScreen>
     final authCubit = context.read<AuthCubit>();
 
     // Run the minimum splash hold concurrently with the session-check work
-    // so total wait is max(delay, work), not delay + work.
-    final results = await Future.wait([
+    // so total wait is max(delay, work), not delay + work. The session is
+    // checked first so a signed-in user goes Home whatever the onboarding
+    // flags say; checkSession force-refreshes the ID token so an
+    // expired/revoked session is caught before Home's first API call.
+    await Future.wait([
       Future.delayed(SplashConstants.navigationDelay),
-      OnboardingPrefs.hasSeen(null),
+      authCubit.checkSession(),
     ]);
-    if (!mounted) return;
-
-    final seen = results[1] as bool;
-    if (!seen) {
-      context.go(AppRoutes.onBoarding);
-      return;
-    }
-
-    // Force-refreshes the Firebase ID token so an expired/revoked session
-    // is caught here, before Home's first authenticated API call.
-    await authCubit.checkSession();
     if (!mounted) return;
 
     if (authCubit.state is AuthAuthenticated) {
       context.go(AppRoutes.home);
+      return;
+    }
+
+    final seen = await OnboardingPrefs.hasSeen(null);
+    if (!mounted) return;
+    if (!seen) {
+      context.go(AppRoutes.onBoarding);
       return;
     }
 

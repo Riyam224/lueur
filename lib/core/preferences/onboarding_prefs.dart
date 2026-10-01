@@ -31,13 +31,21 @@ class OnboardingPrefs {
       final box = await Hive.openBox<bool>(_boxName);
 
       if (uid == null) {
+        // Any account's record also counts — the pending flag is consumed
+        // on first sign-in, so it alone can't answer this for a relaunch.
         return box.get(_pendingKey, defaultValue: false)! ||
-            box.get(_legacyKey, defaultValue: false)!;
+            box.get(_legacyKey, defaultValue: false)! ||
+            box.keys.any((k) => k is String && k.startsWith('seen_'));
       }
 
       final key = _key(uid);
       final existing = box.get(key);
-      if (existing != null) return existing;
+      if (existing != null) {
+        // A leftover pending belongs to this account's re-run of onboarding;
+        // clear it so it can't be attributed to a different account later.
+        await box.delete(_pendingKey);
+        return existing;
+      }
 
       if (box.get(_pendingKey, defaultValue: false)!) {
         await box.put(key, true);

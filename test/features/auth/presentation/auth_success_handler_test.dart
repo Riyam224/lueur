@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -162,6 +163,33 @@ void main() {
     );
   }
 
+  // handleAuthSuccess makes Hive writes from inside the fake-async zone, so
+  // Hive's internal write-lock futures belong to that zone — closing the box
+  // needs fake-zone pumps too, or tearDown's Hive.deleteFromDisk() waits
+  // forever once the body has ended.
+  Future<void> closeHive(WidgetTester tester) async {
+    var closed = false;
+    unawaited(Hive.close().then((_) => closed = true));
+    for (var spins = 0; !closed && spins < 100; spins++) {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 10)),
+      );
+      await tester.pump();
+    }
+    if (!closed) fail('Hive did not close within 100 spins');
+  }
+
+  // Lets Hive file I/O started in the fake-async zone complete in real time,
+  // pumping between waits so its fake-zone continuations run.
+  Future<void> letHiveIoComplete(WidgetTester tester) async {
+    for (var i = 0; i < 5; i++) {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 20)),
+      );
+      await tester.pump();
+    }
+  }
+
   testWidgets(
     'a new, unconfirmed account is blocked by the modal and rolled back on decline',
     (tester) async {
@@ -184,6 +212,8 @@ void main() {
       expect(repo.deleteAccountCalled, isTrue);
       expect(visitedRoutes, isEmpty);
       expect(await AgeConfirmationPrefs.hasConfirmedAge(uid), isFalse);
+
+      await closeHive(tester);
     },
   );
 
@@ -211,29 +241,33 @@ void main() {
       expect(repo.deleteAccountCalled, isFalse);
       expect(await AgeConfirmationPrefs.hasConfirmedAge(uid), isTrue);
       expect(visitedRoutes, [AppRoutes.onBoarding]);
+
+      await closeHive(tester);
     },
   );
 
   testWidgets(
     'a new account that already confirmed age on a prior sign-in skips the modal',
     (tester) async {
-      await AgeConfirmationPrefs.markAgeConfirmed(uid);
+      // Seeded outside the fake-async zone so its file I/O can complete.
+      await tester.runAsync(() => AgeConfirmationPrefs.markAgeConfirmed(uid));
       final visitedRoutes = <String>[];
       await tester.pumpWidget(
         buildApp(const AuthAuthenticated(user, isNewUser: true), visitedRoutes: visitedRoutes),
       );
 
-      await tester.runAsync(() async {
-        await tester.tap(find.text('Trigger'));
-        await tester.pump();
-        await Future<void>.delayed(const Duration(milliseconds: 50));
-      });
-      await tester.pump();
+      // Tapped outside runAsync so the success dialog's auto-dismiss timer
+      // runs on the fake clock that pump(1500ms) advances.
+      await tester.tap(find.text('Trigger'));
+      await letHiveIoComplete(tester);
       await tester.pump(const Duration(milliseconds: 1500));
       await tester.pumpAndSettle();
+      await letHiveIoComplete(tester);
 
       expect(find.text("I'm 18 or older"), findsNothing);
       expect(visitedRoutes, [AppRoutes.onBoarding]);
+
+      await closeHive(tester);
     },
   );
 
@@ -246,10 +280,15 @@ void main() {
       );
 
       await tester.tap(find.text('Trigger'));
+      await tester.pump();
+      // pumpAndSettle alone doesn't reach the dialog's auto-dismiss timer.
+      await tester.pump(const Duration(milliseconds: 1500));
       await tester.pumpAndSettle();
 
       expect(find.text("I'm 18 or older"), findsNothing);
       expect(visitedRoutes, [AppRoutes.onBoarding]);
+
+      await closeHive(tester);
     },
   );
 
@@ -266,18 +305,19 @@ void main() {
         ),
       );
 
-      await tester.runAsync(() async {
-        await tester.tap(find.text('Trigger'));
-        await tester.pump();
-        await Future<void>.delayed(const Duration(milliseconds: 50));
-      });
-      await tester.pump();
+      // Tapped outside runAsync so the success dialog's auto-dismiss timer
+      // runs on the fake clock that pump(1500ms) advances.
+      await tester.tap(find.text('Trigger'));
+      await letHiveIoComplete(tester);
       await tester.pump(const Duration(milliseconds: 1500));
       await tester.pumpAndSettle();
+      await letHiveIoComplete(tester);
 
       expect(find.text("I'm 18 or older"), findsNothing);
       expect(await AgeConfirmationPrefs.hasConfirmedAge(uid), isTrue);
       expect(visitedRoutes, [AppRoutes.onBoarding]);
+
+      await closeHive(tester);
     },
   );
 }

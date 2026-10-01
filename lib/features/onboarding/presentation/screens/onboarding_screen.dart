@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
 import 'package:lueur/features/onboarding/presentation/constants/onboarding_constants.dart';
 import 'package:lueur/features/onboarding/presentation/widgets/onboarding_nav_button.dart';
 import 'package:lueur/features/onboarding/presentation/widgets/onboarding_page_view.dart';
@@ -36,6 +39,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Future<void> _finishOnboarding() async {
     await OnboardingPrefs.markSeen();
     if (!mounted) return;
+    // Already signed in (a new account sent here after auth) — attribute the
+    // completion to that account now and continue Home instead of Login.
+    // Read via sl since this route has no AuthCubit provider.
+    final authState = sl<AuthCubit>().state;
+    if (authState is AuthAuthenticated) {
+      await OnboardingPrefs.hasSeen(authState.user.id);
+      if (!mounted) return;
+      context.go(AppRoutes.home);
+      return;
+    }
     context.go(AppRoutes.loginScreen);
   }
 
