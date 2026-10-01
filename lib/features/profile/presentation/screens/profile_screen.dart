@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +11,7 @@ import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_state.dart';
+import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_account_section_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_auth_action_widget.dart';
 import 'package:lueur/features/profile/presentation/widgets/profile_avatar_widget.dart';
@@ -19,13 +22,58 @@ import 'package:lueur/features/profile/presentation/widgets/profile_sudoku_histo
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_cubit.dart';
 import 'package:lueur/features/quotes/presentation/cubit/saved_quotes_state.dart';
 import 'package:lueur/features/quotes/presentation/widgets/saved_quote_card.dart';
+import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
-  static String _subtitle(BuildContext context) =>
-      AppLocalizations.of(context)!.profileSubtitle;
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+/// The shell keeps this tab alive, so activities saved elsewhere (drawings,
+/// Sudoku, quotes) would otherwise only show up after an app restart —
+/// re-read them silently each time /profile becomes the visible route.
+class _ProfileScreenState extends State<ProfileScreen> {
+  GoRouterDelegate? _routerDelegate;
+  bool _wasVisible = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final delegate = GoRouter.of(context).routerDelegate;
+    if (identical(delegate, _routerDelegate)) return;
+    _routerDelegate?.removeListener(_onRouteChanged);
+    _routerDelegate = delegate..addListener(_onRouteChanged);
+  }
+
+  @override
+  void dispose() {
+    _routerDelegate?.removeListener(_onRouteChanged);
+    super.dispose();
+  }
+
+  void _onRouteChanged() {
+    final delegate = _routerDelegate;
+    if (!mounted || delegate == null) return;
+    if (delegate.currentConfiguration.isEmpty) return;
+    // `state` is the top route, including pushed ones — so popping a pushed
+    // screen back onto Profile counts as becoming visible, too.
+    final isVisible = delegate.state.uri.path == AppRoutes.profile;
+    if (isVisible && !_wasVisible) {
+      unawaited(context.read<SavedQuotesCubit>().refresh());
+      unawaited(context.read<SavedDrawingsCubit>().refresh());
+      unawaited(context.read<SudokuResultsCubit>().refresh());
+    }
+    _wasVisible = isVisible;
+  }
+
+  // Only a signed-in account is a "member" — guests get a neutral line.
+  static String _subtitle(BuildContext context, AuthState state) =>
+      state is AuthAuthenticated
+          ? AppLocalizations.of(context)!.profileSubtitle
+          : AppLocalizations.of(context)!.profileGuestSubtitle;
 
   static String _displayName(BuildContext context, AuthState state) =>
       state is AuthAuthenticated
@@ -63,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
               child: BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, state) => ProfileAvatarWidget(
                   name: _displayName(context, state),
-                  subtitle: _subtitle(context),
+                  subtitle: _subtitle(context, state),
                   seed: _userSeed(state),
                 ),
               ),
@@ -81,40 +129,9 @@ class ProfileScreen extends StatelessWidget {
                 builder: (context, state) {
                   if (state is SavedQuotesLoaded) {
                     if (state.quotes.isEmpty) {
-                      return Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(AppSpacing.spaceLg),
-                        decoration: BoxDecoration(
-                          color: context.extra.cardBackgroundColor,
-                          borderRadius:
-                              BorderRadius.circular(AppSizes.borderRadiusLg),
-                          border: Border.all(
-                            color: context.extra.borderColor ??
-                                Theme.of(context).colorScheme.outline,
-                            width: 1.2,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Text('📌',
-                                style: TextStyle(fontSize: AppSizes.iconLg)),
-                            SizedBox(height: AppSpacing.spaceSm),
-                            Text(
-                              AppLocalizations.of(context)!.quotesScreenTitle,
-                              style: ThemeTextStyles.titleMedium(context),
-                            ),
-                            SizedBox(height: AppSpacing.spaceXs),
-                            Text(
-                              AppLocalizations.of(context)!
-                                  .profileQuotesEmptySubtitle,
-                              style:
-                                  ThemeTextStyles.bodySmall(context).copyWith(
-                                color: context.extra.secondaryTextColor,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
+                      return _QuotesInfoCard(
+                        message: AppLocalizations.of(context)!
+                            .profileQuotesEmptySubtitle,
                       );
                     }
 
@@ -131,8 +148,11 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             IconButton(
-                              onPressed: () =>
-                                  context.go(AppRoutes.savedQuotes),
+                              // push, not go: go would tear down the tab
+                              // shell and lose Home/Journal state.
+                              onPressed: () => unawaited(
+                                context.push(AppRoutes.savedQuotes),
+                              ),
                               icon: const Icon(Icons.chevron_right_rounded),
                               color: context.extra.tertiaryTextColor,
                             ),
@@ -149,7 +169,12 @@ class ProfileScreen extends StatelessWidget {
                     );
                   }
 
-                  return const SizedBox.shrink();
+                  // A failure must not look the same as "no quotes yet".
+                  return _QuotesInfoCard(
+                    message: state is SavedQuotesError
+                        ? AppLocalizations.of(context)!.quotesLoadErrorMessage
+                        : AppLocalizations.of(context)!.quotesLoadingMessage,
+                  );
                 },
               ),
             ),
@@ -219,6 +244,48 @@ class ProfileScreen extends StatelessWidget {
             sliver: const SliverToBoxAdapter(
               child: ProfileAuthActionWidget(),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The saved-quotes card for every non-list state: empty, loading or error.
+class _QuotesInfoCard extends StatelessWidget {
+  final String message;
+
+  const _QuotesInfoCard({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(AppSpacing.spaceLg),
+      decoration: BoxDecoration(
+        color: context.extra.cardBackgroundColor,
+        borderRadius: BorderRadius.circular(AppSizes.borderRadiusLg),
+        border: Border.all(
+          color: context.extra.borderColor ??
+              Theme.of(context).colorScheme.outline,
+          width: 1.2,
+        ),
+      ),
+      child: Column(
+        children: [
+          Text('📌', style: TextStyle(fontSize: AppSizes.iconLg)),
+          SizedBox(height: AppSpacing.spaceSm),
+          Text(
+            AppLocalizations.of(context)!.quotesScreenTitle,
+            style: ThemeTextStyles.titleMedium(context),
+          ),
+          SizedBox(height: AppSpacing.spaceXs),
+          Text(
+            message,
+            style: ThemeTextStyles.bodySmall(context).copyWith(
+              color: context.extra.secondaryTextColor,
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

@@ -5,6 +5,9 @@ part 'mood_entry_model.g.dart';
 
 @JsonSerializable()
 class MoodEntryModel {
+  /// 0 when the backend sends none (e.g. a fallback reply, which it never
+  /// saves).
+  @JsonKey(defaultValue: 0)
   final int id;
 
   @JsonKey(name: 'user_id', defaultValue: '')
@@ -35,6 +38,12 @@ class MoodEntryModel {
 
   final Map<String, dynamic> payload;
 
+  /// True when the backend could not reach the AI and answered with a canned
+  /// reply. It is shown to the user but must never be cached or journaled,
+  /// so it is read from the API only and never written back out.
+  @JsonKey(defaultValue: false, includeToJson: false)
+  final bool fallback;
+
   const MoodEntryModel({
     required this.id,
     required this.userId,
@@ -46,6 +55,7 @@ class MoodEntryModel {
     this.pinned = false,
     this.entryType = 'mood_chat',
     this.payload = const {},
+    this.fallback = false,
   });
 
   factory MoodEntryModel.fromJson(Map<String, dynamic> json) =>
@@ -53,8 +63,9 @@ class MoodEntryModel {
 
   Map<String, dynamic> toJson() => _$MoodEntryModelToJson(this);
 
-  MoodEntryModel copyWith({String? cardColor, bool? pinned}) => MoodEntryModel(
-        id: id,
+  MoodEntryModel copyWith({int? id, String? cardColor, bool? pinned}) =>
+      MoodEntryModel(
+        id: id ?? this.id,
         userId: userId,
         emoji: emoji,
         thoughts: thoughts,
@@ -64,6 +75,7 @@ class MoodEntryModel {
         pinned: pinned ?? this.pinned,
         entryType: entryType,
         payload: payload,
+        fallback: fallback,
       );
 
   MoodEntryEntity toEntity() {
@@ -79,6 +91,7 @@ class MoodEntryModel {
       pinned: pinned,
       entryType: entryType,
       payload: payload,
+      isFallback: fallback,
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lueur/core/constants/app_sizes.dart';
@@ -5,7 +7,9 @@ import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/utils/calendar_days.dart';
 import 'package:lueur/core/utils/duration_format.dart';
+import 'package:lueur/core/widgets/undo_snackbar.dart';
 import 'package:lueur/features/sudoku/domain/entities/sudoku_result_entity.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_cubit.dart';
 import 'package:lueur/features/sudoku/presentation/cubit/sudoku_results_state.dart';
@@ -16,10 +20,24 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
   const ProfileSudokuHistorySectionWidget({super.key});
 
   static String _relativeDate(BuildContext context, DateTime date) {
-    final days = DateTime.now().difference(date).inDays;
+    final days = calendarDaysAgo(date, DateTime.now());
     if (days <= 0) return AppLocalizations.of(context)!.profileSudokuRelativeToday;
     if (days == 1) return AppLocalizations.of(context)!.profileSudokuRelativeYesterday;
     return AppLocalizations.of(context)!.profileSudokuRelativeDaysAgo(days);
+  }
+
+  /// Hides the result at once and only deletes it if Undo isn't tapped.
+  static void _delete(BuildContext context, String id) {
+    final cubit = context.read<SudokuResultsCubit>();
+    final l10n = AppLocalizations.of(context)!;
+    cubit.hideForDelete(id);
+    showUndoSnackBar(
+      ScaffoldMessenger.of(context),
+      message: l10n.profileSudokuResultDeletedSnack,
+      undoLabel: l10n.quotesUndoAction,
+      onUndo: () => unawaited(cubit.undoDelete(id)),
+      onExpired: () => unawaited(cubit.commitDelete(id)),
+    );
   }
 
   @override
@@ -50,11 +68,11 @@ class ProfileSudokuHistorySectionWidget extends StatelessWidget {
               (result) => Dismissible(
                 key: ValueKey(result.id),
                 direction: DismissDirection.endToStart,
-                onDismissed: (_) =>
-                    context.read<SudokuResultsCubit>().deleteResult(result.id),
+                onDismissed: (_) => _delete(context, result.id),
                 background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: AppSpacing.spaceXl),
+                  // endToStart reveals the trailing edge — left in RTL.
+                  alignment: AlignmentDirectional.centerEnd,
+                  padding: EdgeInsetsDirectional.only(end: AppSpacing.spaceXl),
                   margin: EdgeInsets.only(bottom: AppSpacing.spaceMd),
                   decoration: BoxDecoration(
                     color: AppColors.errorColor,

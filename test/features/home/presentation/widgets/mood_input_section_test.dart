@@ -41,7 +41,7 @@ class _FakeMoodRepository implements MoodRepository {
       throw UnimplementedError();
 
   @override
-  Future<Either<Failure, void>> deleteEntry(int id) async =>
+  Future<Either<Failure, void>> deleteEntry(MoodEntryEntity entry) async =>
       throw UnimplementedError();
 
   @override

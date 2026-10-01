@@ -30,12 +30,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String homeGreetingMessage(String name, int streak) {
-    return 'مساء الخير يا $name 🌙 $streak يوم متواصل — أنا فخورة بك';
+    return 'مساء الخير يا $name 🌙 $streak يوم متواصل — إنجاز يستحق التقدير';
   }
 
   @override
   String homeGreetingNoEntries(String name) {
-    return 'مرحباً $name، أنا لونا. أنا هنا كلما كنت مستعداً للحديث 🌱';
+    return 'مرحباً $name، أنا لونا. أنا هنا عندما يحين وقت الحديث 🌱';
   }
 
   @override
@@ -60,7 +60,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String homeGreetingLateNight(String name) {
-    return 'أهلاً $name ⭐ ما زلت مستيقظاً؟ أنا أستمع';
+    return 'أهلاً $name ⭐ الوقت متأخر. أنا هنا للاستماع';
   }
 
   @override
@@ -73,7 +73,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingTitle1 => 'مساحة هادئة،\nخاصة بك فقط';
 
   @override
-  String get onboardingSubtitle1 => 'تحدث عن شعورك —\nمن غير ضغط، فقط حضور';
+  String get onboardingSubtitle1 =>
+      'مساحة للحديث عن شعورك —\nبلا ضغط، فقط لحظة هادئة';
 
   @override
   String get onboardingTitle2 => 'تعرّف على لونا،\nرفيقتك';
@@ -87,31 +88,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingSubtitle3 =>
-      'كن حاضراً لنفسك كل يوم\nوشاهد شيئاً جميلاً ينمو';
+      'حضور يومي لنفسك\nوشيء جميل ينمو أمام العين';
 
   @override
   String get loginWelcomeBack => 'أهلاً بعودتك';
 
   @override
-  String get loginSubtitle => 'لونا اشتاقت لك';
+  String get loginSubtitle => 'لونا بانتظارك';
 
   @override
-  String get loginCta => 'تحدث مع لونا';
+  String get loginCta => 'الحديث مع لونا';
 
   @override
   String get loginSignUpPrompt => 'ليس لديك حساب؟ ';
 
   @override
-  String get loginSignUpAction => 'ابدأ النمو';
+  String get loginSignUpAction => 'لنبدأ النمو';
 
   @override
-  String get registerTitle => 'ابدأ رحلتك';
+  String get registerTitle => 'رحلتك تبدأ هنا';
 
   @override
   String get registerSubtitle => 'لونا جاهزة للاستماع إليك';
 
   @override
-  String get registerCta => 'ابدأ النمو';
+  String get registerCta => 'لنبدأ النمو';
 
   @override
   String get registerSignInPrompt => 'لديك حساب بالفعل؟ ';
@@ -127,7 +128,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guestWarningMessage =>
-      'عند المتابعة كضيف، لن تتذكر لونا مدخلاتك بعد إغلاق التطبيق. هل تريد الحفاظ على أيامك المتتالية؟ يمكنك التسجيل في أي وقت.';
+      'بالمتابعة كضيف لن تُحفظ مدخلاتك بعد إغلاق التطبيق. التسجيل متاح في أي وقت للحفاظ عليها وعلى أيامك المتتالية.';
 
   @override
   String get guestWarningRegisterInstead => 'التسجيل بدلاً من ذلك';
@@ -170,17 +171,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get forgotPasswordSubtitle =>
-      'أدخل بريدك الإلكتروني وستُرسل لك لونا رابطاً للعودة';
+      'بإدخال بريدك الإلكتروني سترسل لونا رابطاً للعودة';
 
   @override
   String get forgotPasswordCta => 'إرسال رابط إعادة التعيين';
 
   @override
-  String get forgotPasswordSuccessTitle => 'تحقق من بريدك الإلكتروني';
+  String get forgotPasswordSuccessTitle => 'رسالة بانتظارك في بريدك الإلكتروني';
 
   @override
   String get forgotPasswordSuccessSubtitle =>
-      'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. اتبعه لتعيين كلمة مرور جديدة';
+      'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يمكن اتباعه لتعيين كلمة مرور جديدة';
 
   @override
   String get forgotPasswordBackToLogin => 'العودة لتسجيل الدخول';
@@ -201,7 +202,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get passwordStrengthStrong => 'قوية';
 
   @override
-  String get authEmailInvalid => 'أدخل بريداً إلكترونياً صالحاً';
+  String get authEmailInvalid => 'يرجى إدخال بريد إلكتروني صالح';
 
   @override
   String get authPasswordTooShort => 'يجب ألا تقل كلمة المرور عن 6 أحرف';
@@ -210,7 +211,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authConfirmPasswordLabel => 'تأكيد كلمة المرور';
 
   @override
-  String get authConfirmPasswordHint => 'أعد إدخال كلمة المرور';
+  String get authConfirmPasswordHint => 'إعادة إدخال كلمة المرور';
 
   @override
   String get authConfirmPasswordMismatch => 'كلمتا المرور غير متطابقتين';
@@ -229,7 +230,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ageConfirmationDialogMessage =>
-      'يرجى تأكيد أنك فوق 18 سنة لاستخدام Luna.';
+      'يرجى تأكيد أنك فوق 18 سنة لاستخدام لونا.';
 
   @override
   String get ageConfirmationDialogConfirm => 'أنا فوق 18 سنة';
@@ -253,88 +254,92 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authErrorEmailInUse => 'يوجد حساب بالفعل بهذا البريد الإلكتروني.';
 
   @override
-  String get authErrorInvalidEmail => 'من فضلك أدخل بريدًا إلكترونيًا صحيحًا.';
+  String get authErrorInvalidEmail => 'يرجى إدخال بريد إلكتروني صحيح.';
 
   @override
   String get authErrorWeakPassword =>
-      'كلمة المرور ضعيفة قليلًا — استخدم 6 أحرف على الأقل.';
+      'كلمة المرور ضعيفة قليلًا — يلزم 6 أحرف على الأقل.';
 
   @override
   String get authErrorUserDisabled => 'هذا الحساب موقوف حاليًا.';
 
   @override
   String get authErrorTooManyRequests =>
-      'محاولات كثيرة في وقت قصير — جرّب مرة أخرى بعد قليل.';
+      'محاولات كثيرة في وقت قصير — يمكن المحاولة مرة أخرى بعد قليل.';
 
   @override
   String get authErrorNetworkFailed =>
-      'لا يوجد اتصال بالإنترنت. تحقق من شبكتك وحاول مرة أخرى.';
+      'لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة والمحاولة مرة أخرى.';
 
   @override
-  String get authErrorGeneric => 'لم تنجح المحاولة هذه المرة، جرّب مرة أخرى.';
+  String get authErrorGeneric =>
+      'لم تنجح المحاولة هذه المرة، يمكن المحاولة مرة أخرى.';
 
   @override
-  String get authErrorLoginFailed => 'لم يتم تسجيل الدخول، جرّب مرة أخرى.';
+  String get authErrorLoginFailed =>
+      'لم يتم تسجيل الدخول، يمكن المحاولة مرة أخرى.';
 
   @override
-  String get authErrorRegisterFailed => 'لم يتم إنشاء الحساب، جرّب مرة أخرى.';
+  String get authErrorRegisterFailed =>
+      'لم يتم إنشاء الحساب، يمكن المحاولة مرة أخرى.';
 
   @override
-  String get authErrorLogoutFailed => 'لم يتم تسجيل الخروج، جرّب مرة أخرى.';
+  String get authErrorLogoutFailed =>
+      'لم يتم تسجيل الخروج، يمكن المحاولة مرة أخرى.';
 
   @override
   String get authErrorGoogleSyncFailed =>
-      'تم تسجيل الدخول بجوجل، لكن مزامنة حسابك لم تنجح. جرّب مرة أخرى.';
+      'تم تسجيل الدخول بجوجل، لكن مزامنة الحساب لم تنجح. يمكن المحاولة مرة أخرى.';
 
   @override
   String get authErrorGoogleSignInFailed =>
-      'لم ينجح تسجيل الدخول بجوجل، جرّب مرة أخرى.';
+      'لم ينجح تسجيل الدخول بجوجل، يمكن المحاولة مرة أخرى.';
 
   @override
   String get authErrorResetEmailFailed =>
-      'لم نتمكن من إرسال رابط إعادة التعيين، جرّب مرة أخرى.';
+      'لم نتمكن من إرسال رابط إعادة التعيين، يمكن المحاولة مرة أخرى.';
 
   @override
   String get authErrorSyncLanguageFailed => 'لم تتم مزامنة اللغة المفضلة.';
 
   @override
-  String get moodLabelHappy => 'سعيد';
+  String get moodLabelHappy => 'سعادة';
 
   @override
-  String get moodLabelSad => 'حزين';
+  String get moodLabelSad => 'حزن';
 
   @override
-  String get moodLabelAngry => 'غاضب';
+  String get moodLabelAngry => 'غضب';
 
   @override
-  String get moodLabelAnxious => 'غير مرتاح';
+  String get moodLabelAnxious => 'عدم ارتياح';
 
   @override
-  String get moodLabelCalm => 'هادئ';
+  String get moodLabelCalm => 'هدوء';
 
   @override
-  String get moodLabelExcited => 'متحمس';
+  String get moodLabelExcited => 'حماس';
 
   @override
-  String get moodLabelGrateful => 'ممتن';
+  String get moodLabelGrateful => 'امتنان';
 
   @override
-  String get moodLabelHopeful => 'متفائل';
+  String get moodLabelHopeful => 'أمل';
 
   @override
-  String get moodLabelLonely => 'وحيد';
+  String get moodLabelLonely => 'وحدة';
 
   @override
   String get moodLabelNeutral => 'عادي';
 
   @override
-  String get moodLabelScared => 'خائف';
+  String get moodLabelScared => 'خوف';
 
   @override
-  String get moodLabelBurnout => 'مستنزف';
+  String get moodLabelBurnout => 'إرهاق';
 
   @override
-  String get moodLabelContentPeaceful => 'مرتاح وهادئ';
+  String get moodLabelContentPeaceful => 'راحة وهدوء';
 
   @override
   String get commonCancel => 'إلغاء';
@@ -343,14 +348,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get commonDelete => 'حذف';
 
   @override
-  String get commonTalkToLuna => 'تحدث مع لونا';
+  String get commonTalkToLuna => 'الحديث مع لونا';
 
   @override
   String get commonSavedToQuotesSnack => 'تم الحفظ في الاقتباسات 🌿';
 
   @override
   String get chatOfflineSnack =>
-      'يبدو أنك غير متصل بالإنترنت — حاول مرة أخرى لاحقًا 🌙';
+      'يبدو أن الاتصال بالإنترنت مقطوع — يمكن المحاولة عند عودته 🌙';
 
   @override
   String get commonDismissBarrierLabel => 'إغلاق';
@@ -375,17 +380,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get moodEntryDeleteAllMessage =>
-      'سيتم حذف جميع مدخلات اليوميات من جهازك نهائياً';
+      'سيتم حذف مدخلات اليوميات وكل ما تتذكره لونا من محادثاتكما. الرسومات والاقتباسات وسجل السودوكو تبقى على هذا الجهاز.';
 
   @override
   String get moodEntryDeleteAllConfirm => 'حذف الكل';
 
   @override
   String get moodEntryDeleteAllFailedSnack =>
-      'تعذّر حذف مدخلاتك — حاول مرة أخرى.';
+      'تعذّر حذف المدخلات — ممكن نجرّب مرة ثانية بعد شوي.';
 
   @override
-  String get homeMoodPromptLabel => 'كيف تشعر اليوم؟';
+  String get homeMoodPromptLabel => 'كيف حالك اليوم؟';
 
   @override
   String get homeThoughtsLabelSad => 'ما الذي يثقل عليك؟';
@@ -406,16 +411,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeThoughtsLabelNeutralGood => 'ما الذي يحدث معك اليوم؟';
 
   @override
-  String get homeThoughtsLabelFeelGood => 'ما الذي يجعلك تشعر بالرضا؟';
+  String get homeThoughtsLabelFeelGood => 'ما الذي يمنحك الرضا؟';
 
   @override
-  String get homeThoughtsLabelGrateful => 'علام أنت ممتن؟';
+  String get homeThoughtsLabelGrateful => 'ما الذي يستحق الامتنان اليوم؟';
 
   @override
-  String get homeThoughtsLabelHopeful => 'ما الذي تتطلع إليه؟';
+  String get homeThoughtsLabelHopeful => 'ما الذي يبعث فيك الأمل؟';
 
   @override
-  String get homeThoughtsLabelDefault => 'أخبرني بما يجول في خاطرك...';
+  String get homeThoughtsLabelDefault => 'ما الذي يجول في خاطرك؟';
 
   @override
   String get homeMoodRequiredSnack => 'الرجاء اختيار شعورك أولاً';
@@ -430,10 +435,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeThoughtsEncouragementStart => 'ما الذي يشغل بالك... 🌱';
 
   @override
-  String get homeThoughtsEncouragementContinue => 'أكمل...';
+  String get homeThoughtsEncouragementContinue => 'هناك متسع للمزيد...';
 
   @override
-  String get homeThoughtsEncouragementOpeningUp => 'أنت تفتح قلبك 🌿';
+  String get homeThoughtsEncouragementOpeningUp => 'فتح القلب خطوة جميلة 🌿';
 
   @override
   String get homeThoughtsEncouragementBeautiful => 'تأمل جميل 🌸';
@@ -452,10 +457,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'اللحظات الصغيرة تصنع عادات ذات معنى 🌱';
 
   @override
-  String get homeStreakMotivationActive => 'أنت تحضر لنفسك كل يوم — استمر 💜';
+  String get homeStreakMotivationActive => 'حضورك لنفسك كل يوم يصنع فرقاً 💜';
 
   @override
-  String get homeStreakMotivationMilestone => 'يوم واحد فقط ونباتك سينمو 🌿';
+  String get homeStreakMotivationMilestone => 'باقي القليل ويكبر نباتك 🌿';
 
   @override
   String homeDaysStreakChip(int streak) {
@@ -475,11 +480,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get weeklyLetterWaitingMessage =>
-      'استمر في الكتابة — ستكون رسالتك جاهزة في نهاية الأسبوع';
+      'مع كل مدخلة جديدة تقترب رسالتك — ستكون جاهزة في نهاية الأسبوع';
 
   @override
   String get weeklyLetterErrorMessage =>
-      'تعذر تحميل رسالتك. تحقق من الاتصال وحاول مرة أخرى';
+      'تعذر تحميل رسالتك. يمكن التحقق من الاتصال ثم إعادة المحاولة';
 
   @override
   String get weeklyLetterRetry => 'إعادة محاولة تحميل الرسالة الأسبوعية';
@@ -497,7 +502,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String weeklyLetterStreakChip(int count) {
-    return '🔥 $count يوم متتالي';
+    return '🌿 $count يوم متتالي';
   }
 
   @override
@@ -506,7 +511,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get journalSearchHint => 'ابحث في المدخلات...';
+  String get journalSearchHint => 'البحث في المدخلات...';
 
   @override
   String get journalCardOptionsColorLabel => 'لون البطاقة';
@@ -538,7 +543,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get journalActionFailedSnack =>
-      'تعذّر حفظ هذا التغيير — حاول مرة أخرى.';
+      'تعذّر حفظ هذا التغيير — يمكن المحاولة مرة أخرى.';
 
   @override
   String get timelineTitle => 'الخط الزمني';
@@ -554,7 +559,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get timelineNoResultsMessage =>
-      'جرّب مشاعر أو شهرًا أو كلمة بحث مختلفة.';
+      'يمكن تجربة مشاعر أو شهر أو كلمة بحث مختلفة.';
 
   @override
   String get timelineReflection1 => '🌸 حمل الربيع الكثير من لحظات الأمل.';
@@ -572,7 +577,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get journalActivityBreathing => 'أخذت لحظة تنفّس';
 
   @override
-  String get journalActivityPuzzle => 'حلّيت لغزًا صغيرًا';
+  String get journalActivityPuzzle => 'حلّ لغزاً صغيراً';
 
   @override
   String get journalActivityDrawing => 'رسمت رسمة صغيرة';
@@ -587,7 +592,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quotesEmptyTitle => 'لا توجد اقتباسات محفوظة بعد';
 
   @override
-  String get quotesEmptySubtitle => 'ستتذكر لونا كلماتك المفضلة.';
+  String get quotesEmptySubtitle => 'الاقتباسات المحفوظة تبقى هنا على جهازك.';
 
   @override
   String get quotesDeleteTitle => 'حذف الاقتباس؟';
@@ -606,7 +611,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'لم تستطع لونا تحميل اقتباساتك المحفوظة الآن.';
 
   @override
-  String get responseTryAgainButton => 'حاول مرة أخرى';
+  String get responseTryAgainButton => 'إعادة المحاولة';
 
   @override
   String get responseGenericErrorMessage =>
@@ -620,7 +625,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'أودّ التحدث معك في هذا، لكن ذلك يتطلب إنشاء حساب أولًا — الأمر لا يستغرق سوى لحظة، وسأكون هنا بانتظارك.';
 
   @override
-  String get responseGuestBlockedButton => 'سجّل الدخول للتحدث مع لونا';
+  String get responseGuestBlockedButton => 'تسجيل الدخول للحديث مع لونا';
 
   @override
   String get responseShareButton => 'مشاركة';
@@ -629,7 +634,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get responseDoneLabel => 'تم';
 
   @override
-  String get responseKeepChattingLabel => 'أكمل الحديث';
+  String get responseKeepChattingLabel => 'متابعة الحديث';
 
   @override
   String get responseMoodTagExpressing => 'تعبير';
@@ -662,19 +667,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lunaSubtitle => 'رفيقتك في الكتابة والتأمل';
 
   @override
-  String get afterFeelingPromptLabel => 'كيف تشعر بعد ذلك؟';
+  String get afterFeelingPromptLabel => 'كيف يبدو شعورك بعد ذلك؟';
 
   @override
-  String get afterFeelingCalmLabel => 'هادئ';
+  String get afterFeelingCalmLabel => 'هدوء';
 
   @override
   String get afterFeelingCalmMessage => 'شكراً لأنك منحت نفسك لحظة للتأمل';
 
   @override
-  String get afterFeelingLovedLabel => 'محبوب';
+  String get afterFeelingLovedLabel => 'حب';
 
   @override
-  String get afterFeelingLovedMessage => 'تستحق كل هذا الحب. تمسّك به';
+  String get afterFeelingLovedMessage =>
+      'كل هذا الحب في محله — والتمسك به أمر جميل';
 
   @override
   String get afterFeelingBetterLabel => 'أفضل';
@@ -683,22 +689,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get afterFeelingBetterMessage => 'شكراً لأنك أخذت لحظة للتأمل';
 
   @override
-  String get afterFeelingStillSadLabel => 'لا زلت حزيناً';
+  String get afterFeelingStillSadLabel => 'ما زال الحزن';
 
   @override
   String get afterFeelingStillSadMessage =>
-      'لا بأس أن يبقى هذا الشعور. خذ وقتك وتحدث مع شخص تثق به إذا رغبت في المساندة';
+      'لا بأس أن يبقى هذا الشعور. على مهلك، وربما يفيد التحدث مع شخص موثوق إن رغبت في المساندة';
 
   @override
   String afterFeelingYouAreFeeling(String label) {
-    return 'أنت تشعر بـ $label';
+    return 'الشعور الآن: $label';
   }
 
   @override
-  String get afterFeelingTakeYourTime => 'خذ وقتك';
+  String get afterFeelingTakeYourTime => 'على مهلك';
 
   @override
-  String get afterFeelingTalkToLunaAgain => 'تحدث مع لونا مرة أخرى';
+  String get afterFeelingTalkToLunaAgain => 'الحديث مع لونا مرة أخرى';
 
   @override
   String get afterFeelingThankYouLuna => 'شكراً لك يا لونا';
@@ -707,22 +713,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get afterFeelingImOkay => 'سأكون بخير';
 
   @override
-  String get moodChoicePrompt => 'يوم صعب، أليس كذلك؟';
+  String get moodChoicePrompt => 'ماذا قد يناسبك الآن؟';
 
   @override
   String get moodChoiceSubPrompt => 'أياً كان ما يناسبك الآن';
 
   @override
-  String get moodChoiceTalkSubtitle => 'شارك ما يدور في ذهنك';
+  String get moodChoiceTalkSubtitle => 'مساحة لما يدور في ذهنك';
 
   @override
-  String get moodChoiceBreatheTitle => 'تنفس مع لونا';
+  String get moodChoiceBreatheTitle => 'التنفس مع لونا';
 
   @override
   String get moodChoiceBreatheSubtitle => 'نفس بطيء وموجّه';
 
   @override
-  String get moodChoiceDrawTitle => 'ارسم بحرية';
+  String get moodChoiceDrawTitle => 'الرسم الحر';
 
   @override
   String get moodChoiceDrawSubtitle => 'بلا ضغط، فقط ألوان';
@@ -734,16 +740,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get moodChoiceSudokuSubtitle => 'لغز صغير وهادئ';
 
   @override
-  String get chatInputHint => 'شارك ما يدور في ذهنك...';
+  String get chatInputHint => 'ما الذي يدور في ذهنك؟';
 
   @override
-  String get chatEmptyStateMessage => 'مرحباً، أنا لونا 💜\nأخبرني كيف تشعر';
+  String get chatEmptyStateMessage => 'مرحباً، أنا لونا 💜\nكيف حالك اليوم؟';
 
   @override
   String get chatTypingLabel => 'لونا تكتب';
 
   @override
-  String get chatSessionEndGladMessage => 'يسعدني أنك تشعر بتحسن 💜';
+  String get chatSessionEndGladMessage => 'جميل أنك خصصت لحظة لنفسك 💜';
 
   @override
   String get chatSessionEndSavedMessage => 'تم حفظ هذه الجلسة في يومياتك';
@@ -767,13 +773,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chatReportReasonOther => 'سبب آخر';
 
   @override
-  String get chatReportCommentHint => 'هل تريد إخبارنا بشيء آخر؟ (اختياري)';
+  String get chatReportCommentHint => 'ملاحظات إضافية؟ (اختياري)';
 
   @override
   String get chatReportSubmitButton => 'إرسال البلاغ';
 
   @override
-  String get chatReportSuccessSnack => 'شكراً لإخبارنا — سنراجع الأمر.';
+  String get chatReportSuccessSnack => 'شكراً، تم إرسال بلاغك.';
 
   @override
   String get chatReportErrorSnack => 'حدث خطأ ما — يرجى المحاولة مرة أخرى.';
@@ -783,7 +789,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sudokuHowToPlayMessage =>
-      'املأ كل صف وعمود ومربع 3×3 بالأرقام من 1 إلى 9 بدون تكرار. بدّل إلى وضع الاحتمالات لتدوين ملاحظاتك، وفعّل الوضع التلقائي لتترك للونا مسح الاحتمالات نيابة عنك تدريجياً';
+      'يُملأ كل صف وعمود ومربع 3×3 بالأرقام من 1 إلى 9 دون تكرار. وضع الاحتمالات يتيح تدوين الملاحظات، والوضع التلقائي يمسح الاحتمالات تلقائياً أثناء اللعب';
 
   @override
   String get sudokuGotIt => 'فهمت';
@@ -813,7 +819,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sudokuResultSaveFailedNotice =>
-      'تعذّر حفظ هذه الجولة في السجل — لا مشكلة، تابع اللعب!';
+      'تعذّر حفظ هذه الجولة في السجل — لا مشكلة، اللعب مستمر!';
 
   @override
   String get sudokuGenerationFailedMessage =>
@@ -847,10 +853,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get drawSavedSnack => 'تم حفظ الرسمة في حسابك';
 
   @override
-  String get drawSaveErrorSnack => 'تعذّر حفظ رسمتك — حاول مرة أخرى بعد قليل.';
+  String get drawSaveErrorSnack =>
+      'تعذّر حفظ الرسمة — ممكن نجرّب مرة ثانية بعد شوي.';
 
   @override
-  String get drawTalkToLunaLink => 'تشعر برغبة في التحدث مع لونا الآن؟';
+  String get drawTalkToLunaLink => 'ما رأيك بالحديث مع لونا الآن؟';
 
   @override
   String get drawViewerTitle => 'رسمتك';
@@ -859,13 +866,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileTitle => 'حسابي';
 
   @override
-  String get profileSubtitle => 'عضو في Lueur';
+  String get profileSubtitle => 'من عائلة Lueur';
 
   @override
-  String get profileFallbackName => 'صديق';
+  String get profileGuestSubtitle => 'في وضع الضيف';
 
   @override
-  String get profileQuotesEmptySubtitle => 'ستتذكر لونا كلماتك المفضلة.';
+  String get profileFallbackName => 'أهلًا وسهلًا';
+
+  @override
+  String get profileQuotesEmptySubtitle =>
+      'الاقتباسات المحفوظة تبقى هنا على جهازك.';
 
   @override
   String get profileSettingsSectionLabel => 'الإعدادات';
@@ -877,7 +888,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileSettingsLanguage => 'اللغة';
 
   @override
-  String get languageChangeFailedSnack => 'تعذّر تغيير اللغة — حاول مرة أخرى.';
+  String get languageChangeFailedSnack =>
+      'تعذّر تغيير اللغة — يمكن المحاولة مرة أخرى.';
 
   @override
   String get profileJournalDataSectionLabel => 'بيانات اليوميات';
@@ -892,7 +904,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileDeleteAccountLabel => 'حذف الحساب';
 
   @override
-  String get accountDeleteTitle => 'هل تريد حذف حسابك نهائياً؟';
+  String get accountDeleteTitle => 'حذف الحساب نهائيًا؟';
 
   @override
   String get accountDeleteMessage =>
@@ -902,28 +914,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountDeleteConfirm => 'حذف الحساب';
 
   @override
-  String get accountDeleteFailedSnack => 'تعذّر حذف حسابك — حاول مرة أخرى.';
+  String get accountDeleteFailedSnack =>
+      'تعذّر حذف الحساب — ممكن نجرّب مرة ثانية بعد شوي.';
 
   @override
   String get profileDrawingsTitle => 'رسوماتي';
 
   @override
   String get profileDrawingsErrorSubtitle =>
-      'تعذر تحميل رسوماتك — اسحب للتحديث وحاول مرة أخرى';
+      'تعذّر تحميل الرسومات الآن — ممكن نرجع لها بعد شوي.';
 
   @override
   String get profileDrawingsEmptySubtitle => 'إبداعك له بيت هنا.';
+
+  @override
+  String get profileDrawingDeletedSnack => 'تم حذف الرسمة';
 
   @override
   String get profileSudokuHistoryTitle => 'سجل السودوكو';
 
   @override
   String get profileSudokuHistoryErrorSubtitle =>
-      'تعذر تحميل سجل السودوكو — اسحب للتحديث وحاول مرة أخرى';
+      'تعذّر تحميل سجل السودوكو الآن — ممكن نرجع له بعد شوي.';
 
   @override
   String get profileSudokuHistoryEmptySubtitle =>
-      'العب جولة سودوكو لترى نتائجك هنا';
+      'نتائج جولات السودوكو تظهر هنا.';
+
+  @override
+  String get profileSudokuResultDeletedSnack => 'تم حذف النتيجة';
 
   @override
   String get profileSudokuRelativeToday => 'اليوم';
@@ -932,18 +951,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileSudokuRelativeYesterday => 'أمس';
 
   @override
-  String get profileSudokuSolvedIt => 'حلّها';
+  String get profileSudokuSolvedIt => 'تم الحل ✓';
 
   @override
-  String get profileSudokuGaveItAGo => 'حاول حلّها';
+  String get profileSudokuGaveItAGo => 'محاولة';
 
   @override
   String profileSudokuRelativeDaysAgo(int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: 'قبل $days أيام',
-      one: 'قبل يوم واحد',
+      other: 'قبل $days يوم',
+      many: 'قبل $days يومًا',
+      few: 'قبل $days أيام',
+      two: 'قبل يومين',
+      one: 'قبل يوم',
+      zero: 'اليوم',
     );
     return '$_temp0';
   }
@@ -953,8 +976,12 @@ class AppLocalizationsAr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count أخطاء',
+      other: '$count خطأ',
+      many: '$count خطأً',
+      few: '$count أخطاء',
+      two: 'خطآن',
       one: 'خطأ واحد',
+      zero: 'بلا أخطاء',
     );
     return '$_temp0';
   }
@@ -996,16 +1023,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get affirmationNextCardButton => 'البطاقة التالية ↻';
 
   @override
-  String get affirmationPrimaryStartBreathing => 'ابدأ التنفس';
+  String get affirmationPrimaryStartBreathing => 'لنبدأ التنفس';
 
   @override
-  String get affirmationPrimaryStartDrawing => 'ابدأ الرسم';
+  String get affirmationPrimaryStartDrawing => 'لنبدأ الرسم';
 
   @override
-  String get affirmationPrimaryPlaySudoku => 'العب سودوكو';
+  String get affirmationPrimaryPlaySudoku => 'لنلعب سودوكو';
 
   @override
-  String get lunaCheckInTitle => 'تشعر بتحسن الآن؟';
+  String get lunaCheckInTitle => 'هل تحسّن شعورك قليلاً؟';
 
   @override
   String get lunaCheckInSubtitle => 'أنا هنا إذا أردت التحدث أكثر';
@@ -1014,25 +1041,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lunaCheckInDismiss => 'أنا بخير الآن';
 
   @override
-  String get streakCelebrationKeepGoingButton => 'استمر';
+  String get streakCelebrationKeepGoingButton => 'لنكمل';
 
   @override
-  String get chatSendFailedMessages0 => 'حممم لم تُرسل، حاول مرة أخرى؟';
+  String get chatSendFailedMessages0 =>
+      'لونا لا تستطيع الرد الآن. يمكن إعادة المحاولة بعد دقيقة.';
 
   @override
   String get chatSendFailedMessages1 =>
-      'أوه إشارتي غريبة قليلاً، أعد المحاولة؟';
+      'تعذّر على لونا الرد هذه المرة. لا بأس، يمكن إعادة الإرسال بعد قليل 🌙';
 
   @override
-  String get chatSendFailedMessages2 => 'انتظر، انقطعت الرسالة، مرة أخرى؟';
+  String get chatSendFailedMessages2 =>
+      'لم تصل الرسالة. يمكن إرسالها مرة أخرى بعد دقيقة.';
 
   @override
   String get chatSendFailedMessages3 =>
-      'لحظة، لم أستقبلها — حاول الإرسال مرة أخرى';
+      'لونا تواجه صعوبة في الرد حالياً. المحاولة بعد قليل ممكنة.';
 
   @override
   String get chatSendFailedMessages4 =>
-      'حممم حدث خلل ما، هل يمكنك إعادة إرسالها؟';
+      'تعذّر الحصول على رد الآن. لحظات ثم إعادة المحاولة 💜';
 
   @override
   String get streakCelebrationAffirmations0 =>
@@ -1052,7 +1081,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get streakCelebrationAffirmations4 =>
-      'هذا ما تبدو عليه العناية بنفسك. استمر';
+      'هذا ما تبدو عليه العناية بالنفس. والاستمرار فيها يصنع فرقاً';
 
   @override
   String get streakCelebrationAffirmations5 =>
@@ -1060,19 +1089,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String streakCelebrationNextMilestone(int days) {
-    return '$days يوم حتى معلمك التالي';
+    return '$days يوم حتى المرحلة التالية';
   }
 
   @override
   String get streakCelebrationAllMilestonesReached =>
-      'لقد وصلت إلى كل معلم — لونا مندهشة بك';
+      'بلغت كل المراحل — إنجاز رائع';
 
   @override
-  String get streakCelebrationEyebrowLabel => 'أيام التتابع';
+  String get streakCelebrationEyebrowLabel => 'أيام متتالية';
 
   @override
   String get streakCelebrationProgressSemanticLabel =>
-      'التقدم نحو معلمك التالي';
+      'التقدم نحو المرحلة التالية';
 
   @override
   String get streakGrowthStageSeedLabel => 'بذرة 🌱';
@@ -1099,8 +1128,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get startupErrorMessage => 'حدث خلل بسيط ونحن نجهز الأمور';
 
   @override
-  String get startupErrorSubtext => 'حاول مرة أخرى بعد قليل';
+  String get startupErrorSubtext => 'يمكن المحاولة مرة أخرى بعد قليل';
 
   @override
-  String get startupErrorRetry => 'حاول مرة أخرى';
+  String get startupErrorRetry => 'إعادة المحاولة';
 }

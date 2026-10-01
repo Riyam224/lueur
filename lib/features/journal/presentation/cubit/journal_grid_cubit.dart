@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lueur/core/utils/list_ops.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/domain/usecases/delete_journal_entry_usecase.dart';
 import 'package:lueur/features/journal/domain/usecases/get_journal_entries_usecase.dart';
@@ -71,11 +72,11 @@ class JournalGridCubit extends Cubit<JournalGridState> {
   }
 
   /// Removes just this one entry from the current list, without refetching.
-  Future<void> deleteEntry(int id) async {
+  Future<void> deleteEntry(MoodEntryEntity entry) async {
     final current = state;
     if (current is! JournalGridLoaded) return;
 
-    final result = await _deleteEntryUseCase(id);
+    final result = await _deleteEntryUseCase(entry);
     if (isClosed) return;
     result.fold(
       (failure) => emit(
@@ -86,7 +87,7 @@ class JournalGridCubit extends Cubit<JournalGridState> {
       ),
       (_) => emit(
         JournalGridLoaded(
-          current.entries.where((e) => e.id != id).toList(),
+          withoutFirstWhere(current.entries, entry.isSameEntryAs),
         ),
       ),
     );

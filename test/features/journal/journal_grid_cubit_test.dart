@@ -12,6 +12,7 @@ import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dar
 
 class FakeMoodRepository implements MoodRepository {
   final List<MoodEntryEntity> entries;
+  bool deleteFails = false;
 
   FakeMoodRepository(this.entries);
 
@@ -41,8 +42,10 @@ class FakeMoodRepository implements MoodRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteEntry(int id) async {
-    entries.removeWhere((e) => e.id == id);
+  Future<Either<Failure, void>> deleteEntry(MoodEntryEntity entry) async {
+    if (deleteFails) return const Left(NetworkFailure('delete failed'));
+    final index = entries.indexWhere(entry.isSameEntryAs);
+    if (index != -1) entries.removeAt(index);
     return const Right(null);
   }
 
@@ -77,12 +80,17 @@ class FakeMoodRepository implements MoodRepository {
   }
 }
 
-MoodEntryEntity buildTestEntry(int id, {String? cardColor, bool pinned = false}) {
+MoodEntryEntity buildTestEntry(
+  int id, {
+  String? cardColor,
+  bool pinned = false,
+  String? thoughts,
+}) {
   return MoodEntryEntity(
     id: id,
     userId: 'u1',
     emoji: '😊',
-    thoughts: 'entry $id',
+    thoughts: thoughts ?? 'entry $id',
     aiResponse: '',
     createdAt: DateTime(2026, 1, id),
     cardColor: cardColor,
@@ -157,10 +165,55 @@ void main() {
       final cubit = _buildCubit(repo);
       await cubit.loadEntries();
 
-      await cubit.deleteEntry(2);
+      await cubit.deleteEntry(buildTestEntry(2));
 
       final state = cubit.state as JournalGridLoaded;
       expect(state.entries.map((e) => e.id), [1, 3]);
+      await cubit.close();
+    });
+
+    test('deleteEntry of id 0 removes one id-0 entry, not all of them',
+        () async {
+      final repo = FakeMoodRepository([buildTestEntry(0), buildTestEntry(0), buildTestEntry(3)]);
+      final cubit = _buildCubit(repo);
+      await cubit.loadEntries();
+
+      await cubit.deleteEntry(buildTestEntry(0));
+
+      final state = cubit.state as JournalGridLoaded;
+      expect(state.entries.map((e) => e.id), [0, 3]);
+      await cubit.close();
+    });
+
+    test('deleting the second of two id-0 entries removes it, keeps the first',
+        () async {
+      final first = buildTestEntry(0, thoughts: 'first');
+      final second = buildTestEntry(0, thoughts: 'second');
+      final repo = FakeMoodRepository([first, second]);
+      final cubit = _buildCubit(repo);
+      await cubit.loadEntries();
+
+      await cubit.deleteEntry(second);
+
+      final state = cubit.state as JournalGridLoaded;
+      expect(state.entries, [first]);
+      expect(repo.entries, [first]);
+      await cubit.close();
+    });
+
+    test('a failed deleteEntry keeps the list and bumps actionFailureCount',
+        () async {
+      final repo = FakeMoodRepository([buildTestEntry(1), buildTestEntry(2)]);
+      repo.deleteFails = true;
+      final cubit = _buildCubit(repo);
+      await cubit.loadEntries();
+
+      await cubit.deleteEntry(buildTestEntry(2));
+
+      final state = cubit.state as JournalGridLoaded;
+      expect(state.entries.map((e) => e.id), [1, 2]);
+      expect(state.actionFailureCount, 1);
+      expect(state.actionFailed, isTrue);
       await cubit.close();
     });
 
@@ -172,7 +225,7 @@ void main() {
       final cubit = _buildCubit(repo);
       await cubit.loadEntries();
 
-      await cubit.deleteEntry(1);
+      await cubit.deleteEntry(buildTestEntry(1));
 
       expect(repo.entries, isEmpty);
       await cubit.close();
@@ -191,7 +244,7 @@ void main() {
       await cubit.loadEntries();
       await cubit.setCardColor(1, 'peach');
       await cubit.togglePinned(1, true);
-      await cubit.deleteEntry(1);
+      await cubit.deleteEntry(buildTestEntry(1));
     });
   });
 }

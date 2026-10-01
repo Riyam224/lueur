@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
 
 class DeleteJournalEntryUseCase {
@@ -7,5 +8,6 @@ class DeleteJournalEntryUseCase {
 
   DeleteJournalEntryUseCase(this._repository);
 
-  Future<Either<Failure, void>> call(int id) => _repository.deleteEntry(id);
+  Future<Either<Failure, void>> call(MoodEntryEntity entry) =>
+      _repository.deleteEntry(entry);
 }

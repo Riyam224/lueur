@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lueur/core/chat/chat_reset_signal.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
 import 'package:lueur/core/networking/auth_token_interceptor.dart';
 import 'package:lueur/core/networking/dio_helper.dart';
@@ -193,13 +194,16 @@ void setupInjection({required SharedPreferences sharedPreferences}) {
   sl.registerLazySingleton(() => LogActivityUseCase(sl()));
 
   sl.registerLazySingleton(JournalRefreshSignal.new);
+  sl.registerLazySingleton(ChatResetSignal.new);
 
   sl.registerLazySingleton<SavedQuotesRepository>(
     () => SavedQuotesRepositoryImpl(sl(), sl()),
   );
 
   // singleton — shared across all shell tabs
-  sl.registerLazySingleton(() => MoodCubit(sl(), sl()));
+  sl.registerLazySingleton(
+    () => MoodCubit(sl(), sl(), chatResetSignal: sl<ChatResetSignal>()),
+  );
 
   sl.registerLazySingleton(() => GetSavedQuotesUseCase(sl()));
   sl.registerLazySingleton(() => SaveQuoteUseCase(sl()));

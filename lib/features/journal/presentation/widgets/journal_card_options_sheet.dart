@@ -7,13 +7,14 @@ import 'package:lueur/core/models/journal_card_color.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_cubit.dart';
 import 'package:lueur/features/journal/presentation/cubit/journal_grid_state.dart';
 import 'package:lueur/l10n/app_localizations.dart';
 
 Future<void> showJournalCardOptionsSheet(
   BuildContext context, {
-  required int entryId,
+  required MoodEntryEntity entry,
 }) {
   final cubit = context.read<JournalGridCubit>();
   return showModalBottomSheet(
@@ -22,15 +23,15 @@ Future<void> showJournalCardOptionsSheet(
     isScrollControlled: true,
     builder: (_) => BlocProvider.value(
       value: cubit,
-      child: _JournalCardOptionsSheetContent(entryId: entryId),
+      child: _JournalCardOptionsSheetContent(entry: entry),
     ),
   );
 }
 
 class _JournalCardOptionsSheetContent extends StatelessWidget {
-  final int entryId;
+  final MoodEntryEntity entry;
 
-  const _JournalCardOptionsSheetContent({required this.entryId});
+  const _JournalCardOptionsSheetContent({required this.entry});
 
   Future<void> _confirmDelete(BuildContext context) async {
     final confirmed = await showDialog<bool>(
@@ -62,7 +63,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
     if (!confirmed) return;
     if (!context.mounted) return;
 
-    context.read<JournalGridCubit>().deleteEntry(entryId);
+    context.read<JournalGridCubit>().deleteEntry(entry);
     Navigator.of(context).pop();
   }
 
@@ -81,12 +82,13 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
           ),
           child: BlocBuilder<JournalGridCubit, JournalGridState>(
             builder: (context, state) {
-              final entry = state is JournalGridLoaded
-                  ? state.entries.where((e) => e.id == entryId).firstOrNull
+              // The live copy of this entry, so color/pin changes show up.
+              final liveEntry = state is JournalGridLoaded
+                  ? state.entries.where(entry.isSameEntryAs).firstOrNull
                   : null;
-              if (entry == null) return const SizedBox.shrink();
+              if (liveEntry == null) return const SizedBox.shrink();
 
-              final selected = JournalCardColor.fromName(entry.cardColor);
+              final selected = JournalCardColor.fromName(liveEntry.cardColor);
 
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -117,7 +119,7 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                       return GestureDetector(
                         onTap: () => context
                             .read<JournalGridCubit>()
-                            .setCardColor(entryId, option.name),
+                            .setCardColor(entry.id, option.name),
                         child: Container(
                           width: AppSizes.avatarSm,
                           height: AppSizes.avatarSm,
@@ -142,10 +144,10 @@ class _JournalCardOptionsSheetContent extends StatelessWidget {
                       AppLocalizations.of(context)!.journalCardOptionsPinLabel,
                       style: ThemeTextStyles.bodyLarge(context),
                     ),
-                    value: entry.pinned,
+                    value: liveEntry.pinned,
                     onChanged: (value) => context
                         .read<JournalGridCubit>()
-                        .togglePinned(entryId, value),
+                        .togglePinned(entry.id, value),
                   ),
                   SizedBox(height: AppSpacing.spaceSm),
                   ListTile(

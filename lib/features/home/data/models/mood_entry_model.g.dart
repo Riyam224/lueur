@@ -8,7 +8,7 @@ part of 'mood_entry_model.dart';
 
 MoodEntryModel _$MoodEntryModelFromJson(Map<String, dynamic> json) =>
     MoodEntryModel(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt() ?? 0,
       userId: json['user_id'] as String? ?? '',
       emoji: json['emoji'] as String,
       thoughts: json['thoughts'] as String,
@@ -18,6 +18,7 @@ MoodEntryModel _$MoodEntryModelFromJson(Map<String, dynamic> json) =>
       pinned: json['pinned'] as bool? ?? false,
       entryType: json['entry_type'] as String? ?? 'mood_chat',
       payload: json['payload'] as Map<String, dynamic>? ?? const {},
+      fallback: json['fallback'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$MoodEntryModelToJson(MoodEntryModel instance) =>

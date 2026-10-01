@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lueur/core/utils/list_ops.dart';
 import 'package:lueur/features/home/data/models/mood_entry_model.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 
 /// A long-time journaler's cache can grow into thousands of entries, so
 /// decoding/encoding runs off the UI isolate via [compute] to avoid jank.
@@ -51,9 +53,18 @@ class MoodLocalDatasource {
     await cacheHistory(updated, userId: userId);
   }
 
-  Future<void> deleteEntry(int id, {required String userId}) async {
+  Future<void> deleteEntry(
+    MoodEntryEntity entry, {
+    required String userId,
+  }) async {
     final existing = await getCachedHistory(userId: userId);
-    final updated = existing.where((e) => e.id != id).toList();
+    // First match only: local placeholders all share id 0, and deleting one
+    // must not take the others with it. isSameEntryAs adds a secondary key
+    // for those so the one the user acted on goes, not just the first id-0.
+    final updated = withoutFirstWhere(
+      existing,
+      (e) => entry.isSameEntryAs(e.toEntity()),
+    );
     await cacheHistory(updated, userId: userId);
   }
 

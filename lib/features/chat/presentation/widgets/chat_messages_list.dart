@@ -36,6 +36,7 @@ class ChatMessagesList extends StatelessWidget {
       itemBuilder: (context, index) {
         final message = state.messages[index];
         final isUser = message.role == ChatMessage.roleUser;
+        final canAct = !isUser && !message.isLocalNotice;
         final isPreviousSameRole =
             index > 0 && state.messages[index - 1].role == message.role;
 
@@ -44,8 +45,8 @@ class ChatMessagesList extends StatelessWidget {
           isUser: isUser,
           isFirst: index == 0,
           isPreviousSameRole: isPreviousSameRole,
-          onBookmark: isUser ? null : () => onBookmarkMessage(index),
-          onReport: isUser ? null : () => onReportMessage(index),
+          onBookmark: !canAct ? null : () => onBookmarkMessage(index),
+          onReport: !canAct ? null : () => onReportMessage(index),
         );
       },
     );

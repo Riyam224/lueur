@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:lueur/core/errors/failures.dart';
+import 'package:lueur/core/utils/local_entry_id.dart';
 import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart';
 import 'package:lueur/features/home/data/datasources/mood_remote_datasource.dart';
 import 'package:lueur/features/home/data/models/mood_entry_model.dart';
@@ -41,6 +42,13 @@ class MoodRepositoryImpl implements MoodRepository {
 
       final MoodEntryModel model = await _remote.generateResponse(body);
 
+      if (model.fallback) {
+        // A canned reply for when the AI is down: show it, but it is not a
+        // real journal entry, so it is never cached.
+        _logger.i('Fallback response — shown but not cached');
+        return Right(model.copyWith(id: nextLocalEntryId()).toEntity());
+      }
+
       await _local.addEntry(model, userId: _currentUserId);
 
       _logger.i('Response generated and cached: id=${model.id}');
@@ -64,7 +72,7 @@ class MoodRepositoryImpl implements MoodRepository {
   }) async {
     try {
       final localEntry = MoodEntryModel(
-        id: 0,
+        id: nextLocalEntryId(),
         userId: _currentUserId,
         emoji: emoji,
         thoughts: thoughts,
@@ -129,11 +137,21 @@ class MoodRepositoryImpl implements MoodRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteEntry(int id) async {
+  Future<Either<Failure, void>> deleteEntry(MoodEntryEntity entry) async {
     try {
-      if (!_isGuest) await _remote.deleteEntry(id.toString());
-      await _local.deleteEntry(id, userId: _currentUserId);
-      _logger.i('Entry deleted from cache: id=$id');
+      // Local-only entries (placeholders, guest activities, fallback replies)
+      // — the server never had them, so there is nothing to delete.
+      if (!_isGuest && !entry.isLocalOnly) {
+        try {
+          await _remote.deleteEntry(entry.id.toString());
+        } on DioException catch (e) {
+          // 404 means it's already gone server-side; still clear the local copy.
+          if (e.response?.statusCode != 404) rethrow;
+          _logger.i('Entry ${entry.id} already deleted on the server');
+        }
+      }
+      await _local.deleteEntry(entry, userId: _currentUserId);
+      _logger.i('Entry deleted from cache: id=${entry.id}');
       return const Right(null);
     } catch (e) {
       _logger.e('Failed to delete entry: $e');
@@ -199,7 +217,7 @@ class MoodRepositoryImpl implements MoodRepository {
       _logger.i('Skipped logging guest activity ($entryType) — no account to log against');
       return Right(
         MoodEntryModel(
-          id: 0,
+          id: nextLocalEntryId(),
           userId: _currentUserId,
           emoji: '',
           thoughts: '',

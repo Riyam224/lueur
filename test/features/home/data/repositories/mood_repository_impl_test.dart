@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lueur/core/errors/failures.dart';
@@ -5,7 +6,17 @@ import 'package:lueur/features/home/data/datasources/mood_local_datasource.dart'
 import 'package:lueur/features/home/data/datasources/mood_remote_datasource.dart';
 import 'package:lueur/features/home/data/models/mood_entry_model.dart';
 import 'package:lueur/features/home/data/repositories/mood_repository_impl.dart';
+import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:mocktail/mocktail.dart';
+
+MoodEntryEntity _entry(int id, {String thoughts = 'thoughts'}) => MoodEntryEntity(
+      id: id,
+      userId: 'uid',
+      emoji: '🌱',
+      thoughts: thoughts,
+      aiResponse: '',
+      createdAt: DateTime(2026),
+    );
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
@@ -20,6 +31,7 @@ void main() {
   late MoodRepositoryImpl repository;
 
   setUpAll(() {
+    registerFallbackValue(_entry(0));
     registerFallbackValue(
       MoodEntryModel(
         id: 0,
@@ -102,13 +114,13 @@ void main() {
   test('authenticated delete calls Django then clears local cache', () async {
     when(() => firebaseAuth.currentUser).thenReturn(MockUser());
     when(() => remote.deleteEntry('1')).thenAnswer((_) async {});
-    when(() => local.deleteEntry(1, userId: 'uid')).thenAnswer((_) async {});
+    when(() => local.deleteEntry(_entry(1), userId: 'uid')).thenAnswer((_) async {});
 
-    final result = await repository.deleteEntry(1);
+    final result = await repository.deleteEntry(_entry(1));
 
     expect(result.isRight(), isTrue);
     verify(() => remote.deleteEntry('1')).called(1);
-    verify(() => local.deleteEntry(1, userId: 'uid')).called(1);
+    verify(() => local.deleteEntry(_entry(1), userId: 'uid')).called(1);
   });
 
   test('authenticated delete leaves local cache untouched when Django fails',
@@ -116,7 +128,7 @@ void main() {
     when(() => firebaseAuth.currentUser).thenReturn(MockUser());
     when(() => remote.deleteEntry('1')).thenThrow(Exception('network down'));
 
-    final result = await repository.deleteEntry(1);
+    final result = await repository.deleteEntry(_entry(1));
 
     expect(result.isLeft(), isTrue);
     verifyNever(() => local.deleteEntry(any(), userId: any(named: 'userId')));
@@ -124,13 +136,13 @@ void main() {
 
   test('guest delete skips Django and only clears local cache', () async {
     when(() => firebaseAuth.currentUser).thenReturn(null);
-    when(() => local.deleteEntry(1, userId: '')).thenAnswer((_) async {});
+    when(() => local.deleteEntry(_entry(1), userId: '')).thenAnswer((_) async {});
 
-    final result = await repository.deleteEntry(1);
+    final result = await repository.deleteEntry(_entry(1));
 
     expect(result.isRight(), isTrue);
     verifyNever(() => remote.deleteEntry(any()));
-    verify(() => local.deleteEntry(1, userId: '')).called(1);
+    verify(() => local.deleteEntry(_entry(1), userId: '')).called(1);
   });
 
   test('authenticated delete-all calls Django then clears local cache',
@@ -173,10 +185,10 @@ void main() {
       () async {
     when(() => firebaseAuth.currentUser).thenReturn(MockUser());
     when(() => remote.deleteEntry('1')).thenAnswer((_) async {});
-    when(() => local.deleteEntry(1, userId: 'uid'))
+    when(() => local.deleteEntry(_entry(1), userId: 'uid'))
         .thenThrow(Exception('hive error'));
 
-    final result = await repository.deleteEntry(1);
+    final result = await repository.deleteEntry(_entry(1));
 
     expect(result.isLeft(), isTrue);
   });
@@ -199,6 +211,97 @@ void main() {
       ),
     );
     verifyNever(() => local.addEntry(any(), userId: any(named: 'userId')));
+  });
+
+  group('delete with local-only and already-deleted entries', () {
+    DioException serverResponse(int status) => DioException(
+          requestOptions: RequestOptions(path: '/entries/1/delete/'),
+          response: Response<dynamic>(
+            requestOptions: RequestOptions(path: '/entries/1/delete/'),
+            statusCode: status,
+          ),
+          type: DioExceptionType.badResponse,
+        );
+
+    test('guest delete of id 0 never calls Django', () async {
+      when(() => firebaseAuth.currentUser).thenReturn(null);
+      when(() => local.deleteEntry(_entry(0), userId: '')).thenAnswer((_) async {});
+
+      final result = await repository.deleteEntry(_entry(0));
+
+      expect(result.isRight(), isTrue);
+      verifyNever(() => remote.deleteEntry(any()));
+    });
+
+    test('delete of an id-0 entry hands the exact entry to the local cache',
+        () async {
+      when(() => firebaseAuth.currentUser).thenReturn(MockUser());
+      final second = _entry(0, thoughts: 'second');
+      when(() => local.deleteEntry(second, userId: 'uid'))
+          .thenAnswer((_) async {});
+
+      await repository.deleteEntry(second);
+
+      verify(() => local.deleteEntry(second, userId: 'uid')).called(1);
+    });
+
+    for (final id in [0, -1, -42]) {
+      test('authenticated delete of id $id never calls Django', () async {
+        when(() => firebaseAuth.currentUser).thenReturn(MockUser());
+        when(() => local.deleteEntry(_entry(id), userId: 'uid'))
+            .thenAnswer((_) async {});
+
+        final result = await repository.deleteEntry(_entry(id));
+
+        expect(result.isRight(), isTrue);
+        verifyNever(() => remote.deleteEntry(any()));
+        verify(() => local.deleteEntry(_entry(id), userId: 'uid')).called(1);
+      });
+    }
+
+    test('a 404 from Django counts as deleted and clears the local copy',
+        () async {
+      when(() => firebaseAuth.currentUser).thenReturn(MockUser());
+      when(() => remote.deleteEntry('1')).thenThrow(serverResponse(404));
+      when(() => local.deleteEntry(_entry(1), userId: 'uid')).thenAnswer((_) async {});
+
+      final result = await repository.deleteEntry(_entry(1));
+
+      expect(result.isRight(), isTrue);
+      verify(() => local.deleteEntry(_entry(1), userId: 'uid')).called(1);
+    });
+
+    for (final status in [401, 403, 500, 503]) {
+      test('a $status from Django is a failure and keeps the local copy',
+          () async {
+        when(() => firebaseAuth.currentUser).thenReturn(MockUser());
+        when(() => remote.deleteEntry('1')).thenThrow(serverResponse(status));
+
+        final result = await repository.deleteEntry(_entry(1));
+
+        expect(result.isLeft(), isTrue);
+        verifyNever(
+          () => local.deleteEntry(any(), userId: any(named: 'userId')),
+        );
+      });
+    }
+
+    test('a connection error is a failure and keeps the local copy', () async {
+      when(() => firebaseAuth.currentUser).thenReturn(MockUser());
+      when(() => remote.deleteEntry('1')).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(path: '/entries/1/delete/'),
+          type: DioExceptionType.connectionError,
+        ),
+      );
+
+      final result = await repository.deleteEntry(_entry(1));
+
+      expect(result.isLeft(), isTrue);
+      verifyNever(
+        () => local.deleteEntry(any(), userId: any(named: 'userId')),
+      );
+    });
   });
 
   test('authenticated logActivity is unaffected and still calls Django',

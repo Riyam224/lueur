@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/domain/entities/chat_reply.dart';
 import 'package:lueur/features/chat/domain/repositories/chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -20,7 +21,7 @@ class ChatRepositoryImpl implements ChatRepository {
   bool get _isGuest => _firebaseAuth.currentUser == null;
 
   @override
-  Future<Either<Failure, String>> sendMessage({
+  Future<Either<Failure, ChatReply>> sendMessage({
     required String userId,
     required String emoji,
     required String thoughts,

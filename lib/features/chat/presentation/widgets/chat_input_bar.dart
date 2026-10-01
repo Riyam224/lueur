@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueur/core/constants/app_limits.dart';
 import 'package:lueur/core/constants/app_spacing.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
 import 'package:lueur/core/widgets/bouncy_tap.dart';
 import 'package:lueur/l10n/app_localizations.dart';
+
+const int _counterThreshold = 900;
 
 /// Bottom text field + send button for composing a chat message.
 class ChatInputBar extends StatelessWidget {
@@ -47,6 +50,18 @@ class ChatInputBar extends StatelessWidget {
               controller: controller,
               maxLines: 4,
               minLines: 1,
+              maxLength: AppLimits.chatMessageMaxLength,
+              // The counter only matters close to the limit; showing it
+              // all the time would clutter a casual chat bar.
+              buildCounter: (
+                context, {
+                required currentLength,
+                required isFocused,
+                required maxLength,
+              }) =>
+                  currentLength >= _counterThreshold
+                      ? Text('$currentLength/$maxLength')
+                      : null,
               textInputAction: TextInputAction.newline,
               style: ThemeTextStyles.bodyMedium(context).copyWith(
                 color: extra.primaryTextColor,

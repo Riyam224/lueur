@@ -15,7 +15,7 @@ abstract class MoodRepository {
 
   Future<Either<Failure, List<MoodEntryEntity>>> getHistory();
 
-  Future<Either<Failure, void>> deleteEntry(int id);
+  Future<Either<Failure, void>> deleteEntry(MoodEntryEntity entry);
 
   Future<Either<Failure, void>> deleteAllEntries();
 

@@ -20,6 +20,7 @@ class ResponseSuccessContent extends StatelessWidget {
     required this.emojiUnicode,
     required this.displayThoughts,
     required this.aiResponse,
+    this.isFallback = false,
     required this.onBookmark,
     required this.onDone,
     required this.onTalkAgain,
@@ -30,6 +31,10 @@ class ResponseSuccessContent extends StatelessWidget {
   final String? emojiUnicode;
   final String displayThoughts;
   final String aiResponse;
+
+  /// A canned reply for when the AI was unavailable — it can't be saved as a
+  /// quote or shared as if Luna had said it.
+  final bool isFallback;
   final VoidCallback onBookmark;
   final VoidCallback onDone;
   final VoidCallback? onTalkAgain;
@@ -55,7 +60,10 @@ class ResponseSuccessContent extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.spaceLg),
           if (aiResponse.isNotEmpty) ...[
-            AiResponseCardWidget(response: aiResponse, onBookmark: onBookmark),
+            AiResponseCardWidget(
+              response: aiResponse,
+              onBookmark: isFallback ? null : onBookmark,
+            ),
             SizedBox(height: AppSpacing.spaceLg),
             MoodTagsRowWidget(
               tags: [
@@ -71,29 +79,31 @@ class ResponseSuccessContent extends StatelessWidget {
               onSave: onDone,
               onTalkAgain: onTalkAgain,
             ),
-            SizedBox(height: AppSpacing.spaceMd),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: onShare,
-                style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceLg),
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1.5,
+            if (!isFallback) ...[
+              SizedBox(height: AppSpacing.spaceMd),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: onShare,
+                  style: OutlinedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: AppSpacing.spaceLg),
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.5,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                ),
-                child: Text(
-                  l10n.responseShareButton,
-                  style: ThemeTextStyles.labelMedium(context).copyWith(
-                    color: Theme.of(context).colorScheme.primary,
+                  child: Text(
+                    l10n.responseShareButton,
+                    style: ThemeTextStyles.labelMedium(context).copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
             SizedBox(height: AppSpacing.spaceLg),
             const AfterFeelingSelectorWidget(),
             SizedBox(height: AppSpacing.sectionSpacingMd),

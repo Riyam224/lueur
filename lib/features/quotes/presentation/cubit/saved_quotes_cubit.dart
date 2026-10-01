@@ -25,6 +25,16 @@ class SavedQuotesCubit extends Cubit<SavedQuotesState> {
     );
   }
 
+  /// Re-reads without a Loading flash once loaded (e.g. Profile becoming
+  /// visible again); a failed silent re-read keeps the current list.
+  Future<void> refresh() async {
+    if (state is SavedQuotesLoading) return;
+    if (state is! SavedQuotesLoaded) return loadQuotes();
+    final result = await _getQuotes();
+    if (isClosed) return;
+    result.fold((_) {}, (quotes) => emit(SavedQuotesLoaded(quotes)));
+  }
+
   Future<void> saveQuote(String text, {String? emoji, String? thoughts}) async {
     final result = await _saveQuote(text, emoji: emoji, thoughts: thoughts);
     if (isClosed) return;

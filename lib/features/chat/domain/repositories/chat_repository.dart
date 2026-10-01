@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/domain/entities/chat_reply.dart';
 
 abstract class ChatRepository {
-  Future<Either<Failure, String>> sendMessage({
+  Future<Either<Failure, ChatReply>> sendMessage({
     required String userId,
     required String emoji,
     required String thoughts,

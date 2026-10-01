@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueur/core/chat/chat_reset_signal.dart';
 import 'package:lueur/core/injection/injection.dart';
 import 'package:lueur/core/models/mood_choice_destination.dart';
 import 'package:lueur/core/navigation/main_shell_screen.dart';
@@ -278,6 +279,7 @@ class RouterGenerationConfig {
                   create: (_) => ChatCubit(
                     sendChatMessageUseCase: sl<SendChatMessageUseCase>(),
                     userId: userId,
+                    resetSignal: sl<ChatResetSignal>(),
                     initialMessages: dayHistory ??
                         (needsAutoSend
                             ? const []

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,7 @@ import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_colors.dart';
 import 'package:lueur/core/styling/theme_extensions.dart';
 import 'package:lueur/core/styling/theme_text_styles.dart';
+import 'package:lueur/core/widgets/undo_snackbar.dart';
 import 'package:lueur/features/draw/domain/entities/saved_drawing_entity.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_cubit.dart';
 import 'package:lueur/features/draw/presentation/cubit/saved_drawings_state.dart';
@@ -68,8 +71,20 @@ class _DrawingTile extends StatelessWidget {
 
   const _DrawingTile({required this.drawing});
 
+  /// Hides the drawing at once and only deletes it if Undo isn't tapped —
+  /// shared by the thumbnail's X and the viewer's delete button.
   void _delete(BuildContext context) {
-    context.read<SavedDrawingsCubit>().deleteDrawing(drawing.id);
+    final cubit = context.read<SavedDrawingsCubit>();
+    final l10n = AppLocalizations.of(context)!;
+    final id = drawing.id;
+    cubit.hideForDelete(id);
+    showUndoSnackBar(
+      ScaffoldMessenger.of(context),
+      message: l10n.profileDrawingDeletedSnack,
+      undoLabel: l10n.quotesUndoAction,
+      onUndo: () => unawaited(cubit.undoDelete(id)),
+      onExpired: () => unawaited(cubit.commitDelete(id)),
+    );
   }
 
   void _open(BuildContext context) {
@@ -100,9 +115,9 @@ class _DrawingTile extends StatelessWidget {
             ),
             child: SavedDrawingThumbnail(drawing: drawing),
           ),
-          Positioned(
+          PositionedDirectional(
             top: 2.h,
-            right: 2.w,
+            end: 2.w,
             child: GestureDetector(
               onTap: () => _delete(context),
               child: Container(

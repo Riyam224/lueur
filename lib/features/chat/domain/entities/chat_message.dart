@@ -2,9 +2,14 @@ class ChatMessage {
   final String role;
   final String content;
 
+  /// A canned reply the backend gave while the AI was unavailable: shown, but
+  /// not a real turn of the conversation.
+  final bool isFallback;
+
   const ChatMessage({
     required this.role,
     required this.content,
+    this.isFallback = false,
   });
 
   static const String roleUser = 'user';
@@ -15,6 +20,11 @@ class ChatMessage {
   static const String sendFailedSentinelPrefix = 'chat_send_failed:';
 
   bool get isSendFailedSentinel => content.startsWith(sendFailedSentinelPrefix);
+
+  /// True for lines that aren't something Luna really said — send-failure
+  /// bubbles and canned fallback replies — so they are never sent back as
+  /// history, saved as a quote or reported.
+  bool get isLocalNotice => isFallback || isSendFailedSentinel;
 
   int get sendFailedSentinelIndex =>
       int.parse(content.substring(sendFailedSentinelPrefix.length));

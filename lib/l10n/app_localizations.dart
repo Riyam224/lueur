@@ -137,7 +137,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeGreetingMessage.
   ///
   /// In en, this message translates to:
-  /// **'Good evening, {name} 🌙 {streak} days strong — I\'m proud of you.'**
+  /// **'Good evening, {name} 🌙 {streak} days strong — that\'s something to be proud of.'**
   String homeGreetingMessage(String name, int streak);
 
   /// No description provided for @homeGreetingNoEntries.
@@ -197,7 +197,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingSubtitle1.
   ///
   /// In en, this message translates to:
-  /// **'Check in with how you\'re feeling —\nno pressure, just presence.'**
+  /// **'Check in with how you\'re feeling —\nno pressure, just a quiet moment.'**
   String get onboardingSubtitle1;
 
   /// No description provided for @onboardingTitle2.
@@ -233,7 +233,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Luna missed you'**
+  /// **'Luna\'s here whenever you are'**
   String get loginSubtitle;
 
   /// No description provided for @loginCta.
@@ -299,7 +299,7 @@ abstract class AppLocalizations {
   /// No description provided for @guestWarningMessage.
   ///
   /// In en, this message translates to:
-  /// **'As a guest, Luna won\'t remember your entries once you close the app. Want to keep your streak growing? You can register anytime.'**
+  /// **'As a guest, your entries aren\'t saved once you close the app. You can register anytime to keep them and your streak.'**
   String get guestWarningMessage;
 
   /// No description provided for @guestWarningRegisterInstead.
@@ -767,7 +767,7 @@ abstract class AppLocalizations {
   /// No description provided for @moodEntryDeleteAllMessage.
   ///
   /// In en, this message translates to:
-  /// **'This will permanently remove all journal entries from your device.'**
+  /// **'This deletes your journal entries and what Luna remembers from your chats. Your saved drawings, quotes and Sudoku history stay on this device.'**
   String get moodEntryDeleteAllMessage;
 
   /// No description provided for @moodEntryDeleteAllConfirm.
@@ -1157,7 +1157,7 @@ abstract class AppLocalizations {
   /// No description provided for @quotesEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Luna will remember your favorite words.'**
+  /// **'Quotes you save stay here, on this device.'**
   String get quotesEmptySubtitle;
 
   /// No description provided for @quotesDeleteTitle.
@@ -1385,7 +1385,7 @@ abstract class AppLocalizations {
   /// No description provided for @moodChoicePrompt.
   ///
   /// In en, this message translates to:
-  /// **'rough day, huh?'**
+  /// **'what would feel good right now?'**
   String get moodChoicePrompt;
 
   /// No description provided for @moodChoiceSubPrompt.
@@ -1457,7 +1457,7 @@ abstract class AppLocalizations {
   /// No description provided for @chatSessionEndGladMessage.
   ///
   /// In en, this message translates to:
-  /// **'I\'m glad you\'re feeling better 💜'**
+  /// **'Glad you took a moment for yourself 💜'**
   String get chatSessionEndGladMessage;
 
   /// No description provided for @chatSessionEndSavedMessage.
@@ -1517,7 +1517,7 @@ abstract class AppLocalizations {
   /// No description provided for @chatReportSuccessSnack.
   ///
   /// In en, this message translates to:
-  /// **'Thanks for letting us know — we\'ll look into it.'**
+  /// **'Thanks, your report was sent.'**
   String get chatReportSuccessSnack;
 
   /// No description provided for @chatReportErrorSnack.
@@ -1535,7 +1535,7 @@ abstract class AppLocalizations {
   /// No description provided for @sudokuHowToPlayMessage.
   ///
   /// In en, this message translates to:
-  /// **'Fill every row, column, and 3x3 box with the digits 1-9, no repeats. Switch to Candidate mode to pencil in notes, and turn on Auto Candidate Mode to have Luna clear out notes for you as you go.'**
+  /// **'Fill every row, column, and 3x3 box with the digits 1-9, no repeats. Switch to Candidate mode to pencil in notes, and turn on Auto Candidate Mode so the game clears out notes for you as you go.'**
   String get sudokuHowToPlayMessage;
 
   /// No description provided for @sudokuGotIt.
@@ -1682,6 +1682,12 @@ abstract class AppLocalizations {
   /// **'Lueur member'**
   String get profileSubtitle;
 
+  /// No description provided for @profileGuestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Just visiting as a guest'**
+  String get profileGuestSubtitle;
+
   /// No description provided for @profileFallbackName.
   ///
   /// In en, this message translates to:
@@ -1691,7 +1697,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileQuotesEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Luna will remember your favorite words.'**
+  /// **'Quotes you save stay here, on this device.'**
   String get profileQuotesEmptySubtitle;
 
   /// No description provided for @profileSettingsSectionLabel.
@@ -1775,7 +1781,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileDrawingsErrorSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load your drawings — pull to refresh and try again'**
+  /// **'Couldn\'t load your drawings just now — check back in a bit.'**
   String get profileDrawingsErrorSubtitle;
 
   /// No description provided for @profileDrawingsEmptySubtitle.
@@ -1783,6 +1789,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your creativity has a home here.'**
   String get profileDrawingsEmptySubtitle;
+
+  /// No description provided for @profileDrawingDeletedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Drawing deleted'**
+  String get profileDrawingDeletedSnack;
 
   /// No description provided for @profileSudokuHistoryTitle.
   ///
@@ -1793,7 +1805,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileSudokuHistoryErrorSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load your Sudoku history — pull to refresh and try again'**
+  /// **'Couldn\'t load your Sudoku history just now — check back in a bit.'**
   String get profileSudokuHistoryErrorSubtitle;
 
   /// No description provided for @profileSudokuHistoryEmptySubtitle.
@@ -1801,6 +1813,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Play a round of Sudoku to see your results here'**
   String get profileSudokuHistoryEmptySubtitle;
+
+  /// No description provided for @profileSudokuResultDeletedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Result deleted'**
+  String get profileSudokuResultDeletedSnack;
 
   /// No description provided for @profileSudokuRelativeToday.
   ///
@@ -1937,31 +1955,31 @@ abstract class AppLocalizations {
   /// No description provided for @chatSendFailedMessages0.
   ///
   /// In en, this message translates to:
-  /// **'hmm that didn\'t send, try again?'**
+  /// **'Luna can\'t reply right now. Try again in a minute?'**
   String get chatSendFailedMessages0;
 
   /// No description provided for @chatSendFailedMessages1.
   ///
   /// In en, this message translates to:
-  /// **'ugh my signal\'s being weird, say that again?'**
+  /// **'Something got in the way and Luna couldn\'t reply. Another go in a minute might work 🌙'**
   String get chatSendFailedMessages1;
 
   /// No description provided for @chatSendFailedMessages2.
   ///
   /// In en, this message translates to:
-  /// **'wait that got cut off, one more time?'**
+  /// **'That message didn\'t go through. Try sending it again in a minute?'**
   String get chatSendFailedMessages2;
 
   /// No description provided for @chatSendFailedMessages3.
   ///
   /// In en, this message translates to:
-  /// **'hold on, didn\'t catch that — try sending again'**
+  /// **'Luna\'s having trouble replying at the moment. Try again shortly.'**
   String get chatSendFailedMessages3;
 
   /// No description provided for @chatSendFailedMessages4.
   ///
   /// In en, this message translates to:
-  /// **'hmm something glitched, can you resend that?'**
+  /// **'Couldn\'t get a reply just now. Give it a moment and try again 💜'**
   String get chatSendFailedMessages4;
 
   /// No description provided for @streakCelebrationAffirmations0.
@@ -2009,7 +2027,7 @@ abstract class AppLocalizations {
   /// No description provided for @streakCelebrationAllMilestonesReached.
   ///
   /// In en, this message translates to:
-  /// **'You\'ve reached every milestone — Luna is in awe'**
+  /// **'You\'ve reached every milestone — amazing!'**
   String get streakCelebrationAllMilestonesReached;
 
   /// No description provided for @streakCelebrationEyebrowLabel.

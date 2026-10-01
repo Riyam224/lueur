@@ -46,7 +46,8 @@ class _DelayedMoodRepository implements MoodRepository {
       deleteAllEntriesResult;
 
   @override
-  Future<Either<Failure, void>> deleteEntry(int id) async => deleteEntryResult;
+  Future<Either<Failure, void>> deleteEntry(MoodEntryEntity entry) async =>
+      deleteEntryResult;
 
   @override
   Future<Either<Failure, MoodEntryEntity>> generateResponse({
@@ -129,11 +130,37 @@ void main() {
     await load;
 
     repository.deleteEntryResult = const Right(null);
-    await cubit.deleteEntry(1);
+    await cubit.deleteEntry(entry);
 
     final state = cubit.state;
     expect(state, isA<MoodHistorySuccess>());
     expect((state as MoodHistorySuccess).entries, isEmpty);
+    await cubit.close();
+  });
+
+  test('deleteEntry of the second id-0 entry removes it and keeps the first',
+      () async {
+    final repository = _DelayedMoodRepository();
+    final cubit = MoodCubit(repository, JournalRefreshSignal());
+    MoodEntryEntity entry(int id, String thoughts) => MoodEntryEntity(
+          id: id,
+          userId: 'user',
+          emoji: '🌱',
+          thoughts: thoughts,
+          aiResponse: '',
+          createdAt: DateTime(2026),
+        );
+
+    final load = cubit.getHistory();
+    repository.history
+        .complete(Right([entry(0, 'a'), entry(0, 'b'), entry(5, 'c')]));
+    await load;
+
+    repository.deleteEntryResult = const Right(null);
+    await cubit.deleteEntry(entry(0, 'b'));
+
+    final entries = (cubit.state as MoodHistorySuccess).entries;
+    expect(entries.map((e) => e.thoughts), ['a', 'c']);
     await cubit.close();
   });
 
@@ -157,7 +184,7 @@ void main() {
 
     repository.deleteEntryResult =
         const Left(NetworkFailure('Failed to delete entry'));
-    await cubit.deleteEntry(1);
+    await cubit.deleteEntry(entry);
 
     final state = cubit.state;
     expect(state, isA<MoodError>());

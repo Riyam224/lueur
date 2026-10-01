@@ -194,11 +194,20 @@ class _ResponseAiScreenState extends State<ResponseAiScreen> {
                         emojiUnicode: widget.emojiUnicode,
                         displayThoughts: displayThoughts,
                         aiResponse: aiResponse,
+                        isFallback: generated?.isFallback ?? false,
                         onBookmark: () =>
                             _bookmarkResponse(aiResponse, displayThoughts),
                         onDone: _goBack,
                         onTalkAgain: aiResponse.isNotEmpty
-                            ? () => _talkAgain(aiResponse, displayThoughts)
+                            ? () => _talkAgain(
+                                  // A fallback isn't a real Luna reply, so the
+                                  // chat re-sends the thoughts instead of
+                                  // preloading it as an assistant turn.
+                                  (generated?.isFallback ?? false)
+                                      ? ''
+                                      : aiResponse,
+                                  displayThoughts,
+                                )
                             : null,
                         onShare: () => _share(aiResponse),
                       );

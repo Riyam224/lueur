@@ -49,7 +49,10 @@ void main() {
               body: Center(
                 child: ElevatedButton(
                   onPressed: () =>
-                      showJournalCardOptionsSheet(context, entryId: 1),
+                      showJournalCardOptionsSheet(
+                        context,
+                        entry: buildTestEntry(1),
+                      ),
                   child: const Text('open sheet'),
                 ),
               ),

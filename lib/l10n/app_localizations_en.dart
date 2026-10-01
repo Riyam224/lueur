@@ -30,7 +30,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String homeGreetingMessage(String name, int streak) {
-    return 'Good evening, $name 🌙 $streak days strong — I\'m proud of you.';
+    return 'Good evening, $name 🌙 $streak days strong — that\'s something to be proud of.';
   }
 
   @override
@@ -74,7 +74,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingSubtitle1 =>
-      'Check in with how you\'re feeling —\nno pressure, just presence.';
+      'Check in with how you\'re feeling —\nno pressure, just a quiet moment.';
 
   @override
   String get onboardingTitle2 => 'Meet Luna,\nyour companion';
@@ -94,7 +94,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginWelcomeBack => 'Welcome back';
 
   @override
-  String get loginSubtitle => 'Luna missed you';
+  String get loginSubtitle => 'Luna\'s here whenever you are';
 
   @override
   String get loginCta => 'Talk to Luna';
@@ -128,7 +128,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guestWarningMessage =>
-      'As a guest, Luna won\'t remember your entries once you close the app. Want to keep your streak growing? You can register anytime.';
+      'As a guest, your entries aren\'t saved once you close the app. You can register anytime to keep them and your streak.';
 
   @override
   String get guestWarningRegisterInstead => 'Register instead';
@@ -378,7 +378,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moodEntryDeleteAllMessage =>
-      'This will permanently remove all journal entries from your device.';
+      'This deletes your journal entries and what Luna remembers from your chats. Your saved drawings, quotes and Sudoku history stay on this device.';
 
   @override
   String get moodEntryDeleteAllConfirm => 'Delete all';
@@ -602,7 +602,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quotesEmptyTitle => 'No saved quotes yet';
 
   @override
-  String get quotesEmptySubtitle => 'Luna will remember your favorite words.';
+  String get quotesEmptySubtitle =>
+      'Quotes you save stay here, on this device.';
 
   @override
   String get quotesDeleteTitle => 'Delete quote?';
@@ -724,7 +725,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get afterFeelingImOkay => 'I\'ll be okay';
 
   @override
-  String get moodChoicePrompt => 'rough day, huh?';
+  String get moodChoicePrompt => 'what would feel good right now?';
 
   @override
   String get moodChoiceSubPrompt => 'whatever feels right right now';
@@ -761,7 +762,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatTypingLabel => 'Luna is typing';
 
   @override
-  String get chatSessionEndGladMessage => 'I\'m glad you\'re feeling better 💜';
+  String get chatSessionEndGladMessage =>
+      'Glad you took a moment for yourself 💜';
 
   @override
   String get chatSessionEndSavedMessage =>
@@ -793,8 +795,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatReportSubmitButton => 'Submit report';
 
   @override
-  String get chatReportSuccessSnack =>
-      'Thanks for letting us know — we\'ll look into it.';
+  String get chatReportSuccessSnack => 'Thanks, your report was sent.';
 
   @override
   String get chatReportErrorSnack => 'Something went wrong — please try again.';
@@ -804,7 +805,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sudokuHowToPlayMessage =>
-      'Fill every row, column, and 3x3 box with the digits 1-9, no repeats. Switch to Candidate mode to pencil in notes, and turn on Auto Candidate Mode to have Luna clear out notes for you as you go.';
+      'Fill every row, column, and 3x3 box with the digits 1-9, no repeats. Switch to Candidate mode to pencil in notes, and turn on Auto Candidate Mode so the game clears out notes for you as you go.';
 
   @override
   String get sudokuGotIt => 'Got it';
@@ -885,11 +886,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSubtitle => 'Lueur member';
 
   @override
+  String get profileGuestSubtitle => 'Just visiting as a guest';
+
+  @override
   String get profileFallbackName => 'Friend';
 
   @override
   String get profileQuotesEmptySubtitle =>
-      'Luna will remember your favorite words.';
+      'Quotes you save stay here, on this device.';
 
   @override
   String get profileSettingsSectionLabel => 'SETTINGS';
@@ -935,21 +939,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileDrawingsErrorSubtitle =>
-      'Couldn\'t load your drawings — pull to refresh and try again';
+      'Couldn\'t load your drawings just now — check back in a bit.';
 
   @override
   String get profileDrawingsEmptySubtitle => 'Your creativity has a home here.';
+
+  @override
+  String get profileDrawingDeletedSnack => 'Drawing deleted';
 
   @override
   String get profileSudokuHistoryTitle => 'Sudoku History';
 
   @override
   String get profileSudokuHistoryErrorSubtitle =>
-      'Couldn\'t load your Sudoku history — pull to refresh and try again';
+      'Couldn\'t load your Sudoku history just now — check back in a bit.';
 
   @override
   String get profileSudokuHistoryEmptySubtitle =>
       'Play a round of Sudoku to see your results here';
+
+  @override
+  String get profileSudokuResultDeletedSnack => 'Result deleted';
 
   @override
   String get profileSudokuRelativeToday => 'Today';
@@ -1043,22 +1053,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get streakCelebrationKeepGoingButton => 'keep going';
 
   @override
-  String get chatSendFailedMessages0 => 'hmm that didn\'t send, try again?';
+  String get chatSendFailedMessages0 =>
+      'Luna can\'t reply right now. Try again in a minute?';
 
   @override
   String get chatSendFailedMessages1 =>
-      'ugh my signal\'s being weird, say that again?';
+      'Something got in the way and Luna couldn\'t reply. Another go in a minute might work 🌙';
 
   @override
-  String get chatSendFailedMessages2 => 'wait that got cut off, one more time?';
+  String get chatSendFailedMessages2 =>
+      'That message didn\'t go through. Try sending it again in a minute?';
 
   @override
   String get chatSendFailedMessages3 =>
-      'hold on, didn\'t catch that — try sending again';
+      'Luna\'s having trouble replying at the moment. Try again shortly.';
 
   @override
   String get chatSendFailedMessages4 =>
-      'hmm something glitched, can you resend that?';
+      'Couldn\'t get a reply just now. Give it a moment and try again 💜';
 
   @override
   String get streakCelebrationAffirmations0 =>
@@ -1091,7 +1103,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get streakCelebrationAllMilestonesReached =>
-      'You\'ve reached every milestone — Luna is in awe';
+      'You\'ve reached every milestone — amazing!';
 
   @override
   String get streakCelebrationEyebrowLabel => 'Streak days';

@@ -4,6 +4,7 @@ import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:lueur/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/domain/entities/chat_reply.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
@@ -70,7 +71,7 @@ void main() {
         thoughts: 'Trying Luna',
         history: const [],
       ),
-    ).thenAnswer((_) async => 'I am here.');
+    ).thenAnswer((_) async => const ChatReply('I am here.'));
 
     final result = await repository.sendMessage(
       userId: 'uid',
@@ -79,7 +80,10 @@ void main() {
       history: const [],
     );
 
-    expect(result.getOrElse(() => throw StateError('failed')), 'I am here.');
+    expect(
+      result.getOrElse(() => throw StateError('failed')).text,
+      'I am here.',
+    );
     verify(
       () => remote.sendMessage(
         userId: 'uid',

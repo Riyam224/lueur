@@ -24,6 +24,10 @@ class MoodEntryEntity extends Equatable {
   /// entries. Empty for mood_chat entries.
   final Map<String, dynamic> payload;
 
+  /// A canned reply the backend gave because the AI was unavailable. Shown
+  /// once, never cached or journaled.
+  final bool isFallback;
+
   const MoodEntryEntity({
     required this.id,
     required this.userId,
@@ -35,6 +39,7 @@ class MoodEntryEntity extends Equatable {
     this.pinned = false,
     this.entryType = 'mood_chat',
     this.payload = const {},
+    this.isFallback = false,
   });
 
   MoodEntryEntity copyWith({String? cardColor, bool? pinned}) => MoodEntryEntity(
@@ -48,7 +53,26 @@ class MoodEntryEntity extends Equatable {
         pinned: pinned ?? this.pinned,
         entryType: entryType,
         payload: payload,
+        isFallback: isFallback,
       );
+
+  /// True for entries that exist only on this device (placeholders, guest
+  /// activities, fallback replies). New ones get a unique negative id; id 0
+  /// is what older builds stored, so it still counts as local.
+  bool get isLocalOnly => id <= 0;
+
+  /// Whether [other] is the entry the user acted on, for removals from a list.
+  ///
+  /// Server ids and the temporary negative ids of new local entries are
+  /// unique, so id alone identifies them. The createdAt + emoji + thoughts
+  /// key is kept for local entries only because caches written by older
+  /// builds can still hold several entries sharing id 0.
+  bool isSameEntryAs(MoodEntryEntity other) =>
+      id == other.id &&
+      (!isLocalOnly ||
+          (createdAt == other.createdAt &&
+              emoji == other.emoji &&
+              thoughts == other.thoughts));
 
   @override
   List<Object?> get props => [
@@ -62,5 +86,6 @@ class MoodEntryEntity extends Equatable {
         pinned,
         entryType,
         payload,
+        isFallback,
       ];
 }

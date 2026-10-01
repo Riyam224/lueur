@@ -2,9 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:lueur/core/networking/api_endpoints.dart';
 import 'package:lueur/features/chat/data/models/chat_message_model.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
+import 'package:lueur/features/chat/domain/entities/chat_reply.dart';
 
 abstract class ChatRemoteDataSource {
-  Future<String> sendMessage({
+  Future<ChatReply> sendMessage({
     required String userId,
     required String emoji,
     required String thoughts,
@@ -18,7 +19,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   ChatRemoteDataSourceImpl({required this.dio});
 
   @override
-  Future<String> sendMessage({
+  Future<ChatReply> sendMessage({
     required String userId,
     required String emoji,
     required String thoughts,
@@ -36,6 +37,10 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       },
     );
 
-    return response.data['ai_response'] as String;
+    final data = response.data as Map<String, dynamic>;
+    return ChatReply(
+      data['ai_response'] as String,
+      isFallback: data['fallback'] == true,
+    );
   }
 }

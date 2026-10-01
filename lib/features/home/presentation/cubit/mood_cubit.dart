@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/core/chat/chat_reset_signal.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/core/journal/journal_refresh_signal.dart';
+import 'package:lueur/core/utils/list_ops.dart';
 import 'package:lueur/features/home/domain/entities/mood_entry_entity.dart';
 import 'package:lueur/features/home/domain/repositories/mood_repository.dart';
 import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
@@ -9,13 +11,18 @@ import 'package:lueur/features/home/presentation/cubit/mood_state.dart';
 class MoodCubit extends Cubit<MoodState> {
   final MoodRepository _repository;
   final JournalRefreshSignal _journalRefreshSignal;
+  final ChatResetSignal? _chatResetSignal;
   final Logger _logger = Logger();
 
   List<MoodEntryEntity> _cachedEntries = [];
   int _sessionVersion = 0;
 
-  MoodCubit(this._repository, this._journalRefreshSignal)
-      : super(const MoodInitial());
+  MoodCubit(
+    this._repository,
+    this._journalRefreshSignal, {
+    ChatResetSignal? chatResetSignal,
+  })  : _chatResetSignal = chatResetSignal,
+        super(const MoodInitial());
 
   Future<void> loadEntries() async {
     await getHistory();
@@ -26,6 +33,7 @@ class MoodCubit extends Cubit<MoodState> {
   void clearEntries() {
     _sessionVersion++;
     _cachedEntries = [];
+    _chatResetSignal?.bump();
     emit(const MoodInitial());
   }
 
@@ -56,6 +64,11 @@ class MoodCubit extends Cubit<MoodState> {
       },
       (entry) {
         _logger.i('MoodCubit: success — entry id: ${entry.id}');
+        if (entry.isFallback) {
+          // Show it, but keep it out of the cached entries and the Journal.
+          emit(MoodHistorySuccess(_cachedEntries, justGenerated: entry));
+          return;
+        }
         _cachedEntries = [entry, ..._cachedEntries];
         emit(MoodHistorySuccess(_cachedEntries, justGenerated: entry));
         _journalRefreshSignal.bump();
@@ -92,8 +105,8 @@ class MoodCubit extends Cubit<MoodState> {
     );
   }
 
-  Future<void> deleteEntry(int id) async {
-    final result = await _repository.deleteEntry(id);
+  Future<void> deleteEntry(MoodEntryEntity entry) async {
+    final result = await _repository.deleteEntry(entry);
     if (isClosed) return;
 
     result.fold(
@@ -104,7 +117,7 @@ class MoodCubit extends Cubit<MoodState> {
         );
       },
       (_) {
-        _cachedEntries = _cachedEntries.where((e) => e.id != id).toList();
+        _cachedEntries = withoutFirstWhere(_cachedEntries, entry.isSameEntryAs);
         emit(MoodHistorySuccess(_cachedEntries));
         _journalRefreshSignal.bump();
       },
@@ -123,7 +136,11 @@ class MoodCubit extends Cubit<MoodState> {
         );
       },
       (_) {
+        // A request that started before the wipe must not bring entries back,
+        // and open chats must forget what Luna "remembered" from them.
+        _sessionVersion++;
         _cachedEntries = [];
+        _chatResetSignal?.bump();
         emit(const MoodHistorySuccess([]));
         _journalRefreshSignal.bump();
       },

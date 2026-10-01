@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:lueur/core/chat/chat_reset_signal.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/features/chat/domain/entities/chat_message.dart';
 import 'package:lueur/features/chat/domain/usecases/send_chat_message_usecase.dart';
@@ -16,12 +18,22 @@ class ChatCubit extends Cubit<ChatState> {
   final SendChatMessageUseCase sendChatMessageUseCase;
   final String userId;
   final Logger _logger = Logger();
+  StreamSubscription<int>? _resetSubscription;
+  int _epoch = 0;
 
   ChatCubit({
     required this.sendChatMessageUseCase,
     required this.userId,
     List<ChatMessage> initialMessages = const [],
-  }) : super(ChatState(messages: initialMessages));
+    ChatResetSignal? resetSignal,
+  }) : super(ChatState(messages: initialMessages)) {
+    // Delete-all, logout or an account change: forget every message, and
+    // ignore a reply that is still on its way.
+    _resetSubscription = resetSignal?.stream.listen((_) {
+      _epoch++;
+      emit(const ChatState());
+    });
+  }
 
   Future<void> sendMessage({
     required String emoji,
@@ -33,6 +45,7 @@ class ChatCubit extends Cubit<ChatState> {
     // from a stale snapshot and clobber the first call's result on resolve.
     if (state.status == ChatStatus.loading) return;
 
+    final epoch = _epoch;
     final userMessage =
         ChatMessage(role: ChatMessage.roleUser, content: thoughts);
     final updatedMessages = [...state.messages, userMessage];
@@ -44,12 +57,9 @@ class ChatCubit extends Cubit<ChatState> {
       guestBlocked: false,
     ),);
 
-    // History excludes the last user message (the API adds it via `thoughts`)
-    // and caps at 10 turns, matching the backend's window.
-    final fullHistory = updatedMessages.sublist(0, updatedMessages.length - 1);
-    final history = fullHistory.length > 10
-        ? fullHistory.sublist(fullHistory.length - 10)
-        : fullHistory;
+    // History excludes the last user message (the API adds it via `thoughts`);
+    // the use case trims it to what the backend accepts.
+    final history = updatedMessages.sublist(0, updatedMessages.length - 1);
 
     final result = await sendChatMessageUseCase(
       userId: userId,
@@ -57,7 +67,7 @@ class ChatCubit extends Cubit<ChatState> {
       thoughts: thoughts,
       history: history,
     );
-    if (isClosed) return;
+    if (isClosed || epoch != _epoch) return;
 
     result.fold(
       (failure) {
@@ -97,12 +107,16 @@ class ChatCubit extends Cubit<ChatState> {
         ),);
       },
       (reply) {
-        final sessionEnded = reply.contains('[SESSION_END]');
-        final cleanReply = reply.replaceAll('[SESSION_END]', '').trim();
+        // A canned fallback never ends the session — the "saved to your
+        // journal" card would be untrue, since nothing was saved.
+        final sessionEnded =
+            !reply.isFallback && reply.text.contains('[SESSION_END]');
+        final cleanReply = reply.text.replaceAll('[SESSION_END]', '').trim();
 
         final lunaMessage = ChatMessage(
           role: ChatMessage.roleAssistant,
           content: cleanReply,
+          isFallback: reply.isFallback,
         );
 
         emit(state.copyWith(
@@ -117,4 +131,10 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   void resetSession() => emit(const ChatState());
+
+  @override
+  Future<void> close() async {
+    await _resetSubscription?.cancel();
+    return super.close();
+  }
 }

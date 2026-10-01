@@ -134,7 +134,7 @@ class JournalRecentMemoriesSection extends StatelessWidget {
                 onTap: openTimeline,
                 onLongPress: () => showJournalCardOptionsSheet(
                   context,
-                  entryId: group.representative.id,
+                  entry: group.representative,
                 ),
               )
             : JournalActivityChoiceCard(

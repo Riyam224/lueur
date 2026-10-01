@@ -24,7 +24,11 @@ class SavedQuotesScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppTopBar(
         title: AppLocalizations.of(context)!.quotesScreenTitle,
-        onBack: () => context.go(AppRoutes.profile),
+        // Pushed from Profile, so pop back to it; go only when there's
+        // nothing underneath (e.g. opened from a deep link).
+        onBack: () => context.canPop()
+            ? context.pop()
+            : context.go(AppRoutes.profile),
       ),
       body: SafeArea(
         child: Padding(

@@ -58,7 +58,7 @@ class TimelineMonthSectionWidget extends StatelessWidget {
                   onOpenDay: onOpenDay,
                   onLongPress: () => showJournalCardOptionsSheet(
                     context,
-                    entryId: section.groups[i].representative.id,
+                    entry: section.groups[i].representative,
                   ),
                 ),
               ),
