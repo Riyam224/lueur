@@ -207,8 +207,6 @@ The flow below follows the app in order — onboarding → sign in → capture a
 
 More screenshots live in [`screenshots/`](screenshots/).
 
-> **Note:** these screenshots predate the latest UI, so some screens may look slightly different today.
-
 ---
 
 ## Features
