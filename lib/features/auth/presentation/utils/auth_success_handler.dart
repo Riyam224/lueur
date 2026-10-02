@@ -68,6 +68,14 @@ Future<void> handleAuthSuccess(
   if (!context.mounted) return;
   await AuthSuccessDialog.show(context);
   if (!context.mounted) return;
+  // A returning account never sees onboarding, whatever this device has
+  // recorded (another account may have used it before, leaving no pending).
+  if (!state.isNewUser) {
+    await OnboardingPrefs.markSeenFor(uid);
+    if (!context.mounted) return;
+    context.go(AppRoutes.home);
+    return;
+  }
   final seenOnboarding = await OnboardingPrefs.hasSeen(uid);
   if (!context.mounted) return;
   context.go(seenOnboarding ? AppRoutes.home : AppRoutes.onBoarding);

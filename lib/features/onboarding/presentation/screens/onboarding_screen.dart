@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueur/core/injection/injection.dart';
+import 'package:lueur/core/preferences/auth_prefs.dart';
 import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/features/auth/presentation/cubit/auth_cubit.dart';
@@ -49,7 +50,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       context.go(AppRoutes.home);
       return;
     }
-    context.go(AppRoutes.loginScreen);
+    // Same rule as Splash: a device that never authenticated has no account
+    // to log into yet, so send it to Register.
+    final hasEverAuthenticated = await AuthPrefs.hasEverAuthenticated();
+    if (!mounted) return;
+    context.go(
+      hasEverAuthenticated ? AppRoutes.loginScreen : AppRoutes.registerScreen,
+    );
   }
 
   void _onNextPressed() {

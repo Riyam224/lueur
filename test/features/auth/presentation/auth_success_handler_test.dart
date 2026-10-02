@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lueur/core/errors/failures.dart';
 import 'package:lueur/core/preferences/age_confirmation_prefs.dart';
+import 'package:lueur/core/preferences/onboarding_prefs.dart';
 import 'package:lueur/core/routing/app_routes.dart';
 import 'package:lueur/core/styling/app_theme.dart';
 import 'package:lueur/features/auth/domain/entities/user_entity.dart';
@@ -271,22 +272,70 @@ void main() {
     },
   );
 
+  Future<void> runReturningLogin(
+    WidgetTester tester,
+    List<String> visitedRoutes, {
+    String loginUid = uid,
+  }) async {
+    await tester.pumpWidget(
+      buildApp(
+        AuthAuthenticated(UserEntity(id: loginUid, email: 'u@example.com')),
+        visitedRoutes: visitedRoutes,
+      ),
+    );
+    await tester.tap(find.text('Trigger'));
+    await letHiveIoComplete(tester);
+    // pumpAndSettle alone doesn't reach the dialog's auto-dismiss timer.
+    await tester.pump(const Duration(milliseconds: 1500));
+    await tester.pumpAndSettle();
+    await letHiveIoComplete(tester);
+  }
+
   testWidgets(
-    'a returning (non-new) account skips the modal entirely',
+    'a returning (non-new) account skips the modal and goes straight Home',
     (tester) async {
       final visitedRoutes = <String>[];
-      await tester.pumpWidget(
-        buildApp(const AuthAuthenticated(user), visitedRoutes: visitedRoutes),
-      );
-
-      await tester.tap(find.text('Trigger'));
-      await tester.pump();
-      // pumpAndSettle alone doesn't reach the dialog's auto-dismiss timer.
-      await tester.pump(const Duration(milliseconds: 1500));
-      await tester.pumpAndSettle();
+      await runReturningLogin(tester, visitedRoutes);
 
       expect(find.text("I'm 18 or older"), findsNothing);
-      expect(visitedRoutes, [AppRoutes.onBoarding]);
+      expect(visitedRoutes, [AppRoutes.home]);
+
+      await closeHive(tester);
+    },
+  );
+
+  testWidgets(
+    'a returning account with no seen_<uid> and no pending goes Home, '
+    'records seen_<uid> and leaves no pending',
+    (tester) async {
+      final visitedRoutes = <String>[];
+      await runReturningLogin(tester, visitedRoutes);
+
+      final box = Hive.box<bool>('onboarding');
+      expect(visitedRoutes, [AppRoutes.home]);
+      expect(box.get('seen_$uid'), isTrue);
+      expect(box.containsKey('pending'), isFalse);
+      expect(box.containsKey('seen'), isFalse);
+
+      await closeHive(tester);
+    },
+  );
+
+  testWidgets(
+    'a returning account with a pending left by another account goes Home, '
+    'clears it, and a later brand-new account still sees onboarding',
+    (tester) async {
+      await tester.runAsync(OnboardingPrefs.markSeen);
+      final visitedRoutes = <String>[];
+      await runReturningLogin(tester, visitedRoutes);
+
+      final box = Hive.box<bool>('onboarding');
+      expect(visitedRoutes, [AppRoutes.home]);
+      expect(box.containsKey('pending'), isFalse);
+
+      final newAccountSeen = await tester
+          .runAsync(() => OnboardingPrefs.hasSeen('brand-new-uid'));
+      expect(newAccountSeen, isFalse);
 
       await closeHive(tester);
     },
@@ -316,6 +365,66 @@ void main() {
       expect(find.text("I'm 18 or older"), findsNothing);
       expect(await AgeConfirmationPrefs.hasConfirmedAge(uid), isTrue);
       expect(visitedRoutes, [AppRoutes.onBoarding]);
+
+      await closeHive(tester);
+    },
+  );
+
+  // Splash -> Onboarding -> Register -> Home: onboarding already finished
+  // (pending), then a brand-new account signs up and must not see it again.
+  testWidgets(
+    'new email/password sign-up after onboarding ends on Home with no '
+    'second onboarding',
+    (tester) async {
+      await tester.runAsync(OnboardingPrefs.markSeen);
+      final visitedRoutes = <String>[];
+      await tester.pumpWidget(
+        buildApp(
+          const AuthAuthenticated(user, isNewUser: true),
+          visitedRoutes: visitedRoutes,
+          preConfirmedAge: true,
+        ),
+      );
+      await tester.tap(find.text('Trigger'));
+      await letHiveIoComplete(tester);
+      await tester.pump(const Duration(milliseconds: 1500));
+      await tester.pumpAndSettle();
+      await letHiveIoComplete(tester);
+
+      expect(visitedRoutes, [AppRoutes.home]);
+      expect(Hive.box<bool>('onboarding').get('seen_$uid'), isTrue);
+
+      await closeHive(tester);
+    },
+  );
+
+  testWidgets(
+    'new Google sign-up after onboarding ends on Home with no second '
+    'onboarding',
+    (tester) async {
+      await tester.runAsync(OnboardingPrefs.markSeen);
+      final visitedRoutes = <String>[];
+      await tester.pumpWidget(
+        buildApp(
+          const AuthAuthenticated(user, isNewUser: true),
+          visitedRoutes: visitedRoutes,
+        ),
+      );
+      await tester.tap(find.text('Trigger'));
+      await tester.pumpAndSettle();
+
+      await tester.runAsync(() async {
+        await tester.tap(find.text("I'm 18 or older"));
+        await tester.pump();
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      });
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1500));
+      await tester.pumpAndSettle();
+      await letHiveIoComplete(tester);
+
+      expect(visitedRoutes, [AppRoutes.home]);
+      expect(Hive.box<bool>('onboarding').get('seen_$uid'), isTrue);
 
       await closeHive(tester);
     },

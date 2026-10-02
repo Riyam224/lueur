@@ -72,6 +72,7 @@ void main() {
   late _FakeAuthRepository repo;
   late AuthCubit cubit;
   late Box<bool> onboardingBox;
+  late Box<bool> authBox;
 
   const uid = 'uid-1';
   const user = UserEntity(id: uid, email: 'user@example.com');
@@ -82,6 +83,7 @@ void main() {
     // Pre-opened so the screen's Hive.openBox calls resolve from the
     // in-memory registry — real file I/O never resolves under pump().
     onboardingBox = await Hive.openBox<bool>('onboarding');
+    authBox = await Hive.openBox<bool>('auth');
 
     repo = _FakeAuthRepository();
     cubit = AuthCubit(
@@ -104,7 +106,13 @@ void main() {
     await tempDir.delete(recursive: true);
   });
 
-  Future<List<String>> finishOnboarding(WidgetTester tester) async {
+  Future<List<String>> finishOnboarding(
+    WidgetTester tester, {
+    bool hasEverAuthenticated = false,
+  }) async {
+    if (hasEverAuthenticated) {
+      await tester.runAsync(() => authBox.put('hasEverAuthenticated', true));
+    }
     // Phone-sized surface — the onboarding card overflows the default 800x600.
     tester.view.physicalSize = const Size(1170, 2532);
     tester.view.devicePixelRatio = 3;
@@ -128,6 +136,7 @@ void main() {
         ),
         stub(AppRoutes.home),
         stub(AppRoutes.loginScreen),
+        stub(AppRoutes.registerScreen),
       ],
     );
 
@@ -187,9 +196,24 @@ void main() {
   );
 
   testWidgets(
-    'finishing while signed out goes to Login and leaves completion pending',
+    'fresh install: finishing while signed out goes to Register and leaves '
+    'completion pending',
     (tester) async {
-      expect(await finishOnboarding(tester), [AppRoutes.loginScreen]);
+      expect(await finishOnboarding(tester), [AppRoutes.registerScreen]);
+      expect(onboardingBox.get('pending'), isTrue);
+
+      await closeHive(tester);
+    },
+  );
+
+  testWidgets(
+    'device that has authenticated before: finishing while signed out goes '
+    'to Login and leaves completion pending',
+    (tester) async {
+      expect(
+        await finishOnboarding(tester, hasEverAuthenticated: true),
+        [AppRoutes.loginScreen],
+      );
       expect(onboardingBox.get('pending'), isTrue);
 
       await closeHive(tester);

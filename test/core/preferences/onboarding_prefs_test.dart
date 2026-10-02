@@ -84,4 +84,28 @@ void main() {
       expect(box.containsKey('seen'), isFalse);
     });
   });
+
+  group('OnboardingPrefs.markSeenFor', () {
+    test('writes seen_<uid> and clears any leftover pending', () async {
+      await OnboardingPrefs.markSeen();
+
+      await OnboardingPrefs.markSeenFor('uid-1');
+
+      expect(box.get('seen_uid-1'), isTrue);
+      expect(box.containsKey('pending'), isFalse);
+    });
+
+    test('never writes the legacy global seen key', () async {
+      await OnboardingPrefs.markSeenFor('uid-1');
+
+      expect(box.containsKey('seen'), isFalse);
+    });
+
+    test('does not make a different account count as having seen it',
+        () async {
+      await OnboardingPrefs.markSeenFor('uid-1');
+
+      expect(await OnboardingPrefs.hasSeen('uid-2'), isFalse);
+    });
+  });
 }

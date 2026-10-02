@@ -77,4 +77,17 @@ class OnboardingPrefs {
       await box.put(_pendingKey, true);
     } catch (_) {}
   }
+
+  /// Records that [uid]'s account has finished onboarding without going
+  /// through the pre-auth flow — used for a returning account, which must
+  /// never be sent to onboarding. Also clears any leftover pending so it
+  /// can't be attributed to a different, brand-new account later. Never
+  /// writes the legacy global key. Silently swallows storage errors.
+  static Future<void> markSeenFor(String uid) async {
+    try {
+      final box = await Hive.openBox<bool>(_boxName);
+      await box.put(_key(uid), true);
+      await box.delete(_pendingKey);
+    } catch (_) {}
+  }
 }
